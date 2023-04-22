@@ -23,7 +23,7 @@ title: "OAuth2 Client Authentication with attested keys"
 category: info
 
 docname: draft-looker-key-attestation-client-authentication-latest
-submissiontype: independent  # also: "IETF", "IAB", or "IRTF"
+submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
 consensus: true
@@ -37,7 +37,7 @@ venue:
   arch: https://example.com/WG
   github: USER/REPO
   latest: https://example.com/LATEST
-  
+
 author:
  -
     fullname: Tobias Looker
