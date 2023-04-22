@@ -19,35 +19,23 @@
 # Change the file extension to match the format (.xml for XML, etc...)
 #
 ###
-title: "TODO - Your title"
-abbrev: "TODO - Abbreviation"
+title: "OAuth2 Client Authentication with attested keys"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
-submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
+docname: draft-looker-key-attestation-client-authentication-latest
+submissiontype: independent  # also: "IETF", "IAB", or "IRTF"
 number:
 date:
 consensus: true
 v: 3
 area: AREA
 workgroup: WG Working Group
-keyword:
- - next generation
- - unicorn
- - sparkling distributed ledger
-venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
 
 author:
  -
-    fullname: Your Name Here
-    organization: Your Organization Here
-    email: your.email@example.com
+    fullname: Tobias Looker
+    organization: MATTR
+    email: tobias.looker@mattr.global
 
 normative:
 
