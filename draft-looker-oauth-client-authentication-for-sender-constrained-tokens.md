@@ -46,13 +46,13 @@ informative:
 
 --- abstract
 
-This specification defines a new client attestation type following [RFC7523] for client authentication when issuing sender constrained tokens. This new attestion type allows the authorization server to authenticate the client including the key that will be used to bind sender constrained tokens to.
+This specification defines a new client attestation type following [@RFC7523] for client authentication when issuing sender constrained tokens. This new attestion type allows the authorization server to authenticate the client including the key that will be used to bind sender constrained tokens to.
 
 --- middle
 
 # Introduction
 
-[RFC7523] defines a way for a client to include an attestation in a token request to an authorization server for the purposes of client authentication. However, in the event the client is requesting sender constrained tokens using a mechansim such as [DPoP], it is useful to be able to confirm that the key the authorization server is going to bind the sender constrained tokens to, is authenticated by the client. This specification defines an attestation type to fulfil this purpose.
+[@RFC7523] defines a way for a client to include an attestation in a token request to an authorization server for the purposes of client authentication. However, in the event the client is requesting sender constrained tokens using a mechansim such as [DPoP], it is useful to be able to confirm that the key the authorization server is going to bind the sender constrained tokens to, is authenticated by the client. This specification defines an attestation type to fulfil this purpose.
 
 # Conventions and Definitions
 
@@ -68,6 +68,7 @@ The value of the "client_assertion" parameter contains a single JWT. It MUST NOT
 
 The following example demonstrates client authentication using a JWT during the presentation of an authorization code grant in an access token request (with extra line breaks for display purposes only):
 
+```
 POST /token.oauth2 HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -79,6 +80,7 @@ client-assertion-type%3Ajwt-bearer-for-sender-constraint&
 client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
 eyJpc3Mi[...omitted for brevity...].
 cC4hiUPo[...omitted for brevity...]
+```
 
 ## JWT Format and Processing Requirements
 
@@ -108,6 +110,7 @@ In order to issue an access token response as described in OAuth 2.0 [@RFC6749] 
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
+```
 {
   "alg": "ES256",
   "kid": "11"
@@ -129,6 +132,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
     }
   }
 }
+```
 
 # Considerations for usage with DPoP
 
@@ -136,6 +140,7 @@ An authorization server MUST validate that the key contained withing the "cnf" c
 
 The following is a non-normative example of a token request making use of the "client_assertion_type" of "urn:ietf:params:oauth:client-assertion-type:jwt-bearer-for-sender-constraint" in conjunction with [DPoP].
 
+```
 POST /token HTTP/1.1
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -156,8 +161,9 @@ grant_type=authorization_code\
 client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
 eyJpc3Mi[...omitted for brevity...].
 cC4hiUPo[...omitted for brevity...]
+```
 
-<TODO elaborate on decoded JWTs>
+*TODO elaborate on decoded JWTs*
 
 # Security Considerations
 
