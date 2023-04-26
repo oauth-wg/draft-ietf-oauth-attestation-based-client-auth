@@ -22,7 +22,7 @@
 title: "OAuth2 Client Authentication for Sender Constrained Tokens"
 category: info
 
-docname: draft-looker-client-authentication-for-sender-constrained-tokens-latest
+docname: draft-looker-oauth-client-authentication-for-sender-constrained-tokens-latest
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
