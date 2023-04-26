@@ -7,11 +7,11 @@ submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: "Security"
+workgroup: "Web Authorization Protocol"
 venue:
-  group: WG
-  type: Working Group
+  group: "Web Authorization Protocol"
+  type: "Working Group"
 
 author:
  -
