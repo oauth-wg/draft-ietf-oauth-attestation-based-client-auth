@@ -122,7 +122,7 @@ The following is a non-normative example of a token request making use of the "c
 
 ```
 POST /token HTTP/1.1
-Host: server.example.com
+Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 DPoP: eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik\
  VDIiwieCI6Imw4dEZyaHgtMzR0VjNoUklDUkRZOXpDa0RscEJoRjQyVVFVZldWQVdCR\
