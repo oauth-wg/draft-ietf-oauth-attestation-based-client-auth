@@ -23,7 +23,7 @@ normative:
   RFC3986: RFC3986
   RFC7800: RFC7800
   RFC7638: RFC7638
-  DPOP: 
+  DPOP:
     title: "OAuth 2.0 Demonstrating Proof-of-Possession at the Application Layer (DPoP)"
     author:
       -
