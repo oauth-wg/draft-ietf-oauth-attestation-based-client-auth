@@ -17,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-looker-oauth-client-authentication-for-sender-constrained-tokens.xml
+draft-looker-oauth-attested-key-based-client-authentication.xml
 package-lock.json
 report.xml
 !requirements.txt
