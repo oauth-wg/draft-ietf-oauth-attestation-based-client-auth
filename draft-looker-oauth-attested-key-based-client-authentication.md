@@ -79,20 +79,20 @@ The following diagram depicts the conceptual interactions.
                                  / \      |
                                   |       |
                 (2) Request       |       |     (4) Repond with
-                Client key        |       |     Generated Client
+                Client Key        |       |     Generated Client
                 Attestation       |       |     Key Attestation
                 for generated     |       |
                 key               |       |
                                   |       |
                                   |      \ /
-                              +---------------+                       +---------------+
-                              |               |                       |               |
-                     +------->|               |<--------------------->|               |
-  (1) Generate       |        |    Client     |    (6) Interaction    | Authorization |
-  Attestation Key    |        |   Instance    |    using Client       |    Server     |
-                     +--------|               |    Attestation        |               |
-                              |               |    for authentication |               |
-                              +---------------+                       +---------------+
+                              +---------------+                          +---------------+
+                              |               |                          |               |
+                     +------->|               |<------------------------>|               |
+  (1) Generate       |        |    Client     |    (6) Interaction       | Authorization |
+  Attestation Key    |        |   Instance    |    using Client          |    Server     |
+                     +--------|               |    Key Attestation + PoP |               |
+                              |               |    for authentication    |               |
+                              +---------------+                          +---------------+
                                  / \      |
                                   |       |
                                   +-------+
