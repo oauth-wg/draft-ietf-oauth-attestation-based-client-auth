@@ -23,6 +23,9 @@ normative:
   RFC3986: RFC3986
   RFC7800: RFC7800
   RFC7638: RFC7638
+  RFC6755: RFC6755
+  RFC7591: RFC7591
+  RFC7519: RFC7519
   DPOP:
     title: "OAuth 2.0 Demonstrating Proof-of-Possession at the Application Layer (DPoP)"
     author:
@@ -46,18 +49,18 @@ normative:
         name: Daniel Waite
 informative:
   RFC6749: RFC6749
-  RFC7523: RFC7523
+  RFC7521: RFC7521
 
 
 --- abstract
 
-This specification defines a new method of client authentication for OAuth2 {{RFC6749}} by extending the approach defined in {{RFC7523}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attested key based authentication scheme.
+This specification defines a new method of client authentication for OAuth2 {{RFC6749}} by extending the approach defined in {{RFC7521}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attested key based authentication scheme.
 
 --- middle
 
 # Introduction
 
-{{RFC7523}} defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification extends this mechanism to provide a way for a client instance to authenticate it self with the authorization server through an attested key based authentication scheme.
+{{RFC7521}} defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification extends this mechanism to provide a way for a client instance to authenticate it self with the authorization server through an attested key based authentication scheme.
 
 The following diagram depicts the conceptual interactions.
 
@@ -141,6 +144,8 @@ iOiJSUzI1[...omitted for brevity...]
 
 In order to authenticate the client using this scheme, the authorization server MUST validate BOTH the JWTs present in the "client_assertion" parameter according to the criteria below.
 
+It is RECOMMENDED that the authorization server validate the Client Key Attestation prior to validating the Client Key Attestation PoP.
+
 ### Client Key Attestation JWT {#client-key-attestation-jwt}
 
 The following rules apply to validating the client key attestation JWT. Application of additional restrictions and policy are at the discretion of the authorization server.
@@ -149,21 +154,21 @@ The following rules apply to validating the client key attestation JWT. Applicat
 
 2. The JWT MUST contain a "sub" (subject) claim with a value corresponding to the "client_id" of the OAuth client.
 
-3. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.  Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.
+3. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 
 4. The JWT MUST contain an "cnf" claim conforming {{RFC7800}} that conveys the key to be used for sender constraining tokens issued by the authorization server. The key MUST be expressed using the "jwk" representation.
 
 5. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
 
-6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
+6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.
 
 7. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
 
 8. The JWT MAY contain other claims.
 
-9. The JWT MUST be digitally signed or have a Message Authentication Code (MAC) applied by the issuer.  The authorization server MUST reject JWTs with an invalid signature or MAC.
+9. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
-10. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)".
+10. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -198,11 +203,11 @@ The following rules apply to validating the client key attestation PoP JWT. Appl
 
 2. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.  Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.
 
-3. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
+3. 5. The JWT MUST contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
 
-4. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
+4. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
 
-5. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
+5. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
 
 6. The JWT MAY contain other claims.
 
@@ -210,7 +215,7 @@ The following rules apply to validating the client key attestation PoP JWT. Appl
 
 8. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding client key attestation JWT.
 
-9. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)".
+9. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -227,16 +232,35 @@ The following example is the decoded header and payload of a JWT meeting the pro
 }
 ~~~
 
+# Implementation Considerations
+
+## Re use of a Client Attestation JWT
+
+Implementers should be aware that the design of this authentication mechanism deliberately allows for a client instance to re-use a single Client Attestation JWT in multiple interactions/requests with an authorization server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a client instance can re-use a single Client Attestation JWT.
 
 # Security Considerations
 
-TODO Security
-
+TODO
 
 # IANA Considerations
 
-This document has no IANA actions.
+## Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation
 
+This section registers the value "client-assertion-type:jwt-key-attestation" in the IANA "OAuth URI" registry established by "An IETF URN Sub-Namespace for OAuth" {{RFC6755}}.
+
+   o  URN: urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation
+   o  Common Name: OAuth2 Attested Key Based Client Authentication
+      Authentication
+   o  Change Controller: IESG
+   o  Specification Document: TBC
+
+## Registration of attest_key_client_auth Token Endpoint Authentication Method
+
+This section registers the value "attest_key_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol {{RFC7591}}.
+
+o  Token Endpoint Authentication Method Name: "attest_key_client_auth"
+o  Change Controller: IESG
+o  Specification Document(s): TBC
 
 --- back
 
