@@ -241,6 +241,10 @@ The following example is the decoded header and payload of a JWT meeting the pro
 
 Implementers should be aware that the design of this authentication mechanism deliberately allows for a client instance to re-use a single Client Attestation JWT in multiple interactions/requests with an authorization server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a client instance can re-use a single Client Attestation JWT.
 
+## Refresh token binding
+
+Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation" client authentication method MUST bind the refresh token to the client instance NOT just the client as specified in section 6 [@!RFC6749]. To prove this binding, the client instance MUST authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation" authentication method. The client MUST also use the same client attestation key that was used for authentication when the refresh token was issued.
+
 # Security Considerations
 
 TODO
