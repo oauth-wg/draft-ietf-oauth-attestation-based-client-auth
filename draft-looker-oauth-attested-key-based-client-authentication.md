@@ -245,6 +245,12 @@ Implementers should be aware that the design of this authentication mechanism de
 
 Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation" client authentication method MUST bind the refresh token to the client instance, and NOT just the client as specified in section 6 [@!RFC6749]. To prove this binding, the client instance MUST authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation" authentication method. The client MUST also use the same client attestation key that was used for authentication when the refresh token was issued.
 
+# Privacy Considerations
+
+## Client Instance Tracking Across Authorization Servers
+
+Implementers should be aware that using the same attestation key across multiple authorization servers could result in correlation of the end user using the client instance. Client deployments are therefore RECOMMENDED to use different attestation keys across different authorization servers.
+
 # Security Considerations
 
 TODO
