@@ -249,7 +249,7 @@ Authorization servers issuing a refresh token in response to a token request usi
 
 ## Client Instance Tracking Across Authorization Servers
 
-Implementers should be aware that using the same attestation key across multiple authorization servers could result in correlation of the end user using the client instance. Client deployments are therefore RECOMMENDED to use different attestation keys across different authorization servers.
+Implementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the client instance through claim values (including the public key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different client attestations across different authorization servers.
 
 # Security Considerations
 
