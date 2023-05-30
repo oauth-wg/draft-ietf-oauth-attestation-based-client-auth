@@ -55,7 +55,7 @@ informative:
 
 --- abstract
 
-This specification defines a new method of client authentication for OAuth2 {{RFC6749}} by extending the approach defined in {{RFC7521}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme.
+This specification defines a new method of client authentication for OAuth 2.0 {{RFC6749}} by extending the approach defined in {{RFC7521}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme.
 
 --- middle
 
