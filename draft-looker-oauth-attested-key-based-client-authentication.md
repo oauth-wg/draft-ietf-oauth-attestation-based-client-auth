@@ -106,7 +106,7 @@ The following diagram depicts the conceptual interactions.
                            Client Attestation PoP
 ~~~
 
-Note that the communciation protocols used for requesting and sending a Client Attestation JWT between the client instance and its backend (steps 2 and 4) and the data how the client instance authenticates with the client backend is out of scope of this specification.
+Note that the data and protocols used for requesting and sending a Client Attestation JWT between the client instance and its backend (steps 2 and 4) and how the client instance authenticates with the client backend is out of scope of this specification.
 
 This specification only defines the format of the Client Assertion JWT that a client instance uses to authenticate in its interactions with an authorization server (indicated in step 6), which is comprised of two key parts:
 
