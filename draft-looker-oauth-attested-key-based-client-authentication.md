@@ -18,6 +18,11 @@ author:
     fullname: Tobias Looker
     organization: MATTR
     email: tobias.looker@mattr.global
+ -
+    fullname: Paul Bastian
+    organization: Bundesdruckerei GmbH
+    email: paul.bastian@bdr.de
+
 
 normative:
   RFC3986: RFC3986
