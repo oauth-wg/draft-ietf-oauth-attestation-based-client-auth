@@ -256,7 +256,7 @@ Implementers should be aware that the design of this authentication mechanism de
 
 ## Refresh token binding
 
-Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation" client authentication method MUST bind the refresh token to the client instance, and NOT just the client as specified in section 6 [@!RFC6749]. To prove this binding, the client instance MUST authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation" authentication method. The client MUST also use the same Client Instance Key that was used for authentication when the refresh token was issued.
+Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" client authentication method MUST bind the refresh token to the client instance, and NOT just the client as specified in section 6 [@!RFC6749]. To prove this binding, the client instance MUST authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" authentication method. The client MUST also use the same Client Instance Key that was used for authentication when the refresh token was issued.
 
 # Privacy Considerations
 
@@ -270,21 +270,21 @@ TODO
 
 # IANA Considerations
 
-## Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation
+## Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation
 
-This section registers the value "client-assertion-type:jwt-key-attestation" in the IANA "OAuth URI" registry established by "An IETF URN Sub-Namespace for OAuth" {{RFC6755}}.
+This section registers the value "client-assertion-type:jwt-client-attestation" in the IANA "OAuth URI" registry established by "An IETF URN Sub-Namespace for OAuth" {{RFC6755}}.
 
-   o  URN: urn:ietf:params:oauth:client-assertion-type:jwt-key-attestation
+   o  URN: urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation
    o  Common Name: OAuth2 Attested Key Based Client Authentication
       Authentication
    o  Change Controller: IESG
    o  Specification Document: TBC
 
-## Registration of attest_key_client_auth Token Endpoint Authentication Method
+## Registration of attest_jwt_client_auth Token Endpoint Authentication Method
 
-This section registers the value "attest_key_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol {{RFC7591}}.
+This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol {{RFC7591}}.
 
-o  Token Endpoint Authentication Method Name: "attest_key_client_auth"
+o  Token Endpoint Authentication Method Name: "attest_jwt_client_auth"
 o  Change Controller: IESG
 o  Specification Document(s): TBC
 
