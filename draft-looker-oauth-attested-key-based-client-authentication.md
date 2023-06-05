@@ -55,7 +55,7 @@ informative:
 
 --- abstract
 
-This specification defines a new method of client authentication for OAuth 2.0 {{RFC6749}} by extending the approach defined in {{RFC7521}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme.
+This specification defines a new method of client authentication for OAuth {{RFC6749}} by extending the approach defined in {{RFC7521}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme.
 
 --- middle
 
@@ -106,7 +106,7 @@ The following diagram depicts the conceptual interactions.
                            Client Attestation PoP
 ~~~
 
-Note that the data and protocols used for requesting and sending a Client Attestation JWT (steps 2 and 4) and how the client instance authenticates with the client backend is out of scope of this specification.
+Note that the protocol for steps 2 and 4 and how the client instance authenticates with the client backend is out of scope of this specification.
 
 This specification only defines the format of the Client Assertion JWT that a client instance uses to authenticate in its interactions with an authorization server (indicated in step 6), which is comprised of two key parts:
 
