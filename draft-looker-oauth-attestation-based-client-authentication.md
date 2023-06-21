@@ -1,8 +1,8 @@
 ---
-title: "OAuth2 Attested Key Based Client Authentication"
+title: "OAuth2 Attestation Based Client Authentication"
 category: info
 
-docname: draft-looker-oauth-attested-key-based-client-authentication-latest
+docname: draft-looker-oauth-attestation-based-client-authentication-latest
 submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
 number:
 date:
