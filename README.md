@@ -2,7 +2,7 @@
 
 This is the working area for the individual Internet-Draft, "OAuth2 Attested Key Based Client Authentication".
 
-* [Editor's Copy](https://vcstuff.github.io/draft-looker-oauth-attested-key-based-client-authentication/#go.draft-looker-oauth-attested-key-based-client-authentication.html)
+* [Editor's Copy](https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-authentication/#go.draft-looker-oauth-attestation-based-client-authentication.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-looker-oauth-attested-key-based-client-authentication)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-looker-oauth-attested-key-based-client-authentication)
 * [Compare Editor's Copy to Individual Draft](https://vcstuff.github.io/draft-looker-oauth-attested-key-based-client-authentication/#go.draft-looker-oauth-attested-key-based-client-authentication.diff)
