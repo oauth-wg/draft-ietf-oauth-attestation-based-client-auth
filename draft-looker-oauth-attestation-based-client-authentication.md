@@ -87,8 +87,8 @@ The following diagram depicts the overall architecture and protocol flow.
                               +---------------+
                                  / \      |
                                   |       |
-                (2) Request       |       |     (4) Repond with
-                Client            |       |     Generated Client
+                (2) Request       |       |     (4) Respond with
+                Client            |       |     generated Client
                 Attestation       |       |     Attestation
                 for generated     |       |
                 key               |       |
