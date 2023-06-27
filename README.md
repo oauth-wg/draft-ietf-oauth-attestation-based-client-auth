@@ -1,6 +1,6 @@
-# OAuth2 Attestation Based Client Authentication
+# OAuth 2.0 Attestation Based Client Authentication
 
-This is the working area for the individual Internet-Draft, "OAuth2 Attestation Based Client Authentication".
+This is the working area for the individual Internet-Draft, "OAuth 2.0 Attestation Based Client Authentication".
 
 * [Editor's Copy](https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-authentication/#go.draft-looker-oauth-attestation-based-client-authentication.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-looker-oauth-attestation-based-client-authentication)
