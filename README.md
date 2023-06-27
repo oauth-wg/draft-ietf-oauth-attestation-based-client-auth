@@ -1,17 +1,17 @@
-# OAuth2 Attested Key Based Client Authentication
+# OAuth2 Attestation Based Client Authentication
 
-This is the working area for the individual Internet-Draft, "OAuth2 Attested Key Based Client Authentication".
+This is the working area for the individual Internet-Draft, "OAuth2 Attestation Based Client Authentication".
 
 * [Editor's Copy](https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-authentication/#go.draft-looker-oauth-attestation-based-client-authentication.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-looker-oauth-attested-key-based-client-authentication)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-looker-oauth-attested-key-based-client-authentication)
-* [Compare Editor's Copy to Individual Draft](https://vcstuff.github.io/draft-looker-oauth-attested-key-based-client-authentication/#go.draft-looker-oauth-attested-key-based-client-authentication.diff)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-looker-oauth-attestation-based-client-authentication)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-looker-oauth-attestation-based-client-authentication)
+* [Compare Editor's Copy to Individual Draft](https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-authentication/#go.draft-looker-oauth-attestation-based-client-authentication.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/vcstuff/draft-looker-oauth-attested-key-based-client-authentication/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/vcstuff/draft-looker-oauth-attestation-based-client-authentication/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
