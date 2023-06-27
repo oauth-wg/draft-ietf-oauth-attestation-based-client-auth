@@ -1,5 +1,5 @@
 ---
-title: "OAuth2 Attestation Based Client Authentication"
+title: "OAuth 2.0 Attestation Based Client Authentication"
 category: info
 
 docname: draft-looker-oauth-attestation-based-client-authentication-latest
@@ -60,7 +60,7 @@ informative:
 
 --- abstract
 
-This specification defines a new method of client authentication for OAuth {{RFC6749}} by extending the approach defined in {{RFC7521}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme.
+This specification defines a new method of client authentication for OAuth 2.0 {{RFC6749}} by extending the approach defined in {{RFC7521}}. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme.
 
 --- middle
 
@@ -148,7 +148,7 @@ The value of the "client_assertion" parameter contains two JWTs, separated by a 
 The following example demonstrates client authentication using this scheme during the presentation of an authorization code grant in an access token request (with extra line breaks for display purposes only):
 
 ~~~
-POST /token.oauth2 HTTP/1.1
+POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 
