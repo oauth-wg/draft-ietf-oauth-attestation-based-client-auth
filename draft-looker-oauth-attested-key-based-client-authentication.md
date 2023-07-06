@@ -272,7 +272,7 @@ Implementers should be aware that using the same client attestation across multi
 
 TODO
 
-# IANA Considerations
+# Appendix AIANA Considerations
 
 ## Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation
 
@@ -293,6 +293,42 @@ o  Change Controller: IESG
 o  Specification Document(s): TBC
 
 --- back
+
+# Additional Examples
+
+## Wallet Instance Attestation
+
+This non-normative example shows a client attestations used as an wallet instance attestation in the context of eIDAS 2.0, e.g. to secure a Type-1 configuration credential. The additional claims describe the wallet's device binding und user binding capabilities and the achievable level of assurance.
+
+~~~
+{
+	"typ": "vc+jwt",
+	"alg": "ES256",
+	"kid": "1"
+}
+.
+{
+	"iss": "https://attestation-service.ssi.tir.budru.de",
+	"sub" : "https://lissi.org",
+	"iat": 1541493724,
+	"exp": 1516247022,
+	"type": "WalletAttestation",
+	"wallet_name": "Lissi Dev",
+	"wallet_version": "1.6.0",
+	„key_type" : "STRONGBOX",
+	"user_authentication" : "APP_PIN_6_DIGITS",
+	"supported_LoA" : "https://eu-trust-list.eu/loa/high",
+	"cnf": {
+		"jwk" : {
+			"kty": "EC",
+			"crv": "P-256",
+			"x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+			"y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+		}
+	}
+}
+
+~~~
 
 # Acknowledgments
 {:numbered="false"}
