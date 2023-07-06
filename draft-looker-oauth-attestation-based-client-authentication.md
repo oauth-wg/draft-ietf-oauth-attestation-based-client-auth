@@ -307,7 +307,7 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 ~~~
 {
-	"typ": "vc+jwt",
+	"typ": "vc+sd-jwt",
 	"alg": "ES256",
 	"kid": "1"
 }
