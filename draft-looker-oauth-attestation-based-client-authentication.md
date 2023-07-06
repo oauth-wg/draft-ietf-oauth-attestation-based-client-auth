@@ -278,7 +278,7 @@ Implementers should be aware that using the same client attestation across multi
 
 The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
 
-# Appendix AIANA Considerations
+# Appendix A IANA Considerations
 
 ## Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation
 
