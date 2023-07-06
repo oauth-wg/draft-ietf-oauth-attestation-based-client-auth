@@ -307,7 +307,7 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 ~~~
 {
-	"typ": "vc+sd-jwt",
+	"typ": "wallet-attestation+jwt",
 	"alg": "ES256",
 	"kid": "1"
 }
@@ -317,7 +317,6 @@ This non-normative example shows a client attestations used as an wallet instanc
 	"sub" : "https://lissi.org",
 	"iat": 1541493724,
 	"exp": 1516247022,
-	"type": "WalletAttestation",
 	"wallet_name": "Lissi Dev",
 	"wallet_version": "1.6.0",
 	„key_type" : "STRONGBOX",
