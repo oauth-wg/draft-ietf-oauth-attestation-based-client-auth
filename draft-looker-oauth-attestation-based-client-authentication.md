@@ -313,15 +313,14 @@ This non-normative example shows a client attestations used as an wallet instanc
 }
 .
 {
-	"iss": "https://wallet.example.com",
-	"sub" : "https://wallet.example.com"",
+	"iss": "https://wallet-provider.com",
+	"sub": "https://wallet-provider.com/solution/wallet-1.6.0",
 	"iat": 1541493724,
 	"exp": 1516247022,
-	"wallet_name": "Lissi Dev",
-	"wallet_version": "1.6.0",
+	"wallet_name": "human readable wallet name",
 	"key_type" : "STRONGBOX",
-	"user_authentication" : "APP_PIN_6_DIGITS",
-	"supported_LoA" : "https://eu-trust-list.eu/loa/high",
+	"user_authentication" : "SYSTEM_PIN",
+	"attested_security_context" : "https://eu-trust-list.eu/asc/high",
 	"cnf": {
 		"jwk" : {
 			"kty": "EC",
