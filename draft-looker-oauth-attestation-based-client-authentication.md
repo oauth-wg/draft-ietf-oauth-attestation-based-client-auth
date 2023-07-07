@@ -319,7 +319,7 @@ This non-normative example shows a client attestations used as an wallet instanc
 	"exp": 1516247022,
 	"wallet_name": "Lissi Dev",
 	"wallet_version": "1.6.0",
-	„key_type" : "STRONGBOX",
+	"key_type" : "STRONGBOX",
 	"user_authentication" : "APP_PIN_6_DIGITS",
 	"supported_LoA" : "https://eu-trust-list.eu/loa/high",
 	"cnf": {
