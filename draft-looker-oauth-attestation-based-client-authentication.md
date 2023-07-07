@@ -314,7 +314,7 @@ This non-normative example shows a client attestations used as an wallet instanc
 .
 {
 	"iss": "https://attestation-service.ssi.tir.budru.de",
-	"sub" : "https://lissi.org",
+	"sub" : "https://wallet.example.com"",
 	"iat": 1541493724,
 	"exp": 1516247022,
 	"wallet_name": "Lissi Dev",
