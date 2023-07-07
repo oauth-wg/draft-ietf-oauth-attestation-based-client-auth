@@ -57,6 +57,8 @@ normative:
 informative:
   RFC6749: RFC6749
   RFC7521: RFC7521
+  ARF:
+  	title: "The European Digital Identity Wallet Architecture and Reference Framework"
 
 
 --- abstract
@@ -303,7 +305,7 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 
 ## Wallet Instance Attestation
 
-This non-normative example shows a client attestations used as an wallet instance attestation in the context of eIDAS 2.0, e.g. to secure a Type-1 configuration credential. The additional claims describe the wallet's device binding und user binding capabilities and the achievable level of assurance.
+This non-normative example shows a client attestations used as an wallet instance attestation in the context of eIDAS 2.0 {{ARF}}, e.g. to secure a Type-1 configuration credential. The additional claims describe the wallet's device binding und user binding capabilities and the achievable level of assurance.
 
 ~~~
 {
