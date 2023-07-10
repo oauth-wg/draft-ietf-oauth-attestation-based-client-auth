@@ -17,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-looker-oauth-attestation-based-client-authentication.xml
+draft-looker-oauth-attestation-based-client-auth.xml
 package-lock.json
 report.xml
 !requirements.txt
