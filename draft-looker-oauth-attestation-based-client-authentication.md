@@ -57,6 +57,8 @@ normative:
 informative:
   RFC6749: RFC6749
   RFC7521: RFC7521
+  ARF:
+  	title: "The European Digital Identity Wallet Architecture and Reference Framework"
 
 
 --- abstract
@@ -278,7 +280,7 @@ Implementers should be aware that using the same client attestation across multi
 
 The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
 
-# IANA Considerations
+# Appendix A IANA Considerations
 
 ## Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation
 
@@ -298,6 +300,40 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 * Specification Document(s): TBC
 
 --- back
+
+# Additional Examples
+
+## Wallet Instance Attestation
+
+This non-normative example shows a client attestations used as an wallet instance attestation in the context of eIDAS 2.0 {{ARF}}, e.g. to secure a Type-1 configuration credential. The additional claims describe the wallet's device binding und user binding capabilities and the achievable level of assurance.
+
+~~~
+{
+	"typ": "wallet-attestation+jwt",
+	"alg": "ES256",
+	"kid": "1"
+}
+.
+{
+	"iss": "https://wallet-provider.com",
+	"sub": "https://wallet-provider.com/solution/wallet-1.6.0",
+	"iat": 1541493724,
+	"exp": 1516247022,
+	"wallet_name": "human readable wallet name",
+	"key_type" : "STRONGBOX",
+	"user_authentication" : "SYSTEM_PIN",
+	"attested_security_context" : "https://eu-trust-list.eu/asc/high",
+	"cnf": {
+		"jwk" : {
+			"kty": "EC",
+			"crv": "P-256",
+			"x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+			"y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+		}
+	}
+}
+
+~~~
 
 # Acknowledgments
 {:numbered="false"}
