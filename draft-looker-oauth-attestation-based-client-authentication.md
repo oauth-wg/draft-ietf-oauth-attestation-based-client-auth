@@ -3,15 +3,13 @@ title: "OAuth 2.0 Attestation-Based Client Authentication"
 category: info
 
 docname: draft-looker-oauth-attestation-based-client-authentication-latest
-submissiontype: IETF  # also: "independent", "IAB", or "IRTF"
+submissiontype: independent  # also: "IETF", "IAB", or "IRTF"
 number:
 date:
 v: 3
-area: "Security"
-workgroup: "Web Authorization Protocol"
 venue:
-  group: "Web Authorization Protocol"
-  type: "Working Group"
+  group: "vcstuff/draft-looker-oauth-attestation-based-client-authentication"
+  latest: "https://vcstuff.github.io/draft-looker-oauth-jwt-cwt-status-list/draft-looker-oauth-jwt-cwt-status-list.html"
 
 author:
  -
@@ -268,7 +266,7 @@ Implementers should be aware that the design of this authentication mechanism de
 
 ## Refresh token binding
 
-Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" client authentication method MUST bind the refresh token to the client instance, and NOT just the client as specified in section 6 [@!RFC6749]. To prove this binding, the client instance MUST authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" authentication method. The client MUST also use the same Client Attestation that was used for authentication when the refresh token was issued.
+Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" client authentication method MUST bind the refresh token to the client instance, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the client instance MUST authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" authentication method. The client MUST also use the same Client Attestation that was used for authentication when the refresh token was issued.
 
 # Privacy Considerations
 
