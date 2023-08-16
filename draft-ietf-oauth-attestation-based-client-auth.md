@@ -2,14 +2,14 @@
 title: "OAuth 2.0 Attestation-Based Client Authentication"
 category: info
 
-docname: draft-looker-oauth-attestation-based-client-auth-latest
+docname: draft-ietf-oauth-attestation-based-client-auth-latest
 submissiontype: independent  # also: "IETF", "IAB", or "IRTF"
 number:
 date:
 v: 3
 venue:
-  group: "vcstuff/draft-looker-oauth-attestation-based-client-auth"
-  latest: "https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-auth/draft-looker-oauth-attestation-based-client-auth.html"
+  group: "vcstuff/draft-ietf-oauth-attestation-based-client-auth"
+  latest: "https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html"
 
 author:
  -

@@ -2,16 +2,16 @@
 
 This is the working area for the individual Internet-Draft, "OAuth 2.0 Attestation-Based Client Authentication".
 
-* [Editor's Copy](https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-auth/#go.draft-looker-oauth-attestation-based-client-auth.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-looker-oauth-attestation-based-client-auth)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-looker-oauth-attestation-based-client-auth)
-* [Compare Editor's Copy to Individual Draft](https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-auth/#go.draft-looker-oauth-attestation-based-client-auth.diff)
+* [Editor's Copy](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/#go.draft-ietf-oauth-attestation-based-client-auth.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-oauth-attestation-based-client-auth)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-attestation-based-client-auth)
+* [Compare Editor's Copy to Individual Draft](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/#go.draft-ietf-oauth-attestation-based-client-auth.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/vcstuff/draft-looker-oauth-attestation-based-client-auth/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.
