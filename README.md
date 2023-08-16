@@ -1,11 +1,11 @@
 # OAuth 2.0 Attestation-Based Client Authentication
 
-This is the working area for the individual Internet-Draft, "OAuth 2.0 Attestation-Based Client Authentication".
+This is the working area for the IETF [OAUTH Working Group](https://datatracker.ietf.org/wg/oauth/documents/) Internet-Draft, "OAuth 2.0 Attestation-Based Client Authentication".
 
 * [Editor's Copy](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/#go.draft-ietf-oauth-attestation-based-client-auth.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-oauth-attestation-based-client-auth)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-attestation-based-client-auth)
-* [Compare Editor's Copy to Individual Draft](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/#go.draft-ietf-oauth-attestation-based-client-auth.diff)
+* [Working Group Draft](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-attestation-based-client-auth)
+* [Compare Editor's Copy to Working Group Draft](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/#go.draft-ietf-oauth-attestation-based-client-auth.diff)
 
 
 ## Contributing
