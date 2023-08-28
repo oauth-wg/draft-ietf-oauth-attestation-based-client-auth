@@ -3,7 +3,7 @@ title: "OAuth 2.0 Attestation-Based Client Authentication"
 category: info
 
 docname: draft-ietf-oauth-attestation-based-client-auth-latest
-submissiontype: independent  # also: "IETF", "IAB", or "IRTF"
+submissiontype: IETF  # also: "IETF", "IAB", or "IRTF"
 number:
 date:
 v: 3
