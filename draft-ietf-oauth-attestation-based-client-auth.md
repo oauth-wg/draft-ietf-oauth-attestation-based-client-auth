@@ -313,13 +313,10 @@ This non-normative example shows a client attestations used as an wallet instanc
 }
 .
 {
-	"iss": "https://wallet-provider.com",
-	"sub": "https://wallet-provider.com/solution/wallet-1.6.0",
+	"iss": "https://attestation-service.com",
+	"sub": "https://wallet-provider.com",
 	"iat": 1541493724,
 	"exp": 1516247022,
-	"wallet_name": "human readable wallet name",
-	"key_type" : "STRONGBOX",
-	"user_authentication" : "SYSTEM_PIN",
 	"attested_security_context" : "https://eu-trust-list.eu/asc/high",
 	"cnf": {
 		"jwk" : {
@@ -327,7 +324,9 @@ This non-normative example shows a client attestations used as an wallet instanc
 			"crv": "P-256",
 			"x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
 			"y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-		}
+		},
+		"key_type" : "STRONGBOX",
+		"user_authentication" : "SYSTEM_PIN"
 	}
 }
 
