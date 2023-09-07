@@ -186,7 +186,7 @@ The following rules apply to validating the client attestation JWT. Application 
 
 6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.
 
-7. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
+7. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token.
 
 8. The JWT MAY contain other claims.
 
@@ -255,6 +255,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
   "aud": "https://as.example.com",
   "nbf":1300815780,
   "exp":1300819380,
+  "jti": "d25d00ab-552b-46fc-ae19-98f440f25064"
 }
 ~~~
 
