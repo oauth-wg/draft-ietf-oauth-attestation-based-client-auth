@@ -336,6 +336,7 @@ This non-normative example shows a client attestations used as an wallet instanc
 {:numbered="false"}
 
 We would like to thank
+Brian Campbell,
 Michael B. Jones,
 Torsten Lodderstedt,
 and
