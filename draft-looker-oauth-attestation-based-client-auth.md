@@ -178,7 +178,7 @@ The following rules apply to validating the client attestation JWT. Application 
 
 2. The JWT MUST contain a "sub" (subject) claim with a value corresponding to the "client_id" of the OAuth client.
 
-3. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
+3. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 
 4. The JWT MUST contain an "cnf" claim conforming {{RFC7800}} that conveys the key to be used for sender constraining tokens issued by the authorization server. The key MUST be expressed using the "jwk" representation.
 
@@ -186,13 +186,15 @@ The following rules apply to validating the client attestation JWT. Application 
 
 6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.
 
-7. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
+7. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token. The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
 
-8. The JWT MAY contain other claims.
+8. The JWT MAY contain a "aal" (authenticator assurance level) claim that describes the attested assurance level of the Client Instance and the Client Instance Key. The claim value contains a URL that references a jurisdictional framework. Consumers of the client attestation are RECOMMENDED to evaluate this claim, if they intend to state an assurance level for their issued tokens themselves.
 
-9. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
+9. The JWT MAY contain other claims.
 
-10. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+10. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
+
+11. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -314,20 +316,19 @@ This non-normative example shows a client attestations used as an wallet instanc
 .
 {
 	"iss": "https://wallet-provider.com",
-	"sub": "https://wallet-provider.com/solution/wallet-1.6.0",
-	"iat": 1541493724,
-	"exp": 1516247022,
-	"wallet_name": "human readable wallet name",
-	"key_type" : "STRONGBOX",
-	"user_authentication" : "SYSTEM_PIN",
-	"attested_security_context" : "https://eu-trust-list.eu/asc/high",
+	"sub": "https://wallet-provider.com",
+	"iat": 1516247022,
+	"exp": 1541493724,
+	"aal" : "https://eu-trust-list.eu/asc/high",
 	"cnf": {
 		"jwk" : {
 			"kty": "EC",
 			"crv": "P-256",
 			"x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
 			"y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-		}
+		},
+		"key_type" : "strongbox",
+		"user_authentication" : "system_pin",
 	}
 }
 
