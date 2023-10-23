@@ -317,22 +317,7 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 ~~~
 
-# Acknowledgments
-{:numbered="false"}
-
-We would like to thank
-Brian Campbell,
-Francesco Marino,
-Guiseppe De Marco,
-Kristina Yasuda,
-Michael B. Jones,
-Takahiko Kawasaki
-and
-Torsten Lodderstedt
-for their valuable contributions to this specification.
-
 # Document History
-{:numbered="false"}
 
 -01
 
@@ -349,3 +334,17 @@ for their valuable contributions to this specification.
 -00
 
 * Initial draft
+
+# Acknowledgments
+{:numbered="false"}
+
+We would like to thank
+Brian Campbell,
+Francesco Marino,
+Guiseppe De Marco,
+Kristina Yasuda,
+Michael B. Jones,
+Takahiko Kawasaki
+and
+Torsten Lodderstedt
+for their valuable contributions to this specification.
