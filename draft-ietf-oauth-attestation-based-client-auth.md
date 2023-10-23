@@ -330,3 +330,21 @@ Takahiko Kawasaki
 and
 Torsten Lodderstedt
 for their valuable contributions to this specification.
+
+# Document History
+
+-01
+
+* Updated eIDAS example in appendix
+* Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop
+* Refined text around cnf claim in client attestation
+* Clarified how to bind refresh tokens to a client instance using this client authentication method
+* Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR
+* Updated acknowledgments
+* Simplified the diagram in the introduction
+* Updated references
+* Added some guidance around replay attack detection
+
+-00
+
+* Initial draft
