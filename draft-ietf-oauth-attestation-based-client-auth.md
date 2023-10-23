@@ -31,27 +31,6 @@ normative:
   RFC7519: RFC7519
   RFC8414: RFC8414
   RFC8725: RFC8725
-  DPOP:
-    title: "OAuth 2.0 Demonstrating Proof-of-Possession at the Application Layer (DPoP)"
-    author:
-      -
-        ins: D. Fett
-        name: Daniel Fett
-      -
-        ins: B. Campbell
-        name: Brian Campbell
-      -
-        ins: J. Bradley
-        name: John Bradley
-      -
-        ins: T. Lodderstedt
-        name: Torsten Lodderstedt
-      -
-        ins: M. Jones
-        name: Mike Jones
-      -
-        ins: D. Waite
-        name: Daniel Waite
 informative:
   RFC6749: RFC6749
   RFC7521: RFC7521
