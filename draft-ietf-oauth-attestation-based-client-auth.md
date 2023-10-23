@@ -268,7 +268,7 @@ The following mechanisms exist within this client authentication method in order
 - The authorization server provides a nonce for the particular transaction and the client uses it for the "nonce" claim in the Client Attestation PoP JWT. The authorization server validates that the nonce matches for the transaction. This approach may require an additional roundtrip in the protocol. The authorization server MUST ensure that the nonce provides sufficient entropy.
 - The authorization server may expect the usage of a nonce in the Client Attestation PoP JWT, but instead of providing the nonce explicitly, the client may implicitly reuse an existing artefact, e.g. the authorization code. The authorization server MUST ensure that the nonce provides sufficient entropy.
 
-The approach using a nonce explicitly provided by the authorization server is usually prefered, however support by the authorization server is OPTIONAL. The "jti" method is mandatory and hence acts as a default fallback.
+The approach using a nonce explicitly provided by the authorization server gives stronger replay attack detection guarantees, however support by the authorization server is OPTIONAL to simplify mandatory implementation requirements. The "jti" method is mandatory and hence acts as a default fallback.
 
 # Appendix A IANA Considerations
 
