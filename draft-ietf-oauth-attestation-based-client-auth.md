@@ -332,6 +332,7 @@ Torsten Lodderstedt
 for their valuable contributions to this specification.
 
 # Document History
+{:numbered="false"}
 
 -01
 
