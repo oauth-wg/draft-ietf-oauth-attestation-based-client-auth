@@ -300,6 +300,16 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 * Change Controller: IESG
 * Specification Document(s): TBC
 
+## JSON Web Token Claims Registration
+
+This specification requests registration of the following Claims in the
+IANA "JSON Web Token Claims" registry [@IANA.JWT] established by [@!RFC7519].
+
+*  Claim Name: `aal`
+*  Claim Description: Reference to a trust framework that describes the assurance level for the client.
+*  Change Controller: IETF
+*  Specification Document(s):  [[ (##client-attestation-jwt) of this specification ]]
+
 --- back
 
 # Additional Examples
