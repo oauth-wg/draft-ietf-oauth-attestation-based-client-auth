@@ -188,7 +188,7 @@ The following rules apply to validating the client attestation JWT. Application 
 
 7. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token.
 
-8. The JWT MAY contain a "aal" (authenticator assurance level) claim that describes the attested assurance level of the Client Instance and the Client Instance Key. The claim value contains a URL that references a jurisdictional framework. Consumers of the client attestation are RECOMMENDED to evaluate this claim, if they intend to state an assurance level for their issued tokens themselves.
+8. The JWT MAY contain a "aal" (authenticator assurance level) claim that describes the attested assurance level of the Client Instance and the Client Instance Key. The claim value contains a URI that references a jurisdictional framework. Consumers of the client attestation are RECOMMENDED to evaluate this claim, if they intend to state an assurance level for their issued tokens themselves.
 
 9. The JWT MAY contain other claims.
 
