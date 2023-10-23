@@ -210,17 +210,19 @@ The following rules apply to validating the Client Attestation JWT. Application 
 
 4. The JWT MUST contain an "aud" (audience) claim containing a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
 
-5. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
+5. The JWT MAY contain an "nonce" claim containing a String value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.
 
-6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
+6. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
 
-7. The JWT MAY contain other claims.
+7. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
 
-8. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
+8. The JWT MAY contain other claims.
 
-9. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding client attestation JWT.
+9. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
-10. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+10. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding client attestation JWT.
+
+11. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -257,6 +259,14 @@ Implementers should be aware that using the same client attestation across multi
 # Security Considerations
 
 The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
+
+Replay attack prevention MUST be considered by the protocols using this client authentication method. Possible mechanisms comprise:
+
+- The client uses "jti" (JWT ID) claims for the Client Attestation PoP JWT and the authorization server maintains a list of used (seen) "jti" values for the time of which the JWT would be considered valid based on the applicable "exp" claim. If any Client Attestation PoP JWT would be replayed, the authorization server would recognize the "jti" and respond with an authentication error.
+- The authorization server provides a nonce for the particular transaction and the client uses it for the "nonce" claim in the Client Attestation PoP JWT. The authorization server validates that the nonce matches for the transaction. This approach may require an additional roundtrip in the protocol. The authorization server MUST ensure that the nonce provides sufficient entropy.
+- The authorization server may expect the usage of a nonce in the Client Attestation PoP JWT, but instead of providing the nonce explicitly, the client may implicitly reuse an existing artefact, e.g. the authorization code. The authorization server MUST ensure that the nonce provides sufficient entropy.
+
+The approach using a nonce explicitly provided by the authorization server is usually prefered, however support by the authorization server is OPTIONAL. The "jti" method is mandatory and hence acts as a default fallback.
 
 # Appendix A IANA Considerations
 
