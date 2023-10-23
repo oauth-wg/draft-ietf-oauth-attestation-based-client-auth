@@ -165,13 +165,11 @@ The following rules apply to validating the client attestation JWT. Application 
 
 6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.
 
-7. The JWT MAY contain a "jti" (JWT ID) claim that provides a unique identifier for the token.
+7. The JWT MAY contain other claims.
 
-8. The JWT MAY contain other claims.
+8. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
-9. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
-
-10. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+9. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
