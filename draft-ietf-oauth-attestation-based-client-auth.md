@@ -317,8 +317,11 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 We would like to thank
 Brian Campbell,
+Francesco Marino,
+Guiseppe De Marco,
+Kristina Yasuda,
 Michael B. Jones,
-Torsten Lodderstedt,
+Takahiko Kawasaki
 and
-Kristina Yasuda
+Torsten Lodderstedt,
 for their valuable contributions to this specification.
