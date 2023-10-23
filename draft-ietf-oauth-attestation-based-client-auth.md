@@ -260,7 +260,7 @@ Implementers should be aware that using the same client attestation across multi
 
 The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
 
-Replay attack prevention MUST be considered by the protocols using this client authentication method. Possible mechanisms comprise:
+## Replay Attack Detection
 
 - The client uses "jti" (JWT ID) claims for the Client Attestation PoP JWT and the authorization server maintains a list of used (seen) "jti" values for the time of which the JWT would be considered valid based on the applicable "exp" claim. If any Client Attestation PoP JWT would be replayed, the authorization server would recognize the "jti" and respond with an authentication error.
 - The authorization server provides a nonce for the particular transaction and the client uses it for the "nonce" claim in the Client Attestation PoP JWT. The authorization server validates that the nonce matches for the transaction. This approach may require an additional roundtrip in the protocol. The authorization server MUST ensure that the nonce provides sufficient entropy.
