@@ -323,5 +323,5 @@ Kristina Yasuda,
 Michael B. Jones,
 Takahiko Kawasaki
 and
-Torsten Lodderstedt,
+Torsten Lodderstedt
 for their valuable contributions to this specification.
