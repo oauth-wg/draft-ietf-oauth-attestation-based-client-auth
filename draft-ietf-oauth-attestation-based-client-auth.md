@@ -33,6 +33,7 @@ normative:
 informative:
   RFC6749: RFC6749
   RFC7521: RFC7521
+  RFC9449: RFC9449
   ARF:
   	title: "The European Digital Identity Wallet Architecture and Reference Framework"
 
@@ -203,7 +204,7 @@ The following rules apply to validating the Client Attestation JWT. Application 
 
 4. The JWT MUST contain an "aud" (audience) claim containing a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
 
-5. The JWT MAY contain an "nonce" claim containing a String value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.
+5. The JWT MAY contain an "nonce" claim containing a string value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.
 
 6. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
 
@@ -231,6 +232,57 @@ The following example is the decoded header and payload of a JWT meeting the pro
   "exp":1300819380,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064"
 }
+~~~
+
+# Authorization Server-provided nonces
+
+This section specifies a mechanism using server provided opaque nonces to limit the lifetime of a Client Attestation PoP JWT, similar to the one defined in section 8 of {{RFC9449}}.
+Without employing such a mechanism, a malicious party controlling the client (potentially including the end-user) can create Client Attestation PoP JWT for use arbitrarily far in the future.
+In addition, a mismatch between the time reference of a non-malicious client (e.g. a mobile device) and the time reference of the authorization server, may result in Client Attestation PoP JWT that are never accepted by the authorization server.
+
+Including a nonce value contributed by the authorization server in the Client Attestation PoP JWT MAY be used by authorization servers to limit the lifetime of those proofs, both protecting against attacks and allowing for interoperability with clients with different time references.
+
+An authorization server MAY require the use of nonces.
+This requirement is communicated to the client by having the authorization server return an HTTP response with the `400` status and an `error` field with the value `"use_attestation_nonce"`, when the Client Attestation PoP JWT present in the HTTP request does not contain a valid nonce.
+This HTTP response MUST also contain the `Attestation-Nonce` header, with the value of the new server provided nonce.
+The client MUST use this new nonce value to create a new Client Attestation PoP JWT and resend the previous request.
+The server provided nonce must be included in the `nonce` JWT payload claim, as a JSON string.
+
+The following non-normative example presents an example of a non-success response, including the new nonce in the `Attestation-Nonce` header.
+
+~~~
+HTTP/1.1 400 Bad Request
+Attestation-Nonce: eyJ7S_zG.eyJH0-Z.HX4w-7v
+
+{
+  "error": "use_attestation_nonce",
+  "error_description":
+    "Authorization server requires nonce in Client Attestation PoP JWT proof"
+}
+~~~
+
+Authorization servers MAY also include the `Attestation-Nonce` in success responses, as a way to communicate newer nonces values to clients.
+Clients SHOULD keep using a nonce received in a `Attestation-Nonce` header until a newer value is received via this header, both on success or non-success responses.
+Responses that include the `Attestation-Nonce` HTTP header should be uncacheable (e.g., using `Cache-Control: no-store` in response to a GET request) to prevent the response from being used to serve a subsequent request and a stale nonce value from being used as a result.
+When receiving a `Attestation-Nonce` in a success response, the client MUST not retry the request.
+Instead, the client MUST use the provided nonce the next time a Client Attestation PoP JWT need to be computed.
+
+An example 200 OK response providing a new nonce value is shown below.
+
+~~~
+HTTP/1.1 200 OK
+Cache-Control: no-store
+Attestation-Nonce: eyJ7S_zG.eyJbYu3.xQmBj-1
+~~~
+
+When requiring the use of nonces, an authorization server MAY ignore the values of the `iat`, `nbf`, and `exp` claims, since the freshness requirements are being provided via nonces.
+
+## Nonce syntax
+
+The nonce syntax in ABNF as used by {{RFC6749}} (which is the same as the scope-token syntax) is shown below.
+
+~~~
+nonce = 1*NQCHAR
 ~~~
 
 # Implementation Considerations
@@ -280,6 +332,19 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 
 * Token Endpoint Authentication Method Name: "attest_jwt_client_auth"
 * Change Controller: IESG
+* Specification Document(s): TBC
+
+## Registration of use_attestation_nonce on the OAuth Extensions Error Registration
+
+* Name: `use_attestation_nonce`
+* Usage Location: all the locations where client authentication is used.
+* Change Controller: IETF
+* Specification Document(s): TBC
+
+## Registration of Attestation-Nonce on the Hypertext Transfer Protocol (HTTP) Field Name Registration
+
+* Field Name: `Attestation-Nonce`
+* Change Controller: IETF
 * Specification Document(s): TBC
 
 --- back
