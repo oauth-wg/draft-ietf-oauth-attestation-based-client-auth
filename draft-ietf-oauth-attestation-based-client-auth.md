@@ -243,9 +243,9 @@ Implementers should be aware that the design of this authentication mechanism de
 
 Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" client authentication method MUST bind the refresh token to the client instance, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the client instance MUST authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" authentication method. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used for client authentication when the refresh token was issued.
 
-## Rotation of confirmation key
+## Rotation of Client Instance Key
 
-This specification does not provide a mechanism to rotate the confirmation key identified in the Client Attestation JWT. If the client instance needs to use a new confirmation key for any reason, then it MUST begin the OAuth 2.0 flow from scratch.
+This specification does not provide a mechanism to rotate the Client Instance Key in the Client Attestation JWT's "cnf" claim. If the Client Instance needs to use a new Client Instance Key for any reason, then it MUST request a new Client Attestation JWT from its Client Backend.
 
 # Privacy Considerations
 
