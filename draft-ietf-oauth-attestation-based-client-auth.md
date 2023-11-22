@@ -18,7 +18,6 @@ author:
     email: tobias.looker@mattr.global
  -
     fullname: Paul Bastian
-    organization: Bundesdruckerei GmbH
     email: paul.bastian@bdr.de
 
 
