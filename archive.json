@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-16T00:47:09.906247+00:00",
+  "timestamp": "2024-01-18T00:46:53.306068+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5119,9 +5119,9 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://github.com/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
+      "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
       "createdAt": "2024-01-15T21:23:08Z",
-      "updatedAt": "2024-01-15T21:27:09Z",
+      "updatedAt": "2024-01-17T15:32:35Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
@@ -5132,8 +5132,104 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "A similar vision was brought by me here\r\nhttps://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/67/files\r\n\r\ngenerally I agree with this, however we still have an issue with DPoP, as explained below.\r\n\r\nThere are discussions about the requirement to provide more than a single wallet attestation in eIDAS.\r\nat the same time, for the purpose of a global standard, I see the requirement to provide a way to allow multiple client_assertion, where an ecosystem might require this, for future features.\r\n\r\nat the current stage, we can provide multiple client_assertion in a single url (see [this](https://github.com/openid/OpenID4VCI/issues/149)) providing their PoP. Using DPoP it is possible for HTTP to carry multiple headers with the same name. This is defined in the HTTP/1.1 specification (RFC 2616). According to the specification, multiple message-header fields with the same field-name may be present in a message if and only if the entire field-value for that header field is defined as a comma-separated list. It must be possible to combine the multiple header fields into one \"field-name: field-value\" pair, without changing the semantics of the message, by appending each subsequent field-value to the first, each separated by a comma.\r\n\r\nhowever this approach doesn't give the binding of which PoP is related to which client attestation, requiring to the entity that evaluates assertions+pop to parse and validate them in a loop. This loop has computational costs that can be avoided by design, as the current specs allows.\r\n\r\nanother issue could be that HTTP Header maximum size configured in the httpd services could represent a limit where multiple DPoP are provided. Anyway I feel optimistic about each the DPoP payload size and the number of http headers parameters included in a single http request.\r\n\r\njust to be clear:\r\n\r\nI prefer DPoP and I love to reuse things without redefining new one.\r\nAt the same time the DPoP HTTP header doesn't give a proper mapping to the client assertion where multiple client assertion are provided. The real-world may require this and we should take the best decision in term of design\r\n\r\n",
+          "createdAt": "2024-01-16T10:45:01Z",
+          "updatedAt": "2024-01-16T11:31:05Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Thanks for doing the work on this @tplooker! I am very supportive of this direction. I do wonder if it'd be worthwhile to include some explanatory text with this change about the fact that use of a DPoP proof does not mandate bound access tokens? It was a point of confusion/contention in prior discussions (eg https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1815362871, https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1815668038, etc) which might benefit from a brief mention in this document. \r\n",
+          "createdAt": "2024-01-16T14:47:10Z",
+          "updatedAt": "2024-01-16T17:43:14Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "BTW the initial Preview Link 404s but this I think will work https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html ",
+          "createdAt": "2024-01-16T18:46:36Z",
+          "updatedAt": "2024-01-16T18:46:36Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM5ssQM7",
+          "commit": {
+            "abbreviatedOid": "d963646"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-16T14:19:03Z",
+          "updatedAt": "2024-01-16T14:19:03Z",
+          "comments": [
+            {
+              "originalPosition": 135,
+              "body": "typo fix\r\n```suggestion\r\n2. The DPoP proof JWT present in the DPoP HTTP header MUST be valid in all other respects per the processing rules defined in {{RFC9449}}.\r\n```",
+              "createdAt": "2024-01-16T14:19:03Z",
+              "updatedAt": "2024-01-16T14:19:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5ssXYo",
+          "commit": {
+            "abbreviatedOid": "d963646"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-16T14:27:04Z",
+          "updatedAt": "2024-01-16T14:27:04Z",
+          "comments": [
+            {
+              "originalPosition": 74,
+              "body": "What is/was the reason behind this recommendation? I suspect many/most ASs typically do processing of the DPoP proof header first followed by 'application' layer stuff like binding to or checking the binding of other artifacts against the key of the DPoP proof JWT. I'd like to avoid a recommendation against the likely conventional processing pipeline unless there's a concrete reason for it. \r\n\r\n```suggestion\r\n```",
+              "createdAt": "2024-01-16T14:27:04Z",
+              "updatedAt": "2024-01-16T14:27:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5ssbMm",
+          "commit": {
+            "abbreviatedOid": "d963646"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-16T14:31:45Z",
+          "updatedAt": "2024-01-16T14:31:45Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "previously missing word?\r\n\r\n```suggestion\r\n4. The JWT MUST contain an \"cnf\" claim conforming to {{RFC7800}} that conveys the key to be used for producing the DPoP HTTP header for client authentication with an authorization server. The key MUST be expressed using the \"jwk\" representation.\r\n```",
+              "createdAt": "2024-01-16T14:31:45Z",
+              "updatedAt": "2024-01-16T14:31:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5s4TO3",
+          "commit": {
+            "abbreviatedOid": "d963646"
+          },
+          "author": "Sakurann",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I am pretty strongly against this mechanism. I think it is ok to have this as an optimization but mandating using the same PoP for client attestation and DPoP overloads both mechanisms and limits the use-cases.",
+          "createdAt": "2024-01-17T08:01:38Z",
+          "updatedAt": "2024-01-17T08:01:38Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
