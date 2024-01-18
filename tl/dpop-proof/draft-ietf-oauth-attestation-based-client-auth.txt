@@ -5,7 +5,7 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 18 July 2024                                    15 January 2024
+Expires: 21 July 2024                                    18 January 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 July 2024.
+   This Internet-Draft will expire on 21 July 2024.
 
 Copyright Notice
 
@@ -246,7 +246,7 @@ cC4hiUPo[...omitted for brevity...]
        authorization server MUST reject any JWT with an expiration time
        that has passed, subject to allowable clock skew between systems.
 
-   4.  The JWT MUST contain an "cnf" claim conforming [RFC7800] that
+   4.  The JWT MUST contain an "cnf" claim conforming to [RFC7800] that
        conveys the key to be used for producing the DPoP HTTP header for
        client authentication with an authorization server.  The key MUST
        be expressed using the "jwk" representation.
@@ -305,7 +305,7 @@ cC4hiUPo[...omitted for brevity...]
        parameter.
 
    2.  The DPoP proof JWT present in the DPoP HTTP header MUST be valid
-       in all other respects per hte processing rules defined in
+       in all other respects per the processing rules defined in
        [RFC9449].
 
 5.  Implementation Considerations

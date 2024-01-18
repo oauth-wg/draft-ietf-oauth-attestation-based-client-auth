@@ -10,10 +10,10 @@
 <meta content="
        This specification defines a new method of client authentication for OAuth 2.0   by extending the approach defined in  . This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme. 
     " name="description">
-<meta content="xml2rfc 3.19.0" name="generator">
+<meta content="xml2rfc 3.19.1" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.0
+  xml2rfc 3.19.1
     Python 3.11.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
@@ -26,7 +26,7 @@
     requests 2.31.0
     setuptools 68.2.2
     six 1.16.0
-    wcwidth 0.2.12
+    wcwidth 0.2.13
 -->
 <link href="draft-ietf-oauth-attestation-based-client-auth.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1029,7 +1029,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker &amp; Bastian</td>
-<td class="center">Expires 18 July 2024</td>
+<td class="center">Expires 21 July 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1042,12 +1042,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-15" class="published">15 January 2024</time>
+<time datetime="2024-01-18" class="published">18 January 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-07-18">18 July 2024</time></dd>
+<dd class="expires"><time datetime="2024-07-21">21 July 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1093,7 +1093,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1337,7 +1337,7 @@ cC4hiUPo[...omitted for brevity...]
               <p id="section-4.1.1-2.3.1">The JWT <span class="bcp14">MUST</span> contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.<a href="#section-4.1.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.1-2.4">
-              <p id="section-4.1.1-2.4.1">The JWT <span class="bcp14">MUST</span> contain an "cnf" claim conforming <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> that conveys the key to be used for producing the DPoP HTTP header for client authentication with an authorization server. The key <span class="bcp14">MUST</span> be expressed using the "jwk" representation.<a href="#section-4.1.1-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.1-2.4.1">The JWT <span class="bcp14">MUST</span> contain an "cnf" claim conforming to <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> that conveys the key to be used for producing the DPoP HTTP header for client authentication with an authorization server. The key <span class="bcp14">MUST</span> be expressed using the "jwk" representation.<a href="#section-4.1.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.1-2.5">
               <p id="section-4.1.1-2.5.1">The JWT <span class="bcp14">MAY</span> contain an "nbf" (not before) claim that identifies the time before which the token <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-4.1.1-2.5.1" class="pilcrow">¶</a></p>
@@ -1393,7 +1393,7 @@ cC4hiUPo[...omitted for brevity...]
               <p id="section-4.1.2-2.1.1">The key represented in the JWK header parameter of the DPoP proof <span class="bcp14">MUST</span> match the key that is represented in the "cnf" claim of the Client Attestation JWT present in the "client_attestation" parameter.<a href="#section-4.1.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-4.1.2-2.2">
-              <p id="section-4.1.2-2.2.1">The DPoP proof JWT present in the DPoP HTTP header <span class="bcp14">MUST</span> be valid in all other respects per hte processing rules defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-4.1.2-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.2-2.2.1">The DPoP proof JWT present in the DPoP HTTP header <span class="bcp14">MUST</span> be valid in all other respects per the processing rules defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-4.1.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
