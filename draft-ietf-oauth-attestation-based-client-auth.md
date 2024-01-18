@@ -147,7 +147,7 @@ The following rules apply to validating the client attestation JWT. Application 
 
 3. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 
-4. The JWT MUST contain an "cnf" claim conforming {{RFC7800}} that conveys the key to be used for producing the DPoP HTTP header for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
+4. The JWT MUST contain an "cnf" claim conforming to {{RFC7800}} that conveys the key to be used for producing the DPoP HTTP header for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
 
 5. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
 
@@ -190,7 +190,7 @@ The following rules apply to validating the DPoP HTTP header. Application of add
 
 1. The key represented in the JWK header parameter of the DPoP proof MUST match the key that is represented in the "cnf" claim of the Client Attestation JWT present in the "client_attestation" parameter.
 
-2. The DPoP proof JWT present in the DPoP HTTP header MUST be valid in all other respects per hte processing rules defined in {{RFC9449}}.
+2. The DPoP proof JWT present in the DPoP HTTP header MUST be valid in all other respects per the processing rules defined in {{RFC9449}}.
 
 # Implementation Considerations
 
