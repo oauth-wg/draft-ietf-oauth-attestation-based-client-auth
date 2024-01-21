@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-18T00:46:53.306068+00:00",
+  "timestamp": "2024-01-21T00:52:08.733292+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2031,6 +2031,37 @@
       "updatedAt": "2023-11-24T14:41:45Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 68,
+      "id": "I_kwDOJaEkaM58fVe3",
+      "title": "Introducing a general purpose assertion-based client authentication with holder-of-key JWT",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/68",
+      "state": "OPEN",
+      "author": "ju-cu",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "What about introducing a general purpose client authentication using a holder-of-key JWT assertion instead of Client Attestation JWT?\r\n\r\nThe draft introduces the Client Attestation JWT that is bound to the public key of a Client Instance Key. What about having a spec that replaces the Client Attestation JWT with an assertion that is a holder-of-key JWT, meaning a JWT bound to a key that the client proofs to be able to control (e.g. using DPoP as suggested in #67 ). The draft would not make any assumptions on whether the holder-of-key JWT is an attestation or not; it technically would support any JWT with a `cnf` claim and require a proof-of-possession for client authentication.\r\nAttestation-based client authentication could profile such a spec if necessary. In the ecosystem, there would be RFC7521, upon it RFC7523 for the bearer JWT assertion and next to it some spec for holder-of-key JWT assertion, and upon that the attestation-based client authentication. What do you think? \r\n\r\nThis idea was first proposed by @pmhsfelix in #64 (https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1838969799). ",
+      "createdAt": "2024-01-18T15:58:38Z",
+      "updatedAt": "2024-01-19T08:05:56Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi @ju-cu thanks for surfacing this into a seperate issue. I'm wondering how much of this is a terminology issue as the Client attestation JWT is really just a JWT with minimal normative requirements to ensure it is appropriate as an attestation or in your terminology a holder-of-key JWT. Can you explain what other usecases you would like to use this holder-of-key JWT outside of this specs usage? As it would appear that is the key to understanding whether this additional layer of abstraction would be useful.",
+          "createdAt": "2024-01-18T20:34:28Z",
+          "updatedAt": "2024-01-18T20:35:09Z"
+        },
+        {
+          "author": "ju-cu",
+          "authorAssociation": "NONE",
+          "body": "I agree, it is mainly a terminology issue and I'm not sure there is a need for an additional layer or updating the current one is actually good enough. As you say, the draft includes only minimal normative requirements for the Client Attestation JWT. But this fact made me wonder how the proposed authentication method is actually related to attestation and what it distinguishes it from an authentication method for any holder-of-key JWT. So, I started to think that there could be likewise an authentication method that uses a holder-of-key JWT and any attestation specifics (if there are any) would be on top of that.",
+          "createdAt": "2024-01-19T08:05:54Z",
+          "updatedAt": "2024-01-19T08:05:54Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -5121,13 +5152,13 @@
       "labels": [],
       "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
       "createdAt": "2024-01-15T21:23:08Z",
-      "updatedAt": "2024-01-17T15:32:35Z",
+      "updatedAt": "2024-01-20T01:02:57Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
       "headRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/dpop-proof",
-      "headRefOid": "d9636461a255455699df9c36c5937f771490be39",
+      "headRefOid": "3b845b98c07417866805587ca1b228ab4716bb97",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5136,9 +5167,9 @@
         {
           "author": "peppelinux",
           "authorAssociation": "MEMBER",
-          "body": "A similar vision was brought by me here\r\nhttps://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/67/files\r\n\r\ngenerally I agree with this, however we still have an issue with DPoP, as explained below.\r\n\r\nThere are discussions about the requirement to provide more than a single wallet attestation in eIDAS.\r\nat the same time, for the purpose of a global standard, I see the requirement to provide a way to allow multiple client_assertion, where an ecosystem might require this, for future features.\r\n\r\nat the current stage, we can provide multiple client_assertion in a single url (see [this](https://github.com/openid/OpenID4VCI/issues/149)) providing their PoP. Using DPoP it is possible for HTTP to carry multiple headers with the same name. This is defined in the HTTP/1.1 specification (RFC 2616). According to the specification, multiple message-header fields with the same field-name may be present in a message if and only if the entire field-value for that header field is defined as a comma-separated list. It must be possible to combine the multiple header fields into one \"field-name: field-value\" pair, without changing the semantics of the message, by appending each subsequent field-value to the first, each separated by a comma.\r\n\r\nhowever this approach doesn't give the binding of which PoP is related to which client attestation, requiring to the entity that evaluates assertions+pop to parse and validate them in a loop. This loop has computational costs that can be avoided by design, as the current specs allows.\r\n\r\nanother issue could be that HTTP Header maximum size configured in the httpd services could represent a limit where multiple DPoP are provided. Anyway I feel optimistic about each the DPoP payload size and the number of http headers parameters included in a single http request.\r\n\r\njust to be clear:\r\n\r\nI prefer DPoP and I love to reuse things without redefining new one.\r\nAt the same time the DPoP HTTP header doesn't give a proper mapping to the client assertion where multiple client assertion are provided. The real-world may require this and we should take the best decision in term of design\r\n\r\n",
+          "body": "A similar vision was brought by me here\r\n~https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/67/files~ sorry, wrong url, see: https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/45\r\n\r\ngenerally I agree with this, however we still have an issue with DPoP, as explained below.\r\n\r\nThere are discussions about the requirement to provide more than a single wallet attestation in eIDAS.\r\nat the same time, for the purpose of a global standard, I see the requirement to provide a way to allow multiple client_assertion, where an ecosystem might require this, for future features.\r\n\r\nat the current stage, we can provide multiple client_assertion in a single url (see [this](https://github.com/openid/OpenID4VCI/issues/149)) providing their PoP. Using DPoP it is possible for HTTP to carry multiple headers with the same name. This is defined in the HTTP/1.1 specification (RFC 2616). According to the specification, multiple message-header fields with the same field-name may be present in a message if and only if the entire field-value for that header field is defined as a comma-separated list. It must be possible to combine the multiple header fields into one \"field-name: field-value\" pair, without changing the semantics of the message, by appending each subsequent field-value to the first, each separated by a comma.\r\n\r\nhowever this approach doesn't give the binding of which PoP is related to which client attestation, requiring to the entity that evaluates assertions+pop to parse and validate them in a loop. This loop has computational costs that can be avoided by design, as the current specs allows.\r\n\r\nanother issue could be that HTTP Header maximum size configured in the httpd services could represent a limit where multiple DPoP are provided. Anyway I feel optimistic about each the DPoP payload size and the number of http headers parameters included in a single http request.\r\n\r\njust to be clear:\r\n\r\nI prefer DPoP and I love to reuse things without redefining new one.\r\nAt the same time the DPoP HTTP header doesn't give a proper mapping to the client assertion where multiple client assertion are provided. The real-world may require this and we should take the best decision in term of design\r\n\r\n",
           "createdAt": "2024-01-16T10:45:01Z",
-          "updatedAt": "2024-01-16T11:31:05Z"
+          "updatedAt": "2024-01-18T07:57:59Z"
         },
         {
           "author": "bc-pi",
@@ -5148,11 +5179,67 @@
           "updatedAt": "2024-01-16T17:43:14Z"
         },
         {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "If I understand DPoP correctly, this proposals leads to a situation where authentication with an client attestation always leads to an access token bound to the public key in the 'cnf' claim of the attestation.  \r\n\r\nThis means, clients must always bind their access tokens and cannot use different keys for client authentication and the key binding of their access tokens. \r\n\r\nIs that correct? ",
+          "createdAt": "2024-01-18T03:05:05Z",
+          "updatedAt": "2024-01-18T03:05:05Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> If I understand DPoP correctly, this proposals leads to a situation where authentication with an client attestation always leads to an access token bound to the public key in the 'cnf' claim of the attestation.\r\n\r\nNo that is not entirely correct, as @bc-pi pointed out [in this comment](https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1815362871) just because you are using a DPoP proof in the token request to convey the client attestation PoP doesn't mean a DPoP enabled access token has to be issued as a response. You are correct though that in the event a DPoP access token is issued, the access token will be bound to the one in the `cnf` claim of the client attestation which I personally find a useful simplification. What are the usecases for wanting a seperate key for client auth vs token binding (in the event it is used)?\r\n",
+          "createdAt": "2024-01-18T05:12:48Z",
+          "updatedAt": "2024-01-18T05:12:48Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I am pretty strongly against this mechanism. I think it is ok to have this as an optimization but mandating using the same PoP for client attestation and DPoP overloads both mechanisms and limits the use-cases.\r\n\r\nPlease see my comment above to ensure you understand what we are proposing here, I don't think this significantly limits use cases and on the flip side it significantly reduces what needs to be defined in this draft. If you still feel the same can you please elaborate on which usecases you think this would limit?",
+          "createdAt": "2024-01-18T05:14:55Z",
+          "updatedAt": "2024-01-18T05:14:55Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "Is there any reaction about the potential requirement to provide multiple client assertions in a request and my previous comment, shown below:\r\n\r\n> however this approach doesn't give the binding of which PoP is related to which client attestation, requiring to the entity that evaluates assertions+(d)pop to parse and validate them in a loop. This loop has computational costs that can be avoided by design, as the current specs allows.",
+          "createdAt": "2024-01-18T08:00:19Z",
+          "updatedAt": "2024-01-18T08:00:19Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> A similar vision was brought by me here ~https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/67/files~ sorry, wrong url, see: #45\r\n> \r\n> generally I agree with this, however we still have an issue with DPoP, as explained below.\r\n> \r\n> There are discussions about the requirement to provide more than a single wallet attestation in eIDAS. at the same time, for the purpose of a global standard, I see the requirement to provide a way to allow multiple client_assertion, where an ecosystem might require this, for future features.\r\n> \r\n> at the current stage, we can provide multiple client_assertion in a single url (see [this](https://github.com/openid/OpenID4VCI/issues/149)) providing their PoP. Using DPoP it is possible for HTTP to carry multiple headers with the same name. This is defined in the HTTP/1.1 specification (RFC 2616). According to the specification, multiple message-header fields with the same field-name may be present in a message if and only if the entire field-value for that header field is defined as a comma-separated list. It must be possible to combine the multiple header fields into one \"field-name: field-value\" pair, without changing the semantics of the message, by appending each subsequent field-value to the first, each separated by a comma.\r\n> \r\n> however this approach doesn't give the binding of which PoP is related to which client attestation, requiring to the entity that evaluates assertions+pop to parse and validate them in a loop. This loop has computational costs that can be avoided by design, as the current specs allows.\r\n> \r\n> another issue could be that HTTP Header maximum size configured in the httpd services could represent a limit where multiple DPoP are provided. Anyway I feel optimistic about each the DPoP payload size and the number of http headers parameters included in a single http request.\r\n> \r\n> just to be clear:\r\n> \r\n> I prefer DPoP and I love to reuse things without redefining new one. At the same time the DPoP HTTP header doesn't give a proper mapping to the client assertion where multiple client assertion are provided. The real-world may require this and we should take the best decision in term of design\r\n\r\nHi Giuseppe,\r\nthe proposed idea in the eIDAS discussion EPIC-09 is the wrong way. Currently client attestation supports one attestation and that's the way it should stay. I have outlined my position here: https://github.com/openid/OpenID4VCI/issues/215",
+          "createdAt": "2024-01-18T10:06:40Z",
+          "updatedAt": "2024-01-18T10:06:40Z"
+        },
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> No that is not entirely correct, as @bc-pi pointed out [in this comment](https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1815362871) just because you are using a DPoP proof in the token request to convey the client attestation PoP doesn't mean a DPoP enabled access token has to be issued as a response.\n\nThe text @bc-pi is referring to leaves it at the discretion of the AS to decide whether the access token is key bound. How would the client influence that decision?",
+          "createdAt": "2024-01-18T10:54:49Z",
+          "updatedAt": "2024-01-18T10:59:26Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> The text @bc-pi is referring to leaves it at the discretion of the AS to decide whether the access token is key bound. How would the client influence that decision?\r\n\r\nI think that is a general question for DPoP, but one that is important to answer. If by influence you mean the client is able to communicate to the AS that it supports dpop bound access tokens then I would agree, but at the end of the day the decision as to whether to issue a DPop enabled access token is still always at the discretion of the AS. With regard to how this would be achieved practically I would assume client metadata is the most effective way for the client to communicate this and [Section 5.2](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#section-5.2) has the `dpop_bound_access_tokens` element registered. Although the definition for this parameter might not intuitively appear to fit, I think the intended normative requirements on the AS do? Specifically this statement which applies to this metadata elements value:\r\n\r\n> If true, the authorization server MUST reject token requests from this client that do not contain the DPoP header.\r\n\r\nAlternatively if we don't think this is sufficient perhaps we can consider registering a new client metadata element.\r\n\r\nPerhaps @bc-pi you have some further thoughts on this?",
+          "createdAt": "2024-01-18T20:19:33Z",
+          "updatedAt": "2024-01-18T20:19:33Z"
+        },
+        {
           "author": "bc-pi",
           "authorAssociation": "CONTRIBUTOR",
-          "body": "BTW the initial Preview Link 404s but this I think will work https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html ",
-          "createdAt": "2024-01-16T18:46:36Z",
-          "updatedAt": "2024-01-16T18:46:36Z"
+          "body": "Is there really a reason the client would need to influence that decision? I'd imagine the AS would issue the access token based on expectations/knowledge of the RS(s) it's intended for. ",
+          "createdAt": "2024-01-19T20:22:35Z",
+          "updatedAt": "2024-01-19T20:22:35Z"
+        },
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Is there really a reason the client would need to influence that decision? I'd imagine the AS would issue the access token based on expectations/knowledge of the RS(s) it's intended for.\r\n\r\nWith the current revision of the spec (before this PR), a client can use an attestation to just authenticate. If it wants a DPoP bound access token, it would add a DPoP header to the request. With the proposal in this PR, this is no longer possible. This effectively means every client using client attestation must also implement DPoP and use it if the AS decides the access token must be key bound. \r\n\r\nAlso, the client does not have a choice to use different keys for attestation and DPoP. I could think of situations where the DPoP key is managed in a local security module to achieve better performance for subsequent API calls whereas the client attestation key lives in a remote HSM for higher security, which adds significant latency to every signing operation. With the new proposal, the application's performance would suffer simply because any API call might also require a remote signing operation for the DPoP proof. \r\n\r\nAlso, I would like to understand whether the proposed approach would work with PAR. We will most likely need attestation based client authentication at the PAR endpoint. I assume the DPoP header would be used to perform the authentication only. Is that correct?",
+          "createdAt": "2024-01-20T01:02:55Z",
+          "updatedAt": "2024-01-20T01:02:55Z"
         }
       ],
       "reviews": [
@@ -5227,6 +5314,19 @@
           "body": "I am pretty strongly against this mechanism. I think it is ok to have this as an optimization but mandating using the same PoP for client attestation and DPoP overloads both mechanisms and limits the use-cases.",
           "createdAt": "2024-01-17T08:01:38Z",
           "updatedAt": "2024-01-17T08:01:38Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5tCUXP",
+          "commit": {
+            "abbreviatedOid": "3b845b9"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I have discussed this with my colleagues and we came to the following conclusions:\r\n\r\n## status quo:\r\n\r\npreparation: potentially fetch 2x nonce\r\nToken Request: client_attestation + client_attestation_pop + Dpop proof header\r\nToken Response: Dpop-bound access token\r\n\r\n## proposed:\r\n\r\npreparation: potentially fetch 1x nonce\r\nToken Request: client_attestation + Dpop proof header (client_attestation.cnf == Dpop.header.jwk)\r\nToken Response: Dpop-bound access token\r\n\r\n## con:\r\n- concepts are tightly coupled, key must be the same if both concepts want to be used, may have unforeseeable disadvantages\r\n- benefits in auth code flow are unclear if I would use client attestation at PAR endpoint\r\n- jwk present in the client attestation JWT is duplicated to jwk header in Dpop proof\r\n- refresh tokens are automatically dpop-bound?\r\n\r\n## pro: \r\n- only fetch 1x nonce\r\n- do one less key/PoP operation / generate one less key\r\n- wallet attestation makes only sense when coupled with Dpop currently\r\n- leverage better assurance of client_attestation key for Dpop (may be hw-bound)\r\n- draft may leverage the Dpop nonce fetching (although its ugly ;) ) -> may avoid https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64\r\n\r\nFor me, the advantages are bigger, so I'm **supportive** of this. But I would like to get more feedback and understand @Sakurann concerns. Also, some more editorial work may be needed",
+          "createdAt": "2024-01-18T10:12:01Z",
+          "updatedAt": "2024-01-18T10:12:01Z",
           "comments": []
         }
       ]
