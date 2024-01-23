@@ -5,7 +5,7 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 21 July 2024                                    18 January 2024
+Expires: 26 July 2024                                    23 January 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 July 2024.
+   This Internet-Draft will expire on 26 July 2024.
 
 Copyright Notice
 
@@ -222,9 +222,6 @@ cC4hiUPo[...omitted for brevity...]
    authorization server MUST validate BOTH the Client Attestation JWT
    present in the "client_assertion" parameter and the DPoP HTTP header
    according to the criteria below.
-
-   It is RECOMMENDED that the authorization server validate the Client
-   Attestation JWT prior to validating the DPoP HTTP header.
 
 4.1.1.  Client Attestation JWT
 
