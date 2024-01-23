@@ -135,7 +135,6 @@ cC4hiUPo[...omitted for brevity...]
 
 In order to authenticate the client using this scheme, the authorization server MUST validate BOTH the Client Attestation JWT present in the "client_assertion" parameter and the DPoP HTTP header according to the criteria below.
 
-It is RECOMMENDED that the authorization server validate the Client Attestation JWT prior to validating the DPoP HTTP header.
 
 ### Client Attestation JWT {#client-attestation-jwt}
 
