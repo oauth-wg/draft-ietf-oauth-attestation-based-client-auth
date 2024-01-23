@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-21T00:52:08.733292+00:00",
+  "timestamp": "2024-01-23T00:49:06.683946+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2044,7 +2044,7 @@
       "labels": [],
       "body": "What about introducing a general purpose client authentication using a holder-of-key JWT assertion instead of Client Attestation JWT?\r\n\r\nThe draft introduces the Client Attestation JWT that is bound to the public key of a Client Instance Key. What about having a spec that replaces the Client Attestation JWT with an assertion that is a holder-of-key JWT, meaning a JWT bound to a key that the client proofs to be able to control (e.g. using DPoP as suggested in #67 ). The draft would not make any assumptions on whether the holder-of-key JWT is an attestation or not; it technically would support any JWT with a `cnf` claim and require a proof-of-possession for client authentication.\r\nAttestation-based client authentication could profile such a spec if necessary. In the ecosystem, there would be RFC7521, upon it RFC7523 for the bearer JWT assertion and next to it some spec for holder-of-key JWT assertion, and upon that the attestation-based client authentication. What do you think? \r\n\r\nThis idea was first proposed by @pmhsfelix in #64 (https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1838969799). ",
       "createdAt": "2024-01-18T15:58:38Z",
-      "updatedAt": "2024-01-19T08:05:56Z",
+      "updatedAt": "2024-01-22T00:11:50Z",
       "closedAt": null,
       "comments": [
         {
@@ -2060,6 +2060,13 @@
           "body": "I agree, it is mainly a terminology issue and I'm not sure there is a need for an additional layer or updating the current one is actually good enough. As you say, the draft includes only minimal normative requirements for the Client Attestation JWT. But this fact made me wonder how the proposed authentication method is actually related to attestation and what it distinguishes it from an authentication method for any holder-of-key JWT. So, I started to think that there could be likewise an authentication method that uses a holder-of-key JWT and any attestation specifics (if there are any) would be on top of that.",
           "createdAt": "2024-01-19T08:05:54Z",
           "updatedAt": "2024-01-19T08:05:54Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Understood, perhaps the question more lies with what usecases do you see outside of client authentication where this mechanism would be useful? Keeping in mind this draft is inherently bound to applications of the OAuth 2.0 protocol.",
+          "createdAt": "2024-01-22T00:11:49Z",
+          "updatedAt": "2024-01-22T00:11:49Z"
         }
       ]
     }
@@ -5152,7 +5159,7 @@
       "labels": [],
       "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
       "createdAt": "2024-01-15T21:23:08Z",
-      "updatedAt": "2024-01-20T01:02:57Z",
+      "updatedAt": "2024-01-21T21:46:43Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
@@ -5240,6 +5247,20 @@
           "body": "> Is there really a reason the client would need to influence that decision? I'd imagine the AS would issue the access token based on expectations/knowledge of the RS(s) it's intended for.\r\n\r\nWith the current revision of the spec (before this PR), a client can use an attestation to just authenticate. If it wants a DPoP bound access token, it would add a DPoP header to the request. With the proposal in this PR, this is no longer possible. This effectively means every client using client attestation must also implement DPoP and use it if the AS decides the access token must be key bound. \r\n\r\nAlso, the client does not have a choice to use different keys for attestation and DPoP. I could think of situations where the DPoP key is managed in a local security module to achieve better performance for subsequent API calls whereas the client attestation key lives in a remote HSM for higher security, which adds significant latency to every signing operation. With the new proposal, the application's performance would suffer simply because any API call might also require a remote signing operation for the DPoP proof. \r\n\r\nAlso, I would like to understand whether the proposed approach would work with PAR. We will most likely need attestation based client authentication at the PAR endpoint. I assume the DPoP header would be used to perform the authentication only. Is that correct?",
           "createdAt": "2024-01-20T01:02:55Z",
           "updatedAt": "2024-01-20T01:02:55Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "\r\n>\r\n> With the current revision of the spec (before this PR), a client can use an attestation to just authenticate. If it wants a DPoP bound access token, it would add a DPoP header to the request. With the proposal in this PR, this is no longer possible. This effectively means every client using client attestation must also implement DPoP and use it if the AS decides the access token must be key bound.\r\n\r\nTrue but ultimately the need to use key bound access token comes from the RS so the client would have to already be capable. I don't think it'd really be an issue in practice. But maybe I'm wrong. Some sort of signaling could be added to this - metadata as Tobias mentioned or a new claim in the DPoP proof or similar. \r\n\r\n> \r\n> Also, the client does not have a choice to use different keys for attestation and DPoP. I could think of situations where the DPoP key is managed in a local security module to achieve better performance for subsequent API calls whereas the client attestation key lives in a remote HSM for higher security, which adds significant latency to every signing operation. With the new proposal, the application's performance would suffer simply because any API call might also require a remote signing operation for the DPoP proof.\r\n\r\nIt is true that this PR doesn't allow the client to use of different keys for attestation and DPoP. I don't know if the kind of scenario you describe is likely enough to warrant the extra complexity of requiring two proofs in the other more common and simpler cases. I tend to aim for simplicity as much as possible/appropriate. \r\n\r\n> \r\n> Also, I would like to understand whether the proposed approach would work with PAR. We will most likely need attestation based client authentication at the PAR endpoint. I assume the DPoP header would be used to perform the authentication only. Is that correct?\r\n\r\nIt would work with PAR the same as at the token endpoint as far as I understand it. The authz code would be key bound as a result too but that'd be invisible to the client who anyway needs to present the same attestation auth and proof when subsequently exchange that auth code. So it'd just work while adding a bit of extra security to the code. \r\n",
+          "createdAt": "2024-01-21T16:37:11Z",
+          "updatedAt": "2024-01-21T16:37:11Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> With the current revision of the spec (before this PR), a client can use an attestation to just authenticate. If it wants a DPoP bound access token, it would add a DPoP header to the request. With the proposal in this PR, this is no longer possible. This effectively means every client using client attestation must also implement DPoP and use it if the AS decides the access token must be key bound.\r\n\r\nI think the most important point here is highlighted by @bc-pi. In the situation where the AS requires DPoP bound access tokens as per an RS policy, whether we use the DPoP proof syntax in this spec or not, it doesn't change the fact that the client won't be able to get an access token it can actually use with the RS.\r\n\r\nThe only potential gap I see (which I think is highly unlikely) is in the event a client supports this client authentication method, but doesn't support DPoP access tokens AND the RS + AS supports both DPoP and bearer based access tokens, the situation could arise where the client might be sent back a DPoP access token (based on the DPoP header implying support in the token request) which it can't use, when it could have been sent a bearer token. Again as I said above, I find this situation highly unlikely, but I think it could be easily resolved through additional client metadata.\r\n\r\n> Also, the client does not have a choice to use different keys for attestation and DPoP. I could think of situations where the DPoP key is managed in a local security module to achieve better performance for subsequent API calls whereas the client attestation key lives in a remote HSM for higher security, which adds significant latency to every signing operation. With the new proposal, the application's performance would suffer simply because any API call might also require a remote signing operation for the DPoP proof.\r\n\r\nI'm also wary as to how common this use case is and whether the complexity it creates is justifiable. To play the devils advocate, this proposal as it currently stands creates an efficient way (when DPoP access tokens are used), to authenticate that the key the DPoP access token will be bound to, is clearly authenticated back to the client (through the client attestation). If instead we want to continue to support different keys for client authentication and DPoP token binding, the question then becomes how do we get the same assurance e.g that the DPoP key is authenticated for the client? The client attestation PoP, to use the terminology pre this PR would have to somehow reference and authenticate the seperate DPoP key. \r\n\r\n> It would work with PAR the same as at the token endpoint as far as I understand it. The authz code would be key bound as a result too but that'd be invisible to the client who anyway needs to present the same attestation auth and proof when subsequently exchange that auth code. So it'd just work while adding a bit of extra security to the code.\r\n\r\nThis is my understanding too.",
+          "createdAt": "2024-01-21T21:46:00Z",
+          "updatedAt": "2024-01-21T21:46:43Z"
         }
       ],
       "reviews": [
