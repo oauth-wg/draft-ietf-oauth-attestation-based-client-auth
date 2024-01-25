@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-23T00:49:06.683946+00:00",
+  "timestamp": "2024-01-25T00:48:46.674582+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5159,13 +5159,13 @@
       "labels": [],
       "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
       "createdAt": "2024-01-15T21:23:08Z",
-      "updatedAt": "2024-01-21T21:46:43Z",
+      "updatedAt": "2024-01-23T19:48:16Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
       "headRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/dpop-proof",
-      "headRefOid": "3b845b98c07417866805587ca1b228ab4716bb97",
+      "headRefOid": "833eea8467ea257c1efdfa109546db2b14b46300",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5349,6 +5349,26 @@
           "createdAt": "2024-01-18T10:12:01Z",
           "updatedAt": "2024-01-18T10:12:01Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5tqQzg",
+          "commit": {
+            "abbreviatedOid": "d963646"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-23T19:48:09Z",
+          "updatedAt": "2024-01-23T19:48:10Z",
+          "comments": [
+            {
+              "originalPosition": 74,
+              "body": "As suggested by the diff, I really just updated the language in this particular section from s/Client Attestation PoP/DPoP HTTP header. I'm ok with removing this recommendation based on your feedback.",
+              "createdAt": "2024-01-23T19:48:09Z",
+              "updatedAt": "2024-01-23T19:48:10Z"
+            }
+          ]
         }
       ]
     }
