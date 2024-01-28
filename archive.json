@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-25T00:48:46.674582+00:00",
+  "timestamp": "2024-01-28T00:46:31.855689+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1329,7 +1329,7 @@
       "id": "I_kwDOJaEkaM5sTgXa",
       "title": "Sender-Constrained Access Token",
       "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/36",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "TakahikoKawasaki",
       "authorAssociation": "NONE",
       "assignees": [
@@ -1338,8 +1338,8 @@
       "labels": [],
       "body": "The specification contains sentences related to sender-constrained acess tokens as follows.\r\n\r\n#### In the \"1. Introduction\" section:\r\n>... The Authorization Server may continue to issue sender-constrained access tokens using DPOP.\r\n\r\n#### In the \"4.1.1. Client Attestation JWT\" section:\r\n> The JWT MUST contain an \"cnf\" claim conforming RFC7800 that conveys the key to be used for sender constraining tokens issued by the authorization server. The key MUST be expressed using the \"jwk\" representation.\r\n\r\n### Questions\r\n\r\n**Q1.** \"**Client authentication**\" and \"**sender-constrained access token**\" are different. Is the specification trying to define requirements not only for client authentication but also for sender-constrained access tokens? (FYI: [RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html) defines \"client authentication\" in [Section 2](https://www.rfc-editor.org/rfc/rfc8705.html#section-2) and defines \"sender-constrained access token\" in [Section 3](https://www.rfc-editor.org/rfc/rfc8705.html#section-3).)\r\n\r\n**Q2.** DPOP is mentioned abruptly in the Introduction section but not referenced anywhere else. Is this mention of DPOP merely an example of sender-constrained access tokens, or is it a requirement to bind the Client Instance Key to the access token as if it were specified by DPOP? If it is not a normative requirement, mentioning DPOP would only cause confusion without any benefits. On the contrary, if it is a normative requirement, detailed explanation is needed.\r\n\r\n**Q3.** The explanation about the `cnf` claim of the Client Attestation JWT requires authorization server implementations to bind the Client Instance Key to access tokens. Is this normative requirement really intended? If it is intended, how does the client prove that it possesses the private key of the Client Instance Key when accessing protected resource endpoints? DPOP?",
       "createdAt": "2023-07-23T09:11:07Z",
-      "updatedAt": "2023-11-09T20:56:37Z",
-      "closedAt": null,
+      "updatedAt": "2024-01-26T03:43:14Z",
+      "closedAt": "2024-01-26T03:43:13Z",
       "comments": [
         {
           "author": "tplooker",
@@ -1368,6 +1368,13 @@
           "body": "I believe this issue has now been addressed, intend to close soon if there are no objections.",
           "createdAt": "2023-11-09T20:56:36Z",
           "updatedAt": "2023-11-09T20:56:36Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing as I believe this now resolved, please reopen if need be.",
+          "createdAt": "2024-01-26T03:43:13Z",
+          "updatedAt": "2024-01-26T03:43:13Z"
         }
       ]
     },
@@ -2069,6 +2076,22 @@
           "updatedAt": "2024-01-22T00:11:49Z"
         }
       ]
+    },
+    {
+      "number": 69,
+      "id": "I_kwDOJaEkaM59PQkf",
+      "title": "Usecase: authenticating the key used for DPoP bound access tokens back to the client",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/69",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In the event this client authentication method is used with DPoP bound access tokens. An AS may want the assurance that the key the issued access token is bound to, is in fact authenticated by the client. Without this assurance a MITM attack is possible where an intermediary could substitute the DPoP proof in the token request for a key they control, thus then being able to use the returned access token.\r\n\r\nBelow is a simple diagram depicting this attack\r\n\r\n```mermaid\r\nsequenceDiagram\r\n    participant C as Client\r\n    participant A as Attacker\r\n    participant AS as Authorisation Server\r\n    participant RS as Resource Server\r\n\r\n    C->>C: Prepare Token Request (including DPoP proof)\r\n    C->>A: Send token request (intercepted by attacker)\r\n    A->>A: Generate new DPoP key and DPoP proof\r\n    A->>A: Generate new token request using the clients original request but with the new DPoP proof substituted\r\n    A->>AS: Send token request\r\n    AS->>AS: Validate and generate access token bound to attackers DPoP key\r\n    AS->>A: Send token response (with access token bound to attackers DPoP key)\r\n    A->>RS: Protected resource request using obtained access token\r\n```\r\n\r\nDPoP as stated in the RFC [is not designed as a client authentication method, but is instead designed to work with client authentication](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#section-3). The client authentication method as defined by this draft could be such a suitable method that would provide a way to prevent the above attack from occurring.\r\n\r\nRelated to this issue, is PR #67, which explores using the DPoP proof syntax instead of defining a new JWT PoP syntax as is the case with the current draft. Consequently if #67 were adopted, the usage of this client authentication method with DPoP bound access tokens becomes much simpler and the above attack scenario would be prevented implicitly through the design. However, there is concern that #67 risks coupling together the DPoP key and client attestation key where there maybe usecases where these keys should be seperate (cc @tlodderstedt). Personally I'm not convinced that the DPoP key and client attestation key need to be different and I believe the complexity it creates is not worth it. However, if #67 is not adopted, then a different solution to solving the above problem needs to be devised which may require putting the DPoP key in the client attestation PoP so it can be authenticated back to the client. \r\n",
+      "createdAt": "2024-01-25T20:54:18Z",
+      "updatedAt": "2024-01-25T20:54:50Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -5159,7 +5182,7 @@
       "labels": [],
       "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
       "createdAt": "2024-01-15T21:23:08Z",
-      "updatedAt": "2024-01-23T19:48:16Z",
+      "updatedAt": "2024-01-26T20:12:06Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
@@ -5261,6 +5284,13 @@
           "body": "> With the current revision of the spec (before this PR), a client can use an attestation to just authenticate. If it wants a DPoP bound access token, it would add a DPoP header to the request. With the proposal in this PR, this is no longer possible. This effectively means every client using client attestation must also implement DPoP and use it if the AS decides the access token must be key bound.\r\n\r\nI think the most important point here is highlighted by @bc-pi. In the situation where the AS requires DPoP bound access tokens as per an RS policy, whether we use the DPoP proof syntax in this spec or not, it doesn't change the fact that the client won't be able to get an access token it can actually use with the RS.\r\n\r\nThe only potential gap I see (which I think is highly unlikely) is in the event a client supports this client authentication method, but doesn't support DPoP access tokens AND the RS + AS supports both DPoP and bearer based access tokens, the situation could arise where the client might be sent back a DPoP access token (based on the DPoP header implying support in the token request) which it can't use, when it could have been sent a bearer token. Again as I said above, I find this situation highly unlikely, but I think it could be easily resolved through additional client metadata.\r\n\r\n> Also, the client does not have a choice to use different keys for attestation and DPoP. I could think of situations where the DPoP key is managed in a local security module to achieve better performance for subsequent API calls whereas the client attestation key lives in a remote HSM for higher security, which adds significant latency to every signing operation. With the new proposal, the application's performance would suffer simply because any API call might also require a remote signing operation for the DPoP proof.\r\n\r\nI'm also wary as to how common this use case is and whether the complexity it creates is justifiable. To play the devils advocate, this proposal as it currently stands creates an efficient way (when DPoP access tokens are used), to authenticate that the key the DPoP access token will be bound to, is clearly authenticated back to the client (through the client attestation). If instead we want to continue to support different keys for client authentication and DPoP token binding, the question then becomes how do we get the same assurance e.g that the DPoP key is authenticated for the client? The client attestation PoP, to use the terminology pre this PR would have to somehow reference and authenticate the seperate DPoP key. \r\n\r\n> It would work with PAR the same as at the token endpoint as far as I understand it. The authz code would be key bound as a result too but that'd be invisible to the client who anyway needs to present the same attestation auth and proof when subsequently exchange that auth code. So it'd just work while adding a bit of extra security to the code.\r\n\r\nThis is my understanding too.",
           "createdAt": "2024-01-21T21:46:00Z",
           "updatedAt": "2024-01-21T21:46:43Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As a consequence of discussing some of the advantages this PR brings, a new usecase/requirement surfaced which has been captured in PR #69",
+          "createdAt": "2024-01-26T03:42:09Z",
+          "updatedAt": "2024-01-26T20:12:06Z"
         }
       ],
       "reviews": [
@@ -5367,6 +5397,46 @@
               "body": "As suggested by the diff, I really just updated the language in this particular section from s/Client Attestation PoP/DPoP HTTP header. I'm ok with removing this recommendation based on your feedback.",
               "createdAt": "2024-01-23T19:48:09Z",
               "updatedAt": "2024-01-23T19:48:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5t5Rtg",
+          "commit": {
+            "abbreviatedOid": "833eea8"
+          },
+          "author": "awoie",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "I'm also supportive of this PR since it simplifies things since I'm unclear about the use cases for which the proposed approach won't work. It is actually a good higher assurance enforcing function.",
+          "createdAt": "2024-01-25T13:19:02Z",
+          "updatedAt": "2024-01-25T13:21:15Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "I don't think the second sentence is necessary since it is implied by the former sentence.\r\n```suggestion\r\nThe value of the \"client_assertion\" parameter contains a single JWT known as the client attestation JWT as defined defined in [](#client-attestation-jwt).\r\n```",
+              "createdAt": "2024-01-25T13:19:02Z",
+              "updatedAt": "2024-01-25T13:19:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5t9tqr",
+          "commit": {
+            "abbreviatedOid": "833eea8"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-26T00:00:17Z",
+          "updatedAt": "2024-01-26T00:00:17Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "I think we would want this constraint wouldn't we? Why would you like to remove it?",
+              "createdAt": "2024-01-26T00:00:17Z",
+              "updatedAt": "2024-01-26T00:00:17Z"
             }
           ]
         }
