@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-01-28T00:46:31.855689+00:00",
+  "timestamp": "2024-01-30T00:43:24.925126+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5182,7 +5182,7 @@
       "labels": [],
       "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
       "createdAt": "2024-01-15T21:23:08Z",
-      "updatedAt": "2024-01-26T20:12:06Z",
+      "updatedAt": "2024-01-29T23:45:43Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
@@ -5437,6 +5437,26 @@
               "body": "I think we would want this constraint wouldn't we? Why would you like to remove it?",
               "createdAt": "2024-01-26T00:00:17Z",
               "updatedAt": "2024-01-26T00:00:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5uRGQH",
+          "commit": {
+            "abbreviatedOid": "833eea8"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-29T23:45:43Z",
+          "updatedAt": "2024-01-29T23:45:43Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "Didn't read your original comment just the suggestion, while I agree I think this makes the normative requirement a little more explicit. I took the language structure from [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523#section-2.2)\r\n\r\n> The value of the \"client_assertion\" parameter contains a single JWT.\r\n   It MUST NOT contain more than one JWT.\r\n\r\nI'm ok with removing this additional sentence though.",
+              "createdAt": "2024-01-29T23:45:43Z",
+              "updatedAt": "2024-01-29T23:45:43Z"
             }
           ]
         }
