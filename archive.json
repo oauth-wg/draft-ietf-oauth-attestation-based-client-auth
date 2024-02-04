@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-01T00:45:59.966531+00:00",
+  "timestamp": "2024-02-04T00:47:23.835122+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2051,7 +2051,7 @@
       "labels": [],
       "body": "What about introducing a general purpose client authentication using a holder-of-key JWT assertion instead of Client Attestation JWT?\r\n\r\nThe draft introduces the Client Attestation JWT that is bound to the public key of a Client Instance Key. What about having a spec that replaces the Client Attestation JWT with an assertion that is a holder-of-key JWT, meaning a JWT bound to a key that the client proofs to be able to control (e.g. using DPoP as suggested in #67 ). The draft would not make any assumptions on whether the holder-of-key JWT is an attestation or not; it technically would support any JWT with a `cnf` claim and require a proof-of-possession for client authentication.\r\nAttestation-based client authentication could profile such a spec if necessary. In the ecosystem, there would be RFC7521, upon it RFC7523 for the bearer JWT assertion and next to it some spec for holder-of-key JWT assertion, and upon that the attestation-based client authentication. What do you think? \r\n\r\nThis idea was first proposed by @pmhsfelix in #64 (https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1838969799). ",
       "createdAt": "2024-01-18T15:58:38Z",
-      "updatedAt": "2024-01-22T00:11:50Z",
+      "updatedAt": "2024-02-01T13:36:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -2074,6 +2074,13 @@
           "body": "Understood, perhaps the question more lies with what usecases do you see outside of client authentication where this mechanism would be useful? Keeping in mind this draft is inherently bound to applications of the OAuth 2.0 protocol.",
           "createdAt": "2024-01-22T00:11:49Z",
           "updatedAt": "2024-01-22T00:11:49Z"
+        },
+        {
+          "author": "pmhsfelix",
+          "authorAssociation": "NONE",
+          "body": "Currently, we have:\r\n- [RFC 7521 - Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants](https://www.rfc-editor.org/rfc/rfc7521.html) as a very general and format independent framework for both client authentication and authorization grants.\r\n    - This framework defines \"two general types of assertions\": \"Bearer Assertions\" and \"Holder-of-Key Assertions\" (https://www.rfc-editor.org/rfc/rfc7521.html#section-3).\r\n\r\n- [RFC 7523 - JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants](https://www.rfc-editor.org/rfc/rfc7523.html) profiles RFC 7521 for JWT *bearer* tokens.\r\n- AFAIK, there isn't any spec profiling RFC 7521 for JWT *holder-of-key* assertions.\r\n  \r\nMy idea, which I believe is similar to @ju-cu, would be to create such a *holder-of-key* profile spec, using DPoP-based proof-of-possession. This spec would be useful in both client authentication and authorization grant scenarios that require additional security (i.e. bearer is not adequate).\r\n*Attestation*-based client authentication would be based in this last profile spec, by defining a set of attestation-related claims to be contained in the JWT\r\n\r\nThis seems more modular and useful.\r\n\r\n```\r\nRFC 7521 - The framework\r\n|\r\n+---> RFC 7523 - profiles the framework for Bearer JWT\r\n|\r\n+---> NewSpec1 - profiles the framework for holder-of-key JWT, based on DPoP, independent of attestation\r\n          |\r\n          +---> NewSpec2 - Tiny spec profiling NewSpec1 for *attestation*-based client authentication, \r\n                    just by defining extra JWT claims.\r\n```\r\nThe main advantage would be the broader applicability of NewSpec1 as a version of RFC 7523 with holder-of-key\r\n       ",
+          "createdAt": "2024-02-01T13:36:44Z",
+          "updatedAt": "2024-02-01T13:36:44Z"
         }
       ]
     },
@@ -4888,7 +4895,7 @@
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses #59\r\n\r\n## \ud83d\udcd1 Description\r\nThis PR adds server-provided nonces as a way to check the freshness of Client Attestation PoP JWT, in a similar way to what is done in DPoP (RFC 9449).\r\n\r\n## Preview Link\r\n\r\n<!-- Update the link below to provide reviewers with a convenient link to view a rendered version of the PR-->\r\n<!-- In general the link should be of the form https://github.com/<repo-name>/<branch-name>/<draft-name>.html-->\r\n\r\nNA",
       "createdAt": "2023-11-14T14:08:40Z",
-      "updatedAt": "2024-01-15T21:29:43Z",
+      "updatedAt": "2024-02-04T00:46:41Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "4375d894ce7e58c91d5ed282cfd733dd48417812",
@@ -4990,6 +4997,13 @@
           "body": "Please see #67 for a concrete proposal to shift to using DPoP as the PoP syntax for this client authentication method.",
           "createdAt": "2024-01-15T21:29:42Z",
           "updatedAt": "2024-01-15T21:29:42Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "After giving it much thought, I realized that DPoP uses HTTP headers in HTTP requests, and consequently, it makes sense to obtain a nonce within the headers of the received HTTP responses.\r\n\r\nMeanwhile, the nonces we use in OAuth and for endpoint requests utilize GET or POST parameters, and the idea of forcibly using HTTP headers for nonce provisioning doesn't excite me.\r\n\r\nWe already have a nonce endpoint in IETF literature, for example in ACME (RFC8555), and with the aim of creating something highly specialized, reusable in other contexts, efficient, and scalable, I thought of this:\r\n\r\nhttps://github.com/peppelinux/draft-demarco-nonce-endpoint",
+          "createdAt": "2024-02-04T00:46:40Z",
+          "updatedAt": "2024-02-04T00:46:40Z"
         }
       ],
       "reviews": [
