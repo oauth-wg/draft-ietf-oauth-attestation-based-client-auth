@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-04T00:47:23.835122+00:00",
+  "timestamp": "2024-02-06T00:42:45.772323+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2051,7 +2051,7 @@
       "labels": [],
       "body": "What about introducing a general purpose client authentication using a holder-of-key JWT assertion instead of Client Attestation JWT?\r\n\r\nThe draft introduces the Client Attestation JWT that is bound to the public key of a Client Instance Key. What about having a spec that replaces the Client Attestation JWT with an assertion that is a holder-of-key JWT, meaning a JWT bound to a key that the client proofs to be able to control (e.g. using DPoP as suggested in #67 ). The draft would not make any assumptions on whether the holder-of-key JWT is an attestation or not; it technically would support any JWT with a `cnf` claim and require a proof-of-possession for client authentication.\r\nAttestation-based client authentication could profile such a spec if necessary. In the ecosystem, there would be RFC7521, upon it RFC7523 for the bearer JWT assertion and next to it some spec for holder-of-key JWT assertion, and upon that the attestation-based client authentication. What do you think? \r\n\r\nThis idea was first proposed by @pmhsfelix in #64 (https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1838969799). ",
       "createdAt": "2024-01-18T15:58:38Z",
-      "updatedAt": "2024-02-01T13:36:45Z",
+      "updatedAt": "2024-02-05T08:24:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -2081,6 +2081,13 @@
           "body": "Currently, we have:\r\n- [RFC 7521 - Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants](https://www.rfc-editor.org/rfc/rfc7521.html) as a very general and format independent framework for both client authentication and authorization grants.\r\n    - This framework defines \"two general types of assertions\": \"Bearer Assertions\" and \"Holder-of-Key Assertions\" (https://www.rfc-editor.org/rfc/rfc7521.html#section-3).\r\n\r\n- [RFC 7523 - JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants](https://www.rfc-editor.org/rfc/rfc7523.html) profiles RFC 7521 for JWT *bearer* tokens.\r\n- AFAIK, there isn't any spec profiling RFC 7521 for JWT *holder-of-key* assertions.\r\n  \r\nMy idea, which I believe is similar to @ju-cu, would be to create such a *holder-of-key* profile spec, using DPoP-based proof-of-possession. This spec would be useful in both client authentication and authorization grant scenarios that require additional security (i.e. bearer is not adequate).\r\n*Attestation*-based client authentication would be based in this last profile spec, by defining a set of attestation-related claims to be contained in the JWT\r\n\r\nThis seems more modular and useful.\r\n\r\n```\r\nRFC 7521 - The framework\r\n|\r\n+---> RFC 7523 - profiles the framework for Bearer JWT\r\n|\r\n+---> NewSpec1 - profiles the framework for holder-of-key JWT, based on DPoP, independent of attestation\r\n          |\r\n          +---> NewSpec2 - Tiny spec profiling NewSpec1 for *attestation*-based client authentication, \r\n                    just by defining extra JWT claims.\r\n```\r\nThe main advantage would be the broader applicability of NewSpec1 as a version of RFC 7523 with holder-of-key\r\n       ",
           "createdAt": "2024-02-01T13:36:44Z",
           "updatedAt": "2024-02-01T13:36:44Z"
+        },
+        {
+          "author": "ju-cu",
+          "authorAssociation": "NONE",
+          "body": "I do not have any (additional) use cases for a general purpose client authentication using a holder-of-key JWT, other than the general one that @pmhsfelix described: a JWT-assertion-based authentication for scenarios where bearer is not enough. \r\n\r\nThis draft does not specify any attestation specific claims for the client attestation JWT (it does not even define attestation and how it differs from an assertion). The only thing, that defines the client attestation JWT is the fact that it is bound to a public key and that the draft expects a client backend to generate it, which imo is not enough for an attestation. For example, the client attestation JWT does not provide any information about how the client protects the key as pointed out in this comment: https://github.com/openid/OpenID4VCI/issues/150#issuecomment-1918865432\r\n\r\nIn best cases, this draft provides some confidence that the request comes from a genuine client (or what the \"client backend\" thinks is genuine). I believe that you do not need a client backend to get this confidence. Technically, I don't think, it makes a difference if the client attestation JWT was issued by a client backend or any other third party because it all boils down to how the client authenticates to the client backend (step 2) which is out of scope of the draft anyways. \r\nI believe, to make this draft applicable, you will need a profile that defines the  attestation-specific claims in the client attestation JWT as well as the client authentication to who-ever-issues-the-key-bound-jwt. Imo, the current draft is more suited as a general-purpose holder-of-key-based client authentication method.\r\n\r\nMaybe you can help me to understand the difference between an attestation and a key-bound JWT?",
+          "createdAt": "2024-02-05T08:24:09Z",
+          "updatedAt": "2024-02-05T08:24:09Z"
         }
       ]
     },
