@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-06T00:42:45.772323+00:00",
+  "timestamp": "2024-02-08T00:42:38.673031+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4816,7 +4816,7 @@
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses #57 \r\n\r\n## \ud83d\udcd1 Description\r\nThis PR makes explicit an already implicit feature of the specification - that it is not possible to rotate the confirmation key.\r\n<!--\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://github.com/<repo-name>/<branch-name>/<draft-name>.html)\r\n-->",
       "createdAt": "2023-11-13T10:52:13Z",
-      "updatedAt": "2023-11-16T10:55:21Z",
+      "updatedAt": "2024-02-06T12:15:31Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "4375d894ce7e58c91d5ed282cfd733dd48417812",
@@ -4827,7 +4827,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "cobward",
+          "authorAssociation": "NONE",
+          "body": "@tlodderstedt @paulbastian Any reason this can't be merged?",
+          "createdAt": "2024-02-06T12:13:09Z",
+          "updatedAt": "2024-02-06T12:13:09Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": " Waiting for @tplooker approval",
+          "createdAt": "2024-02-06T12:15:31Z",
+          "updatedAt": "2024-02-06T12:15:31Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJaEkaM5m-nAU",
