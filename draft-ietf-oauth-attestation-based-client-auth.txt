@@ -5,7 +5,7 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 25 May 2024                                    22 November 2023
+Expires: 16 August 2024                                 13 February 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -46,11 +46,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 May 2024.
+   This Internet-Draft will expire on 16 August 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -74,6 +74,7 @@ Table of Contents
    5.  Implementation Considerations
      5.1.  Reuse of a Client Attestation JWT
      5.2.  Refresh token binding
+     5.3.  Rotation of Client Instance Key
    6.  Privacy Considerations
      6.1.  Client Instance Tracking Across Authorization Servers
    7.  Security Considerations
@@ -407,6 +408,14 @@ iOiJSUzI1[...omitted for brevity...]
    client MUST also use the same key that was present in the "cnf" claim
    of the client attestation that was used for client authentication
    when the refresh token was issued.
+
+5.3.  Rotation of Client Instance Key
+
+   This specification does not provide a mechanism to rotate the Client
+   Instance Key in the Client Attestation JWT's "cnf" claim.  If the
+   Client Instance needs to use a new Client Instance Key for any
+   reason, then it MUST request a new Client Attestation JWT from its
+   Client Backend.
 
 6.  Privacy Considerations
 
