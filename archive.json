@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-11T00:47:32.758538+00:00",
+  "timestamp": "2024-02-13T00:43:28.634510+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4816,7 +4816,7 @@
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses #57 \r\n\r\n## \ud83d\udcd1 Description\r\nThis PR makes explicit an already implicit feature of the specification - that it is not possible to rotate the confirmation key.\r\n<!--\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://github.com/<repo-name>/<branch-name>/<draft-name>.html)\r\n-->",
       "createdAt": "2023-11-13T10:52:13Z",
-      "updatedAt": "2024-02-06T12:15:31Z",
+      "updatedAt": "2024-02-12T20:48:02Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "4375d894ce7e58c91d5ed282cfd733dd48417812",
@@ -4901,6 +4901,19 @@
           "body": "",
           "createdAt": "2023-11-16T10:55:21Z",
           "updatedAt": "2023-11-16T10:55:21Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM5v1UG_",
+          "commit": {
+            "abbreviatedOid": "4e783cc"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-12T20:48:02Z",
+          "updatedAt": "2024-02-12T20:48:02Z",
           "comments": []
         }
       ]
