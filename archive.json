@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-02-13T00:43:28.634510+00:00",
+  "timestamp": "2024-02-15T00:43:37.674782+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1681,7 +1681,7 @@
       "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/56",
       "state": "OPEN",
       "author": "cobward",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Currently, section 5.2 \"Refresh token binding\"  gives requirements for how an authorization server must bind the client instance to the refresh token. Could we reuse this mechanism to bind the authorization code to the client instance in the case that client auth was performed in the authorization request?",
@@ -1705,7 +1705,7 @@
         },
         {
           "author": "cobward",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> @cobward do you mean in the event we are using something like a signed PAR request?\r\n\r\nI'm not sure that it only applies to signed PAR request. I mean just generally that if client authentication is required at the authorization endpoint then the same requirements of binding the client instance to the authorization code still apply.\r\n\r\n> If I understand you correctly, you get a similar set of assurances like with PKCE, so I'm unsure if we want to duplicate this mechanism.\r\n\r\nIf that is the case then would it make sense to add text to that effect? Something along the lines of:\r\n\r\n_The Authorization Server is not required to bind the client instance to the authorization code, as PKCE provides sufficient mitigation of security risks._\r\n",
           "createdAt": "2023-11-06T13:49:21Z",
           "updatedAt": "2023-11-06T13:49:21Z"
@@ -1717,15 +1717,15 @@
       "id": "I_kwDOJaEkaM50wo51",
       "title": "Refresh token binding after attestation expiration",
       "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/57",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "cobward",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Currently section 5.2 states:\r\n> The client MUST also use the same key that was present in the \"cnf\" claim of the client attestation that was used for client authentication when the refresh token was issued.\r\n\r\nIn the case that the original client attestation JWT has expired, what should happen? If it is acceptable for the client to re-use the same key in the \"cnf\" field across attestation JWTs, then the client can easily generate a new attestation JWT with the same \"cnf\" key. But if the client needs to use a fresh \"cnf\" key, then I can think of three options:\r\n\r\n1. Define a flow which endorses the new \"cnf\" key with the old \"cnf\" key.\r\n2. Define a field in the client attestation JWT that contains a unique identifier for the client instance, and use that identifier to bind the refresh token to the client instance.\r\n3. Explicitly don't permit this in the specification, add text to the specification that makes it clear that the \"cnf\" key must stay the same across refreshed client attestations.\r\n\r\nMy preference would be for option 2.",
       "createdAt": "2023-10-24T09:57:44Z",
-      "updatedAt": "2023-11-13T10:45:01Z",
-      "closedAt": null,
+      "updatedAt": "2024-02-13T17:42:07Z",
+      "closedAt": "2024-02-13T17:42:07Z",
       "comments": [
         {
           "author": "tplooker",
@@ -1750,7 +1750,7 @@
         },
         {
           "author": "cobward",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> The flip side to consider with option 2 is the privacy implications of formally electing to track client instances, personally i'm not convinced its a bad idea but we should carefully consider the impact.\r\n\r\nThis just makes explicit the tracking of client instances that already existed through the requirement for the \"cnf\" key to stay the same over attestations.\r\n\r\n> the forth option is to have long living client attestations, which in my opinion is no problem\r\n\r\nThis is really a decision for the use-case in my opinion. In the context of software integrity being established through the client attestation, it is trivial to inject malware after the generation of the attestation, so some in some cases it may be a requirement to have fresh attestations.",
           "createdAt": "2023-10-31T15:13:49Z",
           "updatedAt": "2023-10-31T15:13:49Z"
@@ -1771,7 +1771,7 @@
         },
         {
           "author": "cobward",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> A: the wallet initially gets one client attestation and uses the cnf key over a longer period to bind a sequence of refresh tokens to it. -> similar to option 4?\r\n\r\nI think this is basically my option 3.\r\n\r\n> Well the current language doesn't actually guarantee that the AS can track the client instance (which is a good thing IMO), as the instance can in many common cases, rotate the keys it uses in between fetching tokens.\r\n\r\n> a single client instance could actually use multiple keys over time meaning the AS can't track the client instance across all of those interactions\r\n\r\nUnless there is a mechanism to issue a refresh token that I am not aware of, it is not possible to rotate keys according to the current language. The spec states:\r\n\r\n> Authorization servers issuing a refresh token in response to a token request using the \"urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation\" client authentication method **MUST bind the refresh token to the client instance**, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, **the client instance MUST authenticate itself to the authorization server when refreshing an access token** using the \"urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation\" authentication method. The client **MUST also use the same key** that was present in the \"cnf\" claim of the client attestation that was used for client authentication when the refresh token was issued.\r\n\r\nThis is what I mean by \"_This just makes explicit the tracking of client instances that already existed through the requirement for the \"cnf\" key to stay the same over attestations._\"",
           "createdAt": "2023-11-06T14:52:08Z",
           "updatedAt": "2023-11-06T14:53:14Z"
@@ -1785,7 +1785,7 @@
         },
         {
           "author": "cobward",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> I don't think rotation of the key within the lifetime of a refresh token is something that needs to be accounted for.\r\n\r\nBy saying you can't rotate the key within the lifetime of a refresh token, I think this means that you cannot rotate the key without starting from scratch at the authorization endpoint. I just wanted to make sure that is what you meant?",
           "createdAt": "2023-11-10T16:24:23Z",
           "updatedAt": "2023-11-10T16:24:23Z"
@@ -1799,7 +1799,7 @@
         },
         {
           "author": "cobward",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> if there's a reason to rotate that key then reauthorizing is probably needed\r\n\r\nI'm not sure that's true. IMO authorization is more of a user-identification concern, the rotation of the key is a client-security concern.\r\n\r\nSaying that, I think I agree that it's probably acceptable to say key-rotation isn't possible without returning to the authorization endpoint.\r\n\r\nGiven this I would suggest we add a sub-section to the Implementation Considerations section, something along the lines of this:\r\n\r\n> ## Rotation of confirmation key\r\n> This specification does not provide a mechanism to rotate the confirmation key identified in the Client Attestation JWT. If the client instance needs to use a new confirmation key for any reason, then it MUST begin the OAuth 2.0 flow from scratch.",
           "createdAt": "2023-11-13T10:45:01Z",
           "updatedAt": "2023-11-13T10:45:01Z"
@@ -4809,28 +4809,30 @@
       "id": "PR_kwDOJaEkaM5fST1s",
       "title": "Add text on cnf key rotation",
       "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/63",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "cobward",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses #57 \r\n\r\n## \ud83d\udcd1 Description\r\nThis PR makes explicit an already implicit feature of the specification - that it is not possible to rotate the confirmation key.\r\n<!--\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://github.com/<repo-name>/<branch-name>/<draft-name>.html)\r\n-->",
       "createdAt": "2023-11-13T10:52:13Z",
-      "updatedAt": "2024-02-12T20:48:02Z",
+      "updatedAt": "2024-02-13T17:42:06Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "4375d894ce7e58c91d5ed282cfd733dd48417812",
       "headRepository": "cobward/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "patch-1",
       "headRefOid": "4e783cc13e5929318a5915c67407e6d184c14aa0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-02-13T17:42:06Z",
+      "mergedAt": "2024-02-13T17:42:06Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac"
+      },
       "comments": [
         {
           "author": "cobward",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "@tlodderstedt @paulbastian Any reason this can't be merged?",
           "createdAt": "2024-02-06T12:13:09Z",
           "updatedAt": "2024-02-06T12:13:09Z"
