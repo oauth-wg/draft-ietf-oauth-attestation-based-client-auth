@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-21T00:44:46.614051+00:00",
+  "timestamp": "2024-03-24T00:49:34.869859+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2104,6 +2104,22 @@
       "body": "In the event this client authentication method is used with DPoP bound access tokens. An AS may want the assurance that the key they bind an issued access token, is in fact authenticated to the client. Without this assurance a MITM attack is possible where an intermediary could substitute the DPoP proof in the token request for a key they control, thus then being able to use the returned access token.\r\n\r\nBelow is a simple diagram depicting this attack\r\n\r\n```mermaid\r\nsequenceDiagram\r\n    participant C as Client\r\n    participant A as Attacker\r\n    participant AS as Authorisation Server\r\n    participant RS as Resource Server\r\n\r\n    C->>C: Prepare Token Request (including DPoP proof)\r\n    C->>A: Send token request (intercepted by attacker)\r\n    A->>A: Generate new DPoP key and DPoP proof\r\n    A->>A: Generate new token request using the clients original request but with the new DPoP proof substituted\r\n    A->>AS: Send token request\r\n    AS->>AS: Validate and generate access token bound to attackers DPoP key\r\n    AS->>A: Send token response (with access token bound to attackers DPoP key)\r\n    A->>RS: Protected resource request using obtained access token\r\n```\r\n\r\nDPoP as stated in the RFC [is not designed as a client authentication method, but is instead designed to work with client authentication](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#section-3). The client authentication method as defined by this draft could be such a suitable method that would provide a way to prevent the above attack from occurring.\r\n\r\nRelated to this issue, is PR #67, which explores using the DPoP proof syntax instead of defining a new JWT PoP syntax as is the case with the current draft. Consequently if #67 were adopted, the usage of this client authentication method with DPoP bound access tokens becomes much simpler and the above attack scenario would be prevented implicitly through the design. However, there is concern that #67 risks coupling together the DPoP key and client attestation key where there maybe usecases where these keys should be seperate (cc @tlodderstedt). Personally I'm not convinced that the DPoP key and client attestation key need to be different and I believe the complexity it creates is not worth it. However, if #67 is not adopted, then a different solution to solving the above problem needs to be devised which may require putting the DPoP key in the client attestation PoP so it can be authenticated back to the client. \r\n",
       "createdAt": "2024-01-25T20:54:18Z",
       "updatedAt": "2024-01-31T07:00:58Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 70,
+      "id": "I_kwDOJaEkaM6DW1c7",
+      "title": "Register AS and client metadata for algorithm negotiation of attestations and pops",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/70",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to consider registering appropriate metadata for an AS and client to respectively indicate what signing algorithms they support for \r\n\r\n- A client attestation\r\n- A client attestation pop",
+      "createdAt": "2024-03-23T09:56:57Z",
+      "updatedAt": "2024-03-23T09:56:57Z",
       "closedAt": null,
       "comments": []
     }
