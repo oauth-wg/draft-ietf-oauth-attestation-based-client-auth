@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-26T00:43:22.439357+00:00",
+  "timestamp": "2024-03-28T00:43:53.302428+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2120,6 +2120,54 @@
       "body": "We need to consider registering appropriate metadata for an AS and client to respectively indicate what signing algorithms they support for \r\n\r\n- A client attestation\r\n- A client attestation pop",
       "createdAt": "2024-03-23T09:56:57Z",
       "updatedAt": "2024-03-23T09:56:57Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 71,
+      "id": "I_kwDOJaEkaM6Dq8a3",
+      "title": "Propose to change the draft name",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/71",
+      "state": "OPEN",
+      "author": "tlodderstedt",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I think the \"attestation\" term in the draft name causes confusing and a wrong perception what this draft is about. \r\n\r\nIn my opinion, this draft evolves the concept RFC 7523 to allow use of JWTs bound to a key for client authentication. \r\n\r\nConsequently,  I suggest to rename the draft to \"Key-bound JWT Client Authentication\".",
+      "createdAt": "2024-03-26T18:55:21Z",
+      "updatedAt": "2024-03-26T18:56:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 72,
+      "id": "I_kwDOJaEkaM6D1qnJ",
+      "title": "Add required typ values for the client-attestation and client-attestation-pop in line with JWT BCP",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/72",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-27T20:50:04Z",
+      "updatedAt": "2024-03-27T20:50:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 73,
+      "id": "I_kwDOJaEkaM6D2Ixt",
+      "title": "Add relevant oauth error responses to token requests when the client attestation is invalid",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/73",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-27T22:27:44Z",
+      "updatedAt": "2024-03-27T22:27:44Z",
       "closedAt": null,
       "comments": []
     }
