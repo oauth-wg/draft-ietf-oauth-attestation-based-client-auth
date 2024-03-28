@@ -8,19 +8,19 @@
 <meta content="Tobias Looker" name="author">
 <meta content="Paul Bastian" name="author">
 <meta content="
-       This specification defines a new method of client authentication for OAuth 2.0   by extending the approach defined in  . This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme. 
+       This specification defines an extension to the OAuth 2 protocol as defined in   which enables a Client Instance to include an attestation in interactions with an Authorisation Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to provide an attestation to an Authorisation server or Resource Server in order to authenticate as a Client Instance. 
     " name="description">
-<meta content="xml2rfc 3.19.1" name="generator">
+<meta content="xml2rfc 3.20.1" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.1
-    Python 3.11.6
+  xml2rfc 3.20.1
+    Python 3.11.8
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.1.0
+    platformdirs 4.2.0
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.31.0
@@ -1025,11 +1025,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">January 2024</td>
+<td class="right">March 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker &amp; Bastian</td>
-<td class="center">Expires 26 July 2024</td>
+<td class="center">Expires 29 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1042,12 +1042,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-23" class="published">23 January 2024</time>
+<time datetime="2024-03-28" class="published">28 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-07-26">26 July 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-29">29 September 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1063,7 +1063,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">OAuth 2.0 Attestation-Based Client Authentication</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This specification defines a new method of client authentication for OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> by extending the approach defined in <span>[<a href="#RFC7521" class="cite xref">RFC7521</a>]</span>. This new method enables client deployments that are traditionally viewed as public clients to be able to authenticate with the authorization server through an attestation based authentication scheme.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This specification defines an extension to the OAuth 2 protocol as defined in <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> which enables a Client Instance to include an attestation in interactions with an Authorisation Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to provide an attestation to an Authorisation server or Resource Server in order to authenticate as a Client Instance.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1093,7 +1093,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 26 July 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1132,81 +1132,90 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-client-authentication" class="internal xref">Client Authentication</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-client-attestation" class="internal xref">Client Attestation</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-request-processing-requirem" class="internal xref">Request Processing Requirements</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.1">
-                    <p id="section-toc.1-1.4.2.1.2.1.1"><a href="#section-4.1.1" class="auto internal xref">4.1.1</a>.  <a href="#name-client-attestation-jwt" class="internal xref">Client Attestation JWT</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-client-attestation-http-hea" class="internal xref">Client Attestation HTTP Headers</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.2">
-                    <p id="section-toc.1-1.4.2.1.2.2.1"><a href="#section-4.1.2" class="auto internal xref">4.1.2</a>.  <a href="#name-dpop-http-header" class="internal xref">DPoP HTTP header</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-client-attestation-jwt" class="internal xref">Client Attestation JWT</a></p>
 </li>
-                </ul>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-client-attestation-pop-jwt" class="internal xref">Client Attestation PoP JWT</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-checking-http-requests-feat" class="internal xref">Checking HTTP requests feature client attestations</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-implementation-consideratio" class="internal xref">Implementation Considerations</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-reuse-of-a-client-attestati" class="internal xref">Reuse of a Client Attestation JWT</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-refresh-token-binding" class="internal xref">Refresh token binding</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-client-attestation-access-t" class="internal xref">Client Attestation Access Token Request</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-implementation-consideratio" class="internal xref">Implementation Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-client-instance-tracking-ac" class="internal xref">Client Instance Tracking Across Authorization Servers</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-reuse-of-a-client-attestati" class="internal xref">Reuse of a Client Attestation JWT</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-refresh-token-binding" class="internal xref">Refresh token binding</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-rotation-of-client-instance" class="internal xref">Rotation of Client Instance Key</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-client-instance-tracking-ac" class="internal xref">Client Instance Tracking Across Authorization Servers</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-appendix-a-iana-considerati" class="internal xref">Appendix A IANA Considerations</a></p>
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-sub-namespace-registration-" class="internal xref">Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-registration-of-attest_jwt_" class="internal xref">Registration of attest_jwt_client_auth Token Endpoint Authentication Method</a></p>
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-replay-attack-detection" class="internal xref">Replay Attack Detection</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-appendix-a-iana-considerati" class="internal xref">Appendix A IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-registration-of-attest_jwt_" class="internal xref">Registration of attest_jwt_client_auth Token Endpoint Authentication Method</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-additional-examples" class="internal xref">Additional Examples</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
-                <p id="section-toc.1-1.10.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-wallet-instance-attestation" class="internal xref">Wallet Instance Attestation</a></p>
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-additional-examples" class="internal xref">Additional Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-wallet-instance-attestation" class="internal xref">Wallet Instance Attestation</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1217,9 +1226,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1"><span>[<a href="#RFC7521" class="cite xref">RFC7521</a>]</span> defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification uses this framework to define a new assertion type that provides a way for a client instance to authenticate itself with the authorization server through an assertion that is bound to a public key (for proof of possession). This assertion is designated with the name of Client Attestation in this draft.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">The following diagram depicts the overall architecture and protocol flow.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-ascii-art art-text artwork" id="section-1-3">
+<p id="section-1-1">The following diagram depicts the overall architecture and protocol flow.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-ascii-art art-text artwork" id="section-1-2">
 <pre>
                     (3)
                  +-------+
@@ -1245,16 +1253,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
                  +-------+
                     (5)
 
-</pre><a href="#section-1-3" class="pilcrow">¶</a>
+</pre><a href="#section-1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-1-4">The following steps describe this OAuth flow:<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">(1) The Client Instance generates a key (Client Instance Key) and optional further attestations (that are out of scope) to prove its authenticity to the Client Backend.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">(2) The Client Instance sends this data to the Client Backend in request for a Client Attestation JWT.<a href="#section-1-6" class="pilcrow">¶</a></p>
-<p id="section-1-7">(3) The Client Backend validates the Client Instance Key and optional further data. It generates a signed Client Attestation JWT that is cryptographically bound to the Client Instance Key generated by the Client. Therefore, the attestation is bound to this particular Client Instance.<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">(4) The Client Backend responds to the Client Instance by sending the Client Attestation JWT.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">(5) The Client Instance generates a DPoP proof with the Client Instance Key.<a href="#section-1-9" class="pilcrow">¶</a></p>
-<p id="section-1-10">(6) The Client Instance sends both the Client Attestation JWT and the DPoP proof to the authorization server, e.g. within a token request. The authorization server validates the Client Attestation and thus authenticates the Client Instance.<a href="#section-1-10" class="pilcrow">¶</a></p>
-<p id="section-1-11">Note that the protocol for steps (2) and (4) and how the Client Instance authenticates to the Client Backend is out of scope of this specification.  Note also that this specification can be utilized without the client having a backend server at all; in this case, each client instance will perform the functions described as being done by the backend for itself.<a href="#section-1-11" class="pilcrow">¶</a></p>
+<p id="section-1-3">The following steps describe this OAuth flow:<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">(1) The Client Instance generates a key (Client Instance Key) and optional further attestations (that are out of scope) to prove its authenticity to the Client Backend.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">(2) The Client Instance sends this data to the Client Backend in request for a Client Attestation JWT.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">(3) The Client Backend validates the Client Instance Key and optional further data. It generates a signed Client Attestation JWT that is cryptographically bound to the Client Instance Key generated by the Client. Therefore, the attestation is bound to this particular Client Instance.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">(4) The Client Backend responds to the Client Instance by sending the Client Attestation JWT.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8">(5) The Client Instance generates a Proof of Possession (PoP) with the Client Instance Key.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9">(6) The Client Instance sends both the Client Attestation JWT and the Client Attestation PoP JWT to the authorization server, e.g. within a token request. The authorization server validates the Client Attestation and thus authenticates the Client Instance.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-10">Note that the protocol for steps (2) and (4) and how the Client Instance authenticates to the Client Backend is out of scope of this specification.  Note also that this specification can be utilized without the client having a backend server at all; in this case, each Client Instance will perform the functions described as being done by the backend for itself.<a href="#section-1-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1276,86 +1284,113 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <span class="break"></span><dl class="dlParallel" id="section-3-1">
         <dt id="section-3-1.1">Client Attestation JWT:</dt>
         <dd style="margin-left: 1.5em" id="section-3-1.2">
-          <p id="section-3-1.2.1">A JSON Web Token (JWT) generated by the client backend which is bound to a key managed by a client instance which can then be used by the instance for client authentication.<a href="#section-3-1.2.1" class="pilcrow">¶</a></p>
+          <p id="section-3-1.2.1">A JSON Web Token (JWT) generated by the client backend which is bound to a key managed by a Client Instance which can then be used by the instance for client authentication.<a href="#section-3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.3">Client Instance Key:</dt>
+<dt id="section-3-1.3">Client Attestation Proof of Possession (PoP) JWT:</dt>
         <dd style="margin-left: 1.5em" id="section-3-1.4">
-          <p id="section-3-1.4.1">A cryptographic, asymmetric key generated by the client instance and proven to the client backend. The public key is contained in the Client Attestation JWT and is used to sign the Client Attestation Proof of Possession.<a href="#section-3-1.4.1" class="pilcrow">¶</a></p>
+          <p id="section-3-1.4.1">A Proof of Possession generated by the Client Instance using the key that the Client Attestation JWT is bound to.<a href="#section-3-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-3-1.5">Client Instance Key:</dt>
+        <dd style="margin-left: 1.5em" id="section-3-1.6">
+          <p id="section-3-1.6.1">A cryptographic, asymmetric key generated by the Client Instance and proven to the client backend. The public key is contained in the Client Attestation JWT and is used to sign the Client Attestation Proof of Possession.<a href="#section-3-1.6.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
 </section>
 </div>
-<div id="client-authentication">
+<div id="client-attestation">
 <section id="section-4">
-      <h2 id="name-client-authentication">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-client-authentication" class="section-name selfRef">Client Authentication</a>
+      <h2 id="name-client-attestation">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-client-attestation" class="section-name selfRef">Client Attestation</a>
       </h2>
-<p id="section-4-1">To perform client authentication using this scheme, the client instance uses the following parameter values and encodings.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">The value of the "client_assertion_type" parameter (as defined in <span>[<a href="#RFC7521" class="cite xref">RFC7521</a>]</span>) set to "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation".<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">The value of the "client_assertion" parameter contains a single JWT known as the client attestation JWT as defined defined in <a href="#client-attestation-jwt" class="auto internal xref">Section 4.1.1</a>. It <span class="bcp14">MUST NOT</span> contain more than one JWT.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">The request <span class="bcp14">MUST</span> also contain a DPoP HTTP Header (as defined in section 4.1 of <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>).<a href="#section-4-4" class="pilcrow">¶</a></p>
-<p id="section-4-5">The following example demonstrates client authentication using this scheme during the presentation of an authorization code grant in an access token request (with extra line breaks for display purposes only):<a href="#section-4-5" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4-6">
-<pre>
-POST /token HTTP/1.1
-Host: as.example.com
-Content-Type: application/x-www-form-urlencoded
-DPoP: eyJ0eXAiOiJkcG9wK2p3dCIsImp3ayI6eyJhbGciOiJFUzI1NiIsImNydiI6IlAtMjU2Iiwia3R5IjoiRUMiLCJ4IjoiaThReW03NFRNUHVLQXVKUGlZczFSZlVsYTVjemNxelVobEpmRHNMdzd0NCIsInkiOiJGQjlUY2ZmeVZDSEpFQjJjejc4NTE2MUE0SmxlTkh2cG44bXhHRldZMlNjIn0sImFsZyI6IkVTMjU2In0.eyJqdGkiOiIzNTc2ODI5Ny1kZWM1LTQ2ZjYtODVlNS1iNzU4MjE2YWI1ZmYiLCJodG0iOiJQT1NUIiwiaHR1IjoiaHR0cHM6Ly9hcy5leGFtcGxlL3Rva2VuIiwiaWF0IjoxNzAwODEyODAwLCJub25jZSI6ImV5SjdTX3pHLmV5SkgwLVouSFg0dy03diJ9.5VuDrkd8RhMRaps_AzJBs2p-_UXXWT4dVHITBHiQxe31GeDq81otnIh3HBQN8_XjS1diHPq1tti1pn55eZdI5g
-
-grant_type=authorization_code&amp;
-code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&amp;
-client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A
-client-assertion-type%3Ajwt-client-attestation&amp;
-client_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.
-eyJpc3Mi[...omitted for brevity...].
-cC4hiUPo[...omitted for brevity...]
-</pre><a href="#section-4-6" class="pilcrow">¶</a>
-</div>
-<div id="request-processing-requirements">
+<p id="section-4-1">This draft introduces the concept of client attestations to the OAuth 2 protocol, which consists of two JWT's, a Client Attestation and Client Attestation PoP, which are conveyed via HTTP headers in an HTTP request sent by a client to an Authorisation Server or Resource Server. The purpose of these headers is to authenticate or attest to the Client Instance.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="client-attestation-http-headers">
 <section id="section-4.1">
-        <h3 id="name-request-processing-requirem">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-request-processing-requirem" class="section-name selfRef">Request Processing Requirements</a>
+        <h3 id="name-client-attestation-http-hea">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-client-attestation-http-hea" class="section-name selfRef">Client Attestation HTTP Headers</a>
         </h3>
-<p id="section-4.1-1">In order to authenticate the client using this scheme, the authorization server <span class="bcp14">MUST</span> validate BOTH the Client Attestation JWT present in the "client_assertion" parameter and the DPoP HTTP header according to the criteria below.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-1">A Client Attestation JWT and Client Attestation PoP JWT is included in an HTTP request using the following request header fields.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-4.1-2">
+          <dt id="section-4.1-2.1">OAuth-Client-Attestation:</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-2.2">
+            <p id="section-4.1-2.2.1">A JWT that adheres to the structure and syntax as defined in <a href="#client-attestation-jwt" class="auto internal xref">Section 4.2</a><a href="#section-4.1-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.1-2.3">OAuth-Client-Attestation-PoP:</dt>
+          <dd style="margin-left: 1.5em" id="section-4.1-2.4">
+            <p id="section-4.1-2.4.1">A JWT that adheres to the structure and syntax as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 4.3</a><a href="#section-4.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-4.1-3">The following is an example of the OAuth-Client-Attestation header.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.1-4">
+<pre>
+OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBz\
+Oi8vY2xpZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjc\
+nYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZE\
+FnY3g1NW83VGtjU0EifX19.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+</pre><a href="#section-4.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-4.1-5">The following is an example of the OAuth-Client-Attestation-PoP header.<a href="#section-4.1-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.1-6">
+<pre>
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbX\
+BsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+</pre><a href="#section-4.1-6" class="pilcrow">¶</a>
+</div>
+<p id="section-4.1-7">Note that per <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
+header field names. Case is significant in the header field value, however.<a href="#section-4.1-7" class="pilcrow">¶</a></p>
+<p id="section-4.1-8">The OAuth-Client-Attestation and OAuth-Client-Attestation-PoP HTTP header field values uses the token68 syntax defined in Section 11.2 of <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> (repeated below for ease of reference).<a href="#section-4.1-8" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.1-9">
+<pre>
+OAuth-Client-Attestation       = token68
+OAuth-Client-Attestation-PoP   = token68
+token68                        = 1*( ALPHA / DIGIT /
+                                     "-" / "." / "_" / "~" / "+" / "/" ) *"="
+</pre><a href="#section-4.1-9" class="pilcrow">¶</a>
+</div>
+<p id="section-4.1-10">It is <span class="bcp14">RECOMMENDED</span> that the authorization server validate the Client Attestation JWT prior to validating the Client Attestation PoP.<a href="#section-4.1-10" class="pilcrow">¶</a></p>
+</section>
+</div>
 <div id="client-attestation-jwt">
-<section id="section-4.1.1">
-          <h4 id="name-client-attestation-jwt">
-<a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-client-attestation-jwt" class="section-name selfRef">Client Attestation JWT</a>
-          </h4>
-<p id="section-4.1.1-1">The following rules apply to validating the client attestation JWT. Application of additional restrictions and policy are at the discretion of the authorization server.<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.1.1-2">
-<li id="section-4.1.1-2.1">
-              <p id="section-4.1.1-2.1.1">The JWT <span class="bcp14">MUST</span> contain an "iss" (issuer) claim that contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications <span class="bcp14">MUST</span> compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>.<a href="#section-4.1.1-2.1.1" class="pilcrow">¶</a></p>
+<section id="section-4.2">
+        <h3 id="name-client-attestation-jwt">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-client-attestation-jwt" class="section-name selfRef">Client Attestation JWT</a>
+        </h3>
+<p id="section-4.2-1">The following rules apply to validating the Client Attestation JWT. Application of additional restrictions and policy are at the discretion of the authorization server.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.2-2">
+<li id="section-4.2-2.1">
+            <p id="section-4.2-2.1.1">The JWT <span class="bcp14">MUST</span> contain an "iss" (issuer) claim that contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications <span class="bcp14">MUST</span> compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>.<a href="#section-4.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.2">
-              <p id="section-4.1.1-2.2.1">The JWT <span class="bcp14">MUST</span> contain a "sub" (subject) claim with a value corresponding to the "client_id" of the OAuth client.<a href="#section-4.1.1-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.2">
+            <p id="section-4.2-2.2.1">The JWT <span class="bcp14">MUST</span> contain a "sub" (subject) claim with a value corresponding to the "client_id" of the OAuth client.<a href="#section-4.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.3">
-              <p id="section-4.1.1-2.3.1">The JWT <span class="bcp14">MUST</span> contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.<a href="#section-4.1.1-2.3.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.3">
+            <p id="section-4.2-2.3.1">The JWT <span class="bcp14">MUST</span> contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.<a href="#section-4.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.4">
-              <p id="section-4.1.1-2.4.1">The JWT <span class="bcp14">MUST</span> contain an "cnf" claim conforming to <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> that conveys the key to be used for producing the DPoP HTTP header for client authentication with an authorization server. The key <span class="bcp14">MUST</span> be expressed using the "jwk" representation.<a href="#section-4.1.1-2.4.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.4">
+            <p id="section-4.2-2.4.1">The JWT <span class="bcp14">MUST</span> contain an "cnf" claim conforming <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> that conveys the key to be used for producing the client attestation pop for client authentication with an authorization server. The key <span class="bcp14">MUST</span> be expressed using the "jwk" representation.<a href="#section-4.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.5">
-              <p id="section-4.1.1-2.5.1">The JWT <span class="bcp14">MAY</span> contain an "nbf" (not before) claim that identifies the time before which the token <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-4.1.1-2.5.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.5">
+            <p id="section-4.2-2.5.1">The JWT <span class="bcp14">MAY</span> contain an "nbf" (not before) claim that identifies the time before which the token <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-4.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.6">
-              <p id="section-4.1.1-2.6.1">The JWT <span class="bcp14">MAY</span> contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.<a href="#section-4.1.1-2.6.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.6">
+            <p id="section-4.2-2.6.1">The JWT <span class="bcp14">MAY</span> contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.<a href="#section-4.2-2.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.7">
-              <p id="section-4.1.1-2.7.1">The JWT <span class="bcp14">MAY</span> contain other claims.<a href="#section-4.1.1-2.7.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.7">
+            <p id="section-4.2-2.7.1">The JWT <span class="bcp14">MAY</span> contain other claims.<a href="#section-4.2-2.7.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.8">
-              <p id="section-4.1.1-2.8.1">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-4.1.1-2.8.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.8">
+            <p id="section-4.2-2.8.1">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-4.2-2.8.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.1-2.9">
-              <p id="section-4.1.1-2.9.1">The authorization server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-4.1.1-2.9.1" class="pilcrow">¶</a></p>
+          <li id="section-4.2-2.9">
+            <p id="section-4.2-2.9.1">The authorization server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-4.2-2.9.1" class="pilcrow">¶</a></p>
 </li>
-          </ol>
-<p id="section-4.1.1-3">The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.<a href="#section-4.1.1-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-4.1.1-4">
+        </ol>
+<p id="section-4.2-3">The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2-4">
 <pre>
 {
   "alg": "ES256",
@@ -1377,132 +1412,224 @@ cC4hiUPo[...omitted for brevity...]
     }
   }
 }
-</pre><a href="#section-4.1.1-4" class="pilcrow">¶</a>
+</pre><a href="#section-4.2-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
-<div id="dpop-http-header">
-<section id="section-4.1.2">
-          <h4 id="name-dpop-http-header">
-<a href="#section-4.1.2" class="section-number selfRef">4.1.2. </a><a href="#name-dpop-http-header" class="section-name selfRef">DPoP HTTP header</a>
-          </h4>
-<p id="section-4.1.2-1">The following rules apply to validating the DPoP HTTP header. Application of additional restrictions and policy are at the discretion of the authorization server.<a href="#section-4.1.2-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.1.2-2">
-<li id="section-4.1.2-2.1">
-              <p id="section-4.1.2-2.1.1">The key represented in the JWK header parameter of the DPoP proof <span class="bcp14">MUST</span> match the key that is represented in the "cnf" claim of the Client Attestation JWT present in the "client_attestation" parameter.<a href="#section-4.1.2-2.1.1" class="pilcrow">¶</a></p>
+<div id="client-attestation-pop-jwt">
+<section id="section-4.3">
+        <h3 id="name-client-attestation-pop-jwt">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-client-attestation-pop-jwt" class="section-name selfRef">Client Attestation PoP JWT</a>
+        </h3>
+<p id="section-4.3-1">The following rules apply to validating the Client Attestation PoP JWT. Application of additional restrictions and policy are at the discretion of the Authorization Server.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.3-2">
+<li id="section-4.3-2.1">
+            <p id="section-4.3-2.1.1">The JWT <span class="bcp14">MUST</span> contain an "iss" (issuer) claim with a value corresponding to the "client_id" of the OAuth client.<a href="#section-4.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-4.1.2-2.2">
-              <p id="section-4.1.2-2.2.1">The DPoP proof JWT present in the DPoP HTTP header <span class="bcp14">MUST</span> be valid in all other respects per the processing rules defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-4.1.2-2.2.1" class="pilcrow">¶</a></p>
+          <li id="section-4.3-2.2">
+            <p id="section-4.3-2.2.1">The JWT <span class="bcp14">MUST</span> contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.  Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.<a href="#section-4.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          </ol>
+          <li id="section-4.3-2.3">
+            <p id="section-4.3-2.3.1">The JWT <span class="bcp14">MUST</span> contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server <span class="bcp14">MAY</span> ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.<a href="#section-4.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.4">
+            <p id="section-4.3-2.4.1">The JWT <span class="bcp14">MUST</span> contain an "aud" (audience) claim containing a value that identifies the authorization server as an intended audience. The <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> issuer identifier URL of the authorization server <span class="bcp14">MUST</span> be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.<a href="#section-4.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.5">
+            <p id="section-4.3-2.5.1">The JWT <span class="bcp14">MAY</span> contain an "nonce" claim containing a String value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.<a href="#section-4.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.6">
+            <p id="section-4.3-2.6.1">The JWT <span class="bcp14">MAY</span> contain an "nbf" (not before) claim that identifies the time before which the token <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-4.3-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.7">
+            <p id="section-4.3-2.7.1">The JWT <span class="bcp14">MAY</span> contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-4.3-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.8">
+            <p id="section-4.3-2.8.1">The JWT <span class="bcp14">MAY</span> contain other claims.<a href="#section-4.3-2.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.9">
+            <p id="section-4.3-2.9.1">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-4.3-2.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.10">
+            <p id="section-4.3-2.10.1">The public key used to verify the JWT <span class="bcp14">MUST</span> be the key located in the "cnf" claim of the corresponding Client Attestation JWT.<a href="#section-4.3-2.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.3-2.11">
+            <p id="section-4.3-2.11.1">The authorization server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-4.3-2.11.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-4.3-3">The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.3-4">
+<pre>
+{
+  "alg": "ES256"
+}
+.
+{
+  "iss": "https://client.example.com",
+  "aud": "https://as.example.com",
+  "nbf":1300815780,
+  "exp":1300819380,
+  "jti": "d25d00ab-552b-46fc-ae19-98f440f25064"
+}
+</pre><a href="#section-4.3-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="checking-http-requests-with-client-attestations">
+<section id="section-4.4">
+        <h3 id="name-checking-http-requests-feat">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-checking-http-requests-feat" class="section-name selfRef">Checking HTTP requests feature client attestations</a>
+        </h3>
+<p id="section-4.4-1">To validate an HTTP request which contains the client attestation headers, the receiving server <span class="bcp14">MUST</span> ensure the following with regard to a received HTTP request:<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.4-2">
+<li id="section-4.4-2.1">
+            <p id="section-4.4-2.1.1">There is precisely one OAuth-Client-Attestation HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-jwt}.<a href="#section-4.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.4-2.2">
+            <p id="section-4.4-2.2.1">There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.<a href="#section-4.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-4.4-2.3">
+            <p id="section-4.4-2.3.1">The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the public key contained in the <code>cnf</code> claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.<a href="#section-4.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
 </section>
 </div>
 </section>
+</div>
+<div id="client-attestation-access-token-request">
+<section id="section-5">
+      <h2 id="name-client-attestation-access-t">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-client-attestation-access-t" class="section-name selfRef">Client Attestation Access Token Request</a>
+      </h2>
+<p id="section-5-1">While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage with token endpoint as defined by <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> has particular additional considerations outlined below.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">The authorization server <span class="bcp14">MUST</span> perform all of the checks outlined in <a href="#checking-http-requests-with-client-attestations" class="auto internal xref">Section 4.4</a> for a received access token request which is making use of the client attestation mechanism as defined by this draft.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-3">The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):<a href="#section-5-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-5-4">
+<pre>
+POST /token HTTP/1.1
+Host: as.example.com
+Content-Type: application/x-www-form-urlencoded
+OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBz\
+Oi8vY2xpZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjc\
+nYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZE\
+FnY3g1NW83VGtjU0EifX19.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbX\
+BsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+
+grant_type=authorization_code&amp;
+code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
+</pre><a href="#section-5-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="implementation-considerations">
-<section id="section-5">
+<section id="section-6">
       <h2 id="name-implementation-consideratio">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
       </h2>
 <div id="reuse-of-a-client-attestation-jwt">
-<section id="section-5.1">
+<section id="section-6.1">
         <h3 id="name-reuse-of-a-client-attestati">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-reuse-of-a-client-attestati" class="section-name selfRef">Reuse of a Client Attestation JWT</a>
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-reuse-of-a-client-attestati" class="section-name selfRef">Reuse of a Client Attestation JWT</a>
         </h3>
-<p id="section-5.1-1">Implementers should be aware that the design of this authentication mechanism deliberately allows for a client instance to re-use a single Client Attestation JWT in multiple interactions/requests with an authorization server, whilst producing a fresh DPoP proof. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a client instance can re-use a single Client Attestation JWT.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an authorization server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="refresh-token-binding">
-<section id="section-5.2">
+<section id="section-6.2">
         <h3 id="name-refresh-token-binding">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-refresh-token-binding" class="section-name selfRef">Refresh token binding</a>
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-refresh-token-binding" class="section-name selfRef">Refresh token binding</a>
         </h3>
-<p id="section-5.2-1">Authorization servers issuing a refresh token in response to a token request using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" client authentication method <span class="bcp14">MUST</span> bind the refresh token to the client instance, and NOT just the client as specified in section 6 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. To prove this binding, the client instance <span class="bcp14">MUST</span> authenticate itself to the authorization server when refreshing an access token using the "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation" authentication method. The client <span class="bcp14">MUST</span> also use the same key that was present in the "cnf" claim of the client attestation that was used for client authentication when the refresh token was issued.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft <span class="bcp14">MUST</span> bind the refresh token to the Client Instance, and NOT just the client as specified in section 6 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. To prove this binding, the Client Instance <span class="bcp14">MUST</span> use the client attestation mechanism when refreshing an access token. The client <span class="bcp14">MUST</span> also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="rotation-of-client-instance-key">
+<section id="section-6.3">
+        <h3 id="name-rotation-of-client-instance">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-rotation-of-client-instance" class="section-name selfRef">Rotation of Client Instance Key</a>
+        </h3>
+<p id="section-6.3-1">This specification does not provide a mechanism to rotate the Client Instance Key in the Client Attestation JWT's "cnf" claim. If the Client Instance needs to use a new Client Instance Key for any reason, then it <span class="bcp14">MUST</span> request a new Client Attestation JWT from its Client Backend.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="privacy-considerations">
-<section id="section-6">
+<section id="section-7">
       <h2 id="name-privacy-considerations">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
 <div id="client-instance-tracking-across-authorization-servers">
-<section id="section-6.1">
+<section id="section-7.1">
         <h3 id="name-client-instance-tracking-ac">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-client-instance-tracking-ac" class="section-name selfRef">Client Instance Tracking Across Authorization Servers</a>
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-client-instance-tracking-ac" class="section-name selfRef">Client Instance Tracking Across Authorization Servers</a>
         </h3>
-<p id="section-6.1-1">Implementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the client instance through claim values (including the public key in the <code>cnf</code> claim). Client deployments are therefore <span class="bcp14">RECOMMENDED</span> to use different client attestations across different authorization servers.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">Implementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the Client Instance through claim values (including the public key in the <code>cnf</code> claim). Client deployments are therefore <span class="bcp14">RECOMMENDED</span> to use different client attestations across different authorization servers.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-7">
+<section id="section-8">
       <h2 id="name-security-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-7-1">The guidance provided by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> and <span>[<a href="#RFC8725" class="cite xref">RFC8725</a>]</span> applies.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">The guidance provided by <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> and <span>[<a href="#RFC8725" class="cite xref">RFC8725</a>]</span> applies.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<div id="replay-attack-detection">
+<section id="section-8.1">
+        <h3 id="name-replay-attack-detection">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-replay-attack-detection" class="section-name selfRef">Replay Attack Detection</a>
+        </h3>
+<p id="section-8.1-1">The following mechanisms exist within this client authentication method in order to allow an authorization server to detect replay attacks for presented client attestation PoPs:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.1-2.1">
+            <p id="section-8.1-2.1.1">The client uses "jti" (JWT ID) claims for the Client Attestation PoP JWT and the authorization server maintains a list of used (seen) "jti" values for the time of which the JWT would be considered valid based on the applicable "exp" claim. If any Client Attestation PoP JWT would be replayed, the authorization server would recognize the "jti" and respond with an authentication error.<a href="#section-8.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.1-2.2">
+            <p id="section-8.1-2.2.1">The authorization server provides a nonce for the particular transaction and the client uses it for the "nonce" claim in the Client Attestation PoP JWT. The authorization server validates that the nonce matches for the transaction. This approach may require an additional roundtrip in the protocol. The authorization server <span class="bcp14">MUST</span> ensure that the nonce provides sufficient entropy.<a href="#section-8.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.1-2.3">
+            <p id="section-8.1-2.3.1">The authorization server may expect the usage of a nonce in the Client Attestation PoP JWT, but instead of providing the nonce explicitly, the client may implicitly reuse an existing artefact, e.g. the authorization code. The authorization server <span class="bcp14">MUST</span> ensure that the nonce provides sufficient entropy.<a href="#section-8.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-8.1-3">The approach using a nonce explicitly provided by the authorization server gives stronger replay attack detection guarantees, however support by the authorization server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The "jti" method is mandatory and hence acts as a default fallback.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="appendix-a-iana-considerations">
-<section id="section-8">
-      <h2 id="name-appendix-a-iana-considerati">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-appendix-a-iana-considerati" class="section-name selfRef">Appendix A IANA Considerations</a>
-      </h2>
-<div id="sub-namespace-registration-of-urnietfparamsoauthclient-assertion-typejwt-client-attestation">
-<section id="section-8.1">
-        <h3 id="name-sub-namespace-registration-">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-sub-namespace-registration-" class="section-name selfRef">Sub-Namespace Registration of urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation</a>
-        </h3>
-<p id="section-8.1-1">This section registers the value "client-assertion-type:jwt-client-attestation" in the IANA "OAuth URI" registry established by "An IETF URN Sub-Namespace for OAuth" <span>[<a href="#RFC6755" class="cite xref">RFC6755</a>]</span>.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-8.1-2.1">
-            <p id="section-8.1-2.1.1">URN: urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation<a href="#section-8.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.1-2.2">
-            <p id="section-8.1-2.2.1">Common Name: OAuth 2.0 Attested Key-Based Client Authentication<a href="#section-8.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.1-2.3">
-            <p id="section-8.1-2.3.1">Change Controller: IESG<a href="#section-8.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.1-2.4">
-            <p id="section-8.1-2.4.1">Specification Document: TBC<a href="#section-8.1-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-<div id="registration-of-attestjwtclientauth-token-endpoint-authentication-method">
-<section id="section-8.2">
-        <h3 id="name-registration-of-attest_jwt_">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-registration-of-attest_jwt_" class="section-name selfRef">Registration of attest_jwt_client_auth Token Endpoint Authentication Method</a>
-        </h3>
-<p id="section-8.2-1">This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol <span>[<a href="#RFC7591" class="cite xref">RFC7591</a>]</span>.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-8.2-2.1">
-            <p id="section-8.2-2.1.1">Token Endpoint Authentication Method Name: "attest_jwt_client_auth"<a href="#section-8.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.2-2.2">
-            <p id="section-8.2-2.2.1">Change Controller: IESG<a href="#section-8.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-8.2-2.3">
-            <p id="section-8.2-2.3.1">Specification Document(s): TBC<a href="#section-8.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-</section>
-</div>
-</section>
-</div>
 <section id="section-9">
+      <h2 id="name-appendix-a-iana-considerati">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-appendix-a-iana-considerati" class="section-name selfRef">Appendix A IANA Considerations</a>
+      </h2>
+<div id="registration-of-attestjwtclientauth-token-endpoint-authentication-method">
+<section id="section-9.1">
+        <h3 id="name-registration-of-attest_jwt_">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-registration-of-attest_jwt_" class="section-name selfRef">Registration of attest_jwt_client_auth Token Endpoint Authentication Method</a>
+        </h3>
+<p id="section-9.1-1">This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol <span>[<a href="#RFC7591" class="cite xref">RFC7591</a>]</span>.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.1-2.1">
+            <p id="section-9.1-2.1.1">Token Endpoint Authentication Method Name: "attest_jwt_client_auth"<a href="#section-9.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-2.2">
+            <p id="section-9.1-2.2.1">Change Controller: IESG<a href="#section-9.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-2.3">
+            <p id="section-9.1-2.3.1">Specification Document(s): TBC<a href="#section-9.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<section id="section-10">
       <h2 id="name-references">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-9.1">
+<section id="section-10.1">
         <h3 id="name-normative-references">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -1541,17 +1668,17 @@ cC4hiUPo[...omitted for brevity...]
         <dd>
 <span class="refAuthor">Sheffer, Y.</span>, <span class="refAuthor">Hardt, D.</span>, and <span class="refAuthor">M. Jones</span>, <span class="refTitle">"JSON Web Token Best Current Practices"</span>, <span class="seriesInfo">BCP 225</span>, <span class="seriesInfo">RFC 8725</span>, <span class="seriesInfo">DOI 10.17487/RFC8725</span>, <time datetime="2020-02" class="refDate">February 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8725">https://www.rfc-editor.org/rfc/rfc8725</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC9449">[RFC9449]</dt>
+<dt id="RFC9110">[RFC9110]</dt>
       <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Bradley, J.</span>, <span class="refAuthor">Lodderstedt, T.</span>, <span class="refAuthor">Jones, M.</span>, and <span class="refAuthor">D. Waite</span>, <span class="refTitle">"OAuth 2.0 Demonstrating Proof of Possession (DPoP)"</span>, <span class="seriesInfo">RFC 9449</span>, <span class="seriesInfo">DOI 10.17487/RFC9449</span>, <time datetime="2023-09" class="refDate">September 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9449">https://www.rfc-editor.org/rfc/rfc9449</a>&gt;</span>. </dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-9.2">
+<section id="section-10.2">
         <h3 id="name-informative-references">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="ARF">[ARF]</dt>
@@ -1559,12 +1686,8 @@ cC4hiUPo[...omitted for brevity...]
 <span class="refTitle">"The European Digital Identity Wallet Architecture and Reference Framework"</span>, <span>n.d.</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6749">[RFC6749]</dt>
-        <dd>
-<span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6749">https://www.rfc-editor.org/rfc/rfc6749</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC7521">[RFC7521]</dt>
       <dd>
-<span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Mortimore, C.</span>, <span class="refAuthor">Jones, M.</span>, and <span class="refAuthor">Y. Goland</span>, <span class="refTitle">"Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants"</span>, <span class="seriesInfo">RFC 7521</span>, <span class="seriesInfo">DOI 10.17487/RFC7521</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7521">https://www.rfc-editor.org/rfc/rfc7521</a>&gt;</span>. </dd>
+<span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6749">https://www.rfc-editor.org/rfc/rfc6749</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1630,7 +1753,7 @@ cC4hiUPo[...omitted for brevity...]
           <p id="appendix-B-2.3.1">Refined text around cnf claim in client attestation<a href="#appendix-B-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-2.4">
-          <p id="appendix-B-2.4.1">Clarified how to bind refresh tokens to a client instance using this client authentication method<a href="#appendix-B-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-2.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-B-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-B-2.5">
           <p id="appendix-B-2.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-B-2.5.1" class="pilcrow">¶</a></p>
