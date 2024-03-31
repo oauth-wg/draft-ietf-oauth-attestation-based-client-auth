@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-28T00:43:53.302428+00:00",
+  "timestamp": "2024-03-31T00:49:30.309823+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5290,21 +5290,21 @@
       "id": "PR_kwDOJaEkaM5kIFOQ",
       "title": "feat: initial proposal to use dpop",
       "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "**DRAFT PR FOR DISCUSSION**\r\n\r\n## \ud83d\udcd1 Description\r\n\r\nFollowing discussion across multiple issues and PR's including #59 and #64. This PR represents a draft proposal to use the DPoP HTTP Header as defined in [RFC9449](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#name-the-dpop-http-header) instead of the client attestation pop.\r\n\r\n## Preview Link\r\n\r\n[click here for rendered preview of PR](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-proof/draft-ietf-oauth-attestation-based-client-auth.html)",
       "createdAt": "2024-01-15T21:23:08Z",
-      "updatedAt": "2024-01-29T23:45:43Z",
+      "updatedAt": "2024-03-28T03:02:34Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
       "headRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/dpop-proof",
       "headRefOid": "833eea8467ea257c1efdfa109546db2b14b46300",
-      "closedAt": null,
+      "closedAt": "2024-03-28T03:02:34Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -5406,6 +5406,13 @@
           "body": "As a consequence of discussing some of the advantages this PR brings, a new usecase/requirement surfaced which has been captured in PR #69",
           "createdAt": "2024-01-26T03:42:09Z",
           "updatedAt": "2024-01-26T20:12:06Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing in favour of #74 ",
+          "createdAt": "2024-03-28T03:02:34Z",
+          "updatedAt": "2024-03-28T03:02:34Z"
         }
       ],
       "reviews": [
@@ -5576,6 +5583,54 @@
           ]
         }
       ]
+    },
+    {
+      "number": 74,
+      "id": "PR_kwDOJaEkaM5q_2E4",
+      "title": "feat: initial proposal to use http headers",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
+      "createdAt": "2024-03-28T01:21:01Z",
+      "updatedAt": "2024-03-28T16:28:45Z",
+      "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
+      "headRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "tl/header-syntax-proposal",
+      "headRefOid": "5c172ff09173d3b934c138aac13c5821b54c152a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "For some reason it seems to not create an html version?\r\n\r\nThis is the rendered text:\r\nhttps://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/header-syntax-proposal/draft-ietf-oauth-attestation-based-client-auth.txt\r\n",
+          "createdAt": "2024-03-28T06:36:38Z",
+          "updatedAt": "2024-03-28T06:36:38Z"
+        },
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "I think there were potential objections mentioned about moving to headers as to whether we'd run into size limits (I think 8 KB was mentioned as a common restriction) and people felt jwts with embedded x5c headers etc may get close to these limits?",
+          "createdAt": "2024-03-28T12:58:31Z",
+          "updatedAt": "2024-03-28T12:58:31Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "@jogu indeed. We may have a client attestation with an huge x509 certificate chain or an openid federation trust chain with several metadata, trust marks and jwks. \r\n\r\nI don't see the benefit of moving from what it is actually more efficient (wa~wa-pop)\r\n\r\nmore over, technically we can have multiple client_assertions that embedes their pop (using ~), while having multiple http headers that divide attestation from pop forces the implementations to loop all the assertions and all the pop to find the matching ones",
+          "createdAt": "2024-03-28T16:28:44Z",
+          "updatedAt": "2024-03-28T16:28:44Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
