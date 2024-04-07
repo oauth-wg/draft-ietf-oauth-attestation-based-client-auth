@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-04T00:45:32.145872+00:00",
+  "timestamp": "2024-04-07T00:49:52.469629+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5596,7 +5596,7 @@
       "labels": [],
       "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
       "createdAt": "2024-03-28T01:21:01Z",
-      "updatedAt": "2024-04-03T19:10:53Z",
+      "updatedAt": "2024-04-05T16:25:55Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
@@ -5642,6 +5642,69 @@
           "body": "@jogu @peppelinux I can understand the desire to want to use X.509 certificates to validate the client assertion (e.g as an alternative key resolution mechanism to resolving a JWKS document from a domain), however I don't see how the certificate chain would be more then 1 certificate (maybe 2) in length (bearing in mind the root certificate(s) would be communicated to the issuer out of band and pre-trusted for the client). W.r.t other aspects of the client attestation or client attestation pop being too big for an HTTP header could you elaborate on what you see as the contents of your attestation @peppelinux? Because IIUC you perhaps want to use the client attestation to convey all client metadata? If that is the case IMO the client attestation isn't for this purpose, client metadata should continue to be communicated outside of these attestations with the pre-existing mechanisms we already have defined.\r\n\r\nFinally even if we did begin to encroach on header payload limits with a client attestation, we aren't talking about hard limits here, rather just the default maximums that common web server platforms have configured, which can always be adjusted. ",
           "createdAt": "2024-04-03T19:10:52Z",
           "updatedAt": "2024-04-03T19:10:52Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "there some point for clarification\r\n\r\n1. assertion weight: a client assertion may have a x5c or an openid federation trust chain within its JWT header. This is an issuer's choice, allowed by RFC 7515 that might be not supported by httpd maximum header body size, that's a deployment/configuration choice that might be different within different domains.\r\n2. chain length: it could be assumed that a chain may not exceed 2 or 3 certificate breaks. This depends on the number of intermediates, an aspect that falls outside the technical specification and is determined by the federation's topology and composition.\r\n3. client metadata: we have some required claims in the wallet attestations and the possibility to include any other custom claim or any other claims pertaining the wallet capabilities or anything else related to the trust framework. My comment is not related to assertion payload, but to the previous point 1 and 2. However, the payload also impacts in the assertion weight, as pointed out at point 1.\r\n\r\nThe missing point concerns the processing of multiple DPoP tokens within the same request. Handling multiple DPoP tokens necessitates a loop to identify the one that matches a specific assertion. This introduces additional computational and development efforts not present in the current approach (WA~WA-POP), which directly associates an assertion with its proof of possession (PoP), facilitating a straightforward and efficient identification of matching pairs.",
+          "createdAt": "2024-04-04T05:47:19Z",
+          "updatedAt": "2024-04-04T05:49:22Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> assertion weight: a client assertion may have a x5c or an openid federation trust chain within its JWT header. This is an issuer's choice, allowed by RFC 7515 that might be not supported by httpd maximum header body size, that's a deployment/configuration choice that might be different within different domains.\r\n\r\nOk great so do we agree that this isn't an issue because servers are freely able to re-configure the max header size based on their application? Because it isn't a hard limit.",
+          "createdAt": "2024-04-05T03:04:37Z",
+          "updatedAt": "2024-04-05T03:04:37Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> chain length: it could be assumed that a chain may not exceed 2 or 3 certificate breaks. This depends on the number of intermediates, an aspect that falls outside the technical specification and is determined by the federation's topology and composition.\r\n\r\nUnderstood but based on the above point is this actually an issue if the limit on header size isn't a hard limit?",
+          "createdAt": "2024-04-05T03:05:12Z",
+          "updatedAt": "2024-04-05T03:05:12Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> The missing point concerns the processing of multiple DPoP tokens within the same request. Handling multiple DPoP tokens necessitates a loop to identify the one that matches a specific assertion. This introduces additional computational and development efforts not present in the current approach (WA~WA-POP), which directly associates an assertion with its proof of possession (PoP), facilitating a straightforward and efficient identification of matching pairs.\r\n\r\nRight but to be clear, the current draft does not handle multiple wallet attestations either though so I think this a new requirement that we should discuss separately, would you mind opening a seperate issue?",
+          "createdAt": "2024-04-05T03:06:36Z",
+          "updatedAt": "2024-04-05T03:06:53Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "The issue extends beyond the realm of multiple wallet attestations, as there could also be multiple DPoP tokens involved.\r\n\r\nAn additional consideration, which we have not yet fully addressed but may emerge as a future requirement, is the scenario where a wallet instance operates under more than one trust framework, necessitating specialized assertions for each. While we have consciously chosen to limit the scope to a single wallet attestation to simplify implementation, it's important to acknowledge that this decision does not preclude the possibility of requiring multiple assertions in the future. Implementers may need to adapt or extend the specification to accommodate such needs. However, to avoid digressing further, let's focus on the matter of handling multiple DPoP headers for now.\r\n\r\nThe approach currently documented, which aims to streamline the process by limiting it to a single attestation, is designed to offer the same benefits while minimizing computational overhead.",
+          "createdAt": "2024-04-05T07:08:00Z",
+          "updatedAt": "2024-04-05T07:08:00Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > assertion weight: a client assertion may have a x5c or an openid federation trust chain within its JWT header. This is an issuer's choice, allowed by RFC 7515 that might be not supported by httpd maximum header body size, that's a deployment/configuration choice that might be different within different domains.\r\n> \r\n> Ok great so do we agree that this isn't an issue because servers are freely able to re-configure the max header size based on their application? Because it isn't a hard limit.\r\n\r\nWhile it is possible to reconfigure these options, it is important to keep default values of the wide-spread implementations in mind to allow an easy path for adoption.\r\n\r\nI took the time to look at some of the frameworks I would say are good indicators:\r\n- nginx: [link](https://nginx.org/en/docs/http/ngx_http_core_module.html#large_client_header_buffers) --> 8KB for 1 header max\r\n- envoy (used in istio): [link](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto) --> 60 KB for headers\r\n- node.js: [link](https://nodejs.org/api/http.html#httpmaxheadersize)  --> 16KB for headers\r\n- traefik: [link](https://github.com/traefik/traefik/issues/8846) --> re-uses go/http: 1MB for headers\r\n\r\n--> After looking at this, I would say we can go with headers",
+          "createdAt": "2024-04-05T07:33:39Z",
+          "updatedAt": "2024-04-05T07:33:39Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "An OpenID Federation trust chain with two intermediates, the trust anchor entity configuration with a long list of trust mark issuers and the leaf entity configuration with a very verbose configuration, such as an AS + Openid4VCI + OpenID4VP (considering an EAA provider), with policies and a consistent number of trust mark might be 20KB.\r\n\r\nA serialized X.509 certificate chain, with 4 intermediates, custom extensions and QWACs ... Considering each certificate up to 2.2KB, might it be 8.8KB? \r\n\r\n(please, consider that openid federation brings policy languages, trust marks and multiple protocol specific metadata)\r\n\r\nI'm worried about these aspects:\r\n\r\n1. loop required for parse/matching the correct DPoP when multiple DPoP are present, while WIA~WIA-POP doesn't bring this problem. What's the benefit of having this breaking change that reduce the flexibility while increasing the complexity?\r\n2. size limitations: Do we have to imagine to standardize something upon the assumption that a federation topology should not have more than 2 or 4 or 8 intermediates, since this decision is out of scope on this specification.\r\n\r\n\r\n",
+          "createdAt": "2024-04-05T08:57:18Z",
+          "updatedAt": "2024-04-05T08:59:16Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A bit off-topic for the current discussion:\r\nWe need to fix the examples - they are way too long which breaks the rendering/conversion and will cause problems with the datatracker. I do believe that this is also the reason why the html file was not created.",
+          "createdAt": "2024-04-05T14:04:43Z",
+          "updatedAt": "2024-04-05T14:05:20Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Note that rfc9449 does not allow for multiple DPoP headers. It could maybe have been stated more clearly but is kinda implied and was absolutely the intent of the RFC overall and specific text like https://www.rfc-editor.org/rfc/rfc9449.html#section-4.3-2.2",
+          "createdAt": "2024-04-05T16:25:54Z",
+          "updatedAt": "2024-04-05T16:25:54Z"
         }
       ],
       "reviews": [
