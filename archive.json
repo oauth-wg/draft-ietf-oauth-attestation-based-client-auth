@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-07T00:49:52.469629+00:00",
+  "timestamp": "2024-04-09T00:44:28.072920+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5596,7 +5596,7 @@
       "labels": [],
       "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
       "createdAt": "2024-03-28T01:21:01Z",
-      "updatedAt": "2024-04-05T16:25:55Z",
+      "updatedAt": "2024-04-07T21:31:11Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
@@ -5705,6 +5705,13 @@
           "body": "Note that rfc9449 does not allow for multiple DPoP headers. It could maybe have been stated more clearly but is kinda implied and was absolutely the intent of the RFC overall and specific text like https://www.rfc-editor.org/rfc/rfc9449.html#section-4.3-2.2",
           "createdAt": "2024-04-05T16:25:54Z",
           "updatedAt": "2024-04-05T16:25:54Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> loop required for parse/matching the correct DPoP when multiple DPoP are present, while WIA~WIA-POP doesn't bring this problem. What's the benefit of having this breaking change that reduce the flexibility while increasing the complexity?\r\n\r\n@peppelinux as I implied with my earlier comment, the current draft text doesn't support multiple attestations so I don't view this proposal to shift to headers as removing functionality, it appears this is a new usecase and I think we should discuss it in a seperate issue.\r\n\r\n> size limitations: Do we have to imagine to standardize something upon the assumption that a federation topology should not have more than 2 or 4 or 8 intermediates, since this decision is out of scope on this specification.\r\n\r\nNo I dont think we do, what was identified above is that there is no size limit on headers in HTTP rather defaults that servers apply which can be adjusted, in reality web servers also apply limits to the body of an HTTP request (although often much larger then what is allocated for headers).",
+          "createdAt": "2024-04-07T21:31:10Z",
+          "updatedAt": "2024-04-07T21:31:10Z"
         }
       ],
       "reviews": [
