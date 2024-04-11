@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-09T00:44:28.072920+00:00",
+  "timestamp": "2024-04-11T00:44:48.263757+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2168,6 +2168,22 @@
       "body": "",
       "createdAt": "2024-03-27T22:27:44Z",
       "updatedAt": "2024-03-27T22:27:44Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 75,
+      "id": "I_kwDOJaEkaM6FQ1vP",
+      "title": "Make PoP optional",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/75",
+      "state": "OPEN",
+      "author": "nikosft",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I believe there are many existing systems that generate \"client attestations\" and can benefit from this draft, examples of such client attestations are:\r\n\r\n- Github's [oidc token for actions](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)\r\n- SPRIFFE [JWT Verifiable Document](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/#spiffe-verifiable-identity-document-svid)\r\n- Azure [AD Pod identity](https://azure.github.io/aad-pod-identity/)\r\n\r\nHowever in all these solutions, attestations are not bound to any key. ",
+      "createdAt": "2024-04-10T14:45:46Z",
+      "updatedAt": "2024-04-10T14:45:46Z",
       "closedAt": null,
       "comments": []
     }
