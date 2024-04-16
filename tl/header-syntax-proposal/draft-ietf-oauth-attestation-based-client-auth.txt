@@ -5,7 +5,7 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 5 October 2024                                     3 April 2024
+Expires: 18 October 2024                                   16 April 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 October 2024.
+   This Internet-Draft will expire on 18 October 2024.
 
 Copyright Notice
 
@@ -78,7 +78,7 @@ Table of Contents
    6.  Implementation Considerations
      6.1.  Reuse of a Client Attestation JWT
      6.2.  Refresh token binding
-     6.3.  Rotation of Client Instance Key
+       6.2.1.  Web Server Default Maximum HTTP Header Sizes
    7.  Privacy Considerations
      7.1.  Client Instance Tracking Across Authorization Servers
    8.  Security Considerations
@@ -205,16 +205,21 @@ Table of Contents
 
    The following is an example of the OAuth-Client-Attestation header.
 
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBz\
-Oi8vY2xpZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjc\
-nYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZE\
-FnY3g1NW83VGtjU0EifX19.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+   OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
+   pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
+   pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
+   sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
+   sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
+   ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
+   9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 
    The following is an example of the OAuth-Client-Attestation-PoP
    header.
 
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbX\
-BsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\
+   zovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\
+   20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\
+   bIey8GVVQLv9qQrBUqmc1qj9Bs
 
    Note that per [RFC9110] header field names are case-insensitive; so
    OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all
@@ -408,18 +413,23 @@ token68                        = 1*( ALPHA / DIGIT /
    mechanism in an access token request (with extra line breaks for
    display purposes only):
 
-POST /token HTTP/1.1
-Host: as.example.com
-Content-Type: application/x-www-form-urlencoded
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBz\
-Oi8vY2xpZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjc\
-nYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZE\
-FnY3g1NW83VGtjU0EifX19.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbX\
-BsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+   POST /token HTTP/1.1
+   Host: as.example.com
+   Content-Type: application/x-www-form-urlencoded
+   OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
+   pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
+   pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
+   sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
+   sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
+   ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
+   9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\
+   zovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\
+   20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\
+   bIey8GVVQLv9qQrBUqmc1qj9Bs
 
-grant_type=authorization_code&
-code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
+   grant_type=authorization_code&
+   code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
 6.  Implementation Considerations
 
@@ -445,7 +455,18 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
    the same key that was present in the "cnf" claim of the client
    attestation that was used when the refresh token was issued.
 
-6.3.  Rotation of Client Instance Key
+6.2.1.  Web Server Default Maximum HTTP Header Sizes
+
+   Because the Client Attestation and Client Attestation PoP are
+   communicated using HTTP headers, implementers should consider that
+   web servers may have a default maximum HTTP header size configured
+   which could be too low to allow conveying a Client Attestation and or
+   Client Attestation PoP in an HTTP request.  It should be noted, that
+   this limit is not given by the HTTP [RFC9112], but instead web server
+   implementations commonly set a default maximum size for HTTP headers.
+   As of 2024, typical limits for modern web servers configure maximum
+   HTTP headers as 8 kB or more as a default. ## Rotation of Client
+   Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
@@ -568,6 +589,10 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [RFC9112]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
+              June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
 
 10.2.  Informative References
 
