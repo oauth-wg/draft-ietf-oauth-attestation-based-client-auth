@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-14T01:00:10.472860+00:00",
+  "timestamp": "2024-04-16T00:43:50.301162+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5612,7 +5612,7 @@
       "labels": [],
       "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
       "createdAt": "2024-03-28T01:21:01Z",
-      "updatedAt": "2024-04-07T21:31:11Z",
+      "updatedAt": "2024-04-15T19:48:27Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
@@ -5728,6 +5728,20 @@
           "body": "> loop required for parse/matching the correct DPoP when multiple DPoP are present, while WIA~WIA-POP doesn't bring this problem. What's the benefit of having this breaking change that reduce the flexibility while increasing the complexity?\r\n\r\n@peppelinux as I implied with my earlier comment, the current draft text doesn't support multiple attestations so I don't view this proposal to shift to headers as removing functionality, it appears this is a new usecase and I think we should discuss it in a seperate issue.\r\n\r\n> size limitations: Do we have to imagine to standardize something upon the assumption that a federation topology should not have more than 2 or 4 or 8 intermediates, since this decision is out of scope on this specification.\r\n\r\nNo I dont think we do, what was identified above is that there is no size limit on headers in HTTP rather defaults that servers apply which can be adjusted, in reality web servers also apply limits to the body of an HTTP request (although often much larger then what is allocated for headers).",
           "createdAt": "2024-04-07T21:31:10Z",
           "updatedAt": "2024-04-07T21:31:10Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed with @paulbastian, I will add an implementation consideration around the default size limits for HTTP headers.",
+          "createdAt": "2024-04-15T17:10:18Z",
+          "updatedAt": "2024-04-15T17:10:18Z"
+        },
+        {
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "body": "@tplooker what about using compressed values?\r\n\r\nunfortunately this sounds like giving a solution that may bring other problems, at the same time we can consider zlib (RFC 1950) for doing this.",
+          "createdAt": "2024-04-15T17:25:42Z",
+          "updatedAt": "2024-04-15T17:25:42Z"
         }
       ],
       "reviews": [
@@ -5828,6 +5842,46 @@
               "body": "```suggestion\r\nThis draft introduces the concept of client attestations to the OAuth 2 protocol, which consists of two JWT's, a Client Attestation and Client Attestation PoP, which are conveyed via HTTP headers in an HTTP request sent by a client to an Authorization Server or Resource Server. The purpose of these headers is to authenticate or attest to the Client Instance.\r\n```",
               "createdAt": "2024-04-02T20:47:57Z",
               "updatedAt": "2024-04-02T20:47:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM53UOm_",
+          "commit": {
+            "abbreviatedOid": "1c4f76c"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-15T17:33:11Z",
+          "updatedAt": "2024-04-15T17:33:12Z",
+          "comments": [
+            {
+              "originalPosition": 196,
+              "body": "```suggestion\r\n\r\nImplementers should consider the technical limitations of header sizes of the deployed web servers. If the Client Attestations size is becoming large, e.g. a `x5c` header containing multiple certificates with RSA keys as a trust mechanism, web server implementations receiving the HTTP request could fail as the header does not fit into the buffer dedicated for the HTTP headers. It shall be noted, that this limit is not given by the HTTP standard, but only by the technical implementations. As of 2024, typical limits for HTTP headers is 8 kB or above, which seems sufficient. \r\n```",
+              "createdAt": "2024-04-15T17:33:12Z",
+              "updatedAt": "2024-04-15T17:33:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM53VHjo",
+          "commit": {
+            "abbreviatedOid": "1c4f76c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-15T19:48:27Z",
+          "updatedAt": "2024-04-15T19:48:27Z",
+          "comments": [
+            {
+              "originalPosition": 196,
+              "body": "```suggestion\r\n\r\n### Web Server Default Maximum HTTP Header Sizes\r\n\r\nBecause the Client Attestation and Client Attestation PoP are communicated using HTTP headers, implementers should consider that web servers may have a default maximum HTTP header size configured which could be too low to allow conveying a Client Attestation and or Client Attestation PoP in an HTTP request. It should be noted, that this limit is not given by the HTTP {{RFC9112}}, but instead web server implementations commonly set a default maximum size for HTTP headers. As of 2024, typical limits for modern web servers configure maximum HTTP headers as 8 kB as a default, which seems sufficient.\r\n```",
+              "createdAt": "2024-04-15T19:48:27Z",
+              "updatedAt": "2024-04-15T19:48:27Z"
             }
           ]
         }
