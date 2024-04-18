@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-16T00:43:50.301162+00:00",
+  "timestamp": "2024-04-18T00:43:41.160655+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5612,13 +5612,13 @@
       "labels": [],
       "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
       "createdAt": "2024-03-28T01:21:01Z",
-      "updatedAt": "2024-04-15T19:48:27Z",
+      "updatedAt": "2024-04-16T21:19:33Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
       "headRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/header-syntax-proposal",
-      "headRefOid": "1c4f76c0505a2aa37c4c93df605e3bd9442cc5df",
+      "headRefOid": "96e6b125a329def4828e7c01cd441c6174c5c57f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5879,9 +5879,181 @@
           "comments": [
             {
               "originalPosition": 196,
-              "body": "```suggestion\r\n\r\n### Web Server Default Maximum HTTP Header Sizes\r\n\r\nBecause the Client Attestation and Client Attestation PoP are communicated using HTTP headers, implementers should consider that web servers may have a default maximum HTTP header size configured which could be too low to allow conveying a Client Attestation and or Client Attestation PoP in an HTTP request. It should be noted, that this limit is not given by the HTTP {{RFC9112}}, but instead web server implementations commonly set a default maximum size for HTTP headers. As of 2024, typical limits for modern web servers configure maximum HTTP headers as 8 kB as a default, which seems sufficient.\r\n```",
+              "body": "```suggestion\r\n\r\n### Web Server Default Maximum HTTP Header Sizes\r\n\r\nBecause the Client Attestation and Client Attestation PoP are communicated using HTTP headers, implementers should consider that web servers may have a default maximum HTTP header size configured which could be too low to allow conveying a Client Attestation and or Client Attestation PoP in an HTTP request. It should be noted, that this limit is not given by the HTTP {{RFC9112}}, but instead web server implementations commonly set a default maximum size for HTTP headers. As of 2024, typical limits for modern web servers configure maximum HTTP headers as 8 kB or more as a default.\r\n```",
               "createdAt": "2024-04-15T19:48:27Z",
-              "updatedAt": "2024-04-15T19:48:27Z"
+              "updatedAt": "2024-04-16T21:05:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM53bu1g",
+          "commit": {
+            "abbreviatedOid": "1c4f76c"
+          },
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-16T14:04:52Z",
+          "updatedAt": "2024-04-16T14:04:52Z",
+          "comments": [
+            {
+              "originalPosition": 196,
+              "body": "I don't think that \"which seems sufficient\" should be included.",
+              "createdAt": "2024-04-16T14:04:52Z",
+              "updatedAt": "2024-04-16T14:04:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM53dROK",
+          "commit": {
+            "abbreviatedOid": "1c4f76c"
+          },
+          "author": "c2bo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "This should hopefully fix the rendering",
+          "createdAt": "2024-04-16T16:47:23Z",
+          "updatedAt": "2024-04-16T16:52:49Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "```suggestion\r\nOAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\\\r\npc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\\\r\npZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\\\r\nsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\\\r\nsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\\\r\nieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\\\r\n9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\r\n```",
+              "createdAt": "2024-04-16T16:47:23Z",
+              "updatedAt": "2024-04-16T16:52:49Z"
+            },
+            {
+              "originalPosition": 102,
+              "body": "```suggestion\r\nOAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\\\r\nzovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\\\r\n20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\\\r\nbIey8GVVQLv9qQrBUqmc1qj9Bs\r\n```",
+              "createdAt": "2024-04-16T16:48:03Z",
+              "updatedAt": "2024-04-16T16:52:49Z"
+            },
+            {
+              "originalPosition": 182,
+              "body": "```suggestion\r\nPOST /token HTTP/1.1\r\nHost: as.example.com\r\nContent-Type: application/x-www-form-urlencoded\r\nOAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\\\r\npc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\\\r\npZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\\\r\nsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\\\r\nsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\\\r\nieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\\\r\n9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\r\nOAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\\\r\nzovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\\\r\n20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\\\r\nbIey8GVVQLv9qQrBUqmc1qj9Bs\r\n\r\ngrant_type=authorization_code&\r\ncode=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4\r\n```",
+              "createdAt": "2024-04-16T16:49:50Z",
+              "updatedAt": "2024-04-16T16:52:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM53ell8",
+          "commit": {
+            "abbreviatedOid": "1c4f76c"
+          },
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-16T20:05:55Z",
+          "updatedAt": "2024-04-16T20:05:55Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\nThis specification introduces an extension to the OAuth 2.0 protocol, as outlined in {{RFC6749}}, enabling Client Instances to include an attestation in their interactions with Authorization Servers or Resource Servers. This method allows Client Instances, typically considered as public clients in traditional deployments, to authenticate to an Authorization Server or Resource Server by providing an attestation, thereby enhancing the authentication process for Client Instances.\r\n```",
+              "createdAt": "2024-04-16T20:05:55Z",
+              "updatedAt": "2024-04-16T20:05:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM53enBM",
+          "commit": {
+            "abbreviatedOid": "1c4f76c"
+          },
+          "author": "peppelinux",
+          "authorAssociation": "MEMBER",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2024-04-16T20:09:22Z",
+          "updatedAt": "2024-04-16T20:22:13Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "```suggestion\r\nPlease note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the client Backend, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend server. In such cases, each Client Instance is responsible for performing the functions typically handled by the backend on its own. \r\n\r\nThis approach acknowledges the evolving landscape of OAuth 2.0 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important. \r\n```",
+              "createdAt": "2024-04-16T20:09:22Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 52,
+              "body": "```suggestion\r\n: A specific deployment or instantiation of a client application in the OAuth 2.0 framework, representing a single, distinct version of the client software running on a device or in an environment. Each Client Instance can have its own unique configuration, state, and identity, distinguishing it from other deployments of the same client application. This concept is particularly relevant in contexts where a client application might be installed and operated across multiple devices or environments, each requiring individual authentication and authorization processes with OAuth 2.0 Authorization Servers or Resource Servers.\r\n```",
+              "createdAt": "2024-04-16T20:11:41Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 56,
+              "body": "```suggestion\r\n:  A cryptographic asymmetric key is generated by the Client Instance and its authenticity is proven to the client backend. The public key is encapsulated within the Client Attestation JWT and is utilized to sign the Client Attestation Proof of Possession.\r\n```",
+              "createdAt": "2024-04-16T20:12:33Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 61,
+              "body": "```suggestion\r\nThis draft introduces the concept of client attestations to the OAuth 2.0 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). These JWTs are transmitted via HTTP headers in an HTTP request from a client to an Authorization Server or Resource Server. The primary purpose of these headers is to authenticate or attest to the identity of the Client Instance.\r\n```",
+              "createdAt": "2024-04-16T20:14:13Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 71,
+              "body": "```suggestion\r\n: A JWT that conforms to the structure and syntax as defined in [](#client-attestation-jwt)\r\n```",
+              "createdAt": "2024-04-16T20:14:52Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 107,
+              "body": "```suggestion\r\nAs specified in {{RFC9110}}, header field names are case-insensitive; therefore, OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, and other case variations are all valid and equivalent header field names. However, it is important to consider that the case is significant in the value of the header field.\r\n```",
+              "createdAt": "2024-04-16T20:16:25Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 125,
+              "body": "```suggestion\r\nThe following rules apply to validating the Client Attestation JWT. Application of additional restrictions and policy are at the discretion of the Authorization Server.\r\n```",
+              "createdAt": "2024-04-16T20:16:48Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 148,
+              "body": "```suggestion\r\n11. The Authorization Server MUST reject a JWT that is not valid in all other respects per \"JSON Web Token (JWT)\" {{RFC7519}}.\r\n```",
+              "createdAt": "2024-04-16T20:17:10Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 166,
+              "body": "```suggestion\r\nThe Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.\r\n```",
+              "createdAt": "2024-04-16T20:17:47Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 190,
+              "body": "```suggestion\r\nImplementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.\r\n```",
+              "createdAt": "2024-04-16T20:18:26Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            },
+            {
+              "originalPosition": 196,
+              "body": "anyway, this \"default\" limitation would have huge impacts on the topologies of the infrastructure of trust which will tend to not scale upon multiple intermediates, facilitating therefore the old-single-central-point. \r\n\r\nI see a regression, in a way that is as if we were trying as much as possible to distance ourselves from a potential complexity that we would like to avoid at all costs (and which will therefore haunt us!).",
+              "createdAt": "2024-04-16T20:21:47Z",
+              "updatedAt": "2024-04-16T20:22:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM53fAZB",
+          "commit": {
+            "abbreviatedOid": "383f06f"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-16T21:19:26Z",
+          "updatedAt": "2024-04-16T21:19:27Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\n  RFC9110: RFC9110\r\n  RFC9112: RFC9112\r\n```",
+              "createdAt": "2024-04-16T21:19:26Z",
+              "updatedAt": "2024-04-16T21:19:27Z"
             }
           ]
         }
