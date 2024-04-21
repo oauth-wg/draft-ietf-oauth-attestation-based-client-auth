@@ -322,6 +322,10 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 # Document History
 
+-02
+
+* Add text on rotation of the confirmation key
+
 -01
 
 * Updated eIDAS example in appendix
