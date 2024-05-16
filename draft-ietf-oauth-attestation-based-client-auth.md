@@ -161,7 +161,7 @@ It is RECOMMENDED that the authorization server validate the Client Attestation 
 
 ## Client Attestation JWT {#client-attestation-jwt}
 
-The following rules apply to validating the Client Attestation JWT. Application of additional restrictions and policy are at the discretion of the authorization server.
+The following rules apply to validating the Client Attestation JWT. Application of additional restrictions and policy are at the discretion of the Authorization Server.
 
 1. The JWT MUST contain an "iss" (issuer) claim that contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
 
