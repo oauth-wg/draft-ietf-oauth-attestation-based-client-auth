@@ -119,7 +119,7 @@ This draft introduces the concept of client attestations to the OAuth 2 protocol
 A Client Attestation JWT and Client Attestation PoP JWT is included in an HTTP request using the following request header fields.
 
 OAuth-Client-Attestation:
-:  A JWT that adheres to the structure and syntax as defined in [](#client-attestation-jwt)
+: A JWT that conforms to the structure and syntax as defined in [](#client-attestation-jwt)
 
 OAuth-Client-Attestation-PoP:
 : A JWT that adheres to the structure and syntax as defined in [](#client-attestation-pop-jwt)
