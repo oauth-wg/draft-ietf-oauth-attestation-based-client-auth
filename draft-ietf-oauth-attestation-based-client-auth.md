@@ -88,7 +88,9 @@ The following steps describe this OAuth flow:
 
 (6) The Client Instance sends both the Client Attestation JWT and the Client Attestation PoP JWT to the authorization server, e.g. within a token request. The authorization server validates the Client Attestation and thus authenticates the Client Instance.
 
-Note that the protocol for steps (2) and (4) and how the Client Instance authenticates to the Client Backend is out of scope of this specification.  Note also that this specification can be utilized without the client having a backend server at all; in this case, each Client Instance will perform the functions described as being done by the backend for itself.
+Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the client Backend, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend server. In such cases, each Client Instance is responsible for performing the functions typically handled by the backend on its own. 
+
+This approach acknowledges the evolving landscape of OAuth 2.0 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important. 
 
 # Conventions and Definitions
 
