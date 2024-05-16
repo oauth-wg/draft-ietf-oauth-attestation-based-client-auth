@@ -112,7 +112,7 @@ Client Instance Key:
 
 # Client Attestation
 
-This draft introduces the concept of client attestations to the OAuth 2 protocol, which consists of two JWT's, a Client Attestation and Client Attestation PoP, which are conveyed via HTTP headers in an HTTP request sent by a client to an Authorization Server or Resource Server. The purpose of these headers is to authenticate or attest to the Client Instance.
+This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). These JWTs are transmitted via HTTP headers in an HTTP request from a Client Instance to an Authorization Server or Resource Server. The primary purpose of these headers is to authenticate the Client Instance.
 
 ## Client Attestation HTTP Headers
 
