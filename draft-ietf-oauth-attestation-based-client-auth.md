@@ -87,9 +87,9 @@ The following steps describe this OAuth flow:
 
 (6) The Client Instance sends both the Client Attestation JWT and the Client Attestation PoP JWT to the authorization server, e.g. within a token request. The authorization server validates the Client Attestation and thus authenticates the Client Instance.
 
-Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the client Backend, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend server. In such cases, each Client Instance is responsible for performing the functions typically handled by the backend on its own. 
+Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the client Backend, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend server. In such cases, each Client Instance is responsible for performing the functions typically handled by the backend on its own.
 
-This approach acknowledges the evolving landscape of OAuth 2.0 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important. 
+This approach acknowledges the evolving landscape of OAuth 2.0 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important.
 
 # Conventions and Definitions
 
@@ -152,7 +152,7 @@ The OAuth-Client-Attestation and OAuth-Client-Attestation-PoP HTTP header field 
 ~~~
 OAuth-Client-Attestation       = token68
 OAuth-Client-Attestation-PoP   = token68
-token68                        = 1*( ALPHA / DIGIT / "-" / "." / 
+token68                        = 1*( ALPHA / DIGIT / "-" / "." /
                                      "_" / "~" / "+" / "/" ) *"="
 ~~~
 
