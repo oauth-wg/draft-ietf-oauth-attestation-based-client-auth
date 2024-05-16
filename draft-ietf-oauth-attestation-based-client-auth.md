@@ -153,8 +153,8 @@ The OAuth-Client-Attestation and OAuth-Client-Attestation-PoP HTTP header field 
 ~~~
 OAuth-Client-Attestation       = token68
 OAuth-Client-Attestation-PoP   = token68
-token68                        = 1*( ALPHA / DIGIT /
-                                     "-" / "." / "_" / "~" / "+" / "/" ) *"="
+token68                        = 1*( ALPHA / DIGIT / "-" / "." / 
+                                     "_" / "~" / "+" / "/" ) *"="
 ~~~
 
 It is RECOMMENDED that the authorization server validate the Client Attestation JWT prior to validating the Client Attestation PoP.
