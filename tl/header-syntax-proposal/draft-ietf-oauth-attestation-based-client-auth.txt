@@ -73,7 +73,7 @@ Table of Contents
      4.2.  Client Attestation JWT
      4.3.  Client Attestation PoP JWT
      4.4.  Checking HTTP requests feature client attestations
-   5.  Client Attestation Access Token Request
+   5.  Client Attestation at the Token Endpoint
    6.  Implementation Considerations
      6.1.  Reuse of a Client Attestation JWT
      6.2.  Refresh token binding
@@ -403,7 +403,7 @@ Table of Contents
        Instance Key contained in the cnf claim of the Client Attestation
        JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-5.  Client Attestation Access Token Request
+5.  Client Attestation at the Token Endpoint
 
    While usage of the the client attestation mechanism defined by this
    draft can be used in a variety of different HTTP requests to
