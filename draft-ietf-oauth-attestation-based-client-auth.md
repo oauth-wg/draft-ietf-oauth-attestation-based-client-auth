@@ -255,7 +255,7 @@ To validate an HTTP request which contains the client attestation headers, the r
 2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.
 3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-# Client Attestation Access Token Request
+# Client Attestation at the Token Endpoint
 
 While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage with token endpoint as defined by {{RFC6749}} has particular additional considerations outlined below.
 
