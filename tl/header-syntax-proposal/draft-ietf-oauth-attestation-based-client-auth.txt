@@ -5,7 +5,7 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 17 November 2024                                    16 May 2024
+Expires: 20 November 2024                                    19 May 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 November 2024.
+   This Internet-Draft will expire on 20 November 2024.
 
 Copyright Notice
 
@@ -157,7 +157,7 @@ Table of Contents
    In such cases, each Client Instance is responsible for performing the
    functions typically handled by the backend on its own.
 
-   This approach acknowledges the evolving landscape of OAuth 2.0
+   This approach acknowledges the evolving landscape of OAuth 2
    deployments, where the ability for public clients to authenticate
    securely and reliably has become increasingly important.
 
