@@ -1502,7 +1502,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
             <p id="section-4.4-2.2.1">There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.<a href="#section-4.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.4-2.3">
-            <p id="section-4.4-2.3.1">The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the public key contained in the <code>cnf</code> claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.<a href="#section-4.4-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-4.4-2.3.1">The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the <code>cnf</code> claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.<a href="#section-4.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
