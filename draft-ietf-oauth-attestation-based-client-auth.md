@@ -89,7 +89,7 @@ The following steps describe this OAuth flow:
 
 Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the client Backend, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend server. In such cases, each Client Instance is responsible for performing the functions typically handled by the backend on its own.
 
-This approach acknowledges the evolving landscape of OAuth 2.0 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important.
+This approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important.
 
 # Conventions and Definitions
 
