@@ -257,7 +257,7 @@ To validate an HTTP request which contains the client attestation headers, the r
 
 # Client Attestation at the Token Endpoint
 
-While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage with token endpoint as defined by {{RFC6749}} has particular additional considerations outlined below.
+While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage within the token request as defined by {{RFC6749}} has particular additional considerations outlined below.
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.
 
