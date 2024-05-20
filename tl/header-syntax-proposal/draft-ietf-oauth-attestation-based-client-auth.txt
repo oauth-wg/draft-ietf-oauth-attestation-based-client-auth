@@ -5,7 +5,7 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 20 November 2024                                    19 May 2024
+Expires: 21 November 2024                                    20 May 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 November 2024.
+   This Internet-Draft will expire on 21 November 2024.
 
 Copyright Notice
 
@@ -486,9 +486,10 @@ Table of Contents
    Implementers should be aware that using the same client attestation
    across multiple authorization servers could result in correlation of
    the end user using the Client Instance through claim values
-   (including the public key in the cnf claim).  Client deployments are
-   therefore RECOMMENDED to use different client attestations across
-   different authorization servers.
+   (including the Client Instance Key in the cnf claim).  Client
+   deployments are therefore RECOMMENDED to use different Client
+   Attestation JWTs with different Client Instance Keys across different
+   authorization servers.
 
 8.  Security Considerations
 
