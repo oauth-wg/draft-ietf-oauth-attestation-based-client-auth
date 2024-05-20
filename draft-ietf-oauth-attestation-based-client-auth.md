@@ -304,7 +304,7 @@ This specification does not provide a mechanism to rotate the Client Instance Ke
 
 ## Client Instance Tracking Across Authorization Servers
 
-Implementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the Client Instance through claim values (including the public key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different client attestations across different authorization servers.
+Implementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the Client Instance through claim values (including the Client Instance Key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different Client Attestation JWTs with different Client Instance Keys across different authorization servers.
 
 # Security Considerations
 
