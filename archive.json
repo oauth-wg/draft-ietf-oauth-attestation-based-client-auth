@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-19T00:51:37.260412+00:00",
+  "timestamp": "2024-05-21T00:47:41.825807+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1866,9 +1866,17 @@
       "labels": [],
       "body": "",
       "createdAt": "2023-11-10T13:05:09Z",
-      "updatedAt": "2023-11-10T13:09:57Z",
+      "updatedAt": "2024-05-20T09:55:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Attester = Client\r\nRelying Party = AS,RS\r\nVerifier = Client Backend (possibly Attestation Service)\r\nEndorser, Reference Value Provider = out of scope\r\n\r\nClaim = Claim\r\nEndorsement, Evidenace, Policies nad Reference Values = out of scope\r\nAttestation Result = Client Attestation JWT\r\n",
+          "createdAt": "2024-05-20T09:55:47Z",
+          "updatedAt": "2024-05-20T09:55:47Z"
+        }
+      ]
     },
     {
       "number": 61,
@@ -2183,7 +2191,47 @@
       "labels": [],
       "body": "I believe there are many existing systems that generate \"client attestations\" and can benefit from this draft, examples of such client attestations are:\r\n\r\n- Github's [oidc token for actions](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)\r\n- SPRIFFE [JWT Verifiable Document](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/#spiffe-verifiable-identity-document-svid)\r\n- Azure [AD Pod identity](https://azure.github.io/aad-pod-identity/)\r\n\r\nHowever in all these solutions, attestations are not bound to any key. ",
       "createdAt": "2024-04-10T14:45:46Z",
-      "updatedAt": "2024-04-10T14:45:46Z",
+      "updatedAt": "2024-05-19T09:35:34Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "OpenID and OAuth already have mechanisms for ordinarily signed JWTs as a means of client authentication toward an AS, such as private key jwt and token exchange so I'm unsure how supporting this would be any different to those existing mechanisms?",
+          "createdAt": "2024-05-19T09:35:33Z",
+          "updatedAt": "2024-05-19T09:35:33Z"
+        }
+      ]
+    },
+    {
+      "number": 76,
+      "id": "I_kwDOJaEkaM6JXDu1",
+      "title": "Explicitly state the client attestation mechanism can be used at other endpoints such as PAR",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/76",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Should we explcitly say that this may be used at the PAR endpoint?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605361442_\r\n            ",
+      "createdAt": "2024-05-19T09:38:43Z",
+      "updatedAt": "2024-05-19T09:38:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 77,
+      "id": "I_kwDOJaEkaM6JXD5y",
+      "title": "Update client attestation pop to include JTI and nonce",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/77",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "              The example neither include nonce nor jti, so it does not have replay protection?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605339102_\r\n            ",
+      "createdAt": "2024-05-19T09:40:32Z",
+      "updatedAt": "2024-05-19T09:40:32Z",
       "closedAt": null,
       "comments": []
     }
@@ -5612,13 +5660,13 @@
       "labels": [],
       "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
       "createdAt": "2024-03-28T01:21:01Z",
-      "updatedAt": "2024-05-17T17:39:56Z",
+      "updatedAt": "2024-05-20T14:21:35Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
       "headRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/header-syntax-proposal",
-      "headRefOid": "f8953eab09c531cd875c54ac6066a2da60c6a131",
+      "headRefOid": "30ae9a81ffe42aff34be1e6ad9381961b9550a0f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -6309,6 +6357,202 @@
               "body": "Should we explcitly say that this may be used at the PAR endpoint?",
               "createdAt": "2024-05-17T17:39:43Z",
               "updatedAt": "2024-05-17T17:39:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57FfWN",
+          "commit": {
+            "abbreviatedOid": "f8953ea"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-19T09:39:15Z",
+          "updatedAt": "2024-05-19T09:39:15Z",
+          "comments": [
+            {
+              "originalPosition": 204,
+              "body": "Agreed, created an issue.",
+              "createdAt": "2024-05-19T09:39:15Z",
+              "updatedAt": "2024-05-19T09:39:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57FfbZ",
+          "commit": {
+            "abbreviatedOid": "f8953ea"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-19T09:40:54Z",
+          "updatedAt": "2024-05-19T09:40:54Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "Agreed created an issue to track seperately.",
+              "createdAt": "2024-05-19T09:40:54Z",
+              "updatedAt": "2024-05-19T09:40:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57FfrG",
+          "commit": {
+            "abbreviatedOid": "e2a05bf"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-19T09:46:55Z",
+          "updatedAt": "2024-05-19T09:46:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57F0gg",
+          "commit": {
+            "abbreviatedOid": "e2a05bf"
+          },
+          "author": "c2bo",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I do believe there should be a discussion about terminology (attestation vs assertion) as it seems to create quite a bit of confusion, but I do think a different issue/PR is better suited for that.\r\n\r\nMinor nit: Client Attestation seems to be used in lower and upper case somewhat inconsistently. Should every usage be upper case (e.g., also client attestation mechanism)? ",
+          "createdAt": "2024-05-19T18:09:25Z",
+          "updatedAt": "2024-05-19T18:09:25Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57JD9x",
+          "commit": {
+            "abbreviatedOid": "e2a05bf"
+          },
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2024-05-20T11:19:20Z",
+          "updatedAt": "2024-05-20T11:34:29Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\r\nThis specification defines an extension to the OAuth 2 protocol as defined in {{RFC6749}} which enables a Client Instance to include an attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to authenticate.\r\n```",
+              "createdAt": "2024-05-20T11:19:20Z",
+              "updatedAt": "2024-05-20T11:34:29Z"
+            },
+            {
+              "originalPosition": 43,
+              "body": "\"public clients\" ... \"to authenticate\" is a contradiction. The text further up speaks about \"deployments traditionally viewed as a public client\", that's a better description. I would even argue either this spec is for confidential clients of a new kind or it is a new type of client. But it is not for public clients.",
+              "createdAt": "2024-05-20T11:23:01Z",
+              "updatedAt": "2024-05-20T11:34:29Z"
+            },
+            {
+              "originalPosition": 63,
+              "body": "it is difficult if the text states client backend is out of scope but refers to the backend in the definition. Perhaps a more abstract definition would help. In the end, there must be a party trusted by the AS that signs the client attestations/assertions. It does not matter whether that is the client backend. ",
+              "createdAt": "2024-05-20T11:26:46Z",
+              "updatedAt": "2024-05-20T11:34:29Z"
+            },
+            {
+              "originalPosition": 67,
+              "body": "I still believe the term \"attestation\" should be replaced by \"assertion\". That's more appropriate and it does not confuse the audience as the term \"attestation\". ",
+              "createdAt": "2024-05-20T11:28:05Z",
+              "updatedAt": "2024-05-20T11:34:29Z"
+            },
+            {
+              "originalPosition": 206,
+              "body": "you are right, I resolve the comment. ",
+              "createdAt": "2024-05-20T11:33:03Z",
+              "updatedAt": "2024-05-20T11:34:29Z"
+            },
+            {
+              "originalPosition": 228,
+              "body": "```suggestion\r\nImplementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the Client Instance through claim values (including the Client Instance Key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different Client Attestation JWTs with different Client Instance Keys across different authorization servers.\r\n```",
+              "createdAt": "2024-05-20T11:34:18Z",
+              "updatedAt": "2024-05-20T14:21:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57KZBT",
+          "commit": {
+            "abbreviatedOid": "e2a05bf"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-20T14:14:31Z",
+          "updatedAt": "2024-05-20T14:14:32Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "How about that? If we rename the draft we may rename attestation, but until then I would keep it\r\n```suggestion\r\nThis specification defines an extension to the OAuth 2 protocol as defined in {{RFC6749}} which enables a Client Instance to include a key-bound attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to utilize this key-bound attestation to authenticate.\r\n```",
+              "createdAt": "2024-05-20T14:14:31Z",
+              "updatedAt": "2024-05-20T14:14:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57KaQ3",
+          "commit": {
+            "abbreviatedOid": "e2a05bf"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-20T14:17:00Z",
+          "updatedAt": "2024-05-20T14:17:00Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "The text doesn't say Client Backend is out of scope as `iss` of the Client Attestation JWT is the Client Backend but only that how Client Backend authenticates the client instance is out of scope",
+              "createdAt": "2024-05-20T14:17:00Z",
+              "updatedAt": "2024-05-20T14:17:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57Ka5n",
+          "commit": {
+            "abbreviatedOid": "e2a05bf"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-20T14:18:14Z",
+          "updatedAt": "2024-05-20T14:18:14Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "It will be a dedicated discussion in OAuth Interims Call and we have a separate Issue #71, but it shouldn't delay this PR in my mind",
+              "createdAt": "2024-05-20T14:18:14Z",
+              "updatedAt": "2024-05-20T14:18:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57Kcgj",
+          "commit": {
+            "abbreviatedOid": "e2a05bf"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-20T14:21:29Z",
+          "updatedAt": "2024-05-20T14:21:29Z",
+          "comments": [
+            {
+              "originalPosition": 228,
+              "body": "applied with some additional corrections",
+              "createdAt": "2024-05-20T14:21:29Z",
+              "updatedAt": "2024-05-20T14:21:29Z"
             }
           ]
         }
