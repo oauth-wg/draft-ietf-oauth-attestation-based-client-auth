@@ -367,6 +367,16 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 # Document History
 
+-03
+
+* remove usage of RFC7521 and the usage of client_assertion
+* add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP
+* add Client Instance to the terminology and improve text around this concept
+
+-02
+
+* add text on the inability to rotate the Client Instance Key
+
 -01
 
 * Updated eIDAS example in appendix
