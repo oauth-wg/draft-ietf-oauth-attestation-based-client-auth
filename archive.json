@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-21T00:47:41.825807+00:00",
+  "timestamp": "2024-05-23T00:47:24.532279+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2232,6 +2232,38 @@
       "body": "              The example neither include nonce nor jti, so it does not have replay protection?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605339102_\r\n            ",
       "createdAt": "2024-05-19T09:40:32Z",
       "updatedAt": "2024-05-19T09:40:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 78,
+      "id": "I_kwDOJaEkaM6JnBw2",
+      "title": "new HTTP headers are supposed to request their registration",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/78",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> It just (re)occurred to me that specs defining new HTTP headers (which the cool kids call fields nowadays) are supposed to request their registration in the [Hypertext Transfer Protocol (HTTP) Field Name Registry](https://www.iana.org/assignments/http-fields/http-fields.xhtml). I don't want to hold up this PR for this but will create an issue from this comment so as not to lose track of it.\r\n\r\n_Originally posted by @bc-pi in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/74#issuecomment-2123037858_\r\n            ",
+      "createdAt": "2024-05-21T16:47:50Z",
+      "updatedAt": "2024-05-21T16:47:50Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 79,
+      "id": "I_kwDOJaEkaM6Jqf8l",
+      "title": "Usage of \"public clients\" / \"deployments traditionally viewed as a public client\"",
+      "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/79",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "              \"public clients\" ... \"to authenticate\" is a contradiction. The text further up speaks about \"deployments traditionally viewed as a public client\", that's a better description. I would even argue either this spec is for confidential clients of a new kind or it is a new type of client. But it is not for public clients.\r\n\r\n_Originally posted by @tlodderstedt in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1606620990_\r\n            ",
+      "createdAt": "2024-05-22T05:43:06Z",
+      "updatedAt": "2024-05-22T05:43:06Z",
       "closedAt": null,
       "comments": []
     }
@@ -5660,13 +5692,13 @@
       "labels": [],
       "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
       "createdAt": "2024-03-28T01:21:01Z",
-      "updatedAt": "2024-05-20T14:21:35Z",
+      "updatedAt": "2024-05-22T05:50:55Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
       "headRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/header-syntax-proposal",
-      "headRefOid": "30ae9a81ffe42aff34be1e6ad9381961b9550a0f",
+      "headRefOid": "567e381558e790bc17c4d5fc219a97bb595ec7d0",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5797,6 +5829,13 @@
           "body": "Something broke with linking the html rendered versions properly\r\n\r\nRendered html: https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/tl/header-syntax-proposal/draft-ietf-oauth-attestation-based-client-auth.html\r\n",
           "createdAt": "2024-05-16T09:10:19Z",
           "updatedAt": "2024-05-16T09:10:19Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It just (re)occurred to me that specs defining new HTTP headers (which the cool kids call fields nowadays) are supposed to request their registration in the [Hypertext Transfer Protocol (HTTP) Field Name Registry](https://www.iana.org/assignments/http-fields/http-fields.xhtml). I don't want to hold up this PR for this but will create an issue from this comment so as not to lose track of it. ",
+          "createdAt": "2024-05-21T16:47:04Z",
+          "updatedAt": "2024-05-21T16:47:04Z"
         }
       ],
       "reviews": [
@@ -6553,6 +6592,26 @@
               "body": "applied with some additional corrections",
               "createdAt": "2024-05-20T14:21:29Z",
               "updatedAt": "2024-05-20T14:21:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57Y-AP",
+          "commit": {
+            "abbreviatedOid": "30ae9a8"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-22T05:43:39Z",
+          "updatedAt": "2024-05-22T05:43:40Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "I created Issue #79 to pursue this topic",
+              "createdAt": "2024-05-22T05:43:40Z",
+              "updatedAt": "2024-05-22T05:43:40Z"
             }
           ]
         }
