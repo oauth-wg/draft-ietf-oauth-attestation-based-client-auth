@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-23T00:47:24.532279+00:00",
+  "timestamp": "2024-05-26T00:52:26.296961+00:00",
   "repo": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2184,15 +2184,15 @@
       "id": "I_kwDOJaEkaM6FQ1vP",
       "title": "Make PoP optional",
       "url": "https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/75",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "nikosft",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "I believe there are many existing systems that generate \"client attestations\" and can benefit from this draft, examples of such client attestations are:\r\n\r\n- Github's [oidc token for actions](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect)\r\n- SPRIFFE [JWT Verifiable Document](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/#spiffe-verifiable-identity-document-svid)\r\n- Azure [AD Pod identity](https://azure.github.io/aad-pod-identity/)\r\n\r\nHowever in all these solutions, attestations are not bound to any key. ",
       "createdAt": "2024-04-10T14:45:46Z",
-      "updatedAt": "2024-05-19T09:35:34Z",
-      "closedAt": null,
+      "updatedAt": "2024-05-24T06:20:23Z",
+      "closedAt": "2024-05-24T06:20:23Z",
       "comments": [
         {
           "author": "tplooker",
@@ -2200,6 +2200,13 @@
           "body": "OpenID and OAuth already have mechanisms for ordinarily signed JWTs as a means of client authentication toward an AS, such as private key jwt and token exchange so I'm unsure how supporting this would be any different to those existing mechanisms?",
           "createdAt": "2024-05-19T09:35:33Z",
           "updatedAt": "2024-05-19T09:35:33Z"
+        },
+        {
+          "author": "nikosft",
+          "authorAssociation": "NONE",
+          "body": "Yes you are right",
+          "createdAt": "2024-05-24T06:20:23Z",
+          "updatedAt": "2024-05-24T06:20:23Z"
         }
       ]
     },
@@ -5692,7 +5699,7 @@
       "labels": [],
       "body": "## \ud83d\udcd1 Description\r\n\r\nBased on the discussions had at IETF 119 in the OAuth WG, this PR attempts to make the following changes to the draft\r\n\r\n- Move away from usage of the assertion framework defined in RFC 7521 and RFC 7523 for conveying the client attestation and client attestation pop.\r\n- Instead use two newly defined HTTP headers OAuth-Client-Attestation and OAuth-Client-Attestation-PoP for conveyance in an HTTP request, akin to how DPoP works.\r\n- Explicitly mention this mechanism could be used in a variety of places including with a resource server.\r\n\r\nNote, there are still many outstanding items I would like to add, however I felt this PR was already big enough as it is, these include\r\n\r\n- Error responses for the token endpoint #73\r\n- Optimisation for when this mechanism is used with DPoP to avoid having to send two PoP's\r\n- Formalising whether this mechanism still constitutes a form of client authentication",
       "createdAt": "2024-03-28T01:21:01Z",
-      "updatedAt": "2024-05-22T05:50:55Z",
+      "updatedAt": "2024-05-24T09:52:34Z",
       "baseRepository": "vcstuff/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "ac2eec4c4bcc3e206aca6df55910e5dc40da2eac",
@@ -6612,6 +6619,26 @@
               "body": "I created Issue #79 to pursue this topic",
               "createdAt": "2024-05-22T05:43:40Z",
               "updatedAt": "2024-05-22T05:43:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM57w7pj",
+          "commit": {
+            "abbreviatedOid": "567e381"
+          },
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-24T09:52:34Z",
+          "updatedAt": "2024-05-24T09:52:34Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "I like your proposal. ",
+              "createdAt": "2024-05-24T09:52:34Z",
+              "updatedAt": "2024-05-24T09:52:34Z"
             }
           ]
         }
