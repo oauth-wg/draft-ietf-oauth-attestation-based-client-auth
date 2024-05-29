@@ -38,7 +38,7 @@ informative:
 
 --- abstract
 
-This specification defines an extension to the OAuth 2 protocol as defined in {{RFC6749}} which enables a Client Instance to include an attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to provide an attestation in order to authenticate.
+This specification defines an extension to the OAuth 2 protocol as defined in {{RFC6749}} which enables a Client Instance to include a key-bound attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to utilize this key-bound attestation to authenticate.
 
 --- middle
 
