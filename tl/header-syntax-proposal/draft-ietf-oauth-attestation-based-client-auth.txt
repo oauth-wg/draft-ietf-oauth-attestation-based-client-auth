@@ -5,7 +5,7 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 23 November 2024                                    22 May 2024
+Expires: 30 November 2024                                    29 May 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -14,11 +14,11 @@ Expires: 23 November 2024                                    22 May 2024
 Abstract
 
    This specification defines an extension to the OAuth 2 protocol as
-   defined in [RFC6749] which enables a Client Instance to include an
-   attestation in interactions with an Authorization Server or a
-   Resource Server.  This new method enables Client Instances involved
+   defined in [RFC6749] which enables a Client Instance to include a
+   key-bound attestation in interactions with an Authorization Server or
+   a Resource Server.  This new method enables Client Instances involved
    in a client deployment that is traditionally viewed as a public
-   client, to be able to provide an attestation in order to
+   client, to be able to utilize this key-bound attestation to
    authenticate.
 
 About This Document
@@ -47,7 +47,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 November 2024.
+   This Internet-Draft will expire on 30 November 2024.
 
 Copyright Notice
 
