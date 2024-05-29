@@ -8,8 +8,8 @@ number:
 date:
 v: 3
 venue:
-  group: "vcstuff/draft-ietf-oauth-attestation-based-client-auth"
-  latest: "https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html"
+  group: "oauth-wg/draft-ietf-oauth-attestation-based-client-auth"
+  latest: "https://oauth-wg.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html"
 
 author:
  -
