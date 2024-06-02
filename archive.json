@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-30T00:48:32.200357+00:00",
+  "timestamp": "2024-06-02T00:10:00.336295+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -6651,26 +6651,42 @@
       "id": "PR_kwDOJaEkaM5w2nJL",
       "title": "fix broken links after moving the repo",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/80",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-05-29T08:39:24Z",
-      "updatedAt": "2024-05-29T08:48:23Z",
+      "updatedAt": "2024-05-31T09:20:12Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "2b711a053edd47a06be903cd116a3996dd689a5f",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "c2bo/fix-links-repo-move",
       "headRefOid": "db0f5bc72b821dd8c296dfb1d7b8a72dc91ec63b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-05-31T09:20:09Z",
+      "mergedAt": "2024-05-31T09:20:09Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "d5b5558c1f045a4e358ce79f3efae453fc1857b6"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM58l0gE",
+          "commit": {
+            "abbreviatedOid": "db0f5bc"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-31T09:20:04Z",
+          "updatedAt": "2024-05-31T09:20:04Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
