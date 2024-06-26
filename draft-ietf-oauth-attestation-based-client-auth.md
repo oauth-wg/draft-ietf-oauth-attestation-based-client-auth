@@ -174,11 +174,13 @@ The following rules apply to validating the Client Attestation JWT. Application 
 
 6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.
 
-7. The JWT MAY contain other claims.
+7. The JWT MAY contain a "aal" (authenticator assurance level) claim that describes the attested assurance level of the Client Instance and the Client Instance Key. The claim value contains a URI that references a jurisdictional framework. Consumers of the Client attestation are RECOMMENDED to evaluate this claim, if they intend to state an assurance level for their issued tokens themselves.
 
-8. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
+8. The JWT MAY contain other claims.
 
-9. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+9. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
+
+10. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -330,6 +332,16 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 * Change Controller: IESG
 * Specification Document(s): TBC
 
+## JSON Web Token Claims Registration
+
+This specification requests registration of the following Claims in the
+IANA "JSON Web Token Claims" registry [@IANA.JWT] established by [@!RFC7519].
+
+*  Claim Name: `aal`
+*  Claim Description: Reference to a trust framework that describes the assurance level for the client.
+*  Change Controller: IETF
+*  Specification Document(s):  [[ (##client-attestation-jwt) of this specification ]]
+
 --- back
 
 # Additional Examples
@@ -348,9 +360,9 @@ This non-normative example shows a client attestations used as an wallet instanc
 {
 	"iss": "https://attestation-service.com",
 	"sub": "https://wallet-provider.com",
-	"iat": 1541493724,
-	"exp": 1516247022,
-	"attested_security_context" : "https://eu-trust-list.eu/asc/high",
+	"iat": 1516247022,
+	"exp": 1541493724,
+	"aal" : "https://eu-trust-list.eu/asc/high",
 	"cnf": {
 		"jwk" : {
 			"kty": "EC",
@@ -358,8 +370,8 @@ This non-normative example shows a client attestations used as an wallet instanc
 			"x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
 			"y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
 		},
-		"key_type" : "STRONGBOX",
-		"user_authentication" : "SYSTEM_PIN"
+		"key_type" : "strong_box",
+		"user_authentication" : "system_pin"
 	}
 }
 
