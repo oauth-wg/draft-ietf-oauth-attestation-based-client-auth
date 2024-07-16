@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-14T00:10:17.083139+00:00",
+  "timestamp": "2024-07-16T00:09:35.741508+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2143,9 +2143,17 @@
       "labels": [],
       "body": "I think the \"attestation\" term in the draft name causes confusing and a wrong perception what this draft is about. \r\n\r\nIn my opinion, this draft evolves the concept RFC 7523 to allow use of JWTs bound to a key for client authentication. \r\n\r\nConsequently,  I suggest to rename the draft to \"Key-bound JWT Client Authentication\".",
       "createdAt": "2024-03-26T18:55:21Z",
-      "updatedAt": "2024-03-26T18:56:27Z",
+      "updatedAt": "2024-07-15T17:42:26Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "adeinega",
+          "authorAssociation": "NONE",
+          "body": "@tlodderstedt, along with this renaming, the spec could also simplify a few other things. Say it can remove all references / interaction with Client Backend, so an OAuth client could simply reuse [OAuth 2.0 Dynamic Client Registration Protocol (RFC 7591)](https://datatracker.ietf.org/doc/html/rfc7591).",
+          "createdAt": "2024-07-15T17:42:25Z",
+          "updatedAt": "2024-07-15T17:42:25Z"
+        }
+      ]
     },
     {
       "number": 72,
@@ -2159,9 +2167,17 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-03-27T20:50:04Z",
-      "updatedAt": "2024-03-27T20:50:04Z",
+      "updatedAt": "2024-07-15T17:44:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "adeinega",
+          "authorAssociation": "NONE",
+          "body": "\ud83d\udc4d ",
+          "createdAt": "2024-07-15T17:44:13Z",
+          "updatedAt": "2024-07-15T17:44:13Z"
+        }
+      ]
     },
     {
       "number": 73,
