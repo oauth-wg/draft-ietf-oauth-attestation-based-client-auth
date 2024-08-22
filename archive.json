@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-20T00:09:51.394175+00:00",
+  "timestamp": "2024-08-22T00:09:49.030669+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1890,7 +1890,7 @@
       "labels": [],
       "body": "In particiuar:\r\n- this mechanism should work for other endpoints\r\n- client attestation should not \"take up\" the client authentication slot, but be separate\r\n- How does the AS get the key of the client backend/attestation service? What's the trust mechanism?\r\n\r\nRelated to #62 ",
       "createdAt": "2023-11-10T13:09:37Z",
-      "updatedAt": "2023-11-22T11:20:09Z",
+      "updatedAt": "2024-08-20T19:55:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -1997,6 +1997,13 @@
           "body": "client instances: the draft allows to authenticate the caller as being an instance of a certain client (id). The client id should then be used by the AS for other logic (such as storing user consent and so on). There is no need to identify the client instance, I would go as far as to state the instance should not be identifiable simply because a client instance identifier would be kind of a user identifier (in case of a native app). I know the key is a co-relation handle, that's why deployments should use short lived or even emphemeral client attestation to foster privacy.\r\n\r\nattestation vs authentication: In traditional OAuth deployments requiring client authentication (e.g. open banking or commercial/paid schemes), a native app would send requests through its backend, which acts as a confidential client towards the AS. That's the way to ensure the AS talks to a legit client. In emerging use cases (esp. wallets), the way through the backend is seen as not as privacy preserving as it should be. Using the apps backend instead to issue an assertion to its app(s) and use that assertion to authenticate to the AS is the alternative being proposed. The backend uses platform attestation to ensure the caller is a instance of the backend's app. That's the origin of the name attestation based client authentication. Binding the attestation to a key ensures it cannot be replayed by other parties. With such an attestation, the app can directly call the AS (while establishing confidence the AS talks to the legit client).\r\n\r\nConclusion: the attestation is used to establish confidence the AS is talking to an instance of a certain client. This is inline with the purpose of client authentication. That's why the idea to use the existing client authentication mechanics here makes sense to me. \r\n\r\nre public client: I would like to understand how the suggested differentiation between attestation and public client shall work. Can someone please share an example flow with request examples? I would especially like to know what client_id such a public client would use. I'm asking since in the proposed flow, the client_id is determined by the trusted 3rd party issuing the client attestation assertion. ",
           "createdAt": "2023-11-22T11:17:42Z",
           "updatedAt": "2023-11-22T11:20:09Z"
+        },
+        {
+          "author": "embesozzi",
+          "authorAssociation": "NONE",
+          "body": "Just a minor comment: I'm trying to use this standard in the context of the proposed [OAuth 2.0 for First-Party Applications](https://datatracker.ietf.org/doc/draft-parecki-oauth-first-party-apps/) standard to prevent client impersonation (I'm on the implementation side). To provide more context, OAuth 2.0 for First-Party Applications is an API-based \"authentication\" approach, serving as an alternative to the traditional method, which required redirecting or opening a browser. \r\nIn the context of mobile apps that use public clients, the Authorization Server MUST verify the \"first-partyness\" of the client. Therefore, I'm implementing client attestation at the token endpoint.\r\n\r\nAfter reviewing the standard, it's not clear to me how the AS can trust the attestation issuer and verify the signature of a client attestation.",
+          "createdAt": "2024-08-20T19:55:10Z",
+          "updatedAt": "2024-08-20T19:55:10Z"
         }
       ]
     },
@@ -2309,9 +2316,17 @@
       "labels": [],
       "body": "OAuth2 chapter 4.1.3 Access Token Request says:\r\n\r\n>  client_id\r\n>         REQUIRED, if the client is not authenticating with the\r\n>         authorization server as described in [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1).\r\n\r\nbut then client assertion drafts make client_id optional https://datatracker.ietf.org/doc/html/rfc7521\r\n\r\nWould you agree that client_id should be optional in this draft, too?",
       "createdAt": "2024-07-26T20:24:32Z",
-      "updatedAt": "2024-07-26T20:24:32Z",
+      "updatedAt": "2024-08-21T12:50:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "This draft doesn't directly use the assertion framework anymore, but I think the idea (to not require client_id) makes sense here as well. This would basically mean this?\r\n- if client_id exists, then\r\n  - Attestation `sub` MUST be equal to `client_id`\r\n  - Attestation PoP `iss` MUST be equal to `client_id`\r\n- otherwise client_id is implicit and \r\n  - Attestation `sub` MUST be equal to Attestation PoP `iss` \r\n ",
+          "createdAt": "2024-08-21T12:50:06Z",
+          "updatedAt": "2024-08-21T12:50:06Z"
+        }
+      ]
     }
   ],
   "pulls": [
