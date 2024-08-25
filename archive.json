@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-22T00:09:49.030669+00:00",
+  "timestamp": "2024-08-25T00:10:55.495866+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1842,7 +1842,7 @@
       "labels": [],
       "body": "Following up on the conversations some of us had after IIW (see https://github.com/openid/OpenID4VCI/issues/71#issuecomment-1719631991), this issue proposes the addition of a server provided nonce mechanism to limit the lifetime of a Client Attestation PoP JWT, similar to the [DPoP nonce mechanism](https://www.rfc-editor.org/rfc/rfc9449.html#name-authorization-server-provid).\r\n\r\nThis relates to https://github.com/openid/OpenID4VCI/issues/71, however the required changes need to be addressed on the attestation spec and not on the VCI spec.\r\n\r\nI'm currently working on a PR to add this. ",
       "createdAt": "2023-11-08T12:14:18Z",
-      "updatedAt": "2024-01-15T21:28:52Z",
+      "updatedAt": "2024-08-22T13:48:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -1851,6 +1851,41 @@
           "body": "Please see #67 for a proposal to use DPoP which would provide an alternative solution to this proposal.",
           "createdAt": "2024-01-15T21:28:51Z",
           "updatedAt": "2024-01-15T21:28:51Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thoughts from today's editor call:\r\n\r\n## Proposal 1: DPoP style\r\nAdvantages:\r\n- established mechanism\r\n- high flexiblity for AS to manages nonce lifetime\r\n\r\nDisadvantage:\r\n- higher chance of failure and repeated DPoP proof signatures, costly with remote or hardware key\r\n  - no nonce expiration communicated to client\r\n- is there a defined way for a client to request a valid nonce from AS? How can he be sure to end up in the use_dpop_nonce and not in other error conditions? -> clarify with @danielfett @bc-pi \r\n\r\n## Proposal 2: new/extended mechanism\r\nextend DPoP with:\r\n- define a HTTP Header to explicitly request a new nonce\r\n- add expiration to the nonce delivery (AS may still send a new nonce, even if the time has not passed yet)\r\n\r\nAdvantages:\r\n- ability to request fresh nonces when needed\r\n  - Wallet doesn't need to store old/fake DPoP Proofs to fetch a new one\r\n  - avoid double DPoP proof, costly with remote or hardware key\r\n- nonces could be delivered as header within other messages\r\n\r\nDisadvantage:\r\n- unauthenticated endpoint to request nonce that may generate state on the AS/may be leveraged for DDoS\r\n- unclear how to extend DPoP / more work\r\n\r\n----\r\nDo we want the Wallet to cache the nonces at all? Doesn't this open tracking by the issuer? This makes it even more obvious that we need explicit nonce requests!\r\n",
+          "createdAt": "2024-08-22T09:01:10Z",
+          "updatedAt": "2024-08-22T09:01:32Z"
+        },
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@paulbastian How do you envision the client to determine whether a nonce is needed? I'm asking since if the client would know this in advance, it would allow a design where the client could obtain the nonce from a dedicated endpoint before calculating the PoP and sending the token request. ",
+          "createdAt": "2024-08-22T09:52:29Z",
+          "updatedAt": "2024-08-22T09:52:29Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "One idea was to add certain datapoints to the (previous) response - things like expiration time that could be a used as an indicator for the client that a nonce is not valid anymore (but not a guarantee that it will be accepted by the server).\r\nI guess we could also signal the general nonce policies for endpoints somewhere in the metadata?",
+          "createdAt": "2024-08-22T11:12:36Z",
+          "updatedAt": "2024-08-22T11:12:36Z"
+        },
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "My question is related to a client that just received an authorization code and now wants to authentication using a client attestation. How is the client supposed to figure our whether a nonce is needed?\r\n\r\nI see the following options: \r\n1. on demand, because the token request with a PoP w/o nonce is rejected\r\n2. some AS metadata tell the client a nonce is needed\r\n3. client and AS belong to a certain domain (e.g. the client is a wallet and the AS represents a credential issuer in the EUDI Wallet space) and nonces are always required in this domain. \r\n ",
+          "createdAt": "2024-08-22T12:35:15Z",
+          "updatedAt": "2024-08-22T12:35:15Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I think there are 2 kinds of information we should consider:\r\n1: Something about the general policy of requiring a nonce (with the 3 options you mentioned)\r\n2: Some form of indicators if a client can re-use an existing nonce or should directly request a new nonce (and avoid an unnecessary signature)",
+          "createdAt": "2024-08-22T13:48:51Z",
+          "updatedAt": "2024-08-22T13:48:51Z"
         }
       ]
     },
@@ -4694,21 +4729,21 @@
       "id": "PR_kwDOJaEkaM5cRKk4",
       "title": "add text on aal",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/51",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses #15 \r\nCloses #29 \r\n\r\n## \ud83d\udcd1 Description\r\nAdd text on aal claim\r\n\r\n<!-- You can also choose to add a list of changes and if they have been completed or not by using the markdown to-do list syntax\r\n- [ ] Not Completed\r\n- [x] Completed\r\n-->\r\n\r\n## Preview Link\r\n\r\n<!-- Update the link below to provide reviewers with a convenient link to view a rendered version of the PR-->\r\n<!-- In general the link should be of the form https://github.com/<repo-name>/<branch-name>/<draft-name>.html-->\r\n\r\n[click here for rendered preview of PR](https://github.com/<repo-name>/<branch-name>/<draft-name>.html)",
       "createdAt": "2023-10-09T14:31:36Z",
-      "updatedAt": "2023-11-24T13:39:37Z",
+      "updatedAt": "2024-08-22T06:47:32Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "efa100ca094afee2303275bd8f518b81c9a0c97a",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "aal",
       "headRefOid": "ca1825a223e6f3d9b2dc0d996578e0ad6287f0d7",
-      "closedAt": null,
+      "closedAt": "2024-08-22T06:47:32Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -4719,6 +4754,13 @@
           "body": "Supported here\r\nhttps://github.com/italia/eudi-wallet-it-docs/pull/155\r\n\r\nanyway it would be better define within the specs the grouping of the security capabilities according to the levels low, medium and high\r\n",
           "createdAt": "2023-11-02T11:53:55Z",
           "updatedAt": "2023-11-02T11:53:55Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "regarding the current ideas developed in OpenID4VCI to separate wallet attestation and key attestation (see https://github.com/openid/OpenID4VCI/issues/355 ) this no longer makes sense here",
+          "createdAt": "2024-08-22T06:47:32Z",
+          "updatedAt": "2024-08-22T06:47:32Z"
         }
       ],
       "reviews": [
@@ -5153,7 +5195,7 @@
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses #59\r\n\r\n## \ud83d\udcd1 Description\r\nThis PR adds server-provided nonces as a way to check the freshness of Client Attestation PoP JWT, in a similar way to what is done in DPoP (RFC 9449).\r\n\r\n## Preview Link\r\n\r\n<!-- Update the link below to provide reviewers with a convenient link to view a rendered version of the PR-->\r\n<!-- In general the link should be of the form https://github.com/<repo-name>/<branch-name>/<draft-name>.html-->\r\n\r\nNA",
       "createdAt": "2023-11-14T14:08:40Z",
-      "updatedAt": "2024-02-04T00:46:41Z",
+      "updatedAt": "2024-08-22T09:02:40Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "4375d894ce7e58c91d5ed282cfd733dd48417812",
@@ -5262,6 +5304,13 @@
           "body": "After giving it much thought, I realized that DPoP uses HTTP headers in HTTP requests, and consequently, it makes sense to obtain a nonce within the headers of the received HTTP responses.\r\n\r\nMeanwhile, the nonces we use in OAuth and for endpoint requests utilize GET or POST parameters, and the idea of forcibly using HTTP headers for nonce provisioning doesn't excite me.\r\n\r\nWe already have a nonce endpoint in IETF literature, for example in ACME (RFC8555), and with the aim of creating something highly specialized, reusable in other contexts, efficient, and scalable, I thought of this:\r\n\r\nhttps://github.com/peppelinux/draft-demarco-nonce-endpoint",
           "createdAt": "2024-02-04T00:46:40Z",
           "updatedAt": "2024-02-04T00:46:40Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We had a discussion on this topic in today's editors call, I posted my thoughts here: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/59#issuecomment-2304146071",
+          "createdAt": "2024-08-22T09:02:39Z",
+          "updatedAt": "2024-08-22T09:02:39Z"
         }
       ],
       "reviews": [
