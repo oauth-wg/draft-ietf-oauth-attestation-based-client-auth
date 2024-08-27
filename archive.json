@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-25T00:10:55.495866+00:00",
+  "timestamp": "2024-08-27T00:09:59.695577+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1925,7 +1925,7 @@
       "labels": [],
       "body": "In particiuar:\r\n- this mechanism should work for other endpoints\r\n- client attestation should not \"take up\" the client authentication slot, but be separate\r\n- How does the AS get the key of the client backend/attestation service? What's the trust mechanism?\r\n\r\nRelated to #62 ",
       "createdAt": "2023-11-10T13:09:37Z",
-      "updatedAt": "2024-08-20T19:55:10Z",
+      "updatedAt": "2024-08-26T14:30:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -2039,6 +2039,20 @@
           "body": "Just a minor comment: I'm trying to use this standard in the context of the proposed [OAuth 2.0 for First-Party Applications](https://datatracker.ietf.org/doc/draft-parecki-oauth-first-party-apps/) standard to prevent client impersonation (I'm on the implementation side). To provide more context, OAuth 2.0 for First-Party Applications is an API-based \"authentication\" approach, serving as an alternative to the traditional method, which required redirecting or opening a browser. \r\nIn the context of mobile apps that use public clients, the Authorization Server MUST verify the \"first-partyness\" of the client. Therefore, I'm implementing client attestation at the token endpoint.\r\n\r\nAfter reviewing the standard, it's not clear to me how the AS can trust the attestation issuer and verify the signature of a client attestation.",
           "createdAt": "2024-08-20T19:55:10Z",
           "updatedAt": "2024-08-20T19:55:10Z"
+        },
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "@embesozzi you're not missing anything, that currently isn't stated as far as I know. Like base OAuth as defined in RFC6749 doesn't say much about how you get a client_secret or client_id, it's assumed there's some kind of out of band configuration of what attestation issuers an authorization server trusts and where it gets the keys for those issuers from.\r\n\r\n(See also https://github.com/openid/oid4vc-haip-sd-jwt-vc/issues/101 which has more discussion.)",
+          "createdAt": "2024-08-25T17:31:33Z",
+          "updatedAt": "2024-08-25T17:33:07Z"
+        },
+        {
+          "author": "embesozzi",
+          "authorAssociation": "NONE",
+          "body": "@jogu, I appreciate the feedback and I'll review the discussion.\r\nI've found others proposed standards to address this issue, but as usual, I'll try follow the [KISS principle](https://simple.wikipedia.org/wiki/KISS_principle).",
+          "createdAt": "2024-08-26T14:30:12Z",
+          "updatedAt": "2024-08-26T14:30:12Z"
         }
       ]
     },
