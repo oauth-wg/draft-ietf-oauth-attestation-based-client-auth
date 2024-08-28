@@ -385,6 +385,10 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 # Document History
 
+-04
+
+* add iana http field name registration
+
 -03
 
 * remove usage of RFC7521 and the usage of client_assertion
