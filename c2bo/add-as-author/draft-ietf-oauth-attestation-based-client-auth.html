@@ -7,25 +7,25 @@
 <title>OAuth 2.0 Attestation-Based Client Authentication</title>
 <meta content="Tobias Looker" name="author">
 <meta content="Paul Bastian" name="author">
+<meta content="Christian Bormann" name="author">
 <meta content="
        This specification defines an extension to the OAuth 2 protocol as defined in   which enables a Client Instance to include a key-bound attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to utilize this key-bound attestation to authenticate. 
     " name="description">
-<meta content="xml2rfc 3.21.0" name="generator">
+<meta content="xml2rfc 3.23.0" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.21.0
-    Python 3.11.9
+  xml2rfc 3.23.0
+    Python 3.12.3
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
-    Jinja2 3.1.2
-    lxml 4.9.3
-    platformdirs 4.2.1
+    Jinja2 3.1.4
+    lxml 4.9.4
+    platformdirs 4.2.2
     pycountry 22.3.5
     PyYAML 6.0.1
-    requests 2.31.0
-    setuptools 68.2.2
-    six 1.16.0
+    requests 2.32.3
+    setuptools 70.3.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-oauth-attestation-based-client-auth.xml" rel="alternate" type="application/rfc+xml">
@@ -1025,11 +1025,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">May 2024</td>
+<td class="right">August 2024</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Looker &amp; Bastian</td>
-<td class="center">Expires 30 November 2024</td>
+<td class="left">Looker, et al.</td>
+<td class="center">Expires 1 March 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1042,12 +1042,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-05-29" class="published">29 May 2024</time>
+<time datetime="2024-08-28" class="published">28 August 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-11-30">30 November 2024</time></dd>
+<dd class="expires"><time datetime="2025-03-01">1 March 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1056,6 +1056,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div class="author">
       <div class="author-name">P. Bastian</div>
+</div>
+<div class="author">
+      <div class="author-name">C. Bormann</div>
+<div class="org">Robert Bosch GmbH</div>
 </div>
 </dd>
 </dl>
@@ -1093,7 +1097,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 November 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1642,6 +1646,7 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 </div>
 </section>
 </div>
+<div id="sec-combined-references">
 <section id="section-10">
       <h2 id="name-references">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
@@ -1713,6 +1718,7 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 </section>
 </div>
 </section>
+</div>
 <div id="additional-examples">
 <section id="appendix-A">
       <h2 id="name-additional-examples">
@@ -1852,6 +1858,14 @@ for their valuable contributions to this specification.<a href="#appendix-C-1" c
 <div class="email">
 <span>Email:</span>
 <a href="mailto:paul.bastian@bdr.de" class="email">paul.bastian@bdr.de</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Christian Bormann</span></div>
+<div dir="auto" class="left"><span class="org">Robert Bosch GmbH</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:chris.bormann@gmx.de" class="email">chris.bormann@gmx.de</a>
 </div>
 </address>
 </section>
