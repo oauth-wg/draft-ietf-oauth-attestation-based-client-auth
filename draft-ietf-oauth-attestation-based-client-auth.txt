@@ -5,7 +5,10 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 14 December 2024                                   12 June 2024
+Expires: 2 March 2025                                                   
+                                                              C. Bormann
+                                                       Robert Bosch GmbH
+                                                          29 August 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -46,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 December 2024.
+   This Internet-Draft will expire on 2 March 2025.
 
 Copyright Notice
 
@@ -697,3 +700,8 @@ Authors' Addresses
 
    Paul Bastian
    Email: paul.bastian@bdr.de
+
+
+   Christian Bormann
+   Robert Bosch GmbH
+   Email: chris.bormann@gmx.de
