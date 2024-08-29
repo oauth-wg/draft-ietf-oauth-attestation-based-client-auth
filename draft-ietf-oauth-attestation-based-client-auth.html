@@ -1193,6 +1193,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-registration-of-attest_jwt_" class="internal xref">Registration of attest_jwt_client_auth Token Endpoint Authentication Method</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-http-field-name-registratio" class="internal xref">HTTP Field Name Registration</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
@@ -1318,7 +1321,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-client-attestation" class="section-name selfRef">Client Attestation</a>
       </h2>
 <p id="section-4-1">This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). These JWTs are transmitted via HTTP headers in an HTTP request from a Client Instance to an Authorization Server or Resource Server. The primary purpose of these headers is to authenticate the Client Instance.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<div id="client-attestation-http-headers">
+<div id="headers">
 <section id="section-4.1">
         <h3 id="name-client-attestation-http-hea">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-client-attestation-http-hea" class="section-name selfRef">Client Attestation HTTP Headers</a>
@@ -1644,6 +1647,37 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
         </ul>
 </section>
 </div>
+<div id="http-field-name-registration">
+<section id="section-9.2">
+        <h3 id="name-http-field-name-registratio">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-http-field-name-registratio" class="section-name selfRef">HTTP Field Name Registration</a>
+        </h3>
+<p id="section-9.2-1">This section requests registration of the following scheme in the "Hypertext Transfer Protocol (HTTP) Field Name Registry" <span>[<a href="#IANA.HTTP.Fields" class="cite xref">IANA.HTTP.Fields</a>]</span> described in <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.2-2.1">
+            <p id="section-9.2-2.1.1">Field Name: OAuth-Client-Attestation<a href="#section-9.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.2-2.2">
+            <p id="section-9.2-2.2.1">Status: permanent<a href="#section-9.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.2-2.3">
+            <p id="section-9.2-2.3.1">Reference: <a href="#headers" class="auto internal xref">Section 4.1</a> of this specification<a href="#section-9.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-9.2-3"><br></p>
+<ul class="normal">
+<li class="normal" id="section-9.2-4.1">
+            <p id="section-9.2-4.1.1">Field Name: OAuth-Client-Attestation-PoP<a href="#section-9.2-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.2-4.2">
+            <p id="section-9.2-4.2.1">Status: permanent<a href="#section-9.2-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.2-4.3">
+            <p id="section-9.2-4.3.1">Reference: <a href="#headers" class="auto internal xref">Section 4.1</a> of this specification<a href="#section-9.2-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -1657,6 +1691,10 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
+<dt id="IANA.HTTP.Fields">[IANA.HTTP.Fields]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP) Field Name Registry"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/http-fields/http-fields.xhtml">https://www.iana.org/assignments/http-fields/http-fields.xhtml</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -1767,58 +1805,64 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
       <h2 id="name-document-history">
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-B-1">-03<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">-04<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-2.1">
-          <p id="appendix-B-2.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-B-2.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.2">
-          <p id="appendix-B-2.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-B-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.3">
-          <p id="appendix-B-2.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-B-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-2.1.1">add iana http field name registration<a href="#appendix-B-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-3">-02<a href="#appendix-B-3" class="pilcrow">¶</a></p>
+<p id="appendix-B-3">-03<a href="#appendix-B-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-4.1">
-          <p id="appendix-B-4.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-B-4.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-4.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-B-4.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-4.2">
+          <p id="appendix-B-4.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-B-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-4.3">
+          <p id="appendix-B-4.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-B-4.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-5">-01<a href="#appendix-B-5" class="pilcrow">¶</a></p>
+<p id="appendix-B-5">-02<a href="#appendix-B-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-6.1">
-          <p id="appendix-B-6.1.1">Updated eIDAS example in appendix<a href="#appendix-B-6.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.2">
-          <p id="appendix-B-6.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-B-6.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.3">
-          <p id="appendix-B-6.3.1">Refined text around cnf claim in client attestation<a href="#appendix-B-6.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.4">
-          <p id="appendix-B-6.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-B-6.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.5">
-          <p id="appendix-B-6.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-B-6.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.6">
-          <p id="appendix-B-6.6.1">Updated acknowledgments<a href="#appendix-B-6.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.7">
-          <p id="appendix-B-6.7.1">Simplified the diagram in the introduction<a href="#appendix-B-6.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.8">
-          <p id="appendix-B-6.8.1">Updated references<a href="#appendix-B-6.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-6.9">
-          <p id="appendix-B-6.9.1">Added some guidance around replay attack detection<a href="#appendix-B-6.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-6.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-B-6.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-7">-00<a href="#appendix-B-7" class="pilcrow">¶</a></p>
+<p id="appendix-B-7">-01<a href="#appendix-B-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B-8.1">
-          <p id="appendix-B-8.1.1">Initial draft<a href="#appendix-B-8.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-B-8.1.1">Updated eIDAS example in appendix<a href="#appendix-B-8.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.2">
+          <p id="appendix-B-8.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-B-8.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.3">
+          <p id="appendix-B-8.3.1">Refined text around cnf claim in client attestation<a href="#appendix-B-8.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.4">
+          <p id="appendix-B-8.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-B-8.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.5">
+          <p id="appendix-B-8.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-B-8.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.6">
+          <p id="appendix-B-8.6.1">Updated acknowledgments<a href="#appendix-B-8.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.7">
+          <p id="appendix-B-8.7.1">Simplified the diagram in the introduction<a href="#appendix-B-8.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.8">
+          <p id="appendix-B-8.8.1">Updated references<a href="#appendix-B-8.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-B-8.9">
+          <p id="appendix-B-8.9.1">Added some guidance around replay attack detection<a href="#appendix-B-8.9.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-B-9">-00<a href="#appendix-B-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B-10.1">
+          <p id="appendix-B-10.1.1">Initial draft<a href="#appendix-B-10.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

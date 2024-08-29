@@ -87,6 +87,7 @@ Table of Contents
    9.  Appendix A IANA Considerations
      9.1.  Registration of attest_jwt_client_auth Token Endpoint
            Authentication Method
+     9.2.  HTTP Field Name Registration
    10. References
      10.1.  Normative References
      10.2.  Informative References
@@ -547,9 +548,34 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
+9.2.  HTTP Field Name Registration
+
+   This section requests registration of the following scheme in the
+   "Hypertext Transfer Protocol (HTTP) Field Name Registry"
+   [IANA.HTTP.Fields] described in [RFC9110]:
+
+   *  Field Name: OAuth-Client-Attestation
+
+   *  Status: permanent
+
+   *  Reference: Section 4.1 of this specification
+
+
+
+   *  Field Name: OAuth-Client-Attestation-PoP
+
+   *  Status: permanent
+
+   *  Reference: Section 4.1 of this specification
+
 10.  References
 
 10.1.  Normative References
+
+   [IANA.HTTP.Fields]
+              IANA, "Hypertext Transfer Protocol (HTTP) Field Name
+              Registry", n.d., <https://www.iana.org/assignments/http-
+              fields/http-fields.xhtml>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -642,6 +668,10 @@ A.1.  Wallet Instance Attestation
 }
 
 Appendix B.  Document History
+
+   -04
+
+   *  add iana http field name registration
 
    -03
 
