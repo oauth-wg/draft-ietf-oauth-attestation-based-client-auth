@@ -1,4 +1,4 @@
 # License
 
 See the
-[guidelines for contributions](https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/blob/main/CONTRIBUTING.md).
