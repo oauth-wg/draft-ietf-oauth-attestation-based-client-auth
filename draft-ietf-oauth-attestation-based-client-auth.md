@@ -19,6 +19,10 @@ author:
  -
     fullname: Paul Bastian
     email: paul.bastian@bdr.de
+ -
+    fullname: Christian Bormann
+    organization: Robert Bosch GmbH
+    email: chris.bormann@gmx.de
 
 
 normative:
