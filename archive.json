@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-27T00:09:59.695577+00:00",
+  "timestamp": "2024-08-29T00:10:12.514158+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -809,7 +809,7 @@
       "labels": [],
       "body": "Since the EUDI Wallet instance may have different level of security depending on its own hardware and/or software capabilities, here the proposal: define a claim name for exposing different level of security of the wallet instance.\r\n\r\nExample:\"gold\", \"silver\" and \"bronze\" or \"high\", \"medium\", \"low\" depending on the framework used. \r\n\r\nThis proposal enables the security evaluation to the credential issuing side (or any other Relying Party) without knowing any specific hardware or software features (e.g. OS, etc.). ",
       "createdAt": "2023-05-30T13:52:15Z",
-      "updatedAt": "2023-10-08T15:21:45Z",
+      "updatedAt": "2024-08-28T13:42:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -860,6 +860,13 @@
           "body": "Solved in #48 ",
           "createdAt": "2023-10-08T15:21:44Z",
           "updatedAt": "2023-10-08T15:21:44Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I think we can close this?",
+          "createdAt": "2024-08-28T13:42:56Z",
+          "updatedAt": "2024-08-28T13:42:56Z"
         }
       ]
     },
@@ -6804,6 +6811,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 82,
+      "id": "PR_kwDOJaEkaM55t96Y",
+      "title": "add http field name (header) iana registration",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/82",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "closes #78\r\n",
+      "createdAt": "2024-08-28T14:21:54Z",
+      "updatedAt": "2024-08-28T14:21:55Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "94b0fdfbd3ee492f07b2334063565d47ed15ef34",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "c2bo/iana-headers",
+      "headRefOid": "60320c0726879d8cfca666f55dc45424f41f6343",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
