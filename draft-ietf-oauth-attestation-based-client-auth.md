@@ -34,6 +34,11 @@ normative:
   RFC8725: RFC8725
   RFC9110: RFC9110
   RFC9112: RFC9112
+  IANA.HTTP.Fields:
+    author:
+      org: "IANA"
+    title: "Hypertext Transfer Protocol (HTTP) Field Name Registry"
+    target: "https://www.iana.org/assignments/http-fields/http-fields.xhtml"
 informative:
   RFC6749: RFC6749
   ARF:
@@ -117,7 +122,7 @@ Client Instance Key:
 
 This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). These JWTs are transmitted via HTTP headers in an HTTP request from a Client Instance to an Authorization Server or Resource Server. The primary purpose of these headers is to authenticate the Client Instance.
 
-## Client Attestation HTTP Headers
+## Client Attestation HTTP Headers {#headers}
 
 A Client Attestation JWT and Client Attestation PoP JWT is included in an HTTP request using the following request header fields.
 
@@ -334,6 +339,19 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 * Change Controller: IESG
 * Specification Document(s): TBC
 
+## HTTP Field Name Registration
+This section requests registration of the following scheme in the "Hypertext Transfer Protocol (HTTP) Field Name Registry" {{IANA.HTTP.Fields}} described in {{RFC9110}}:
+
+* Field Name: OAuth-Client-Attestation
+* Status: permanent
+* Reference: [](#headers) of this specification
+
+<br/>
+
+* Field Name: OAuth-Client-Attestation-PoP
+* Status: permanent
+* Reference: [](#headers) of this specification
+
 --- back
 
 # Additional Examples
@@ -370,6 +388,10 @@ This non-normative example shows a client attestations used as an wallet instanc
 ~~~
 
 # Document History
+
+-04
+
+* add iana http field name registration
 
 -03
 
