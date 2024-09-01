@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-29T00:10:12.514158+00:00",
+  "timestamp": "2024-09-01T00:12:25.091692+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2333,15 +2333,15 @@
       "id": "I_kwDOJaEkaM6JnBw2",
       "title": "new HTTP headers are supposed to request their registration",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/78",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bc-pi",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "> It just (re)occurred to me that specs defining new HTTP headers (which the cool kids call fields nowadays) are supposed to request their registration in the [Hypertext Transfer Protocol (HTTP) Field Name Registry](https://www.iana.org/assignments/http-fields/http-fields.xhtml). I don't want to hold up this PR for this but will create an issue from this comment so as not to lose track of it.\r\n\r\n_Originally posted by @bc-pi in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/74#issuecomment-2123037858_\r\n            ",
       "createdAt": "2024-05-21T16:47:50Z",
-      "updatedAt": "2024-05-21T16:47:50Z",
-      "closedAt": null,
+      "updatedAt": "2024-08-29T07:40:00Z",
+      "closedAt": "2024-08-29T07:40:00Z",
       "comments": []
     },
     {
@@ -6817,26 +6817,110 @@
       "id": "PR_kwDOJaEkaM55t96Y",
       "title": "add http field name (header) iana registration",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/82",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "closes #78\r\n",
       "createdAt": "2024-08-28T14:21:54Z",
-      "updatedAt": "2024-08-28T14:21:55Z",
+      "updatedAt": "2024-08-29T07:40:03Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "94b0fdfbd3ee492f07b2334063565d47ed15ef34",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "c2bo/iana-headers",
       "headRefOid": "60320c0726879d8cfca666f55dc45424f41f6343",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-08-29T07:39:59Z",
+      "mergedAt": "2024-08-29T07:39:59Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "26212a233b69350ee92b1e437341c8ab347eee72"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6HLcHg",
+          "commit": {
+            "abbreviatedOid": "60320c0"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-29T07:39:42Z",
+          "updatedAt": "2024-08-29T07:39:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6HLcN9",
+          "commit": {
+            "abbreviatedOid": "60320c0"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-29T07:39:53Z",
+          "updatedAt": "2024-08-29T07:39:53Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 83,
+      "id": "PR_kwDOJaEkaM55yTud",
+      "title": "add christian as author",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/83",
+      "state": "MERGED",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "We should run the \"Update generated files\" action after this PR - that will also upgrade all of the github actions to current versions",
+      "createdAt": "2024-08-29T06:31:36Z",
+      "updatedAt": "2024-08-29T07:39:00Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "94b0fdfbd3ee492f07b2334063565d47ed15ef34",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "c2bo/add-as-author",
+      "headRefOid": "bf6da6e87b46c88a993769141fcccded834014df",
+      "closedAt": "2024-08-29T07:38:57Z",
+      "mergedAt": "2024-08-29T07:38:57Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "b14788f752878703c82a2719e63f6270cf7b792c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6HLbd-",
+          "commit": {
+            "abbreviatedOid": "bf6da6e"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-29T07:38:27Z",
+          "updatedAt": "2024-08-29T07:38:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6HLbqw",
+          "commit": {
+            "abbreviatedOid": "bf6da6e"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-08-29T07:38:49Z",
+          "updatedAt": "2024-08-29T07:38:49Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
