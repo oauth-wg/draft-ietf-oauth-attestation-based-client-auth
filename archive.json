@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-10T00:11:07.251888+00:00",
+  "timestamp": "2024-09-12T00:10:27.008730+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -52,6 +52,16 @@
       "name": "pending-close",
       "description": "",
       "color": "D76CC5"
+    },
+    {
+      "name": "discuss",
+      "description": "",
+      "color": "03BA91"
+    },
+    {
+      "name": "ready-for-pr",
+      "description": "",
+      "color": "19E11B"
     }
   ],
   "issues": [
@@ -2203,10 +2213,12 @@
       "author": "tlodderstedt",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "I think the \"attestation\" term in the draft name causes confusing and a wrong perception what this draft is about. \r\n\r\nIn my opinion, this draft evolves the concept RFC 7523 to allow use of JWTs bound to a key for client authentication. \r\n\r\nConsequently,  I suggest to rename the draft to \"Key-bound JWT Client Authentication\".",
       "createdAt": "2024-03-26T18:55:21Z",
-      "updatedAt": "2024-07-26T20:47:48Z",
+      "updatedAt": "2024-09-11T06:58:50Z",
       "closedAt": null,
       "comments": [
         {
@@ -2234,10 +2246,12 @@
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "",
       "createdAt": "2024-03-27T20:50:04Z",
-      "updatedAt": "2024-07-15T17:44:13Z",
+      "updatedAt": "2024-09-11T06:58:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -2246,6 +2260,13 @@
           "body": "\ud83d\udc4d ",
           "createdAt": "2024-07-15T17:44:13Z",
           "updatedAt": "2024-07-15T17:44:13Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I just stumbled over this -> Right now the typ is only shown in Appendix A - we should definitely introduce specific typ values in section 4.2 and 4.3",
+          "createdAt": "2024-09-10T10:23:06Z",
+          "updatedAt": "2024-09-10T10:23:06Z"
         }
       ]
     },
@@ -2258,10 +2279,12 @@
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "",
       "createdAt": "2024-03-27T22:27:44Z",
-      "updatedAt": "2024-03-27T22:27:44Z",
+      "updatedAt": "2024-09-11T06:58:23Z",
       "closedAt": null,
       "comments": []
     },
@@ -2305,10 +2328,12 @@
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Should we explcitly say that this may be used at the PAR endpoint?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605361442_\r\n            ",
       "createdAt": "2024-05-19T09:38:43Z",
-      "updatedAt": "2024-05-19T09:38:43Z",
+      "updatedAt": "2024-09-11T06:55:10Z",
       "closedAt": null,
       "comments": []
     },
@@ -2321,10 +2346,12 @@
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "              The example neither include nonce nor jti, so it does not have replay protection?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605339102_\r\n            ",
       "createdAt": "2024-05-19T09:40:32Z",
-      "updatedAt": "2024-05-19T09:40:32Z",
+      "updatedAt": "2024-09-11T06:54:52Z",
       "closedAt": null,
       "comments": []
     },
@@ -2353,12 +2380,29 @@
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "              \"public clients\" ... \"to authenticate\" is a contradiction. The text further up speaks about \"deployments traditionally viewed as a public client\", that's a better description. I would even argue either this spec is for confidential clients of a new kind or it is a new type of client. But it is not for public clients.\r\n\r\n_Originally posted by @tlodderstedt in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1606620990_\r\n            ",
       "createdAt": "2024-05-22T05:43:06Z",
-      "updatedAt": "2024-05-22T05:43:06Z",
+      "updatedAt": "2024-09-11T07:53:33Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What would be the downside of defining a new type of client, e.g. attested client?",
+          "createdAt": "2024-09-11T06:54:30Z",
+          "updatedAt": "2024-09-11T06:54:30Z"
+        },
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "It sounds similar to 'credentialed client', a concept that OAuth 2.1 toyed with and ultimately decided didn't help: https://github.com/oauth-wg/oauth-v2-1/issues/107",
+          "createdAt": "2024-09-11T07:53:32Z",
+          "updatedAt": "2024-09-11T07:53:32Z"
+        }
+      ]
     },
     {
       "number": 81,
@@ -2369,10 +2413,12 @@
       "author": "Sakurann",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "OAuth2 chapter 4.1.3 Access Token Request says:\r\n\r\n>  client_id\r\n>         REQUIRED, if the client is not authenticating with the\r\n>         authorization server as described in [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1).\r\n\r\nbut then client assertion drafts make client_id optional https://datatracker.ietf.org/doc/html/rfc7521\r\n\r\nWould you agree that client_id should be optional in this draft, too?",
       "createdAt": "2024-07-26T20:24:32Z",
-      "updatedAt": "2024-08-21T12:50:08Z",
+      "updatedAt": "2024-09-11T06:47:24Z",
       "closedAt": null,
       "comments": [
         {
