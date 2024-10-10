@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-08T00:10:43.325203+00:00",
+  "timestamp": "2024-10-10T00:11:16.987203+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -810,7 +810,7 @@
       "id": "I_kwDOJaEkaM5nQSkv",
       "title": "Security levels in the attestation",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/15",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "fmarino-ipzs",
       "authorAssociation": "NONE",
       "assignees": [
@@ -819,8 +819,8 @@
       "labels": [],
       "body": "Since the EUDI Wallet instance may have different level of security depending on its own hardware and/or software capabilities, here the proposal: define a claim name for exposing different level of security of the wallet instance.\r\n\r\nExample:\"gold\", \"silver\" and \"bronze\" or \"high\", \"medium\", \"low\" depending on the framework used. \r\n\r\nThis proposal enables the security evaluation to the credential issuing side (or any other Relying Party) without knowing any specific hardware or software features (e.g. OS, etc.). ",
       "createdAt": "2023-05-30T13:52:15Z",
-      "updatedAt": "2024-08-28T13:42:58Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-09T06:57:33Z",
+      "closedAt": "2024-10-09T06:57:33Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -877,6 +877,13 @@
           "body": "I think we can close this?",
           "createdAt": "2024-08-28T13:42:56Z",
           "updatedAt": "2024-08-28T13:42:56Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "key attestations and associated parameters will be handled separately in [OpenID4VCI](https://github.com/openid/OpenID4VCI/pull/389)",
+          "createdAt": "2024-10-09T06:57:33Z",
+          "updatedAt": "2024-10-09T06:57:33Z"
         }
       ]
     },
@@ -1068,7 +1075,7 @@
       "id": "I_kwDOJaEkaM5rEv0s",
       "title": "[IANA Registry] attested_security_context as JWT parameter",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/29",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "peppelinux",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1077,8 +1084,8 @@
       "labels": [],
       "body": "The brand new parameter called `attested_security_context`, as defined [here](https://github.com/vcstuff/draft-looker-oauth-attestation-based-client-auth/pull/26/files#diff-55e05bec82593426ed363ab5c93ddf1e82b0f64cdf164f98e85fe1236b8783edR325), requires a IANA section for the registration of this parameter name\r\n\r\n",
       "createdAt": "2023-07-10T09:57:59Z",
-      "updatedAt": "2023-09-06T06:43:07Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-09T06:57:51Z",
+      "closedAt": "2024-10-09T06:57:50Z",
       "comments": [
         {
           "author": "tplooker",
@@ -1086,6 +1093,13 @@
           "body": "Registration is no longer required as this section was shifted to a non-normative example. We are still discussing as editors whether registration of some form of claim for this purpose is valuable for the draft.",
           "createdAt": "2023-09-06T06:43:00Z",
           "updatedAt": "2023-09-06T06:43:00Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "key attestations and associated parameters will be handled separately in [OpenID4VCI](https://github.com/openid/OpenID4VCI/pull/389)",
+          "createdAt": "2024-10-09T06:57:50Z",
+          "updatedAt": "2024-10-09T06:57:50Z"
         }
       ]
     },
@@ -2251,7 +2265,7 @@
       ],
       "body": "",
       "createdAt": "2024-03-27T20:50:04Z",
-      "updatedAt": "2024-09-11T06:58:39Z",
+      "updatedAt": "2024-10-09T06:51:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -2333,7 +2347,7 @@
       ],
       "body": "Should we explcitly say that this may be used at the PAR endpoint?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605361442_\r\n            ",
       "createdAt": "2024-05-19T09:38:43Z",
-      "updatedAt": "2024-09-11T06:55:10Z",
+      "updatedAt": "2024-10-09T06:50:33Z",
       "closedAt": null,
       "comments": []
     },
@@ -2351,7 +2365,7 @@
       ],
       "body": "              The example neither include nonce nor jti, so it does not have replay protection?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605339102_\r\n            ",
       "createdAt": "2024-05-19T09:40:32Z",
-      "updatedAt": "2024-09-11T06:54:52Z",
+      "updatedAt": "2024-10-09T06:50:23Z",
       "closedAt": null,
       "comments": []
     },
@@ -2436,6 +2450,56 @@
           "updatedAt": "2024-08-21T12:50:06Z"
         }
       ]
+    },
+    {
+      "number": 84,
+      "id": "I_kwDOJaEkaM6ZepgU",
+      "title": "Rewrite introduction that the main purpose is not about key attestation",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/84",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-09T06:49:23Z",
+      "updatedAt": "2024-10-09T06:50:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 85,
+      "id": "I_kwDOJaEkaM6Zes1k",
+      "title": "Take lessons learned from nonce endpoint in OpenID4VCI and apply to this draft",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/85",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-09T06:53:36Z",
+      "updatedAt": "2024-10-09T06:53:40Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 86,
+      "id": "I_kwDOJaEkaM6ZewRX",
+      "title": "Restructure sections for presentation of attestation",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/86",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [
+        "c2bo"
+      ],
+      "labels": [],
+      "body": "My proposal would be:\r\n\r\n- Section 5: HTTP header based syntax as currently defined but make clear that is not only for the token endpoint (merge 4.1 and 4.4 into this)\r\n- Section 6: Alternative representation as SDJWT if header based syntax is not available (e.g., Wallet to RP case in openid4vp)",
+      "createdAt": "2024-10-09T06:57:23Z",
+      "updatedAt": "2024-10-09T06:59:46Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
