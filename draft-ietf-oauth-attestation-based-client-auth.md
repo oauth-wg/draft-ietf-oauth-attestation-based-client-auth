@@ -147,10 +147,12 @@ ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
 The following is an example of the OAuth-Client-Attestation-PoP header.
 
 ~~~
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\
-zovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\
-20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\
-bIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
+HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAi\aHR0cHM6Ly9hcy5l\
+eGFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5Mzgw\
+LAogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwK\
+ICAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIK\
+fQ.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 ~~~
 
 Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
@@ -252,7 +254,8 @@ The following example is the decoded header and payload of a JWT meeting the pro
   "aud": "https://as.example.com",
   "nbf":1300815780,
   "exp":1300819380,
-  "jti": "d25d00ab-552b-46fc-ae19-98f440f25064"
+  "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
+  "nonce" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
 ~~~
 
@@ -283,10 +286,12 @@ sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
 sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
 ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
 9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\
-zovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\
-20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\
-bIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
+HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAi\aHR0cHM6Ly9hcy5l\
+eGFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5Mzgw\
+LAogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwK\
+ICAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIK\
+fQ.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 
 grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -391,6 +396,7 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 -04
 
+* fix PoP examples to include jti and nonce
 * add iana http field name registration
 
 -03
