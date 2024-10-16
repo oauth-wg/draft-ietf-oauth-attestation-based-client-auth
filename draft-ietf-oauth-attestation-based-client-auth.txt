@@ -5,10 +5,10 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 2 March 2025                                                   
+Expires: 19 April 2025                                                  
                                                               C. Bormann
                                                        Robert Bosch GmbH
-                                                          29 August 2024
+                                                         16 October 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 March 2025.
+   This Internet-Draft will expire on 19 April 2025.
 
 Copyright Notice
 
@@ -224,10 +224,12 @@ Table of Contents
    The following is an example of the OAuth-Client-Attestation-PoP
    header.
 
-   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\
-   zovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\
-   20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\
-   bIey8GVVQLv9qQrBUqmc1qj9Bs
+   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
+   HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAi\aHR0cHM6Ly9hcy5l\
+   eGFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5Mzgw\
+   LAogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwK\
+   ICAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIK\
+   fQ.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 
    Note that per [RFC9110] header field names are case-insensitive; so
    OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all
@@ -383,7 +385,8 @@ Table of Contents
      "aud": "https://as.example.com",
      "nbf":1300815780,
      "exp":1300819380,
-     "jti": "d25d00ab-552b-46fc-ae19-98f440f25064"
+     "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
+     "nonce" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
    }
 
 4.4.  Checking HTTP requests feature client attestations
@@ -431,10 +434,12 @@ Table of Contents
    sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
    ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
    9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\
-   zovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\
-   20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\
-   bIey8GVVQLv9qQrBUqmc1qj9Bs
+   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
+   HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAi\aHR0cHM6Ly9hcy5l\
+   eGFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5Mzgw\
+   LAogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwK\
+   ICAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIK\
+   fQ.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 
    grant_type=authorization_code&
    code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -670,6 +675,8 @@ A.1.  Wallet Instance Attestation
 Appendix B.  Document History
 
    -04
+
+   *  fix PoP examples to include jti and nonce
 
    *  add iana http field name registration
 
