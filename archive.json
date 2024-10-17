@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-15T00:10:54.424245+00:00",
+  "timestamp": "2024-10-17T00:10:50.662682+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1928,11 +1928,15 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "paulbastian"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "",
       "createdAt": "2023-11-10T13:05:09Z",
-      "updatedAt": "2024-05-20T09:55:48Z",
+      "updatedAt": "2024-10-16T06:48:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -2259,13 +2263,15 @@
       "state": "OPEN",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulbastian"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "",
       "createdAt": "2024-03-27T20:50:04Z",
-      "updatedAt": "2024-10-09T06:51:15Z",
+      "updatedAt": "2024-10-15T06:33:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -2341,13 +2347,15 @@
       "state": "OPEN",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tplooker"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "Should we explcitly say that this may be used at the PAR endpoint?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605361442_\r\n            ",
       "createdAt": "2024-05-19T09:38:43Z",
-      "updatedAt": "2024-10-09T06:50:33Z",
+      "updatedAt": "2024-10-16T06:46:57Z",
       "closedAt": null,
       "comments": []
     },
@@ -2356,17 +2364,19 @@
       "id": "I_kwDOJaEkaM6JXD5y",
       "title": "Update client attestation pop to include JTI and nonce",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/77",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulbastian"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "              The example neither include nonce nor jti, so it does not have replay protection?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605339102_\r\n            ",
       "createdAt": "2024-05-19T09:40:32Z",
-      "updatedAt": "2024-10-09T06:50:23Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-16T06:35:11Z",
+      "closedAt": "2024-10-16T06:35:11Z",
       "comments": []
     },
     {
@@ -2459,11 +2469,15 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "paulbastian"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "",
       "createdAt": "2024-10-09T06:49:23Z",
-      "updatedAt": "2024-10-09T06:50:10Z",
+      "updatedAt": "2024-10-16T06:48:19Z",
       "closedAt": null,
       "comments": []
     },
@@ -2475,11 +2489,15 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "tplooker"
+      ],
+      "labels": [
+        "discuss"
+      ],
       "body": "",
       "createdAt": "2024-10-09T06:53:36Z",
-      "updatedAt": "2024-10-09T06:53:40Z",
+      "updatedAt": "2024-10-16T06:48:14Z",
       "closedAt": null,
       "comments": []
     },
@@ -2494,10 +2512,38 @@
       "assignees": [
         "c2bo"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "My proposal would be:\r\n\r\n- Section 5: HTTP header based syntax as currently defined but make clear that is not only for the token endpoint (merge 4.1 and 4.4 into this)\r\n- Section 6: Alternative representation as SDJWT if header based syntax is not available (e.g., Wallet to RP case in openid4vp)",
       "createdAt": "2024-10-09T06:57:23Z",
-      "updatedAt": "2024-10-09T06:59:46Z",
+      "updatedAt": "2024-10-15T06:33:12Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Should also include #76",
+          "createdAt": "2024-10-15T06:33:11Z",
+          "updatedAt": "2024-10-15T06:33:11Z"
+        }
+      ]
+    },
+    {
+      "number": 88,
+      "id": "I_kwDOJaEkaM6abIFu",
+      "title": "Delete key attestation example from the Annex",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/88",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "paulbastian"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-16T06:37:08Z",
+      "updatedAt": "2024-10-16T06:46:30Z",
       "closedAt": null,
       "comments": []
     }
@@ -7035,6 +7081,61 @@
           "body": "",
           "createdAt": "2024-08-29T07:38:49Z",
           "updatedAt": "2024-08-29T07:38:49Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 87,
+      "id": "PR_kwDOJaEkaM5-oNuz",
+      "title": "fix PoP examples to include jti and nonce",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/87",
+      "state": "MERGED",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #77 ",
+      "createdAt": "2024-10-15T06:49:58Z",
+      "updatedAt": "2024-10-16T06:35:13Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "26212a233b69350ee92b1e437341c8ab347eee72",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "77-update-client-attestation-pop-to-include-jti-and-nonce",
+      "headRefOid": "95ce1adb353887e722503e49e0725714837822e1",
+      "closedAt": "2024-10-16T06:35:10Z",
+      "mergedAt": "2024-10-16T06:35:10Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "52766bce76492c19a69022de67a53020e201419f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6NVr44",
+          "commit": {
+            "abbreviatedOid": "95ce1ad"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-16T05:54:51Z",
+          "updatedAt": "2024-10-16T05:54:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6NV5lO",
+          "commit": {
+            "abbreviatedOid": "95ce1ad"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-16T06:29:14Z",
+          "updatedAt": "2024-10-16T06:29:14Z",
           "comments": []
         }
       ]
