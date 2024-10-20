@@ -126,30 +126,34 @@ This draft introduces the concept of client attestations to the OAuth 2 protocol
 
 ## Client Attestation JWT {#client-attestation-jwt}
 
-The following rules apply to validating the Client Attestation JWT. Application of additional restrictions and policy are at the discretion of the Authorization Server.
+The Client Attestation MUST be encoded as a "JSON Web Token (JWT)" according to {{RFC7519}}.
 
-1. The JWT MUST contain an "iss" (issuer) claim that contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
+The following content applies to the JWT Header:
 
-2. The JWT MUST contain a "sub" (subject) claim with a value corresponding to the "client_id" of the OAuth client.
+* `typ`: REQUIRED. The JWT type MUST be `oauth-client-attestation+jwt`.
 
-3. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
+The following content applies to the JWT Claims Set:
 
-4. The JWT MUST contain an "cnf" claim conforming {{RFC7800}} that conveys the key to be used for producing the client attestation pop for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
+* `iss`: REQUIRED. The `iss` (subject) claim MUST contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
+* `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client.
+* `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
+* `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
+* `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
+* `nbf`: OPTIONAL. The `nbf` (not before) claim MUST specify the time before which the Client Attestation MUST NOT be accepted for processing.
 
-5. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
+The following additional rules apply:
 
-6. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.
+1. The JWT MAY contain other claims.
 
-7. The JWT MAY contain other claims.
+2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
-8. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
-
-9. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+3. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
 ~~~
 {
+  "typ": "oauth-client-attestation+jwt"
   "alg": "ES256",
   "kid": "11"
 }
@@ -173,34 +177,37 @@ The following example is the decoded header and payload of a JWT meeting the pro
 
 ## Client Attestation PoP JWT {#client-attestation-pop-jwt}
 
-The following rules apply to validating the Client Attestation PoP JWT. Application of additional restrictions and policy are at the discretion of the Authorization Server.
+The Client Attestation PoP MUST be encoded as a "JSON Web Token (JWT)" according to {{RFC7519}}.
 
-1. The JWT MUST contain an "iss" (issuer) claim with a value corresponding to the "client_id" of the OAuth client.
+The following content applies to the JWT Header:
 
-2. The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used.  The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.  Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.
+* `typ`: REQUIRED. The JWT type MUST be `oauth-client-attestation-pop+jwt`.
 
-3. The JWT MUST contain a "jti" (JWT ID) claim that provides a unique identifier for the token.  The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
+The following content applies to the JWT Claims Set:
 
-4. The JWT MUST contain an "aud" (audience) claim containing a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
+* `iss`: REQUIRED. The `iss` (subject) claim MUST specify client_id value of the OAuth Client.
+* `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation PoP is considered expired. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems. Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.
+* `aud`: REQUIRED. The `aud` (audience) claim MUST specify a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
+* `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
+* `nonce`: OPTIONAL. The `nonce` (nonce) claim MUST specify a String value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.
+* `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
+* `nbf`: OPTIONAL. The `nbf` (not before) claim MUST specify the time before which the Client Attestation PoP MUST NOT be accepted for processing.
 
-5. The JWT MAY contain an "nonce" claim containing a String value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.
+The following additional rules apply:
 
-6. The JWT MAY contain an "nbf" (not before) claim that identifies the time before which the token MUST NOT be accepted for processing.
+1. The JWT MAY contain other claims.
 
-7. The JWT MAY contain an "iat" (issued at) claim that identifies the time at which the JWT was issued.  Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
+2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
-8. The JWT MAY contain other claims.
+3.  The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
 
-9. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
-
-10. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
-
-11. The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+4.  The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
 ~~~
 {
+  "typ": "oauth-client-attestation-pop",
   "alg": "ES256"
 }
 .
@@ -476,6 +483,8 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 -04
 
+* restructured JWT Claims for better readability
+* added JOSE typ values for Client Attestation and Client Attestation PoP
 * add concatenated representation without headers
 * add PAR endpoint example
 * fix PoP examples to include jti and nonce
