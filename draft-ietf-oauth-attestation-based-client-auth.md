@@ -27,9 +27,9 @@ author:
 
 normative:
   RFC3986: RFC3986
-  RFC7800: RFC7800
   RFC7591: RFC7591
   RFC7519: RFC7519
+  RFC7800: RFC7800
   RFC8414: RFC8414
   RFC8725: RFC8725
   RFC9110: RFC9110
@@ -41,8 +41,10 @@ normative:
     target: "https://www.iana.org/assignments/http-fields/http-fields.xhtml"
 informative:
   RFC6749: RFC6749
+  RFC7523: RFC7523
   ARF:
   	title: "The European Digital Identity Wallet Architecture and Reference Framework"
+  SD-JWT: I-D.ietf-oauth-selective-disclosure-jwt
 
 
 --- abstract
@@ -264,7 +266,11 @@ To validate an HTTP request which contains the client attestation headers, the r
 2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.
 3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-# Client Attestation at the Token Endpoint
+# Client Attestation using the Header based syntax
+
+The default way to present a Client Attestation is by using the header-based syntax as introduced in [](#headers). Client Attestations can be used at different endpoints in that way.
+
+## Client Attestation at the Token Endpoint {#token-endpoint}
 
 While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage within the token request as defined by {{RFC6749}} has particular additional considerations outlined below.
 
@@ -291,6 +297,47 @@ bIey8GVVQLv9qQrBUqmc1qj9Bs
 grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 ~~~
+
+## Client Attestation at the PAR Endpoint {#par-endpoint}
+
+A Client Attestation can be used at the PAR endpoint instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
+
+The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received PAR request which is making use of the client attestation mechanism as defined by this draft.
+
+The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):
+
+~~~
+POST /as/par HTTP/1.1
+Host: as.example.com
+Content-Type: application/x-www-form-urlencoded
+OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
+pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
+pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
+sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
+sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
+ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
+9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwc\
+zovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb\
+20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MH0.coB_mtdXwvi9RxSMz\
+bIey8GVVQLv9qQrBUqmc1qj9Bs
+
+response_type=code&state=af0ifjsldkj&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+&code_challenge=K2-ltc83acc4h0c9w6ESC_rEMTJ3bww-uCHaoeK1t8U
+&code_challenge_method=S256&scope=account-information
+
+~~~
+
+# Alternative Client Attestation representation {#compact-representation}
+
+A Client Attestation according to this specification MAY be presented using an alternative representation for cases where the header-based mechanism (as introduced in introduced in []{#headers}) does not fit the underlying protocols. In those cases, a compact representation of Client Attestation and Client Attestation PoP can can be used:
+
+~~~
+<Client Attestation>~<Client Attestation PoP>
+~~~
+
+This representation is created by concatenating Client Attestation and Client Attestation PoP separated by a tilde ('~') character. This form is similar to an SD-JWT+KB according to Section 5 of {{SD-JWT}} but does not include Disclosures, uses different typ values and does not include the `sd_hash` claim.
 
 # Implementation Considerations
 
@@ -391,6 +438,8 @@ This non-normative example shows a client attestations used as an wallet instanc
 
 -04
 
+* add compact representation without headers
+* add PAR endpoint example
 * add iana http field name registration
 
 -03
