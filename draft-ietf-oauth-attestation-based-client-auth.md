@@ -371,7 +371,7 @@ wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 
 ## Validating the Concatenated Serialization {#validate-alternative}
 
-To validate an HTTP request which contains the client attestation headers, the receiving server MUST ensure the following with regard to a received HTTP request:
+To validate a client attestation using the concatenated serialization form, the receiving server MUST ensure the following:
 
 1. Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in []{client-attestation-jwt}.
 2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.
