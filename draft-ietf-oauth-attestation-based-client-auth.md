@@ -265,12 +265,12 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 
 It is RECOMMENDED that the authorization server validate the Client Attestation JWT prior to validating the Client Attestation PoP.
 
-## Checking HTTP requests feature client attestations {#checking-http-requests-with-client-attestations}
+## Validating HTTP requests feature client attestations {#checking-http-requests-with-client-attestations}
 
 To validate an HTTP request which contains the client attestation headers, the receiving server MUST ensure the following with regard to a received HTTP request:
 
 1. There is precisely one OAuth-Client-Attestation HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-jwt}.
-2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.
+2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.
 
 ## Client Attestation at the Token Endpoint {#token-endpoint}
@@ -337,7 +337,7 @@ response_type=code&state=af0ifjsldkj&client_id=s6BhdRkqt3
 
 # Concatenated Serialization for Client Attestations {#alternative-representation}
 
-A Client Attestation according to this specification MAY be presented using an alternative representation for cases where the header-based mechanism (as introduced in introduced in []{#headers}) does not fit the underlying protocols, e.g., for direct calls to Browser APIs.
+A Client Attestation according to this specification MAY be presented using an alternative representation for cases where the header-based mechanism (as introduced in introduced in [](#headers) does not fit the underlying protocols, e.g., for direct calls to Browser APIs.
 In those cases, a concatenated serialization of the Client Attestation and Client Attestation PoP can can be used.
 
 ## Concatenated Serialization Format {#format-alternative}
@@ -373,8 +373,8 @@ wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 
 To validate a client attestation using the concatenated serialization form, the receiving server MUST ensure the following:
 
-1. Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in []{client-attestation-jwt}.
-2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.
+1. Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-jwt).
+2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained after the '~' character verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained before the '~' character.
 
 # Implementation Considerations
