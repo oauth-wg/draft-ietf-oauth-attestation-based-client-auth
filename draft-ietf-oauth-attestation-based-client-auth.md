@@ -359,39 +359,6 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 --- back
 
-# Additional Examples
-
-## Wallet Instance Attestation
-
-This non-normative example shows a client attestations used as an wallet instance attestation in the context of eIDAS 2.0 {{ARF}}, e.g. to secure a Type-1 configuration credential. The additional claims describe the wallet's device binding und user binding capabilities and the achievable level of assurance.
-
-~~~
-{
-	"typ": "wallet-attestation+jwt",
-	"alg": "ES256",
-	"kid": "1"
-}
-.
-{
-	"iss": "https://attestation-service.com",
-	"sub": "https://wallet-provider.com",
-	"iat": 1541493724,
-	"exp": 1516247022,
-	"attested_security_context" : "https://eu-trust-list.eu/asc/high",
-	"cnf": {
-		"jwk" : {
-			"kty": "EC",
-			"crv": "P-256",
-			"x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-			"y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-		},
-		"key_type" : "STRONGBOX",
-		"user_authentication" : "SYSTEM_PIN"
-	}
-}
-
-~~~
-
 # Document History
 
 -04
