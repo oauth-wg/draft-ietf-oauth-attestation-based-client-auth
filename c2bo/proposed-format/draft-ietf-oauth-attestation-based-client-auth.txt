@@ -75,7 +75,7 @@ Table of Contents
      4.2.  Client Attestation PoP JWT
    5.  Client Attestation using a Header based syntax
      5.1.  Client Attestation HTTP Headers
-     5.2.  Checking HTTP requests feature client attestations
+     5.2.  Validating HTTP requests feature client attestations
      5.3.  Client Attestation at the Token Endpoint
      5.4.  Client Attestation at the PAR Endpoint
    6.  Concatenated Serialization for Client Attestations
@@ -403,7 +403,7 @@ Table of Contents
    It is RECOMMENDED that the authorization server validate the Client
    Attestation JWT prior to validating the Client Attestation PoP.
 
-5.2.  Checking HTTP requests feature client attestations
+5.2.  Validating HTTP requests feature client attestations
 
    To validate an HTTP request which contains the client attestation
    headers, the receiving server MUST ensure the following with regard
@@ -415,8 +415,7 @@ Table of Contents
 
    2.  There is precisely one OAuth-Client-Attestation-PoP HTTP request
        header field, where its value is a single well-formed JWT
-       conforming to the syntax outlined in []{client-attestation-pop-
-       jwt}.
+       conforming to the syntax outlined in client-attestation-pop-jwt.
 
    3.  The signature of the Client Attestation PoP JWT obtained from the
        OAuth-Client-Attestation-PoP HTTP header verifies with the Client
@@ -499,7 +498,7 @@ Table of Contents
 
    A Client Attestation according to this specification MAY be presented
    using an alternative representation for cases where the header-based
-   mechanism (as introduced in introduced in []{#headers}) does not fit
+   mechanism (as introduced in introduced in Section 5.1 does not fit
    the underlying protocols, e.g., for direct calls to Browser APIs.  In
    those cases, a concatenated serialization of the Client Attestation
    and Client Attestation PoP can can be used.
@@ -542,12 +541,12 @@ Table of Contents
    form, the receiving server MUST ensure the following:
 
    1.  Before the '~' character, there exists precisely a single well-
-       formed JWT conforming to the syntax outlined in []{client-
-       attestation-jwt}.
+       formed JWT conforming to the syntax outlined in client-
+       attestation-jwt.
 
    2.  After the '~' character, there exists precisely a single well-
-       formed JWT conforming to the syntax outlined in []{client-
-       attestation-pop-jwt}.
+       formed JWT conforming to the syntax outlined in client-
+       attestation-pop-jwt.
 
    3.  The signature of the Client Attestation PoP JWT obtained after
        the '~' character verifies with the Client Instance Key contained

@@ -1153,7 +1153,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-client-attestation-http-hea" class="internal xref">Client Attestation HTTP Headers</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-checking-http-requests-feat" class="internal xref">Checking HTTP requests feature client attestations</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-validating-http-requests-fe" class="internal xref">Validating HTTP requests feature client attestations</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-client-attestation-at-the-t" class="internal xref">Client Attestation at the Token Endpoint</a></p>
@@ -1527,8 +1527,8 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 </div>
 <div id="checking-http-requests-with-client-attestations">
 <section id="section-5.2">
-        <h3 id="name-checking-http-requests-feat">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-checking-http-requests-feat" class="section-name selfRef">Checking HTTP requests feature client attestations</a>
+        <h3 id="name-validating-http-requests-fe">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-validating-http-requests-fe" class="section-name selfRef">Validating HTTP requests feature client attestations</a>
         </h3>
 <p id="section-5.2-1">To validate an HTTP request which contains the client attestation headers, the receiving server <span class="bcp14">MUST</span> ensure the following with regard to a received HTTP request:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.2-2">
@@ -1536,7 +1536,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
             <p id="section-5.2-2.1.1">There is precisely one OAuth-Client-Attestation HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-jwt}.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.2.1">There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in <span><a href="client-attestation-pop-jwt">client-attestation-pop-jwt</a></span>.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.2-2.3">
             <p id="section-5.2-2.3.1">The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the <code>cnf</code> claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
@@ -1619,7 +1619,7 @@ response_type=code&amp;state=af0ifjsldkj&amp;client_id=s6BhdRkqt3
       <h2 id="name-concatenated-serialization-">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-concatenated-serialization-" class="section-name selfRef">Concatenated Serialization for Client Attestations</a>
       </h2>
-<p id="section-6-1">A Client Attestation according to this specification <span class="bcp14">MAY</span> be presented using an alternative representation for cases where the header-based mechanism (as introduced in introduced in []{#headers}) does not fit the underlying protocols, e.g., for direct calls to Browser APIs.
+<p id="section-6-1">A Client Attestation according to this specification <span class="bcp14">MAY</span> be presented using an alternative representation for cases where the header-based mechanism (as introduced in introduced in <a href="#headers" class="auto internal xref">Section 5.1</a> does not fit the underlying protocols, e.g., for direct calls to Browser APIs.
 In those cases, a concatenated serialization of the Client Attestation and Client Attestation PoP can can be used.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="format-alternative">
 <section id="section-6.1">
@@ -1661,10 +1661,10 @@ wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 <p id="section-6.2-1">To validate a client attestation using the concatenated serialization form, the receiving server <span class="bcp14">MUST</span> ensure the following:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-6.2-2">
 <li id="section-6.2-2.1">
-            <p id="section-6.2-2.1.1">Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in []{client-attestation-jwt}.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-2.1.1">Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in <span><a href="client-attestation-jwt">client-attestation-jwt</a></span>.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-6.2-2.2">
-            <p id="section-6.2-2.2.1">After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in []{client-attestation-pop-jwt}.<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-2.2.1">After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in <span><a href="client-attestation-pop-jwt">client-attestation-pop-jwt</a></span>.<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-6.2-2.3">
             <p id="section-6.2-2.3.1">The signature of the Client Attestation PoP JWT obtained after the '~' character verifies with the Client Instance Key contained in the <code>cnf</code> claim of the Client Attestation JWT obtained before the '~' character.<a href="#section-6.2-2.3.1" class="pilcrow">¶</a></p>
