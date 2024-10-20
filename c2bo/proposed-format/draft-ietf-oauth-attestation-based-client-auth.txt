@@ -70,15 +70,17 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Terminology
-   4.  Client Attestation
-     4.1.  Client Attestation HTTP Headers
-     4.2.  Client Attestation JWT
-     4.3.  Client Attestation PoP JWT
-     4.4.  Checking HTTP requests feature client attestations
-   5.  Client Attestation using the Header based syntax
-     5.1.  Client Attestation at the Token Endpoint
-     5.2.  Client Attestation at the PAR Endpoint
-   6.  Alternative Client Attestation representation
+   4.  Client Attestation Format
+     4.1.  Client Attestation JWT
+     4.2.  Client Attestation PoP JWT
+   5.  Client Attestation using a Header based syntax
+     5.1.  Client Attestation HTTP Headers
+     5.2.  Checking HTTP requests feature client attestations
+     5.3.  Client Attestation at the Token Endpoint
+     5.4.  Client Attestation at the PAR Endpoint
+   6.  Concatenated Serialization for Client Attestations
+     6.1.  Concatenated Serialization Format
+     6.2.  Validating the Concatenated Serialization
    7.  Implementation Considerations
      7.1.  Reuse of a Client Attestation JWT
      7.2.  Refresh token binding
@@ -194,65 +196,19 @@ Table of Contents
       encapsulated within the Client Attestation JWT and is utilized to
       sign the Client Attestation Proof of Possession.
 
-4.  Client Attestation
+4.  Client Attestation Format
 
    This draft introduces the concept of client attestations to the OAuth
    2 protocol, using two JWTs: a Client Attestation and a Client
-   Attestation Proof of Possession (PoP).  These JWTs are transmitted
-   via HTTP headers in an HTTP request from a Client Instance to an
-   Authorization Server or Resource Server.  The primary purpose of
-   these headers is to authenticate the Client Instance.
+   Attestation Proof of Possession (PoP).  The primary purpose of these
+   JWTs is to authenticate the Client Instance.  These JWTs can be
+   transmitted via HTTP headers in an HTTP request (as described in
+   Section 5.1) from a Client Instance to an Authorization Server or
+   Resource Server, or via a concatenated serialization (as described in
+   Section 6) to enable usage outside of the traditional OAuth2
+   ecosystem .
 
-4.1.  Client Attestation HTTP Headers
-
-   A Client Attestation JWT and Client Attestation PoP JWT can be
-   included in an HTTP request using the following request header
-   fields.
-
-   OAuth-Client-Attestation:  A JWT that conforms to the structure and
-      syntax as defined in Section 4.2
-
-   OAuth-Client-Attestation-PoP:  A JWT that adheres to the structure
-      and syntax as defined in Section 4.3
-
-   The following is an example of the OAuth-Client-Attestation header.
-
-   OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-   pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-   pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-   sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-   sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-   ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-   9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-
-   The following is an example of the OAuth-Client-Attestation-PoP
-   header.
-
-   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-   HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
-   GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
-   AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
-   CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
-   Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
-
-   Note that per [RFC9110] header field names are case-insensitive; so
-   OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all
-   valid and equivalent header field names.  Case is significant in the
-   header field value, however.
-
-   The OAuth-Client-Attestation and OAuth-Client-Attestation-PoP HTTP
-   header field values uses the token68 syntax defined in Section 11.2
-   of [RFC9110] (repeated below for ease of reference).
-
-   OAuth-Client-Attestation       = token68
-   OAuth-Client-Attestation-PoP   = token68
-   token68                        = 1*( ALPHA / DIGIT / "-" / "." /
-                                        "_" / "~" / "+" / "/" ) *"="
-
-   It is RECOMMENDED that the authorization server validate the Client
-   Attestation JWT prior to validating the Client Attestation PoP.
-
-4.2.  Client Attestation JWT
+4.1.  Client Attestation JWT
 
    The following rules apply to validating the Client Attestation JWT.
    Application of additional restrictions and policy are at the
@@ -319,7 +275,7 @@ Table of Contents
      }
    }
 
-4.3.  Client Attestation PoP JWT
+4.2.  Client Attestation PoP JWT
 
    The following rules apply to validating the Client Attestation PoP
    JWT.  Application of additional restrictions and policy are at the
@@ -393,7 +349,61 @@ Table of Contents
      "nonce" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
    }
 
-4.4.  Checking HTTP requests feature client attestations
+5.  Client Attestation using a Header based syntax
+
+   The default way to present a Client Attestation is by using the
+   header-based syntax that can be used at different endpoints.
+
+5.1.  Client Attestation HTTP Headers
+
+   A Client Attestation JWT and Client Attestation PoP JWT can be
+   included in an HTTP request using the following request header
+   fields.
+
+   OAuth-Client-Attestation:  A JWT that conforms to the structure and
+      syntax as defined in Section 4.1
+
+   OAuth-Client-Attestation-PoP:  A JWT that adheres to the structure
+      and syntax as defined in Section 4.2
+
+   The following is an example of the OAuth-Client-Attestation header.
+
+   OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
+   pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
+   pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
+   sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
+   sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
+   ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
+   9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+   The following is an example of the OAuth-Client-Attestation-PoP
+   header.
+
+   OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
+   HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
+   GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
+   AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
+   CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
+   Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+
+   Note that per [RFC9110] header field names are case-insensitive; so
+   OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all
+   valid and equivalent header field names.  Case is significant in the
+   header field value, however.
+
+   The OAuth-Client-Attestation and OAuth-Client-Attestation-PoP HTTP
+   header field values uses the token68 syntax defined in Section 11.2
+   of [RFC9110] (repeated below for ease of reference).
+
+   OAuth-Client-Attestation       = token68
+   OAuth-Client-Attestation-PoP   = token68
+   token68                        = 1*( ALPHA / DIGIT / "-" / "." /
+                                        "_" / "~" / "+" / "/" ) *"="
+
+   It is RECOMMENDED that the authorization server validate the Client
+   Attestation JWT prior to validating the Client Attestation PoP.
+
+5.2.  Checking HTTP requests feature client attestations
 
    To validate an HTTP request which contains the client attestation
    headers, the receiving server MUST ensure the following with regard
@@ -413,13 +423,7 @@ Table of Contents
        Instance Key contained in the cnf claim of the Client Attestation
        JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-5.  Client Attestation using the Header based syntax
-
-   The default way to present a Client Attestation is by using the
-   header-based syntax as introduced in Section 4.1.  Client
-   Attestations can be used at different endpoints in that way.
-
-5.1.  Client Attestation at the Token Endpoint
+5.3.  Client Attestation at the Token Endpoint
 
    While usage of the the client attestation mechanism defined by this
    draft can be used in a variety of different HTTP requests to
@@ -427,7 +431,7 @@ Table of Contents
    [RFC6749] has particular additional considerations outlined below.
 
    The Authorization Server MUST perform all of the checks outlined in
-   Section 4.4 for a received access token request which is making use
+   Section 5.2 for a received access token request which is making use
    of the client attestation mechanism as defined by this draft.
 
    The following example demonstrates usage of the client attestation
@@ -454,7 +458,7 @@ Table of Contents
    grant_type=authorization_code&
    code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
-5.2.  Client Attestation at the PAR Endpoint
+5.4.  Client Attestation at the PAR Endpoint
 
    A Client Attestation can be used at the PAR endpoint instead of
    alternative client authentication mechanisms like JWT client
@@ -462,7 +466,7 @@ Table of Contents
    [RFC7523]).
 
    The Authorization Server MUST perform all of the checks outlined in
-   Section 4.4 for a received PAR request which is making use of the
+   Section 5.2 for a received PAR request which is making use of the
    client attestation mechanism as defined by this draft.
 
    The following example demonstrates usage of the client attestation
@@ -491,13 +495,16 @@ Table of Contents
    &code_challenge=K2-ltc83acc4h0c9w6ESC_rEMTJ3bww-uCHaoeK1t8U
    &code_challenge_method=S256&scope=account-information
 
-6.  Alternative Client Attestation representation
+6.  Concatenated Serialization for Client Attestations
 
    A Client Attestation according to this specification MAY be presented
    using an alternative representation for cases where the header-based
    mechanism (as introduced in introduced in []{#headers}) does not fit
-   the underlying protocols.  In those cases, a compact representation
-   of Client Attestation and Client Attestation PoP can can be used.
+   the underlying protocols, e.g., for direct calls to Browser APIs.  In
+   those cases, a concatenated serialization of the Client Attestation
+   and Client Attestation PoP can can be used.
+
+6.1.  Concatenated Serialization Format
 
    This representation is created by concatenating Client Attestation
    and Client Attestation PoP separated by a tilde ('~') character:
@@ -507,6 +514,46 @@ Table of Contents
    This form is similar to an SD-JWT+KB according to Section 5 of
    [SD-JWT] but does not include Disclosures, uses different typ values
    and does not include the sd_hash claim in the PoP.
+
+   This concatenated serialization form allows a the presentation of a
+   Client Attestation and Client Attestation PoP for cases where a
+   header-based approach is unavailable, e.g., to establish trust in a
+   client when using a direct Browser API call.
+
+   The following is an example of such a concatenated serialization
+   (with extra line breaks for display purposes only):
+
+   eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJpc3MiOiJodHRwczovL2NsaWVud\
+   C5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwib\
+   mJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I\
+   joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZON\
+   lZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Z\
+   lk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.SflKxwRJSMeKKF2QT4fwpMeJ\
+   f36POk6yJV_adQssw5c~eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAiaHR0cHM6Ly9\
+   jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5leGFtcGxlLmN\
+   vbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwLAogICJqdGk\
+   iOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKICAibm9uY2U\
+   iIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKfQ.coB_mtdX\
+   wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+
+6.2.  Validating the Concatenated Serialization
+
+   To validate an HTTP request which contains the client attestation
+   headers, the receiving server MUST ensure the following with regard
+   to a received HTTP request:
+
+   1.  Before the '~' character, there exists precisely a single well-
+       formed JWT conforming to the syntax outlined in []{client-
+       attestation-jwt}.
+
+   2.  After the '~' character, there exists precisely a single well-
+       formed JWT conforming to the syntax outlined in []{client-
+       attestation-pop-jwt}.
+
+   3.  The signature of the Client Attestation PoP JWT obtained after
+       the '~' character verifies with the Client Instance Key contained
+       in the cnf claim of the Client Attestation JWT obtained before
+       the '~' character.
 
 7.  Implementation Considerations
 
@@ -627,7 +674,7 @@ Table of Contents
 
    *  Status: permanent
 
-   *  Reference: Section 4.1 of this specification
+   *  Reference: Section 5.1 of this specification
 
 
 
@@ -635,7 +682,7 @@ Table of Contents
 
    *  Status: permanent
 
-   *  Reference: Section 4.1 of this specification
+   *  Reference: Section 5.1 of this specification
 
 11.  References
 
@@ -751,7 +798,7 @@ Appendix B.  Document History
 
    -04
 
-   *  add compact representation without headers
+   *  add concatenated representation without headers
 
    *  add PAR endpoint example
 
