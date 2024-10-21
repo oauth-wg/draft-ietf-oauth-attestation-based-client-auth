@@ -1404,7 +1404,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-5.1-6">The following additional rules apply:<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.1-7">
 <li id="section-5.1-7.1">
-            <p id="section-5.1-7.1.1">The JWT <span class="bcp14">MAY</span> contain other claims.<a href="#section-5.1-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-7.1.1">The JWT <span class="bcp14">MAY</span> contain other claims. All claims that are not understood by implementations <span class="bcp14">MUST</span> be ignored.<a href="#section-5.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.1-7.2">
             <p id="section-5.1-7.2.1">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-5.1-7.2.1" class="pilcrow">¶</a></p>
