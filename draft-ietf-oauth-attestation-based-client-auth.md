@@ -216,7 +216,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
 
 # Client Attestation using a Header based syntax
 
-The default way to present a Client Attestation is by using the header-based syntax that can be used at different endpoints.
+The following section defines how a Client Attestation can be provided in an HTTP request using HTTP headers.
 
 ## Client Attestation HTTP Headers {#headers}
 
