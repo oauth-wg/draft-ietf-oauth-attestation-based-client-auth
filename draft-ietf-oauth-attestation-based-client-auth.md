@@ -131,46 +131,6 @@ The Remote Attestation Procedures (RATS) architecture defined by {{RFC9334}} has
 - a RATS "Attestion Result" relates to the "Client Attestation JWT" defined by this specification
 - a RATS "Endorser", "Reference Value Provider", "Endorsement", "Evidence" and "Policies and Reference Values" are out of scope for this specification
 
-# Client Attestation
-
-This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). These JWTs are transmitted via HTTP headers in an HTTP request from a Client Instance to an Authorization Server or Resource Server. The primary purpose of these headers is to authenticate the Client Instance.
-
-## Client Attestation HTTP Headers {#headers}
-
-A Client Attestation JWT and Client Attestation PoP JWT is included in an HTTP request using the following request header fields.
-
-OAuth-Client-Attestation:
-: A JWT that conforms to the structure and syntax as defined in [](#client-attestation-jwt)
-
-OAuth-Client-Attestation-PoP:
-: A JWT that adheres to the structure and syntax as defined in [](#client-attestation-pop-jwt)
-
-The following is an example of the OAuth-Client-Attestation header.
-
-~~~
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-~~~
-
-The following is an example of the OAuth-Client-Attestation-PoP header.
-
-~~~
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAi\aHR0cHM6Ly9hcy5l\
-eGFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5Mzgw\
-LAogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwK\
-ICAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIK\
-fQ.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
-~~~
-
-Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
-header field names. Case is significant in the header field value, however.
-
 # Client Attestation Format
 
 This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). The primary purpose of these JWTs is to authenticate the Client Instance. These JWTs can be transmitted via HTTP headers in an HTTP request (as described in [](#headers)) from a Client Instance to an Authorization Server or Resource Server, or via a concatenated serialization (as described in [](#alternative-representation)) to enable usage outside of the traditional OAuth2 ecosystem .
