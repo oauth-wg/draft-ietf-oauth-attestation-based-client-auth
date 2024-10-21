@@ -5,10 +5,10 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 23 April 2025                                                  
+Expires: 24 April 2025                                                  
                                                               C. Bormann
                                                        Robert Bosch GmbH
-                                                         20 October 2024
+                                                         21 October 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2025.
+   This Internet-Draft will expire on 24 April 2025.
 
 Copyright Notice
 
@@ -70,32 +70,33 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Terminology
-   4.  Client Attestation Format
-     4.1.  Client Attestation JWT
-     4.2.  Client Attestation PoP JWT
-   5.  Client Attestation using a Header based syntax
-     5.1.  Client Attestation HTTP Headers
-     5.2.  Checking HTTP requests feature client attestations
-     5.3.  Client Attestation at the Token Endpoint
-     5.4.  Client Attestation at the PAR Endpoint
-   6.  Concatenated Serialization for Client Attestations
-     6.1.  Concatenated Serialization Format
-     6.2.  Validating the Concatenated Serialization
-   7.  Implementation Considerations
-     7.1.  Reuse of a Client Attestation JWT
-     7.2.  Refresh token binding
-       7.2.1.  Web Server Default Maximum HTTP Header Sizes
-   8.  Privacy Considerations
-     8.1.  Client Instance Tracking Across Authorization Servers
-   9.  Security Considerations
-     9.1.  Replay Attack Detection
-   10. Appendix A IANA Considerations
-     10.1.  Registration of attest_jwt_client_auth Token Endpoint
+   4.  Relation to RATS
+   5.  Client Attestation Format
+     5.1.  Client Attestation JWT
+     5.2.  Client Attestation PoP JWT
+   6.  Client Attestation using a Header based syntax
+     6.1.  Client Attestation HTTP Headers
+     6.2.  Validating HTTP requests feature client attestations
+     6.3.  Client Attestation at the Token Endpoint
+     6.4.  Client Attestation at the PAR Endpoint
+   7.  Concatenated Serialization for Client Attestations
+     7.1.  Concatenated Serialization Format
+     7.2.  Validating the Concatenated Serialization
+   8.  Implementation Considerations
+     8.1.  Reuse of a Client Attestation JWT
+     8.2.  Refresh token binding
+       8.2.1.  Web Server Default Maximum HTTP Header Sizes
+   9.  Privacy Considerations
+     9.1.  Client Instance Tracking Across Authorization Servers
+   10. Security Considerations
+     10.1.  Replay Attack Detection
+   11. Appendix A IANA Considerations
+     11.1.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     10.2.  HTTP Field Name Registration
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+     11.2.  HTTP Field Name Registration
+   12. References
+     12.1.  Normative References
+     12.2.  Informative References
    Appendix A.  Additional Examples
      A.1.  Wallet Instance Attestation
    Appendix B.  Document History
@@ -196,19 +197,45 @@ Table of Contents
       encapsulated within the Client Attestation JWT and is utilized to
       sign the Client Attestation Proof of Possession.
 
-4.  Client Attestation Format
+4.  Relation to RATS
+
+   The Remote Attestation Procedures (RATS) architecture defined by
+   [RFC9334] has some commonalities to this document.  The flow
+   specified in this specification relates to the "Passport Model" in
+   RATS.  However, while the RATS ecosystem gives explicit methods and
+   values how the RATS Attester proves itself to the Verifier, this is
+   deliberately out of scope for Attestation-Based Client
+   Authentication.  Additionally, the terminology between RATS and OAuth
+   is different:
+
+   *  a RATS "Attester" relates to an OAuth "Client"
+
+   *  a RATS "Relying Party" relates to an OAuth "Authorization Server
+      or Resource Server"
+
+   *  a RATS "Verifier" relates to the "Client Backend" defined in this
+      specification
+
+   *  a RATS "Attestion Result" relates to the "Client Attestation JWT"
+      defined by this specification
+
+   *  a RATS "Endorser", "Reference Value Provider", "Endorsement",
+      "Evidence" and "Policies and Reference Values" are out of scope
+      for this specification
+
+5.  Client Attestation Format
 
    This draft introduces the concept of client attestations to the OAuth
    2 protocol, using two JWTs: a Client Attestation and a Client
    Attestation Proof of Possession (PoP).  The primary purpose of these
    JWTs is to authenticate the Client Instance.  These JWTs can be
    transmitted via HTTP headers in an HTTP request (as described in
-   Section 5.1) from a Client Instance to an Authorization Server or
+   Section 6.1) from a Client Instance to an Authorization Server or
    Resource Server, or via a concatenated serialization (as described in
-   Section 6) to enable usage outside of the traditional OAuth2
+   Section 7) to enable usage outside of the traditional OAuth2
    ecosystem .
 
-4.1.  Client Attestation JWT
+5.1.  Client Attestation JWT
 
    The Client Attestation MUST be encoded as a "JSON Web Token (JWT)"
    according to [RFC7519].
@@ -285,7 +312,7 @@ Table of Contents
      }
    }
 
-4.2.  Client Attestation PoP JWT
+5.2.  Client Attestation PoP JWT
 
    The Client Attestation PoP MUST be encoded as a "JSON Web Token
    (JWT)" according to [RFC7519].
@@ -367,22 +394,22 @@ Table of Contents
      "nonce" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
    }
 
-5.  Client Attestation using a Header based syntax
+6.  Client Attestation using a Header based syntax
 
-   The default way to present a Client Attestation is by using the
-   header-based syntax that can be used at different endpoints.
+   The following section defines how a Client Attestation can be
+   provided in an HTTP request using HTTP headers.
 
-5.1.  Client Attestation HTTP Headers
+6.1.  Client Attestation HTTP Headers
 
    A Client Attestation JWT and Client Attestation PoP JWT can be
    included in an HTTP request using the following request header
    fields.
 
    OAuth-Client-Attestation:  A JWT that conforms to the structure and
-      syntax as defined in Section 4.1
+      syntax as defined in Section 5.1
 
    OAuth-Client-Attestation-PoP:  A JWT that adheres to the structure
-      and syntax as defined in Section 4.2
+      and syntax as defined in Section 5.2
 
    The following is an example of the OAuth-Client-Attestation header.
 
@@ -421,7 +448,7 @@ Table of Contents
    It is RECOMMENDED that the authorization server validate the Client
    Attestation JWT prior to validating the Client Attestation PoP.
 
-5.2.  Checking HTTP requests feature client attestations
+6.2.  Validating HTTP requests feature client attestations
 
    To validate an HTTP request which contains the client attestation
    headers, the receiving server MUST ensure the following with regard
@@ -433,15 +460,14 @@ Table of Contents
 
    2.  There is precisely one OAuth-Client-Attestation-PoP HTTP request
        header field, where its value is a single well-formed JWT
-       conforming to the syntax outlined in []{client-attestation-pop-
-       jwt}.
+       conforming to the syntax outlined in client-attestation-pop-jwt.
 
    3.  The signature of the Client Attestation PoP JWT obtained from the
        OAuth-Client-Attestation-PoP HTTP header verifies with the Client
        Instance Key contained in the cnf claim of the Client Attestation
        JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-5.3.  Client Attestation at the Token Endpoint
+6.3.  Client Attestation at the Token Endpoint
 
    While usage of the the client attestation mechanism defined by this
    draft can be used in a variety of different HTTP requests to
@@ -449,7 +475,7 @@ Table of Contents
    [RFC6749] has particular additional considerations outlined below.
 
    The Authorization Server MUST perform all of the checks outlined in
-   Section 5.2 for a received access token request which is making use
+   Section 6.2 for a received access token request which is making use
    of the client attestation mechanism as defined by this draft.
 
    The following example demonstrates usage of the client attestation
@@ -476,7 +502,7 @@ Table of Contents
    grant_type=authorization_code&
    code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
-5.4.  Client Attestation at the PAR Endpoint
+6.4.  Client Attestation at the PAR Endpoint
 
    A Client Attestation can be used at the PAR endpoint instead of
    alternative client authentication mechanisms like JWT client
@@ -484,7 +510,7 @@ Table of Contents
    [RFC7523]).
 
    The Authorization Server MUST perform all of the checks outlined in
-   Section 5.2 for a received PAR request which is making use of the
+   Section 6.2 for a received PAR request which is making use of the
    client attestation mechanism as defined by this draft.
 
    The following example demonstrates usage of the client attestation
@@ -513,16 +539,16 @@ Table of Contents
    &code_challenge=K2-ltc83acc4h0c9w6ESC_rEMTJ3bww-uCHaoeK1t8U
    &code_challenge_method=S256&scope=account-information
 
-6.  Concatenated Serialization for Client Attestations
+7.  Concatenated Serialization for Client Attestations
 
    A Client Attestation according to this specification MAY be presented
    using an alternative representation for cases where the header-based
-   mechanism (as introduced in introduced in []{#headers}) does not fit
+   mechanism (as introduced in introduced in Section 6.1 does not fit
    the underlying protocols, e.g., for direct calls to Browser APIs.  In
    those cases, a concatenated serialization of the Client Attestation
    and Client Attestation PoP can can be used.
 
-6.1.  Concatenated Serialization Format
+7.1.  Concatenated Serialization Format
 
    This representation is created by concatenating Client Attestation
    and Client Attestation PoP separated by a tilde ('~') character:
@@ -554,27 +580,27 @@ Table of Contents
    iIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKfQ.coB_mtdX\
    wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 
-6.2.  Validating the Concatenated Serialization
+7.2.  Validating the Concatenated Serialization
 
    To validate a client attestation using the concatenated serialization
    form, the receiving server MUST ensure the following:
 
    1.  Before the '~' character, there exists precisely a single well-
-       formed JWT conforming to the syntax outlined in []{client-
-       attestation-jwt}.
+       formed JWT conforming to the syntax outlined in client-
+       attestation-jwt.
 
    2.  After the '~' character, there exists precisely a single well-
-       formed JWT conforming to the syntax outlined in []{client-
-       attestation-pop-jwt}.
+       formed JWT conforming to the syntax outlined in client-
+       attestation-pop-jwt.
 
    3.  The signature of the Client Attestation PoP JWT obtained after
        the '~' character verifies with the Client Instance Key contained
        in the cnf claim of the Client Attestation JWT obtained before
        the '~' character.
 
-7.  Implementation Considerations
+8.  Implementation Considerations
 
-7.1.  Reuse of a Client Attestation JWT
+8.1.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -585,7 +611,7 @@ Table of Contents
    ultimately controls how long a Client Instance can re-use a single
    Client Attestation JWT.
 
-7.2.  Refresh token binding
+8.2.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
@@ -596,7 +622,7 @@ Table of Contents
    the same key that was present in the "cnf" claim of the client
    attestation that was used when the refresh token was issued.
 
-7.2.1.  Web Server Default Maximum HTTP Header Sizes
+8.2.1.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -615,9 +641,9 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Backend.
 
-8.  Privacy Considerations
+9.  Privacy Considerations
 
-8.1.  Client Instance Tracking Across Authorization Servers
+9.1.  Client Instance Tracking Across Authorization Servers
 
    Implementers should be aware that using the same client attestation
    across multiple authorization servers could result in correlation of
@@ -627,11 +653,11 @@ Table of Contents
    Attestation JWTs with different Client Instance Keys across different
    authorization servers.
 
-9.  Security Considerations
+10.  Security Considerations
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-9.1.  Replay Attack Detection
+10.1.  Replay Attack Detection
 
    The following mechanisms exist within this client authentication
    method in order to allow an authorization server to detect replay
@@ -665,9 +691,9 @@ Table of Contents
    implementation requirements.  The "jti" method is mandatory and hence
    acts as a default fallback.
 
-10.  Appendix A IANA Considerations
+11.  Appendix A IANA Considerations
 
-10.1.  Registration of attest_jwt_client_auth Token Endpoint
+11.1.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -681,7 +707,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-10.2.  HTTP Field Name Registration
+11.2.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -691,7 +717,7 @@ Table of Contents
 
    *  Status: permanent
 
-   *  Reference: Section 5.1 of this specification
+   *  Reference: Section 6.1 of this specification
 
 
 
@@ -699,11 +725,11 @@ Table of Contents
 
    *  Status: permanent
 
-   *  Reference: Section 5.1 of this specification
+   *  Reference: Section 6.1 of this specification
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
@@ -757,7 +783,7 @@ Table of Contents
               Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
 
-11.2.  Informative References
+12.2.  Informative References
 
    [ARF]      "The European Digital Identity Wallet Architecture and
               Reference Framework", n.d..
@@ -770,6 +796,11 @@ Table of Contents
               (JWT) Profile for OAuth 2.0 Client Authentication and
               Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
               2015, <https://www.rfc-editor.org/rfc/rfc7523>.
+
+   [RFC9334]  Birkholz, H., Thaler, D., Richardson, M., Smith, N., and
+              W. Pan, "Remote ATtestation procedureS (RATS)
+              Architecture", RFC 9334, DOI 10.17487/RFC9334, January
+              2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
    [SD-JWT]   Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
@@ -819,6 +850,8 @@ Appendix B.  Document History
 
    *  added JOSE typ values for Client Attestation and Client
       Attestation PoP
+
+   *  add RATS relation
 
    *  add concatenated representation without headers
 
