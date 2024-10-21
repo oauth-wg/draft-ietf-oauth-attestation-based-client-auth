@@ -5,10 +5,10 @@
 Network Working Group                                          T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 23 April 2025                                                  
+Expires: 24 April 2025                                                  
                                                               C. Bormann
                                                        Robert Bosch GmbH
-                                                         20 October 2024
+                                                         21 October 2024
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 April 2025.
+   This Internet-Draft will expire on 24 April 2025.
 
 Copyright Notice
 
@@ -351,8 +351,8 @@ Table of Contents
 
 5.  Client Attestation using a Header based syntax
 
-   The default way to present a Client Attestation is by using the
-   header-based syntax that can be used at different endpoints.
+   The following section defines how a Client Attestation can be
+   provided in an HTTP request using HTTP headers.
 
 5.1.  Client Attestation HTTP Headers
 
