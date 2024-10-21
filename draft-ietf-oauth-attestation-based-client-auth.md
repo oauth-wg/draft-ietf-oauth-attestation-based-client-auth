@@ -206,7 +206,7 @@ The following content applies to the JWT Claims Set:
 
 The following additional rules apply:
 
-1. The JWT MAY contain other claims.
+1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.
 
 2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
