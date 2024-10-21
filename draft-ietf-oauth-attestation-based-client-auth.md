@@ -461,6 +461,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -04
 
+* remove key attestation example
 * restructured JWT Claims for better readability
 * added JOSE typ values for Client Attestation and Client Attestation PoP
 * add RATS relation
