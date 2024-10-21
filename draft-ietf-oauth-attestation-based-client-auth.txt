@@ -70,32 +70,33 @@ Table of Contents
    1.  Introduction
    2.  Conventions and Definitions
    3.  Terminology
-   4.  Client Attestation Format
-     4.1.  Client Attestation JWT
-     4.2.  Client Attestation PoP JWT
-   5.  Client Attestation using a Header based syntax
-     5.1.  Client Attestation HTTP Headers
-     5.2.  Validating HTTP requests feature client attestations
-     5.3.  Client Attestation at the Token Endpoint
-     5.4.  Client Attestation at the PAR Endpoint
-   6.  Concatenated Serialization for Client Attestations
-     6.1.  Concatenated Serialization Format
-     6.2.  Validating the Concatenated Serialization
-   7.  Implementation Considerations
-     7.1.  Reuse of a Client Attestation JWT
-     7.2.  Refresh token binding
-       7.2.1.  Web Server Default Maximum HTTP Header Sizes
-   8.  Privacy Considerations
-     8.1.  Client Instance Tracking Across Authorization Servers
-   9.  Security Considerations
-     9.1.  Replay Attack Detection
-   10. Appendix A IANA Considerations
-     10.1.  Registration of attest_jwt_client_auth Token Endpoint
+   4.  Relation to RATS
+   5.  Client Attestation Format
+     5.1.  Client Attestation JWT
+     5.2.  Client Attestation PoP JWT
+   6.  Client Attestation using a Header based syntax
+     6.1.  Client Attestation HTTP Headers
+     6.2.  Validating HTTP requests feature client attestations
+     6.3.  Client Attestation at the Token Endpoint
+     6.4.  Client Attestation at the PAR Endpoint
+   7.  Concatenated Serialization for Client Attestations
+     7.1.  Concatenated Serialization Format
+     7.2.  Validating the Concatenated Serialization
+   8.  Implementation Considerations
+     8.1.  Reuse of a Client Attestation JWT
+     8.2.  Refresh token binding
+       8.2.1.  Web Server Default Maximum HTTP Header Sizes
+   9.  Privacy Considerations
+     9.1.  Client Instance Tracking Across Authorization Servers
+   10. Security Considerations
+     10.1.  Replay Attack Detection
+   11. Appendix A IANA Considerations
+     11.1.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     10.2.  HTTP Field Name Registration
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+     11.2.  HTTP Field Name Registration
+   12. References
+     12.1.  Normative References
+     12.2.  Informative References
    Appendix A.  Additional Examples
      A.1.  Wallet Instance Attestation
    Appendix B.  Document History
@@ -196,65 +197,102 @@ Table of Contents
       encapsulated within the Client Attestation JWT and is utilized to
       sign the Client Attestation Proof of Possession.
 
-4.  Client Attestation Format
+4.  Relation to RATS
+
+   The Remote Attestation Procedures (RATS) architecture defined by
+   [RFC9334] has some commonalities to this document.  The flow
+   specified in this specification relates to the "Passport Model" in
+   RATS.  However, while the RATS ecosystem gives explicit methods and
+   values how the RATS Attester proves itself to the Verifier, this is
+   deliberately out of scope for Attestation-Based Client
+   Authentication.  Additionally, the terminology between RATS and OAuth
+   is different:
+
+   *  a RATS "Attester" relates to an OAuth "Client"
+
+   *  a RATS "Relying Party" relates to an OAuth "Authorization Server
+      or Resource Server"
+
+   *  a RATS "Verifier" relates to the "Client Backend" defined in this
+      specification
+
+   *  a RATS "Attestion Result" relates to the "Client Attestation JWT"
+      defined by this specification
+
+   *  a RATS "Endorser", "Reference Value Provider", "Endorsement",
+      "Evidence" and "Policies and Reference Values" are out of scope
+      for this specification
+
+5.  Client Attestation Format
 
    This draft introduces the concept of client attestations to the OAuth
    2 protocol, using two JWTs: a Client Attestation and a Client
    Attestation Proof of Possession (PoP).  The primary purpose of these
    JWTs is to authenticate the Client Instance.  These JWTs can be
    transmitted via HTTP headers in an HTTP request (as described in
-   Section 5.1) from a Client Instance to an Authorization Server or
+   Section 6.1) from a Client Instance to an Authorization Server or
    Resource Server, or via a concatenated serialization (as described in
-   Section 6) to enable usage outside of the traditional OAuth2
+   Section 7) to enable usage outside of the traditional OAuth2
    ecosystem .
 
-4.1.  Client Attestation JWT
+5.1.  Client Attestation JWT
 
-   The following rules apply to validating the Client Attestation JWT.
-   Application of additional restrictions and policy are at the
-   discretion of the Authorization Server.
+   The Client Attestation MUST be encoded as a "JSON Web Token (JWT)"
+   according to [RFC7519].
 
-   1.  The JWT MUST contain an "iss" (issuer) claim that contains a
-       unique identifier for the entity that issued the JWT.  In the
-       absence of an application profile specifying otherwise, compliant
-       applications MUST compare issuer values using the Simple String
-       Comparison method defined in Section 6.2.1 of [RFC3986].
+   The following content applies to the JWT Header:
 
-   2.  The JWT MUST contain a "sub" (subject) claim with a value
-       corresponding to the "client_id" of the OAuth client.
+   *  typ: REQUIRED.  The JWT type MUST be oauth-client-attestation+jwt.
 
-   3.  The JWT MUST contain an "exp" (expiration time) claim that limits
-       the time window during which the JWT can be used.  The
-       authorization server MUST reject any JWT with an expiration time
-       that has passed, subject to allowable clock skew between systems.
+   The following content applies to the JWT Claims Set:
 
-   4.  The JWT MUST contain an "cnf" claim conforming [RFC7800] that
-       conveys the key to be used for producing the client attestation
-       pop for client authentication with an authorization server.  The
-       key MUST be expressed using the "jwk" representation.
+   *  iss: REQUIRED.  The iss (subject) claim MUST contains a unique
+      identifier for the entity that issued the JWT.  In the absence of
+      an application profile specifying otherwise, compliant
+      applications MUST compare issuer values using the Simple String
+      Comparison method defined in Section 6.2.1 of [RFC3986].
 
-   5.  The JWT MAY contain an "nbf" (not before) claim that identifies
-       the time before which the token MUST NOT be accepted for
-       processing.
+   *  sub: REQUIRED.  The sub (subject) claim MUST specify client_id
+      value of the OAuth Client.
 
-   6.  The JWT MAY contain an "iat" (issued at) claim that identifies
-       the time at which the JWT was issued.
+   *  exp: REQUIRED.  The exp (expiration time) claim MUST specify the
+      time at which the Client Attestation is considered expired by its
+      issuer.  The authorization server MUST reject any JWT with an
+      expiration time that has passed, subject to allowable clock skew
+      between systems.
 
-   7.  The JWT MAY contain other claims.
+   *  cnf: REQUIRED.  The cnf (confirmation) claim MUST specify a key
+      conforming to [RFC7800] that is used by the Client Instance to
+      generate the Client Attestation PoP JWT for client authentication
+      with an authorization server.  The key MUST be expressed using the
+      "jwk" representation.
 
-   8.  The JWT MUST be digitally signed using an asymmetric
+   *  iat: OPTIONAL.  The iat (issued at) claim MUST specify the time at
+      which the Client Attestation was issued.
+
+   *  nbf: OPTIONAL.  The nbf (not before) claim MUST specify the time
+      before which the Client Attestation MUST NOT be accepted for
+      processing.
+
+   The following additional rules apply:
+
+   1.  The JWT MAY contain other claims.  All claims that are not
+       understood by implementations MUST be ignored.
+
+   2.  The JWT MUST be digitally signed using an asymmetric
        cryptographic algorithm.  The authorization server MUST reject
        the JWT if it is using a Message Authentication Code (MAC) based
        algorithm.  The authorization server MUST reject JWTs with an
        invalid signature.
 
-   9.  The authorization server MUST reject a JWT that is not valid in
+   3.  The authorization server MUST reject a JWT that is not valid in
        all other respects per "JSON Web Token (JWT)" [RFC7519].
 
    The following example is the decoded header and payload of a JWT
    meeting the processing rules as defined above.
 
    {
+     "typ": "oauth-client-attestation+jwt"
      "alg": "ES256",
      "kid": "11"
    }
@@ -275,68 +313,77 @@ Table of Contents
      }
    }
 
-4.2.  Client Attestation PoP JWT
+5.2.  Client Attestation PoP JWT
 
-   The following rules apply to validating the Client Attestation PoP
-   JWT.  Application of additional restrictions and policy are at the
-   discretion of the Authorization Server.
+   The Client Attestation PoP MUST be encoded as a "JSON Web Token
+   (JWT)" according to [RFC7519].
 
-   1.   The JWT MUST contain an "iss" (issuer) claim with a value
-        corresponding to the "client_id" of the OAuth client.
+   The following content applies to the JWT Header:
 
-   2.   The JWT MUST contain an "exp" (expiration time) claim that
-        limits the time window during which the JWT can be used.  The
-        authorization server MUST reject any JWT with an expiration time
-        that has passed, subject to allowable clock skew between
-        systems.  Note that the authorization server may reject JWTs
-        with an "exp" claim value that is unreasonably far in the
-        future.
+   *  typ: REQUIRED.  The JWT type MUST be oauth-client-attestation-
+      pop+jwt.
 
-   3.   The JWT MUST contain a "jti" (JWT ID) claim that provides a
-        unique identifier for the token.  The authorization server MAY
-        ensure that JWTs are not replayed by maintaining the set of used
-        "jti" values for the length of time for which the JWT would be
-        considered valid based on the applicable "exp" instant.
+   The following content applies to the JWT Claims Set:
 
-   4.   The JWT MUST contain an "aud" (audience) claim containing a
-        value that identifies the authorization server as an intended
-        audience.  The [RFC8414] issuer identifier URL of the
-        authorization server MUST be used as a value for an "aud"
-        element to identify the authorization server as the intended
-        audience of the JWT.
+   *  iss: REQUIRED.  The iss (subject) claim MUST specify client_id
+      value of the OAuth Client.
 
-   5.   The JWT MAY contain an "nonce" claim containing a String value
-        that is provided by the authorization server to associate the
-        Client Attestation PoP JWT with a particular transaction and
-        prevent replay attacks.
+   *  exp: REQUIRED.  The exp (expiration time) claim MUST specify the
+      time at which the Client Attestation PoP is considered expired.
+      The authorization server MUST reject any JWT with an expiration
+      time that has passed, subject to allowable clock skew between
+      systems.  Note that the authorization server may reject JWTs with
+      an "exp" claim value that is unreasonably far in the future.
 
-   6.   The JWT MAY contain an "nbf" (not before) claim that identifies
-        the time before which the token MUST NOT be accepted for
-        processing.
+   *  aud: REQUIRED.  The aud (audience) claim MUST specify a value that
+      identifies the authorization server as an intended audience.  The
+      [RFC8414] issuer identifier URL of the authorization server MUST
+      be used as a value for an "aud" element to identify the
+      authorization server as the intended audience of the JWT.
 
-   7.   The JWT MAY contain an "iat" (issued at) claim that identifies
-        the time at which the JWT was issued.  Note that the
-        authorization server may reject JWTs with an "iat" claim value
-        that is unreasonably far in the past.
+   *  jti: REQUIRED.  The jti (JWT identifier) claim MUST specify a
+      unique identifier for the Client Attestation PoP.  The
+      authorization server MAY ensure that JWTs are not replayed by
+      maintaining the set of used "jti" values for the length of time
+      for which the JWT would be considered valid based on the
+      applicable "exp" instant.
 
-   8.   The JWT MAY contain other claims.
+   *  nonce: OPTIONAL.  The nonce (nonce) claim MUST specify a String
+      value that is provided by the authorization server to associate
+      the Client Attestation PoP JWT with a particular transaction and
+      prevent replay attacks.
 
-   9.   The JWT MUST be digitally signed using an asymmetric
-        cryptographic algorithm.  The authorization server MUST reject
-        the JWT if it is using a Message Authentication Code (MAC) based
-        algorithm.  The authorization server MUST reject JWTs with an
-        invalid signature.
+   *  iat: OPTIONAL.  The iat (issued at) claim MUST specify the time at
+      which the Client Attestation PoP was issued.  Note that the
+      authorization server may reject JWTs with an "iat" claim value
+      that is unreasonably far in the past.
 
-   10.  The public key used to verify the JWT MUST be the key located in
-        the "cnf" claim of the corresponding Client Attestation JWT.
+   *  nbf: OPTIONAL.  The nbf (not before) claim MUST specify the time
+      before which the Client Attestation PoP MUST NOT be accepted for
+      processing.
 
-   11.  The Authorization Server MUST reject a JWT that is not valid in
-        all other respects per "JSON Web Token (JWT)" [RFC7519].
+   The following additional rules apply:
+
+   1.  The JWT MAY contain other claims.  All claims that are not
+       understood by implementations MUST be ignored.
+
+   2.  The JWT MUST be digitally signed using an asymmetric
+       cryptographic algorithm.  The authorization server MUST reject
+       the JWT if it is using a Message Authentication Code (MAC) based
+       algorithm.  The authorization server MUST reject JWTs with an
+       invalid signature.
+
+   3.  The public key used to verify the JWT MUST be the key located in
+       the "cnf" claim of the corresponding Client Attestation JWT.
+
+   4.  The Authorization Server MUST reject a JWT that is not valid in
+       all other respects per "JSON Web Token (JWT)" [RFC7519].
 
    The following example is the decoded header and payload of a JWT
    meeting the processing rules as defined above.
 
    {
+     "typ": "oauth-client-attestation-pop",
      "alg": "ES256"
    }
    .
@@ -349,22 +396,22 @@ Table of Contents
      "nonce" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
    }
 
-5.  Client Attestation using a Header based syntax
+6.  Client Attestation using a Header based syntax
 
    The following section defines how a Client Attestation can be
    provided in an HTTP request using HTTP headers.
 
-5.1.  Client Attestation HTTP Headers
+6.1.  Client Attestation HTTP Headers
 
    A Client Attestation JWT and Client Attestation PoP JWT can be
    included in an HTTP request using the following request header
    fields.
 
    OAuth-Client-Attestation:  A JWT that conforms to the structure and
-      syntax as defined in Section 4.1
+      syntax as defined in Section 5.1
 
    OAuth-Client-Attestation-PoP:  A JWT that adheres to the structure
-      and syntax as defined in Section 4.2
+      and syntax as defined in Section 5.2
 
    The following is an example of the OAuth-Client-Attestation header.
 
@@ -403,7 +450,7 @@ Table of Contents
    It is RECOMMENDED that the authorization server validate the Client
    Attestation JWT prior to validating the Client Attestation PoP.
 
-5.2.  Validating HTTP requests feature client attestations
+6.2.  Validating HTTP requests feature client attestations
 
    To validate an HTTP request which contains the client attestation
    headers, the receiving server MUST ensure the following with regard
@@ -422,7 +469,7 @@ Table of Contents
        Instance Key contained in the cnf claim of the Client Attestation
        JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-5.3.  Client Attestation at the Token Endpoint
+6.3.  Client Attestation at the Token Endpoint
 
    While usage of the the client attestation mechanism defined by this
    draft can be used in a variety of different HTTP requests to
@@ -430,7 +477,7 @@ Table of Contents
    [RFC6749] has particular additional considerations outlined below.
 
    The Authorization Server MUST perform all of the checks outlined in
-   Section 5.2 for a received access token request which is making use
+   Section 6.2 for a received access token request which is making use
    of the client attestation mechanism as defined by this draft.
 
    The following example demonstrates usage of the client attestation
@@ -457,7 +504,7 @@ Table of Contents
    grant_type=authorization_code&
    code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
-5.4.  Client Attestation at the PAR Endpoint
+6.4.  Client Attestation at the PAR Endpoint
 
    A Client Attestation can be used at the PAR endpoint instead of
    alternative client authentication mechanisms like JWT client
@@ -465,7 +512,7 @@ Table of Contents
    [RFC7523]).
 
    The Authorization Server MUST perform all of the checks outlined in
-   Section 5.2 for a received PAR request which is making use of the
+   Section 6.2 for a received PAR request which is making use of the
    client attestation mechanism as defined by this draft.
 
    The following example demonstrates usage of the client attestation
@@ -494,16 +541,16 @@ Table of Contents
    &code_challenge=K2-ltc83acc4h0c9w6ESC_rEMTJ3bww-uCHaoeK1t8U
    &code_challenge_method=S256&scope=account-information
 
-6.  Concatenated Serialization for Client Attestations
+7.  Concatenated Serialization for Client Attestations
 
    A Client Attestation according to this specification MAY be presented
    using an alternative representation for cases where the header-based
-   mechanism (as introduced in introduced in Section 5.1 does not fit
+   mechanism (as introduced in introduced in Section 6.1 does not fit
    the underlying protocols, e.g., for direct calls to Browser APIs.  In
    those cases, a concatenated serialization of the Client Attestation
    and Client Attestation PoP can can be used.
 
-6.1.  Concatenated Serialization Format
+7.1.  Concatenated Serialization Format
 
    This representation is created by concatenating Client Attestation
    and Client Attestation PoP separated by a tilde ('~') character:
@@ -535,7 +582,7 @@ Table of Contents
    iIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKfQ.coB_mtdX\
    wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 
-6.2.  Validating the Concatenated Serialization
+7.2.  Validating the Concatenated Serialization
 
    To validate a client attestation using the concatenated serialization
    form, the receiving server MUST ensure the following:
@@ -553,9 +600,9 @@ Table of Contents
        in the cnf claim of the Client Attestation JWT obtained before
        the '~' character.
 
-7.  Implementation Considerations
+8.  Implementation Considerations
 
-7.1.  Reuse of a Client Attestation JWT
+8.1.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -566,7 +613,7 @@ Table of Contents
    ultimately controls how long a Client Instance can re-use a single
    Client Attestation JWT.
 
-7.2.  Refresh token binding
+8.2.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
@@ -577,7 +624,7 @@ Table of Contents
    the same key that was present in the "cnf" claim of the client
    attestation that was used when the refresh token was issued.
 
-7.2.1.  Web Server Default Maximum HTTP Header Sizes
+8.2.1.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -596,9 +643,9 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Backend.
 
-8.  Privacy Considerations
+9.  Privacy Considerations
 
-8.1.  Client Instance Tracking Across Authorization Servers
+9.1.  Client Instance Tracking Across Authorization Servers
 
    Implementers should be aware that using the same client attestation
    across multiple authorization servers could result in correlation of
@@ -608,11 +655,11 @@ Table of Contents
    Attestation JWTs with different Client Instance Keys across different
    authorization servers.
 
-9.  Security Considerations
+10.  Security Considerations
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-9.1.  Replay Attack Detection
+10.1.  Replay Attack Detection
 
    The following mechanisms exist within this client authentication
    method in order to allow an authorization server to detect replay
@@ -646,9 +693,9 @@ Table of Contents
    implementation requirements.  The "jti" method is mandatory and hence
    acts as a default fallback.
 
-10.  Appendix A IANA Considerations
+11.  Appendix A IANA Considerations
 
-10.1.  Registration of attest_jwt_client_auth Token Endpoint
+11.1.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -662,7 +709,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-10.2.  HTTP Field Name Registration
+11.2.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -672,7 +719,7 @@ Table of Contents
 
    *  Status: permanent
 
-   *  Reference: Section 5.1 of this specification
+   *  Reference: Section 6.1 of this specification
 
 
 
@@ -680,11 +727,11 @@ Table of Contents
 
    *  Status: permanent
 
-   *  Reference: Section 5.1 of this specification
+   *  Reference: Section 6.1 of this specification
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
@@ -738,7 +785,7 @@ Table of Contents
               Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
 
-11.2.  Informative References
+12.2.  Informative References
 
    [ARF]      "The European Digital Identity Wallet Architecture and
               Reference Framework", n.d..
@@ -751,6 +798,11 @@ Table of Contents
               (JWT) Profile for OAuth 2.0 Client Authentication and
               Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
               2015, <https://www.rfc-editor.org/rfc/rfc7523>.
+
+   [RFC9334]  Birkholz, H., Thaler, D., Richardson, M., Smith, N., and
+              W. Pan, "Remote ATtestation procedureS (RATS)
+              Architecture", RFC 9334, DOI 10.17487/RFC9334, January
+              2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
    [SD-JWT]   Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
@@ -795,6 +847,13 @@ A.1.  Wallet Instance Attestation
 Appendix B.  Document History
 
    -04
+
+   *  restructured JWT Claims for better readability
+
+   *  added JOSE typ values for Client Attestation and Client
+      Attestation PoP
+
+   *  add RATS relation
 
    *  add concatenated representation without headers
 
