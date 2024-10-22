@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T00:12:03.488535+00:00",
+  "timestamp": "2024-10-22T00:10:56.942468+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1108,7 +1108,7 @@
       "id": "I_kwDOJaEkaM5rrKKF",
       "title": "typ values for Client Attestation JWT and Client Attestation PoP JWT",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/30",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "TakahikoKawasaki",
       "authorAssociation": "NONE",
       "assignees": [
@@ -1117,8 +1117,8 @@
       "labels": [],
       "body": "The current draft does not require the Client Attestation JWT and Client Attestation PoP JWT to have the `typ` JWS header parameter. Do you have any plans to define specific `typ` values for these JWTs?",
       "createdAt": "2023-07-16T07:29:52Z",
-      "updatedAt": "2023-11-03T19:48:08Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-21T19:03:23Z",
+      "closedAt": "2024-10-21T19:03:23Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -1564,15 +1564,15 @@
       "id": "I_kwDOJaEkaM5x3sO_",
       "title": "extend use beyond authorization servers",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/46",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "peppelinux",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "According to RFC7521 this draft aims to give specification about how to get authenticated with an AS, as we read in the introductory text\r\n\r\n> [[RFC7521](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#RFC7521)] defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification uses this framework to define a new assertion type that provides a way for a client instance to authenticate itself with the authorization server through an assertion that is bound to a public key (for proof of possession).\r\n\r\nIf the usefulness and purpose of this draft is clear, at the same time we perceive a great potential that could also be useful in other contexts.\r\n\r\nLately there has been a lot of talk about the use of the nonce as a definitive prevention against replay attacks, and the importance of the nonce endpoint for issuing these is often discussed.\r\n\r\nIn the background we have the emerging wallet ecosystem which proposes reversed roles at different times, where the wallet is a client in the issuance phase towards a credential issuer which is an AS, while it is a sort of AS in the presentation phase towards the Relying Party.\r\n\r\nThis draft could enable the authentication of a client (wallet) to a third party (either this AS or RP) before obtaining the nonce.\r\n\r\nthe possible nonce endpoint could present itself as a protected endpoint, the nonce should only be issued to authenticated parties.\r\n\r\nThis generalization would require greater flexibility compared to the current purposes of the draft, which envisages its use only when the audience is an AS, while it could also be an RP, where the wallet instance attestation with PoP can be provided before any kind of transaction takes place (allowing the RP to discover the wallet capabilities before issuing the signed request object).",
       "createdAt": "2023-09-24T23:50:46Z",
-      "updatedAt": "2023-11-01T16:23:02Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-21T18:41:40Z",
+      "closedAt": "2024-10-21T18:41:40Z",
       "comments": [
         {
           "author": "David-Chadwick",
@@ -1925,7 +1925,7 @@
       "id": "I_kwDOJaEkaM52eD7T",
       "title": "IETF 118: Refer / Explain relation to RATS and the RATS terminology",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/60",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1936,8 +1936,8 @@
       ],
       "body": "",
       "createdAt": "2023-11-10T13:05:09Z",
-      "updatedAt": "2024-10-16T06:48:35Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-21T18:44:40Z",
+      "closedAt": "2024-10-21T18:44:39Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -2260,7 +2260,7 @@
       "id": "I_kwDOJaEkaM6D1qnJ",
       "title": "Add required typ values for the client-attestation and client-attestation-pop in line with JWT BCP",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/72",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2271,8 +2271,8 @@
       ],
       "body": "",
       "createdAt": "2024-03-27T20:50:04Z",
-      "updatedAt": "2024-10-15T06:33:52Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-21T19:03:24Z",
+      "closedAt": "2024-10-21T19:03:24Z",
       "comments": [
         {
           "author": "adeinega",
@@ -2344,7 +2344,7 @@
       "id": "I_kwDOJaEkaM6JXDu1",
       "title": "Explicitly state the client attestation mechanism can be used at other endpoints such as PAR",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/76",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2355,8 +2355,8 @@
       ],
       "body": "Should we explcitly say that this may be used at the PAR endpoint?\r\n\r\n_Originally posted by @paulbastian in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1605361442_\r\n            ",
       "createdAt": "2024-05-19T09:38:43Z",
-      "updatedAt": "2024-10-16T06:46:57Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-21T18:41:40Z",
+      "closedAt": "2024-10-21T18:41:40Z",
       "comments": []
     },
     {
@@ -2506,7 +2506,7 @@
       "id": "I_kwDOJaEkaM6ZewRX",
       "title": "Restructure sections for presentation of attestation",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/86",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [
@@ -2517,8 +2517,8 @@
       ],
       "body": "My proposal would be:\r\n\r\n- Section 5: HTTP header based syntax as currently defined but make clear that is not only for the token endpoint (merge 4.1 and 4.4 into this)\r\n- Section 6: Alternative representation as SDJWT if header based syntax is not available (e.g., Wallet to RP case in openid4vp)",
       "createdAt": "2024-10-09T06:57:23Z",
-      "updatedAt": "2024-10-15T06:33:12Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-21T18:41:40Z",
+      "closedAt": "2024-10-21T18:41:39Z",
       "comments": [
         {
           "author": "c2bo",
@@ -2534,7 +2534,7 @@
       "id": "I_kwDOJaEkaM6abIFu",
       "title": "Delete key attestation example from the Annex",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/88",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2543,7 +2543,25 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-10-16T06:37:08Z",
-      "updatedAt": "2024-10-16T06:46:30Z",
+      "updatedAt": "2024-10-21T19:09:17Z",
+      "closedAt": "2024-10-21T19:09:16Z",
+      "comments": []
+    },
+    {
+      "number": 89,
+      "id": "I_kwDOJaEkaM6a_oSx",
+      "title": "Remove backslash for line wrapping from examples",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/89",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [
+        "discuss"
+      ],
+      "body": "Most of the specs I've seen do not use an extra backslash to signal newline in their examples. I've checked PAR (https://datatracker.ietf.org/doc/html/rfc9126), JWT(https://datatracker.ietf.org/doc/html/rfc7519), OpenID specs and most of the current OAuth WG drafts and none of them have a backslash. I am aware of https://datatracker.ietf.org/doc/html/rfc8792, but I would to like to keep things somewhat consistent with other work.\r\n\r\n --> I would prefer to remove the backslash from the examples",
+      "createdAt": "2024-10-20T11:42:34Z",
+      "updatedAt": "2024-10-20T11:42:34Z",
       "closedAt": null,
       "comments": []
     }
@@ -7136,6 +7154,380 @@
           "body": "",
           "createdAt": "2024-10-16T06:29:14Z",
           "updatedAt": "2024-10-16T06:29:14Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 90,
+      "id": "PR_kwDOJaEkaM5_OXvl",
+      "title": "Restructure text and add alternative representation",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/90",
+      "state": "MERGED",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "- fixes a small bug in the PoP examples (backslash)\r\n- Restructures text into 2 major parts\r\n  - header based syntax\r\n  - concatenated representation (\\<attestation jwt\\> ~ \\<attestation jwt pop\\>)\r\n- adds format & validation similar to an sd-jwt (but simpler)\r\n\r\nRendered version: https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/c2bo/proposed-format/draft-ietf-oauth-attestation-based-client-auth.html\r\n\r\ncloses #86\r\ncloses #76\r\nprobably closes #46?",
+      "createdAt": "2024-10-20T13:05:17Z",
+      "updatedAt": "2024-10-21T18:41:42Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "52766bce76492c19a69022de67a53020e201419f",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "c2bo/proposed-format",
+      "headRefOid": "8417c2ce5ad152490bfc3f437045bc42ae5b1b7d",
+      "closedAt": "2024-10-21T18:41:38Z",
+      "mergedAt": "2024-10-21T18:41:38Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "05670e6079baef279d03d5e4cee1bad5b3a703db"
+      },
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "> lgtm, should we include that the header based syntax is a MUST implementation support?\r\n\r\nI thought about language like that as well, but I don't think it really helps here. It should be in something like HAIP that profiles an ecosystem - a client will/must know what it needs to support and an AS etc. can choose depending on the ecosystem.",
+          "createdAt": "2024-10-21T06:07:40Z",
+          "updatedAt": "2024-10-21T06:07:40Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6N5ooY",
+          "commit": {
+            "abbreviatedOid": "36e2c29"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "lgtm, should we include that the header based syntax is a MUST implementation support?",
+          "createdAt": "2024-10-20T23:08:58Z",
+          "updatedAt": "2024-10-20T23:13:49Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "```suggestion\r\n## Validating HTTP requests feature client attestations {#checking-http-requests-with-client-attestations}\r\n```",
+              "createdAt": "2024-10-20T23:08:58Z",
+              "updatedAt": "2024-10-20T23:13:49Z"
+            },
+            {
+              "originalPosition": 141,
+              "body": "```suggestion\r\n2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).\r\n3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.\r\n```",
+              "createdAt": "2024-10-20T23:10:33Z",
+              "updatedAt": "2024-10-20T23:13:49Z"
+            },
+            {
+              "originalPosition": 201,
+              "body": "```suggestion\r\nA Client Attestation according to this specification MAY be presented using an alternative representation for cases where the header-based mechanism (as introduced in introduced in [](#headers) does not fit the underlying protocols, e.g., for direct calls to Browser APIs.\r\n```",
+              "createdAt": "2024-10-20T23:12:01Z",
+              "updatedAt": "2024-10-20T23:13:49Z"
+            },
+            {
+              "originalPosition": 238,
+              "body": "```suggestion\r\n1. Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-jwt).\r\n2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).\r\n```",
+              "createdAt": "2024-10-20T23:12:42Z",
+              "updatedAt": "2024-10-20T23:13:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6N8Ql2",
+          "commit": {
+            "abbreviatedOid": "8d65674"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T09:00:03Z",
+          "updatedAt": "2024-10-21T09:00:03Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "```suggestion\r\nThe following section defines how a Client Attestation can be provided in an HTTP request using HTTP headers.\r\n```",
+              "createdAt": "2024-10-21T09:00:03Z",
+              "updatedAt": "2024-10-21T09:00:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6N8RAr",
+          "commit": {
+            "abbreviatedOid": "8d65674"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T09:00:45Z",
+          "updatedAt": "2024-10-21T09:00:45Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "No real notion of default here so thought it was better to rephrase.",
+              "createdAt": "2024-10-21T09:00:45Z",
+              "updatedAt": "2024-10-21T09:00:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6OCnmt",
+          "commit": {
+            "abbreviatedOid": "8417c2c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-21T18:41:27Z",
+          "updatedAt": "2024-10-21T18:41:27Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 91,
+      "id": "PR_kwDOJaEkaM5_PUqL",
+      "title": "add RATS relation",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/91",
+      "state": "MERGED",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #60 ",
+      "createdAt": "2024-10-20T20:09:37Z",
+      "updatedAt": "2024-10-21T18:44:39Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "05670e6079baef279d03d5e4cee1bad5b3a703db",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/rats",
+      "headRefOid": "764d0066f8634a5366f45c7e2419b6775b44ae5c",
+      "closedAt": "2024-10-21T18:44:38Z",
+      "mergedAt": "2024-10-21T18:44:38Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "0bc7bce46936f6506f0c805c564041e8fe3488a8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6N61ST",
+          "commit": {
+            "abbreviatedOid": "4c5feb5"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "I am not that familiar with RATS, but looks good for me",
+          "createdAt": "2024-10-21T06:11:11Z",
+          "updatedAt": "2024-10-21T06:11:11Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6N8Ryw",
+          "commit": {
+            "abbreviatedOid": "4c5feb5"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-21T09:01:57Z",
+          "updatedAt": "2024-10-21T09:01:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 92,
+      "id": "PR_kwDOJaEkaM5_PilT",
+      "title": "add typ values",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/92",
+      "state": "MERGED",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #30 \r\nCloses #72 ",
+      "createdAt": "2024-10-20T23:14:24Z",
+      "updatedAt": "2024-10-21T19:03:23Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "0bc7bce46936f6506f0c805c564041e8fe3488a8",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/typ_values",
+      "headRefOid": "9af6469d5a5c4268e3a8f60747b30bcfa73f3bf5",
+      "closedAt": "2024-10-21T19:03:22Z",
+      "mergedAt": "2024-10-21T19:03:22Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "5d164320ad677e0d5302f86d053d955358d39850"
+      },
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "This includes #90 which makes it pretty hard to see the changes to main :/ I guess let's wait until 90 is merged?",
+          "createdAt": "2024-10-21T07:17:41Z",
+          "updatedAt": "2024-10-21T07:17:41Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6OB_ih",
+          "commit": {
+            "abbreviatedOid": "b9de7d1"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T17:45:07Z",
+          "updatedAt": "2024-10-21T17:49:31Z",
+          "comments": [
+            {
+              "originalPosition": 105,
+              "body": "Should we explain what happens if claims are not understood by a RP?\r\nWe have 2 options and should probably clearly state how to deal with such a situation in the spec:\r\n- ignore not understood claims\r\n- fail validation of the client attestation",
+              "createdAt": "2024-10-21T17:45:07Z",
+              "updatedAt": "2024-10-21T17:49:31Z"
+            },
+            {
+              "originalPosition": 156,
+              "body": "Same as above: How to deal with claims that are not understood by a RP?",
+              "createdAt": "2024-10-21T17:49:19Z",
+              "updatedAt": "2024-10-21T17:49:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6OCugG",
+          "commit": {
+            "abbreviatedOid": "baba770"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-21T18:57:14Z",
+          "updatedAt": "2024-10-21T18:57:39Z",
+          "comments": [
+            {
+              "originalPosition": 105,
+              "body": "```suggestion\r\n1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.\r\n```",
+              "createdAt": "2024-10-21T18:57:14Z",
+              "updatedAt": "2024-10-21T18:57:39Z"
+            },
+            {
+              "originalPosition": 156,
+              "body": "```suggestion\r\n1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.\r\n```",
+              "createdAt": "2024-10-21T18:57:34Z",
+              "updatedAt": "2024-10-21T18:57:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6OCvjK",
+          "commit": {
+            "abbreviatedOid": "9af6469"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-21T18:59:43Z",
+          "updatedAt": "2024-10-21T18:59:43Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6OCvkc",
+          "commit": {
+            "abbreviatedOid": "9af6469"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-21T18:59:46Z",
+          "updatedAt": "2024-10-21T18:59:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 93,
+      "id": "PR_kwDOJaEkaM5_Pi5G",
+      "title": "remove annex as key attestations are moved out of scope  for now",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/93",
+      "state": "MERGED",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #88 ",
+      "createdAt": "2024-10-20T23:18:10Z",
+      "updatedAt": "2024-10-21T19:09:16Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "5d164320ad677e0d5302f86d053d955358d39850",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "remove_annex",
+      "headRefOid": "0ef8a3abd3be09254001941410a7dd347bb4bb4c",
+      "closedAt": "2024-10-21T19:09:15Z",
+      "mergedAt": "2024-10-21T19:09:15Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "8be32e23f15c3936fdff51e3f3f27907788452f5"
+      },
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, would do so in an introduction rewrite ",
+          "createdAt": "2024-10-21T06:29:02Z",
+          "updatedAt": "2024-10-21T06:29:02Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6N62kI",
+          "commit": {
+            "abbreviatedOid": "9561b98"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "Should we add text, that while this specification focuses on a client attestation and only specifies this, there might be other values included like an optional key attestation?\r\n\r\nI guess in general we should add the standard extensibility text to the Attestation JWT - but we don't have to do that in this PR",
+          "createdAt": "2024-10-21T06:14:57Z",
+          "updatedAt": "2024-10-21T06:14:57Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6N7SML",
+          "commit": {
+            "abbreviatedOid": "9561b98"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-21T07:12:02Z",
+          "updatedAt": "2024-10-21T07:12:02Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6OCpRw",
+          "commit": {
+            "abbreviatedOid": "9561b98"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-21T18:45:17Z",
+          "updatedAt": "2024-10-21T18:45:17Z",
           "comments": []
         }
       ]
