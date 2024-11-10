@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-07T00:10:52.757675+00:00",
+  "timestamp": "2024-11-10T00:11:49.392850+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -98,7 +98,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "The key point is the digital trust relationship that allows a client to be registered and attestable as realiable and eligible in relation to one or more trust frameworks, and for any following transactions, outside the client registration, that may happen in a defined period of time, beyond which trust with that client must be re-evaluated.\r\n\r\nGiven that having a client registered previously or obtaining its public keys though TLS doesn't give any assurance about the compliance of that client in the present, in relation to privacy and security preserving trust model. We shoudl consider that a client, that's a participant in a Auth/eID infrastructure, may lose its compliance and consequently be banned because of this. The requirement to be met is to allow an automatic method for evaluating the revocation status of the client, if the determining authority (TTP) is outside the party (AS and Client)\r\n\r\nanother key point is that trusted attestations, which allow a customer to be registered and then allow data interchange with it, are considered long-lived attestations, for the satisfaction of non-repudiation requirements for years to come.",
           "createdAt": "2023-05-11T14:49:33Z",
           "updatedAt": "2023-05-11T14:49:33Z"
@@ -112,14 +112,14 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "I start from the assumption that OpenID Connect Federation confirms the traditional methods to get the jwks, using jwks/jwks_uri, enabling the jwks claim for the openid connect providers metadata as well.\r\n\r\nI want to start from the example below and answering to the question \"How can you trust such client?\"\r\n\r\n````\r\n{\r\n  \"alg\": \"ES256\",\r\n  \"kid\": \"11\",\r\n  \"trust_chain\": [ ... ]\r\n}\r\n.\r\n{\r\n  \"iss\": \"https://client.example.com\",\r\n  \"sub\": \"https://client.example.com\",\r\n  \"nbf\":1300815780,\r\n  \"exp\":1300819380,\r\n  \"cnf\": {\r\n    \"jwk\": {\r\n      \"kty\": \"EC\",\r\n      \"use\": \"sig\",\r\n      \"crv\": \"P-256\",\r\n      \"x\": \"18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM\",\r\n      \"y\": \"-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA\"\r\n    }\r\n  }\r\n}\r\n````\r\n\r\nif we would have a x5c header parameter instead of the Federation Trust Chain, the Key Attestation would be realiable according to a x509 PKI.\r\n\r\nUsing the Federation Trust Chain we are able to:\r\n\r\n- get the public key corresponding to the kid 11\r\n- get the trust relationships between the client and one or more Trusted Third Parties\r\n- get the metadata related to that client (and all its jwks ...)\r\n- get the policy to be applicable to the metadata, following what configured by the Trusted Third Parties for this client\r\n-  verify the trust chain over years, even if the public keys needed for verification are changed to one or multiple trusted third party or in the client as well\r\n\r\nI'm aware that attesting keys is just attesting keys but the model would require how to attest the owner of that key as reliable?\r\nHow do you trust that client, since it has self issued that attestation?\r\n\r\nI suggest to introduce the topic of Trust Establishment in this Draft, to give some pointers or refs to the ways we have todate to verify the reliability of an attestation, since a self-signed attestation is not attestable as secure.\r\n\r\nAt the same time there may be the possibility that a client attestation should be issued by a trusted third party, so the question would are: \r\n\r\n- Is there a single Trusted Third Party? \r\n- Is there any way the Trusted Third Party has to delegate the issuing of the attestations to another party as an intermediate?\r\n- Is there the need to obtain the public keys of all the Trusted Third Parties, if more than a single? If yes, how to know who these are?\r\n\r\nI'm asking since I found these answers in OpenID Connect Federation and the questions above are the classical questions the analysts/implementers have when deals with client attestations or dynamic client registrations ",
           "createdAt": "2023-05-20T17:01:34Z",
           "updatedAt": "2023-05-20T22:56:42Z"
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "Another example to exemplify the differences bwtween key attestation and assurance of reliability. \r\n\r\nA crypto key Is a key Just as a Key of a hotel room\r\n\r\nGiven that that Key effectively works for its hotel room, the question Is: which reputation has that hotel?\r\nHow many \"stars\" does It have?\r\nWho give those \"stars\"?\r\nWhich are the evaluation parameters and for how long  will these be valid?\r\nWill be a day when the hotel owner may say to have never give that room to a client, or that such client was never seen before?\r\nWhich trust framework will protect both hotel owner and client from unwanted actions they may do against each other?\r\n\r\nassurance of reliability is something verifiable, even If I'm aware that Trust is more a strategy and the Trust Model should define the rules and the architectural components to implement this strategy. A Strategy won't give us the assurance that a bad action won't be made by an Entity but at the same time the model must give also the assurance that every proof must be non repudiable and issued as long-lived, to give the guarantee to the participants that even if a rogue participant will break the rules of the trust, the proofs will be always verifiable in the future (especially when public keys will change)",
           "createdAt": "2023-05-21T21:55:39Z",
           "updatedAt": "2023-05-21T21:56:17Z"
@@ -269,7 +269,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "here I share something that emerged during the implementations and comparisons that took place with other analysts\r\n\r\niss and sub should not contain the same value, since the wallet provider (iss) is a separate entity with respect to the wallet instance (sub)\r\n\r\nFor this reason iss and sub must contain different identifiers, being related to distinct entities.\r\n\r\nThere are some cases where the client should not have a unique identifier, in this case the sub claim should not be included in the claim, because having iss and sub with identical values \u200b\u200bwould not make sense.\r\n\r\nFor this reason I propose to make the sub claim OPTIONAL rather than REQUIRED (MUST).",
           "createdAt": "2023-06-05T08:30:49Z",
           "updatedAt": "2023-06-05T08:30:49Z"
@@ -290,7 +290,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "> Why is that and what did emerge during implementations?\r\n\r\nexactly was I wrote in the thread\r\n\r\n\r\n",
           "createdAt": "2023-06-05T12:25:14Z",
           "updatedAt": "2023-06-05T12:25:14Z"
@@ -304,7 +304,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "I got your point.\r\n\r\nI don't think that iss == sub because the wallet provider attests this to the wallet instance as a personal mobile device.\r\nThere might be some cases where the wallet instance is provided as a cloud service, thus this would be a specialized case compatible to your vision.\r\n\r\nIn the cases where the wallet instance is a personal device, the Wallet Instance Attestation is not self-asserted since Provider and Instance are actually different entities. The issuer attests information in possession and control of the instance, that's a distinct entity under the sole control of the user.\r\n\r\nIf the attestation is self asserted the private key should be in control of the wallet provider, while this is not the case where personal device are involved.\r\n\r\nthe wallet provider doesn't have any control on the private keys and general details of the wallet instance, since these are arbitraries\r\n\r\n",
           "createdAt": "2023-06-05T16:10:57Z",
           "updatedAt": "2023-06-05T16:12:37Z"
@@ -641,7 +641,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "regarding the value of the sub claim in the WAI: since the wallet instance attestation is binded to a public key, we are not forced to use a unique and immutable subject identifier but instead a unique identifier with the same lifetime of the related key. That's why I suggest to place the jwk thumbprint value as sub or any other collision resistant value\r\n\r\nanyway I think that's an implementation choice if not of interest in this specs, I'd ask to remove any constraint to have iss equal to sub, since doesn't make any sense following the awareness that the wallet provider and the wallet instance are distinct entities, even if part of the same wallet solution, then they should not use the same entity identifier\r\n\r\n",
           "createdAt": "2023-07-05T23:36:44Z",
           "updatedAt": "2023-07-05T23:36:44Z"
@@ -655,7 +655,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "I had a check, now I can confirm.\r\nHappy to have put a stone with you on that\r\n",
           "createdAt": "2023-07-06T09:22:14Z",
           "updatedAt": "2023-07-06T09:22:14Z"
@@ -676,7 +676,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "I agreed that `sub` must have the same value of `client_id` but I didn't agreed that the specs should say which must be their value.\r\nI agree @TakahikoKawasaki 's comment [here](https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/32#issuecomment-1637028939) and I think that different implementations and models may distinguish the wallet instance from the wallet provider as different entities",
           "createdAt": "2023-10-09T09:14:20Z",
           "updatedAt": "2023-10-09T09:14:20Z"
@@ -690,7 +690,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "Ciao @tplooker \r\n\r\n`iss` is the entity that attests an instance, while `sub` is the instance.\r\nin my current implementation the first is the wallet provider, the latter is the End-User personal device.\r\n\r\nWe have found a good compromise with @paulbastian to not force in the specs a specific value, in a way to not force that `iss` value must be equal to `sub`. Wee agreed and everything seems fine to date.",
           "createdAt": "2023-11-06T17:31:46Z",
           "updatedAt": "2023-11-06T17:31:46Z"
@@ -739,7 +739,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "@tplooker \r\n\r\nThe `cnf.jwk` represents the identifier of the wallet instance. A wallet instance may have more than a private key and more than a single wallet instance attestation. Even using `iss` == `sub` the wallet instance attestation can be implicitly identified with the `cnf.jwk`.\r\n\r\nThe value of the `sub` claim is something to uniquely identify the subject, we should not mandate a specific value type but the only requirement to have unique value per wallet instances, while `iss` == `sub` == `client_id` doesn't make sense to me.\r\n\r\nI agree with Taka and at the same time I foudn a compromise with @paulbastian and at the end if `iss` == `sub` this will be ignored by the implementations because it doesn't bring any value, sense or benefit. It would be then better to remove `client_id` and `sub`. Anyway if this compromise to ignore the sub value helps the interop, I can buy but in Italy we're prone to distinguish the issuer from the subject because they are distinct entities, the first is the wallet instance attestation issuer, the latter is the wallet instance.",
           "createdAt": "2023-11-07T11:44:18Z",
           "updatedAt": "2023-11-07T23:49:29Z"
@@ -767,7 +767,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "@tplooker \r\n\r\n> If we make the change proposed in #32 then the issuer of the client attestation is no longer necessarily the client (or client backend) instead it could be any party that the authorization server trusts to make attestations about clients. However in that model the subject of the attestation is still always a client instance not a user.\r\n\r\nI didn't mention any user, a subject could be any kind of entity, like a robot, a machine, a client, etc.\r\n\r\n> Therefore we can leave the sub claim as the client_id value. Will that work for your deployment?\r\n\r\nIn my deployment the `sub` value, then the client_id, is the thumbprint value of the cnf.jwk and this is therefore different from the `iss` value.\r\n\r\nThanks to @TakahikoKawasaki for his memorable contributions.\r\n",
           "createdAt": "2023-11-12T14:11:44Z",
           "updatedAt": "2023-11-12T14:11:44Z"
@@ -781,7 +781,7 @@
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/14",
       "state": "CLOSED",
       "author": "peppelinux",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Is there any considerations about adopting *The Entity Attestation Token (EAT)* [draft-ietf-rats-eat-12](https://datatracker.ietf.org/doc/draft-ietf-rats-eat/12/) for the Attestation JWT?",
@@ -831,14 +831,14 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "Here the proposal raised in the italian implementation\r\n\r\n`asc_values_supported` and `asc`\r\n\r\nwhere ASC is the acronym of Attested Security Context\r\n\r\nthis aims do disambiguate the meaning of LoA, that is referred to person identities, to the scope of this attestation, that's entirely related to the security context of a personal device \r\n\r\n#### asc_values_supported\r\n\r\nis a capability of the wallet provider, that defines which kind of checks/levels is able to attests to its wallet instances\r\n\r\n#### asc \r\n\r\nis the claim issued in the Wallet Instance Attestation",
           "createdAt": "2023-06-17T12:46:20Z",
           "updatedAt": "2023-06-17T12:47:50Z"
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "the parameter name was renamed to `attested_security_context` (ASC) and we read it here:\r\nhttps://github.com/vcstuff/draft-looker-oauth-attestation-based-client-auth/blob/main/draft-looker-oauth-attestation-based-client-auth.md#wallet-instance-attestation\r\n\r\nIn that form **it is just a non-normative example, so some explanatory/normative text is needed**.\r\n\r\nASC aims to introduce a classification for the common capabilities of the device/mobile-app and a simple evaluation by the issuers.\r\n\r\nGenerally, it\r\n\r\n- avoids that the issuers should take any responsability by attesting `key_type` and `user_authentication`, since the sole responsability of the wallet security compliance is up to the wallet provider\r\n\r\n- avoids the implicit disclosure of system internals or mobile os name/brand. These could be derived by knowing the `key_type`, since there are some technologies that are only available on some specific platforms/os/versions. Then it improves the privacy, because the issuer cannot know which mobile os the user prefers or simply uses.\r\n\r\n-  requires a common framework where different device capabilities and user auth method must be mapped, classified and grouped in the ASC levels. A matrix with the key_types and user_auth values, grouped by each ASC level, is then required (but probably outside of the scope of this specs). \r\n\r\n- avoids that future features that today still don't exist, for example `key_type: \"super-Strong-box-3.0\"`, don't introduce anything more to the issuers that just need to know which are the ASC level and the one carried in the WIA, without any details (mandated to a common framework)\r\n\r\nexample of how the ACS levels could be defined can be found in literature as they was for ACR and AMR.",
           "createdAt": "2023-07-29T21:44:38Z",
           "updatedAt": "2023-07-30T18:13:20Z"
@@ -852,7 +852,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "good point,\r\n\r\nfor my personal experience I think that the level of privacy of a web browser can be configured by the User that is able to install additional privacy extensions as well.\r\n\r\nthe mapping is in the todo list, would this specs hosts a baseline of this mapping or do you think that it would be better to have it out of this spec? ",
           "createdAt": "2023-07-30T18:10:38Z",
           "updatedAt": "2023-07-30T18:10:38Z"
@@ -1077,7 +1077,7 @@
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/29",
       "state": "CLOSED",
       "author": "peppelinux",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [
         "paulbastian"
       ],
@@ -1448,7 +1448,7 @@
       "comments": [
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "I didn't get the \"actual URL\" , do you mean the `htu` value?",
           "createdAt": "2023-07-30T18:06:57Z",
           "updatedAt": "2023-07-30T18:06:57Z"
@@ -1521,7 +1521,7 @@
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/45",
       "state": "CLOSED",
       "author": "peppelinux",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In the current solution under development in Italy, the debate on the use of this wonderful draft has been alive for months.\r\n\r\nFrom the experiences and positions collected there seems to be a general refusal to recognize as \"beautiful\" the concatenation of JWTs divided by the ~ character within the `client_assertion` parameter.\r\n\r\nFor those who don't know, the crime of ugliness does not yet exist in Italy but there is great sensitivity in the search for beauty even in implementations.\r\n\r\nThere are alternative ways to proof the PoP, like DPoP. Unfortunately convey large JWT in a HTTP header like DPoP may have impacts on the tuning of the httpd services that would require a specialized configuration to allow http headers larger than 4KB. This has relevant impacts in the cases where a JWT carries x5c or Federation trust chains within its headers, where a JWT could be more than 4KB.\r\n\r\nEven if there are other specs that uses concatenation of JWTs using `~` as separator char, like SD-JWT. However SD-JWT tends to be self-contained artifact, general purpose and agnostic from the way it is transported. Then I'd tend to leave out SD-JWT from this thread.\r\n\r\nConsidering that this draft aims to extend RFC7521, I'd suggest to not use the concatenation two JWTs using `~` but the definition of a new parameter, that we may call `client_assertion_pop` to convey the client attestation PoP. This proposal suggests a good semantic with self-explanatory parameter names, in a modular way that aims to extend RFC7521 with explicit parameters as additional modules, that may be used where PoP is required.\r\n\r\n",
@@ -1538,7 +1538,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "Then you definitively suggest to detect the `client_assertion` value format by filter with the `client_assertion_type`",
           "createdAt": "2023-09-25T17:09:30Z",
           "updatedAt": "2023-09-25T17:09:30Z"
@@ -1552,7 +1552,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "Since an agreement was found about the adoption of the current specs as they are and without requesting any breaking change, this thread doesn't represent an issue anymore.\r\n[\r\nHere the related PR](https://github.com/italia/eudi-wallet-it-docs/pull/138) that uses this specs as it is in the it wallet",
           "createdAt": "2023-10-09T12:34:17Z",
           "updatedAt": "2023-10-09T12:34:17Z"
@@ -1566,7 +1566,7 @@
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/46",
       "state": "CLOSED",
       "author": "peppelinux",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "According to RFC7521 this draft aims to give specification about how to get authenticated with an AS, as we read in the introductory text\r\n\r\n> [[RFC7521](https://vcstuff.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#RFC7521)] defines a way for a client to include an assertion in a token request to an authorization server for the purposes of client authentication. This specification uses this framework to define a new assertion type that provides a way for a client instance to authenticate itself with the authorization server through an assertion that is bound to a public key (for proof of possession).\r\n\r\nIf the usefulness and purpose of this draft is clear, at the same time we perceive a great potential that could also be useful in other contexts.\r\n\r\nLately there has been a lot of talk about the use of the nonce as a definitive prevention against replay attacks, and the importance of the nonce endpoint for issuing these is often discussed.\r\n\r\nIn the background we have the emerging wallet ecosystem which proposes reversed roles at different times, where the wallet is a client in the issuance phase towards a credential issuer which is an AS, while it is a sort of AS in the presentation phase towards the Relying Party.\r\n\r\nThis draft could enable the authentication of a client (wallet) to a third party (either this AS or RP) before obtaining the nonce.\r\n\r\nthe possible nonce endpoint could present itself as a protected endpoint, the nonce should only be issued to authenticated parties.\r\n\r\nThis generalization would require greater flexibility compared to the current purposes of the draft, which envisages its use only when the audience is an AS, while it could also be an RP, where the wallet instance attestation with PoP can be provided before any kind of transaction takes place (allowing the RP to discover the wallet capabilities before issuing the signed request object).",
@@ -1583,7 +1583,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "I fully agree with you @David-Chadwick, in any cases the parties must establish trust before any protocol specific flow (issuance or presentation) may happen.\r\n\r\nthis issue aims to use an verifiable attestation based approach not just for client-AS (issuance) but also from AS-client (presentation), where the flow is conditioned by which entity has availability of endpoints (CI, RP) and which one not (wallet instances)",
           "createdAt": "2023-09-25T11:16:25Z",
           "updatedAt": "2023-09-25T11:16:25Z"
@@ -1597,7 +1597,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "@fbaud I agree with you and I'd buy also this \r\n\r\n> Most of the time, identification could be self-contained within the presentation itself. The more empediment (excessive authentication requirement) for the wallet to provide a credential, the less useful it is for the verifier.\r\n\r\nAt the same time the RP should know the wallet capabilities to know which are the supported sign and enc alg (and enc), if the wallet solution supports the presentation_definition_uri and so on.\r\n\r\nIn italy we use the wallet instance also to carry these capabilities, [here an example](https://italia.github.io/eudi-wallet-it-docs/versione-corrente/en/wallet-instance-attestation.html#format-of-the-wallet-instance-attestation)\r\n\r\nthis feature consolidates how a wallet capabilities discovery is required for a good interoperability, let's consider that a signature alg may be discovered vulnerable or the continuous technology advancement and innovation that will introduce periodically new features and algs.\r\n\r\nI believe that having a wallet capabilities discovery process, seamless in both issuance and presentation, is a future proof approach\r\n",
           "createdAt": "2023-09-25T12:29:50Z",
           "updatedAt": "2023-09-25T12:29:50Z"
@@ -1611,7 +1611,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "@fbaud How an RP discovers the wallet capabilities is something that should happen before the issuance of the signed request object. At the same time the RP must be sure that the WIA is in the legitimate possession of the Holder, with the authentication through the WIA+PoP\r\n\r\nthis approach would fit with the nonce_endpoint discussed here: https://github.com/openid/OpenID4VCI/issues/71#issuecomment-1733791449 where in addition we protect the issuance of the nonce with a wallet instance authz\r\n\r\n>  But nevertheless, we should also imagine that a wallet can request a credential without having to authenticate (like for a server delivering a timestamped credential for a process requiring a dead-man switch).\r\n\r\nyes, the autentication would be quite modular and for Type 1 and some Type 2 credentials, according to the required LoA\r\n",
           "createdAt": "2023-09-25T14:21:46Z",
           "updatedAt": "2023-09-25T14:22:57Z"
@@ -1625,7 +1625,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "What if ... \r\n\r\n1. The wallet instance encrypts the presentation response with an enc alg that's not supported by the verifier?\r\n2. The wallet instance doesn't support presentation_definition_uri? (see `presentation_definition_uri_supported`)\r\n3. The wallet instance doesn't support a specific vp format? (see `vp_formats_supported`)\r\n4. The wallet instance has to provide the `authorization_endpoint` to the verifier? (... Can be custom URI scheme, or Universal Links/App links ...)\r\n\r\nthen, having these previous, why the wallet capabilities discovery would be a false requirement?",
           "createdAt": "2023-09-26T07:04:37Z",
           "updatedAt": "2023-09-26T07:04:37Z"
@@ -1639,7 +1639,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "I got your point @David-Chadwick and I'd make your also mine, however I'm aware that having a proper discovery we would remove any fault, errors and failed transaction that may happen in the real world, in particular with an open ecosystem where different tecnologies and implementations profiles will end to be mixed. I see a future where an EIDAS Wallet solution may implements external features and then also did resolvers and additional capabilities. This would build an open ecosystem where interop and capabilities discovery represent a concrete and future proof requirement\r\n\r\nNot at least, preventing faults saves both users time and electricity :-)",
           "createdAt": "2023-09-26T08:56:46Z",
           "updatedAt": "2023-09-26T08:56:46Z"
@@ -1660,7 +1660,7 @@
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/47",
       "state": "OPEN",
       "author": "peppelinux",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Even if remote, there is the possibility that an implementation re-uses the same cryptographic keys for different scopes.\r\n\r\nthe PoP JWT could be used with the same cryptograhic key attested in more than a single attestation and therefore be replicated for different endpoints/audience\r\n\r\nWhat do you think about getting the `ath` claim inside the DPoP token as requested?\r\n\r\nIn this way, a DPoP token cannot be replicated when the key that proves possession is the same within different attestations.\r\n\r\nEven if DPoP specs defines `ath` in relation to an access token, may we consider that any kind of JWT could represent an access token, in relation of its scope, the flow where it is used and its usage in general?\r\n\r\nThen, could we provide a binding of the PoP to a specific attestation where the possession aims to be proved?",
@@ -1670,7 +1670,7 @@
       "comments": [
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "For better clarity\r\n\r\nan aud is not enough where a pop is used on a different attestation that has in common the same key used for the signature of another attestation\r\n\r\nit's an implementation risk where an implementer would use the same key for different attestations\r\n\r\nonce you have one, you can replay the same PoP for another/different attestation that has in common the same key\r\nhash of the attestation is then required, WDYT?",
           "createdAt": "2023-09-25T11:07:05Z",
           "updatedAt": "2023-09-25T11:07:05Z"
@@ -2917,7 +2917,7 @@
             "abbreviatedOid": "2208c9a"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-05-26T13:40:30Z",
@@ -3389,7 +3389,7 @@
             "abbreviatedOid": "6ac2b5c"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2023-06-05T12:28:16Z",
@@ -3479,7 +3479,7 @@
             "abbreviatedOid": "6ac2b5c"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-06-05T12:59:19Z",
@@ -3519,7 +3519,7 @@
             "abbreviatedOid": "36bf2bf"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-06-05T14:11:19Z",
@@ -3539,7 +3539,7 @@
             "abbreviatedOid": "36bf2bf"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2023-06-05T14:11:23Z",
@@ -3768,7 +3768,7 @@
             "abbreviatedOid": "2ff3c8c"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "informally approved, formally requested two small editorial things",
           "createdAt": "2023-10-08T18:42:39Z",
@@ -3833,7 +3833,7 @@
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/22",
       "state": "MERGED",
       "author": "peppelinux",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses # <!-- Issue # here -->\r\n\r\n## \ud83d\udcd1 Description\r\n<!-- Add a brief description of the pr -->\r\n\r\n<!-- You can also choose to add a list of changes and if they have been completed or not by using the markdown to-do list syntax\r\n- [ ] Not Completed\r\n- [x] Completed\r\n-->\r\n\r\n## Preview Link\r\n\r\n<!-- Update the link below to provide reviewers with a convenient link to view a rendered version of the PR-->\r\n<!-- In general the link should be of the form https://github.com/<repo-name>/<branch-name>/<draft-name>.html-->\r\n\r\n[click here for rendered preview of PR](https://github.com/<repo-name>/<branch-name>/<draft-name>.html)",
@@ -4090,7 +4090,7 @@
             "abbreviatedOid": "33af8c0"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-07-07T07:34:11Z",
@@ -4110,7 +4110,7 @@
             "abbreviatedOid": "33af8c0"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2023-07-07T07:35:24Z",
@@ -4575,7 +4575,7 @@
             "abbreviatedOid": "b843a2a"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "@paulbastian it seems that this PR doesn't contain nothing about AAL, is this a mistake?\r\n\r\n--- updates ---\r\n\r\nfound it at line 195, my bad",
           "createdAt": "2023-10-08T18:34:06Z",
@@ -4633,7 +4633,7 @@
             "abbreviatedOid": "b843a2a"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-10-09T06:54:33Z",
@@ -4688,7 +4688,7 @@
             "abbreviatedOid": "d5d5ffe"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2023-10-08T18:18:03Z",
@@ -4738,7 +4738,7 @@
             "abbreviatedOid": "d5d5ffe"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2023-10-08T18:44:41Z",
@@ -4952,7 +4952,7 @@
       "comments": [
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "Supported here\r\nhttps://github.com/italia/eudi-wallet-it-docs/pull/155\r\n\r\nanyway it would be better define within the specs the grouping of the security capabilities according to the levels low, medium and high\r\n",
           "createdAt": "2023-11-02T11:53:55Z",
           "updatedAt": "2023-11-02T11:53:55Z"
@@ -4992,7 +4992,7 @@
             "abbreviatedOid": "b58032e"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2023-11-16T08:03:30Z",
@@ -5350,7 +5350,7 @@
             "abbreviatedOid": "4e783cc"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2023-11-16T08:04:25Z",
@@ -5502,7 +5502,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "After giving it much thought, I realized that DPoP uses HTTP headers in HTTP requests, and consequently, it makes sense to obtain a nonce within the headers of the received HTTP responses.\r\n\r\nMeanwhile, the nonces we use in OAuth and for endpoint requests utilize GET or POST parameters, and the idea of forcibly using HTTP headers for nonce provisioning doesn't excite me.\r\n\r\nWe already have a nonce endpoint in IETF literature, for example in ACME (RFC8555), and with the aim of creating something highly specialized, reusable in other contexts, efficient, and scalable, I thought of this:\r\n\r\nhttps://github.com/peppelinux/draft-demarco-nonce-endpoint",
           "createdAt": "2024-02-04T00:46:40Z",
           "updatedAt": "2024-02-04T00:46:40Z"
@@ -5522,7 +5522,7 @@
             "abbreviatedOid": "fa66a20"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-11-15T07:49:31Z",
@@ -5623,7 +5623,7 @@
             "abbreviatedOid": "fa66a20"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "just editorial, consider it approved",
           "createdAt": "2023-11-16T07:59:42Z",
@@ -5719,7 +5719,7 @@
       "comments": [
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "A similar vision was brought by me here\r\n~https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/67/files~ sorry, wrong url, see: https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/issues/45\r\n\r\ngenerally I agree with this, however we still have an issue with DPoP, as explained below.\r\n\r\nThere are discussions about the requirement to provide more than a single wallet attestation in eIDAS.\r\nat the same time, for the purpose of a global standard, I see the requirement to provide a way to allow multiple client_assertion, where an ecosystem might require this, for future features.\r\n\r\nat the current stage, we can provide multiple client_assertion in a single url (see [this](https://github.com/openid/OpenID4VCI/issues/149)) providing their PoP. Using DPoP it is possible for HTTP to carry multiple headers with the same name. This is defined in the HTTP/1.1 specification (RFC 2616). According to the specification, multiple message-header fields with the same field-name may be present in a message if and only if the entire field-value for that header field is defined as a comma-separated list. It must be possible to combine the multiple header fields into one \"field-name: field-value\" pair, without changing the semantics of the message, by appending each subsequent field-value to the first, each separated by a comma.\r\n\r\nhowever this approach doesn't give the binding of which PoP is related to which client attestation, requiring to the entity that evaluates assertions+pop to parse and validate them in a loop. This loop has computational costs that can be avoided by design, as the current specs allows.\r\n\r\nanother issue could be that HTTP Header maximum size configured in the httpd services could represent a limit where multiple DPoP are provided. Anyway I feel optimistic about each the DPoP payload size and the number of http headers parameters included in a single http request.\r\n\r\njust to be clear:\r\n\r\nI prefer DPoP and I love to reuse things without redefining new one.\r\nAt the same time the DPoP HTTP header doesn't give a proper mapping to the client assertion where multiple client assertion are provided. The real-world may require this and we should take the best decision in term of design\r\n\r\n",
           "createdAt": "2024-01-16T10:45:01Z",
           "updatedAt": "2024-01-18T07:57:59Z"
@@ -5754,7 +5754,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "Is there any reaction about the potential requirement to provide multiple client assertions in a request and my previous comment, shown below:\r\n\r\n> however this approach doesn't give the binding of which PoP is related to which client attestation, requiring to the entity that evaluates assertions+(d)pop to parse and validate them in a loop. This loop has computational costs that can be avoided by design, as the current specs allows.",
           "createdAt": "2024-01-18T08:00:19Z",
           "updatedAt": "2024-01-18T08:00:19Z"
@@ -6034,7 +6034,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "@jogu indeed. We may have a client attestation with an huge x509 certificate chain or an openid federation trust chain with several metadata, trust marks and jwks. \r\n\r\nI don't see the benefit of moving from what it is actually more efficient (wa~wa-pop)\r\n\r\nmore over, technically we can have multiple client_assertions that embedes their pop (using ~), while having multiple http headers that divide attestation from pop forces the implementations to loop all the assertions and all the pop to find the matching ones",
           "createdAt": "2024-03-28T16:28:44Z",
           "updatedAt": "2024-03-28T16:28:44Z"
@@ -6055,7 +6055,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "there some point for clarification\r\n\r\n1. assertion weight: a client assertion may have a x5c or an openid federation trust chain within its JWT header. This is an issuer's choice, allowed by RFC 7515 that might be not supported by httpd maximum header body size, that's a deployment/configuration choice that might be different within different domains.\r\n2. chain length: it could be assumed that a chain may not exceed 2 or 3 certificate breaks. This depends on the number of intermediates, an aspect that falls outside the technical specification and is determined by the federation's topology and composition.\r\n3. client metadata: we have some required claims in the wallet attestations and the possibility to include any other custom claim or any other claims pertaining the wallet capabilities or anything else related to the trust framework. My comment is not related to assertion payload, but to the previous point 1 and 2. However, the payload also impacts in the assertion weight, as pointed out at point 1.\r\n\r\nThe missing point concerns the processing of multiple DPoP tokens within the same request. Handling multiple DPoP tokens necessitates a loop to identify the one that matches a specific assertion. This introduces additional computational and development efforts not present in the current approach (WA~WA-POP), which directly associates an assertion with its proof of possession (PoP), facilitating a straightforward and efficient identification of matching pairs.",
           "createdAt": "2024-04-04T05:47:19Z",
           "updatedAt": "2024-04-04T05:49:22Z"
@@ -6083,7 +6083,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "The issue extends beyond the realm of multiple wallet attestations, as there could also be multiple DPoP tokens involved.\r\n\r\nAn additional consideration, which we have not yet fully addressed but may emerge as a future requirement, is the scenario where a wallet instance operates under more than one trust framework, necessitating specialized assertions for each. While we have consciously chosen to limit the scope to a single wallet attestation to simplify implementation, it's important to acknowledge that this decision does not preclude the possibility of requiring multiple assertions in the future. Implementers may need to adapt or extend the specification to accommodate such needs. However, to avoid digressing further, let's focus on the matter of handling multiple DPoP headers for now.\r\n\r\nThe approach currently documented, which aims to streamline the process by limiting it to a single attestation, is designed to offer the same benefits while minimizing computational overhead.",
           "createdAt": "2024-04-05T07:08:00Z",
           "updatedAt": "2024-04-05T07:08:00Z"
@@ -6097,7 +6097,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "An OpenID Federation trust chain with two intermediates, the trust anchor entity configuration with a long list of trust mark issuers and the leaf entity configuration with a very verbose configuration, such as an AS + Openid4VCI + OpenID4VP (considering an EAA provider), with policies and a consistent number of trust mark might be 20KB.\r\n\r\nA serialized X.509 certificate chain, with 4 intermediates, custom extensions and QWACs ... Considering each certificate up to 2.2KB, might it be 8.8KB? \r\n\r\n(please, consider that openid federation brings policy languages, trust marks and multiple protocol specific metadata)\r\n\r\nI'm worried about these aspects:\r\n\r\n1. loop required for parse/matching the correct DPoP when multiple DPoP are present, while WIA~WIA-POP doesn't bring this problem. What's the benefit of having this breaking change that reduce the flexibility while increasing the complexity?\r\n2. size limitations: Do we have to imagine to standardize something upon the assumption that a federation topology should not have more than 2 or 4 or 8 intermediates, since this decision is out of scope on this specification.\r\n\r\n\r\n",
           "createdAt": "2024-04-05T08:57:18Z",
           "updatedAt": "2024-04-05T08:59:16Z"
@@ -6132,7 +6132,7 @@
         },
         {
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "@tplooker what about using compressed values?\r\n\r\nunfortunately this sounds like giving a solution that may bring other problems, at the same time we can consider zlib (RFC 1950) for doing this.",
           "createdAt": "2024-04-15T17:25:42Z",
           "updatedAt": "2024-04-15T17:25:42Z"
@@ -6299,7 +6299,7 @@
             "abbreviatedOid": "1c4f76c"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-16T14:04:52Z",
@@ -6351,7 +6351,7 @@
             "abbreviatedOid": "1c4f76c"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-16T20:05:55Z",
@@ -6371,7 +6371,7 @@
             "abbreviatedOid": "1c4f76c"
           },
           "author": "peppelinux",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2024-04-16T20:09:22Z",
