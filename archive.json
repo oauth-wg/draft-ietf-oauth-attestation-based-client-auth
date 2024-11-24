@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-21T00:11:32.255521+00:00",
+  "timestamp": "2024-11-24T00:13:27.653121+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2562,6 +2562,22 @@
       "body": "Most of the specs I've seen do not use an extra backslash to signal newline in their examples. I've checked PAR (https://datatracker.ietf.org/doc/html/rfc9126), JWT(https://datatracker.ietf.org/doc/html/rfc7519), OpenID specs and most of the current OAuth WG drafts and none of them have a backslash. I am aware of https://datatracker.ietf.org/doc/html/rfc8792, but I would to like to keep things somewhat consistent with other work.\r\n\r\n --> I would prefer to remove the backslash from the examples",
       "createdAt": "2024-10-20T11:42:34Z",
       "updatedAt": "2024-10-20T11:42:34Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 94,
+      "id": "I_kwDOJaEkaM6f1u6M",
+      "title": "JWT examples are missing the `typ` header parameter",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/94",
+      "state": "OPEN",
+      "author": "TakahikoKawasaki",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "JWT examples in the following sections are missing the `typ` header parameter. These examples should be corrected.\r\n\r\n- 6.1. Client Attestation HTTP Headers\r\n- 6.3. Client Attestation at the Token Endpoint\r\n- 6.4. Client Attestation at the PAR Endpoint\r\n- 7.1. Concatenated Serialization Format\r\n\r\n",
+      "createdAt": "2024-11-22T03:35:52Z",
+      "updatedAt": "2024-11-22T03:35:52Z",
       "closedAt": null,
       "comments": []
     }
