@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-26T00:11:37.233150+00:00",
+  "timestamp": "2024-11-28T00:11:54.815566+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2236,7 +2236,7 @@
       ],
       "body": "I think the \"attestation\" term in the draft name causes confusing and a wrong perception what this draft is about. \r\n\r\nIn my opinion, this draft evolves the concept RFC 7523 to allow use of JWTs bound to a key for client authentication. \r\n\r\nConsequently,  I suggest to rename the draft to \"Key-bound JWT Client Authentication\".",
       "createdAt": "2024-03-26T18:55:21Z",
-      "updatedAt": "2024-09-11T06:58:50Z",
+      "updatedAt": "2024-11-27T08:43:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -2252,6 +2252,13 @@
           "body": "Would be good to know what \"a wrong perception what this draft is about\" was about, but I suspect we clarified those confusions in the oauth wg.\r\n\r\nterms wallet attestation/key attestation have already been widely used in the community that is the target audience for this draft. are we sure renaming this draft to client authentication would not cause more confusion?",
           "createdAt": "2024-07-26T20:47:47Z",
           "updatedAt": "2024-07-26T20:47:47Z"
+        },
+        {
+          "author": "ju-cu",
+          "authorAssociation": "NONE",
+          "body": "Also related to #68 where I argue (or try to) that this draft is all about \"Key-bound JWT Client Authentication\" and not attestation per se.",
+          "createdAt": "2024-11-27T08:43:02Z",
+          "updatedAt": "2024-11-27T08:43:02Z"
         }
       ]
     },
