@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-12T00:12:14.357134+00:00",
+  "timestamp": "2024-12-15T00:13:23.939713+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2585,6 +2585,22 @@
       "body": "JWT examples in the following sections are missing the `typ` header parameter. These examples should be corrected.\r\n\r\n- 6.1. Client Attestation HTTP Headers\r\n- 6.3. Client Attestation at the Token Endpoint\r\n- 6.4. Client Attestation at the PAR Endpoint\r\n- 7.1. Concatenated Serialization Format\r\n\r\n",
       "createdAt": "2024-11-22T03:35:52Z",
       "updatedAt": "2024-11-22T03:35:52Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 95,
+      "id": "I_kwDOJaEkaM6jNI8Z",
+      "title": "Add section to consider usage at RS",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/95",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "add section 6.5 to use this mechniams at the resource Server",
+      "createdAt": "2024-12-13T11:02:53Z",
+      "updatedAt": "2024-12-13T11:02:53Z",
       "closedAt": null,
       "comments": []
     }
