@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-09T00:11:25.685605+00:00",
+  "timestamp": "2025-01-12T00:12:24.866246+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2484,7 +2484,7 @@
       ],
       "body": "",
       "createdAt": "2024-10-09T06:49:23Z",
-      "updatedAt": "2024-10-16T06:48:19Z",
+      "updatedAt": "2025-01-09T09:19:14Z",
       "closedAt": null,
       "comments": []
     },
@@ -2504,7 +2504,7 @@
       ],
       "body": "",
       "createdAt": "2024-10-09T06:53:36Z",
-      "updatedAt": "2024-10-16T06:48:14Z",
+      "updatedAt": "2025-01-09T09:19:15Z",
       "closedAt": null,
       "comments": []
     },
@@ -2581,12 +2581,23 @@
       "author": "TakahikoKawasaki",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "bug",
+        "ready-for-pr"
+      ],
       "body": "JWT examples in the following sections are missing the `typ` header parameter. These examples should be corrected.\r\n\r\n- 6.1. Client Attestation HTTP Headers\r\n- 6.3. Client Attestation at the Token Endpoint\r\n- 6.4. Client Attestation at the PAR Endpoint\r\n- 7.1. Concatenated Serialization Format\r\n\r\n",
       "createdAt": "2024-11-22T03:35:52Z",
-      "updatedAt": "2024-11-22T03:35:52Z",
+      "updatedAt": "2025-01-09T10:20:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Sorry for the late response, but you are absolutely correct and the examples should be fixed.",
+          "createdAt": "2025-01-09T10:20:20Z",
+          "updatedAt": "2025-01-09T10:20:20Z"
+        }
+      ]
     },
     {
       "number": 95,
