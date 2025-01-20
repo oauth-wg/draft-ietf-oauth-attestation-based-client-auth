@@ -11,19 +11,19 @@
 <meta content="
        This specification defines an extension to the OAuth 2 protocol as defined in   which enables a Client Instance to include a key-bound attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to utilize this key-bound attestation to authenticate. 
     " name="description">
-<meta content="xml2rfc 3.23.2" name="generator">
+<meta content="xml2rfc 3.25.0" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.2
-    Python 3.12.7
+  xml2rfc 3.25.0
+    Python 3.12.8
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.4
-    lxml 4.9.4
+    Jinja2 3.1.5
+    lxml 5.3.0
     platformdirs 4.3.6
-    pycountry 22.3.5
-    PyYAML 6.0.1
+    pycountry 24.6.1
+    PyYAML 6.0.2
     requests 2.32.3
     setuptools 70.3.0
     wcwidth 0.2.13
@@ -162,31 +162,6 @@
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -203,6 +178,77 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -215,6 +261,7 @@
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -232,9 +279,15 @@ body {
 }
 
 /* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -263,6 +316,7 @@ h4, h5, h6 {
 /* general structure */
 .author {
   padding-bottom: 0.3em;
+  vertical-align: top;
 }
 #abstract+p {
   font-size: 18px;
@@ -340,25 +394,26 @@ svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
 ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
-}
-:is(ol, ul) :is(ol, ul) {
-  margin-left: 1em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
 }
 li {
   margin: 0 0 0.25em 0;
 }
-.ulCompact li {
-  margin: 0;
-}
 ul.empty, .ulEmpty {
   list-style-type: none;
-}
-ul.empty li, .ulEmpty li {
-  margin-top: 0.5em;
+  & li {
+    margin-top: 0.5em;
+  }
 }
 :is(ul, ol).compact, .ulCompact, .olCompact {
-  line-height: 1;
   margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
 }
 
 /* definition lists */
@@ -366,38 +421,39 @@ dl {
   clear: left;
   --indent: 3ch;
   /* --indent: attr(indent ch); not supported in any browser, but we can dream */
-}
-dl.olPercent {
-  --indent: 5ch;
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
 dl > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
 }
-dl.dlNewline > dt {
-  float: none;
-}
 dl > dd {
   margin-bottom: .8em;
   margin-left: var(--indent) !important; /* stupid element overrides */
   min-height: 2ex;
 }
-dl.olPercent > dt {
-  min-width: calc(var(--indent) - 2ch);
-}
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
-  margin-top: 0;
-}
-:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
-  margin-bottom: 0;
-}
-dl > dd > dl {
-  margin-top: 0.5em;
-  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
 }
 :is(dd, span).break {
   display: none;
@@ -461,6 +517,7 @@ figcaption, caption {
   font-style: italic;
   margin: 0.5em 1.5em;
   text-align: left;
+  caption-side: bottom;
 }
 @media screen {
   /* Auto-collapse boilerplate. */
@@ -478,7 +535,11 @@ figcaption, caption {
   }
   pre, svg {
     display: inline-block;
-    overflow-x: auto;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
   }
   pre {
     max-width: 100%;
@@ -515,6 +576,7 @@ cite {
 
 /* tables */
 table {
+  width: auto;
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
@@ -529,6 +591,16 @@ table.center {
 table.left {
   margin-right: auto;
 }
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
 thead, tbody {
   border: 1px solid var(--line-color);
 }
@@ -559,9 +631,11 @@ a.pilcrow {
   margin-left: 3px;
   opacity: 0.2;
   user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
 }
-a.pilcrow[href] { color: var(--pilcrow-weak); }
-a.pilcrow[href]:hover { text-decoration: none; }
 @media not print {
   :hover > a.pilcrow {
     opacity: 1;
@@ -601,26 +675,28 @@ sub, sup {
   font-size: var(--small-font-size);
   line-height: 18px;
   --identifier-width: 15ch;
-}
-#identifiers dt {
-  width: var(--identifier-width);
-  min-width: var(--identifier-width);
-  clear: left;
-  float: left;
-  text-align: right;
-  margin-right: 1ch;
-}
-#identifiers dd {
-  margin: 0;
-  margin-left: calc(1em + var(--identifier-width)) !important;
-  min-width: 5em;
-}
-#identifiers .authors .author {
-  display: inline-block;
-  margin-right: 1.5em;
-}
-#identifiers .authors .org {
-  font-style: italic;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
 }
 
 /* The prepared/rendered info at the very bottom of the page */
@@ -631,9 +707,6 @@ sub, sup {
   margin-top: 2em;
 }
 .docInfo .prepared {
-  float: left;
-}
-.docInfo .prepared {
   float: right;
 }
 
@@ -641,47 +714,48 @@ sub, sup {
 #toc {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
-}
-#toc nav ul {
-  margin: 0 0.5em 0 0;
-  padding: 0;
-  list-style: none;
-}
-#toc nav li {
-  line-height: 1.3em;
-  margin: 2px 0;
-  padding-left: 1.2em;
-  text-indent: -1.2em;
-}
-#toc a.xref {
-  white-space: normal;
-}
-/* references */
-.references dt {
-  text-align: right;
-  font-weight: bold;
-  min-width: 10ch;
-  margin-right: 1.5ch;
-}
-.references dt:target::before {
-  content: "⇒";
-  width: 15px;
-  margin: 0 10px 0 -25px;
-}
-.references dd {
-  margin-left: 12ch !important;
-  overflow: auto;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
 }
 
-.refInstance {
-  margin-bottom: 1.25em;
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
 }
 
-.references .ascii {
-  margin-bottom: 0.25em;
-}
-
-/* index */
 #rfc\.index\.index + ul {
   margin-left: 0;
 }
@@ -689,21 +763,33 @@ sub, sup {
 /* authors */
 address.vcard {
   font-style: normal;
-  margin: 1em 0;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
 }
-address.vcard .nameRole {
-  font-weight: 700;
-  margin-left: 0;
-}
-address.vcard .label {
-  margin: 0.5em 0;
-}
-address.vcard .type {
-  display: none;
-}
-.alternative-contact {
-  margin: 1.5em 0 1em;
-}
+
 hr.addr {
   border-top: 1px dashed;
   margin: 0;
@@ -725,6 +811,7 @@ hr.addr {
   }
 }
 
+/* Comments */
 .rfcEditorRemove p:first-of-type {
   font-style: italic;
 }
@@ -735,7 +822,31 @@ hr.addr {
 .crefSource {
   font-style: italic;
 }
-/* alternative layout for smaller screens */
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
 @media screen and (max-width: 929px) {
   #toc {
     position: fixed;
@@ -746,9 +857,6 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc.active {
-      opacity: 1;
   }
   #toc h2 {
     margin: 0;
@@ -761,17 +869,17 @@ hr.addr {
     background-color: #444;
     color: white;
     cursor: pointer;
-  }
-  #toc h2::before { /* css hamburger */
-    float: right;
-    position: relative;
-    width: 1em;
-    height: 1px;
-    left: -164px;
-    margin: 8px 0 0 0;
-    background: white none repeat scroll 0 0;
-    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-    content: "";
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
   }
   #toc nav {
     display: none;
@@ -782,14 +890,13 @@ hr.addr {
     height: calc(100vh - 48px);
     border-left: 1px solid #ddd;
   }
-  #toc.active nav {
-    display: block;
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
   }
   /* Make the collapsed ToC header render white on gray also when it's a link */
   #toc h2 a,
-  #toc h2 a:link,
-  #toc h2 a:focus,
-  #toc h2 a:hover,
+  #toc h2 a:is(:link, :focus, :hover),
   #toc a.toplink,
   #toc a.toplink:hover {
     color: white;
@@ -797,11 +904,11 @@ hr.addr {
     text-decoration: none;
   }
   #toc a.toplink {
-    margin-top: 2px;
+    margin: 2px 0.5em 0;
   }
 }
 
-/* alternative layout for wide screens */
+/* TOC layout for wide screens */
 @media screen and (min-width: 930px) {
   body {
     padding-right: 360px;
@@ -830,20 +937,12 @@ hr.addr {
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  #toc nav > ul  {
-    margin-bottom: 2em;
-  }
-  #toc ul {
-    margin: 0 0 0 4px;
-    font-size: var(--small-font-size);
-  }
-  #toc ul :is(p, li) {
-    margin: 2px 0;
-    line-height: 22px;
-  }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
   }
 }
 
@@ -886,9 +985,6 @@ hr.addr {
   td {
     border-top: 1px solid #ddd;
   }
-  .toplink {
-    display: none;
-  }
 }
 
 @page :first {
@@ -911,82 +1007,6 @@ hr.addr {
   size: A4;
   margin-bottom: 45mm;
   padding-top: 20px;
-}
-
-/* Changes introduced to fix issues found during implementation */
-
-/* Separate body from document info even without intervening H1 */
-section {
-  clear: both;
-}
-
-/* Top align author divs, to avoid names without organization dropping level with org names */
-.author {
-  vertical-align: top;
-}
-
-/* Style section numbers with more space between number and title */
-.section-number {
-  padding-right: 0.5em;
-}
-
-/* Add styling for a link in the ToC that points to the top of the document */
-a.toplink {
-  float: right;
-  margin: 8px 0.5em 0;
-}
-
-/* Provide styling for table cell text alignment */
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
-}
-
-/* Make the alternative author contact information look less like just another
-   author, and group it closer with the primary author contact information */
-.alternative-contact {
-  margin: 0.5em 0 0.25em 0;
-}
-address .non-ascii {
-  margin: 0 0 0 2em;
-}
-
-/* With it being possible to set tables with alignment
-  left, center, and right, { width: 100%; } does not make sense */
-table {
-  width: auto;
-}
-
-/* Avoid reference text that sits in a block with very wide left margin,
-   because of a long floating dt label.*/
-.references dd {
-  overflow: visible;
-}
-
-/* Control caption placement */
-caption {
-  caption-side: bottom;
-}
-
-/* Limit the width of the author address vcard, so names in right-to-left
-   script don't end up on the other side of the page. */
-
-address.vcard {
-  max-width: 20em;
-  margin-right: auto;
-}
-
-/* For address alignment dependent on LTR or RTL scripts */
-address div.left {
-  text-align: left;
-}
-address div.right {
-  text-align: right;
 }
 
 /* Dark mode. */
@@ -1025,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">October 2024</td>
+<td class="right">January 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 24 April 2025</td>
+<td class="center">Expires 24 July 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1042,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-21" class="published">21 October 2024</time>
+<time datetime="2025-01-20" class="published">20 January 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-24">24 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-07-24">24 July 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1097,7 +1117,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 July 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1106,7 +1126,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2024 IETF Trust and the persons identified as the
+            Copyright (c) 2025 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1232,21 +1252,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-additional-examples" class="internal xref">Additional Examples</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
-                <p id="section-toc.1-1.13.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-wallet-instance-attestation" class="internal xref">Wallet Instance Attestation</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
-            <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+            <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
-            <p id="section-toc.1-1.15.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
-            <p id="section-toc.1-1.16.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.15.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1417,13 +1429,13 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <div class="alignLeft art-text artwork" id="section-5.1-9">
 <pre>
 {
-  "typ": "oauth-client-attestation+jwt"
+  "typ": "oauth-client-attestation+jwt",
   "alg": "ES256",
   "kid": "11"
 }
 .
 {
-  "iss": "https://client.example.com",
+  "iss": "https://server.example.com",
   "sub": "https://client.example.com",
   "nbf":1300815780,
   "exp":1300819380,
@@ -1541,24 +1553,26 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-6.1-3">The following is an example of the OAuth-Client-Attestation header.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-4">
 <pre>
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
+lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
+bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
+joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
+ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
+0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
+kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
 </pre><a href="#section-6.1-4" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-5">The following is an example of the OAuth-Client-Attestation-PoP header.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-6">
 <pre>
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
-GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
-AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
-CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
-Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
+eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
+DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
+FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
+1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
+HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 </pre><a href="#section-6.1-6" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-7">Note that per <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
@@ -1607,19 +1621,21 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
-GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
-AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
-CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
-Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
+lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
+bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
+joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
+ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
+0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
+kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
+eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
+DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
+FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
+1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
+HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 
 grant_type=authorization_code&amp;
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -1640,19 +1656,21 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 POST /as/par HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
-GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
-AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
-CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
-Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
+lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
+bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
+joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
+ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
+0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
+kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
+eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
+DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
+FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
+1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
+HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 
 response_type=code&amp;state=af0ifjsldkj&amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
@@ -1687,18 +1705,20 @@ In those cases, a concatenated serialization of the Client Attestation and Clien
 <p id="section-7.1-5">The following is an example of such a concatenated serialization (with extra line breaks for display purposes only):<a href="#section-7.1-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-7.1-6">
 <pre>
-eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJpc3MiOiJodHRwczovL2NsaWVud\
-C5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwib\
-mJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I\
-joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZON\
-lZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Z\
-lk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.SflKxwRJSMeKKF2QT4fwpMeJ\
-f36POk6yJV_adQssw5c~eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAiaHR0cHM6Ly9\
-jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5leGFtcGxlLmN\
-vbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwLAogICJqdGk\
-iOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKICAibm9uY2U\
-iIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKfQ.coB_mtdX\
-wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiL
+CJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1Y
+iI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleH
+AiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJ
+jcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4
+bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1N
+W83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFlkxQUOVJ94H_GUKxYoCI6pfUffg
+18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw~eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXR
+oLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVu
+dC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiO
+jEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00Nm
+ZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSW
+B7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 </pre><a href="#section-7.1-6" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1939,147 +1959,113 @@ wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 <dd class="break"></dd>
 <dt id="SD-JWT">[SD-JWT]</dt>
       <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-13</span>, <time datetime="2024-10-18" class="refDate">18 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-13">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-13</a>&gt;</span>. </dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-15</span>, <time datetime="2025-01-16" class="refDate">16 January 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-15">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 </section>
 </div>
-<div id="additional-examples">
-<section id="appendix-A">
-      <h2 id="name-additional-examples">
-<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-additional-examples" class="section-name selfRef">Additional Examples</a>
-      </h2>
-<div id="wallet-instance-attestation">
-<section id="appendix-A.1">
-        <h3 id="name-wallet-instance-attestation">
-<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-wallet-instance-attestation" class="section-name selfRef">Wallet Instance Attestation</a>
-        </h3>
-<p id="appendix-A.1-1">This non-normative example shows a client attestations used as an wallet instance attestation in the context of eIDAS 2.0 <span>[<a href="#ARF" class="cite xref">ARF</a>]</span>, e.g. to secure a Type-1 configuration credential. The additional claims describe the wallet's device binding und user binding capabilities and the achievable level of assurance.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="appendix-A.1-2">
-<pre>
-{
-        "typ": "wallet-attestation+jwt",
-        "alg": "ES256",
-        "kid": "1"
-}
-.
-{
-        "iss": "https://attestation-service.com",
-        "sub": "https://wallet-provider.com",
-        "iat": 1541493724,
-        "exp": 1516247022,
-        "attested_security_context" : "https://eu-trust-list.eu/asc/high",
-        "cnf": {
-                "jwk" : {
-                        "kty": "EC",
-                        "crv": "P-256",
-                        "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
-                        "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
-                },
-                "key_type" : "STRONGBOX",
-                "user_authentication" : "SYSTEM_PIN"
-        }
-}
-
-</pre><a href="#appendix-A.1-2" class="pilcrow">¶</a>
-</div>
-</section>
-</div>
-</section>
-</div>
 <div id="document-history">
-<section id="appendix-B">
+<section id="appendix-A">
       <h2 id="name-document-history">
-<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-B-1">-04<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">-05<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B-2.1">
-          <p id="appendix-B-2.1.1">restructured JWT Claims for better readability<a href="#appendix-B-2.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.2">
-          <p id="appendix-B-2.2.1">added JOSE typ values for Client Attestation and Client Attestation PoP<a href="#appendix-B-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.3">
-          <p id="appendix-B-2.3.1">add RATS relation<a href="#appendix-B-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.4">
-          <p id="appendix-B-2.4.1">add concatenated representation without headers<a href="#appendix-B-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.5">
-          <p id="appendix-B-2.5.1">add PAR endpoint example<a href="#appendix-B-2.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.6">
-          <p id="appendix-B-2.6.1">fix PoP examples to include jti and nonce<a href="#appendix-B-2.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-2.7">
-          <p id="appendix-B-2.7.1">add iana http field name registration<a href="#appendix-B-2.7.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-2.1">
+          <p id="appendix-A-2.1.1">fix missing typ header in examples<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-3">-03<a href="#appendix-B-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">-04<a href="#appendix-A-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B-4.1">
-          <p id="appendix-B-4.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-B-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-4.1">
+          <p id="appendix-A-4.1.1">remove key attestation example<a href="#appendix-A-4.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-4.2">
-          <p id="appendix-B-4.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-B-4.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-A-4.2">
+          <p id="appendix-A-4.2.1">restructured JWT Claims for better readability<a href="#appendix-A-4.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-B-4.3">
-          <p id="appendix-B-4.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-B-4.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-A-4.3">
+          <p id="appendix-A-4.3.1">added JOSE typ values for Client Attestation and Client Attestation PoP<a href="#appendix-A-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.4">
+          <p id="appendix-A-4.4.1">add RATS relation<a href="#appendix-A-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.5">
+          <p id="appendix-A-4.5.1">add concatenated representation without headers<a href="#appendix-A-4.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.6">
+          <p id="appendix-A-4.6.1">add PAR endpoint example<a href="#appendix-A-4.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.7">
+          <p id="appendix-A-4.7.1">fix PoP examples to include jti and nonce<a href="#appendix-A-4.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.8">
+          <p id="appendix-A-4.8.1">add iana http field name registration<a href="#appendix-A-4.8.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-5">-02<a href="#appendix-B-5" class="pilcrow">¶</a></p>
+<p id="appendix-A-5">-03<a href="#appendix-A-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B-6.1">
-          <p id="appendix-B-6.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-B-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-6.1">
+          <p id="appendix-A-6.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-A-6.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.2">
+          <p id="appendix-A-6.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-A-6.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.3">
+          <p id="appendix-A-6.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-A-6.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-7">-01<a href="#appendix-B-7" class="pilcrow">¶</a></p>
+<p id="appendix-A-7">-02<a href="#appendix-A-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B-8.1">
-          <p id="appendix-B-8.1.1">Updated eIDAS example in appendix<a href="#appendix-B-8.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.2">
-          <p id="appendix-B-8.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-B-8.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.3">
-          <p id="appendix-B-8.3.1">Refined text around cnf claim in client attestation<a href="#appendix-B-8.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.4">
-          <p id="appendix-B-8.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-B-8.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.5">
-          <p id="appendix-B-8.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-B-8.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.6">
-          <p id="appendix-B-8.6.1">Updated acknowledgments<a href="#appendix-B-8.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.7">
-          <p id="appendix-B-8.7.1">Simplified the diagram in the introduction<a href="#appendix-B-8.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.8">
-          <p id="appendix-B-8.8.1">Updated references<a href="#appendix-B-8.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-B-8.9">
-          <p id="appendix-B-8.9.1">Added some guidance around replay attack detection<a href="#appendix-B-8.9.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-8.1">
+          <p id="appendix-A-8.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-A-8.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-B-9">-00<a href="#appendix-B-9" class="pilcrow">¶</a></p>
+<p id="appendix-A-9">-01<a href="#appendix-A-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B-10.1">
-          <p id="appendix-B-10.1.1">Initial draft<a href="#appendix-B-10.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-10.1">
+          <p id="appendix-A-10.1.1">Updated eIDAS example in appendix<a href="#appendix-A-10.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.2">
+          <p id="appendix-A-10.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-A-10.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.3">
+          <p id="appendix-A-10.3.1">Refined text around cnf claim in client attestation<a href="#appendix-A-10.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.4">
+          <p id="appendix-A-10.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-A-10.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.5">
+          <p id="appendix-A-10.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-A-10.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.6">
+          <p id="appendix-A-10.6.1">Updated acknowledgments<a href="#appendix-A-10.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.7">
+          <p id="appendix-A-10.7.1">Simplified the diagram in the introduction<a href="#appendix-A-10.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.8">
+          <p id="appendix-A-10.8.1">Updated references<a href="#appendix-A-10.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.9">
+          <p id="appendix-A-10.9.1">Added some guidance around replay attack detection<a href="#appendix-A-10.9.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-11">-00<a href="#appendix-A-11" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-12.1">
+          <p id="appendix-A-12.1.1">Initial draft<a href="#appendix-A-12.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="acknowledgments">
-<section id="appendix-C">
+<section id="appendix-B">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-C-1">We would like to thank
+<p id="appendix-B-1">We would like to thank
 Brian Campbell,
 Francesco Marino,
 Guiseppe De Marco,
@@ -2088,11 +2074,11 @@ Michael B. Jones,
 Takahiko Kawasaki
 and
 Torsten Lodderstedt
-for their valuable contributions to this specification.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+for their valuable contributions to this specification.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-D">
+<section id="appendix-C">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
