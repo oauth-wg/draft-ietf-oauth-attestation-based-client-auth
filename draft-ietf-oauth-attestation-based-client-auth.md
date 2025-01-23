@@ -1,14 +1,23 @@
 ---
 title: "OAuth 2.0 Attestation-Based Client Authentication"
 category: info
+lang: en
 
 docname: draft-ietf-oauth-attestation-based-client-auth-latest
 submissiontype: IETF  # also: "IETF", "IAB", or "IRTF"
+area: "Security"
+workgroup: "Web Authorization Protocol"
+ipr: trust200902
+
 number:
 date:
 v: 3
 venue:
-  group: "oauth-wg/draft-ietf-oauth-attestation-based-client-auth"
+  group: "Web Authorization Protocol"
+  type: "Working Group"
+  mail: "oauth@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/oauth/"
+  github: "oauth-wg/draft-ietf-oauth-attestation-based-client-auth"
   latest: "https://oauth-wg.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html"
 
 author:
