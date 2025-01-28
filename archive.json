@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-26T00:11:28.186781+00:00",
+  "timestamp": "2025-01-28T00:10:55.265927+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -7622,7 +7622,7 @@
       "labels": [],
       "body": "Same problem as in the status list repo",
       "createdAt": "2025-01-23T20:55:36Z",
-      "updatedAt": "2025-01-23T20:55:36Z",
+      "updatedAt": "2025-01-27T07:04:37Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "8be32e23f15c3936fdff51e3f3f27907788452f5",
@@ -7634,7 +7634,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6ZdjGG",
+          "commit": {
+            "abbreviatedOid": "f5287aa"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-27T07:04:37Z",
+          "updatedAt": "2025-01-27T07:04:37Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
