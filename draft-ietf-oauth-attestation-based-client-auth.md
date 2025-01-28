@@ -21,7 +21,7 @@ author:
     email: paul.bastian@bdr.de
  -
     fullname: Christian Bormann
-    organization: Robert Bosch GmbH
+    organization: SPRIND
     email: chris.bormann@gmx.de
 
 
