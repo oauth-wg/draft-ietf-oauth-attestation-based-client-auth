@@ -7,7 +7,7 @@ Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
 Expires: 2 August 2025                                                  
                                                               C. Bormann
-                                                       Robert Bosch GmbH
+                                                                  SPRIND
                                                          29 January 2025
 
 
@@ -898,5 +898,5 @@ Authors' Addresses
 
 
    Christian Bormann
-   Robert Bosch GmbH
+   SPRIND
    Email: chris.bormann@gmx.de
