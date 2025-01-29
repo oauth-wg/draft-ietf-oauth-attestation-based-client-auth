@@ -2,13 +2,13 @@
 
 
 
-Network Working Group                                          T. Looker
+Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 24 April 2025                                                  
+Expires: 2 August 2025                                                  
                                                               C. Bormann
                                                        Robert Bosch GmbH
-                                                         21 October 2024
+                                                         29 January 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -34,6 +34,15 @@ About This Document
    for this document may be found at https://datatracker.ietf.org/doc/
    draft-ietf-oauth-attestation-based-client-auth/.
 
+   Discussion of this document takes place on the Web Authorization
+   Protocol Working Group mailing list (mailto:oauth@ietf.org), which is
+   archived at https://mailarchive.ietf.org/arch/browse/oauth/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/oauth/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-
+   client-auth.
+
 Status of This Memo
 
    This Internet-Draft is submitted in full conformance with the
@@ -49,11 +58,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 April 2025.
+   This Internet-Draft will expire on 2 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -804,9 +813,9 @@ Table of Contents
 
    [SD-JWT]   Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-13, 18
-              October 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-oauth-selective-disclosure-jwt-13>.
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-15, 16
+              January 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-oauth-selective-disclosure-jwt-15>.
 
 Appendix A.  Document History
 
