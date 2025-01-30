@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-28T00:10:55.265927+00:00",
+  "timestamp": "2025-01-30T00:10:37.626887+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -7596,7 +7596,7 @@
       "labels": [],
       "body": "fixes #94, #89",
       "createdAt": "2025-01-20T12:34:28Z",
-      "updatedAt": "2025-01-20T12:34:29Z",
+      "updatedAt": "2025-01-29T07:57:59Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "8be32e23f15c3936fdff51e3f3f27907788452f5",
@@ -7608,31 +7608,47 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6Zy34N",
+          "commit": {
+            "abbreviatedOid": "8da1409"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-29T07:57:59Z",
+          "updatedAt": "2025-01-29T07:57:59Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 97,
       "id": "PR_kwDOJaEkaM6I0KFz",
       "title": "update ietf template",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/97",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Same problem as in the status list repo",
       "createdAt": "2025-01-23T20:55:36Z",
-      "updatedAt": "2025-01-27T07:04:37Z",
+      "updatedAt": "2025-01-29T07:57:26Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "8be32e23f15c3936fdff51e3f3f27907788452f5",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "c2bo/update-ietf-template",
       "headRefOid": "f5287aa935565fab49709fbf16d8af5ee3bc92a9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-01-29T07:57:26Z",
+      "mergedAt": "2025-01-29T07:57:26Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "8b03bfc8941fb825022fed82a01c0866a9037c03"
+      },
       "comments": [],
       "reviews": [
         {
@@ -7646,6 +7662,74 @@
           "body": "",
           "createdAt": "2025-01-27T07:04:37Z",
           "updatedAt": "2025-01-27T07:04:37Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6Zy2qC",
+          "commit": {
+            "abbreviatedOid": "f5287aa"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-29T07:55:44Z",
+          "updatedAt": "2025-01-29T07:55:44Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 98,
+      "id": "PR_kwDOJaEkaM6JSGnS",
+      "title": "update org",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/98",
+      "state": "MERGED",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-28T21:09:43Z",
+      "updatedAt": "2025-01-29T07:58:07Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "8be32e23f15c3936fdff51e3f3f27907788452f5",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "c2bo/switch-org",
+      "headRefOid": "84b6fd38dfe11104cf90375d583920b1ce6deca8",
+      "closedAt": "2025-01-29T07:58:06Z",
+      "mergedAt": "2025-01-29T07:58:06Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "2a8ec45761258161d6c005f4efd03c4f9b80a5e2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6Zv4nR",
+          "commit": {
+            "abbreviatedOid": "84b6fd3"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-28T21:38:30Z",
+          "updatedAt": "2025-01-28T21:38:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6Zy2jI",
+          "commit": {
+            "abbreviatedOid": "84b6fd3"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-01-29T07:55:27Z",
+          "updatedAt": "2025-01-29T07:55:27Z",
           "comments": []
         }
       ]
