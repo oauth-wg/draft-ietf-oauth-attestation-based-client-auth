@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-20T00:11:10.288908+00:00",
+  "timestamp": "2025-02-23T00:12:21.360217+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1676,7 +1676,7 @@
           "updatedAt": "2023-09-25T11:07:05Z"
         },
         {
-          "author": "asharif1990",
+          "author": "Sh-Amir",
           "authorAssociation": "NONE",
           "body": "> Even if remote, there is the possibility that an implementation re-uses the same cryptographic keys for different scopes.\r\n> \r\n> the PoP JWT could be used with the same cryptograhic key attested in more than a single attestation and therefore be replicated for different endpoints/audience\r\n> \r\n> What do you think about getting the `ath` claim inside the DPoP token as requested?\r\n> \r\n> In this way, a DPoP token cannot be replicated when the key that proves possession is the same within different attestations.\r\n> \r\n> Even if DPoP specs defines `ath` in relation to an access token, may we consider that any kind of JWT could represent an access token, in relation of its scope, the flow where it is used and its usage in general?\r\n> \r\n> Then, could we provide a binding of the PoP to a specific attestation where the possession aims to be proved?\r\n\r\nI can see the benefits of binding the wallet instance attestations to the specific proof to avoid the possibility that it could be swapped in the case that the same cryptography keys are used by the implementers. I agree that the usage of a similar countermeasure like `ath` that is defined in the DPoP specification can work here as a mitigation. However, it would be better to introduce a new claim for this to be included in PoP as `ath` meant for the Access Token, and here as we deal with Wallet Instance Attestation maybe we can use the following claim `wiah`?",
           "createdAt": "2023-09-25T13:00:08Z",
@@ -1690,7 +1690,7 @@
           "updatedAt": "2023-11-01T16:48:21Z"
         },
         {
-          "author": "asharif1990",
+          "author": "Sh-Amir",
           "authorAssociation": "NONE",
           "body": "> Do you propose a new claim in the Client Attestation PoP JWT thats value is the hash of the corresponding Client Attestation JWT?\r\n\r\nYes Paul. That is the idea. ",
           "createdAt": "2023-11-01T17:04:13Z",
