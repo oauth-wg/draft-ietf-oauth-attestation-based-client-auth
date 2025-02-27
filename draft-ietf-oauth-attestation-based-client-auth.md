@@ -404,6 +404,32 @@ To validate a client attestation using the concatenated serialization form, the 
 2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained after the '~' character verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained before the '~' character.
 
+# Nonce Retrieval
+
+This specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP.
+An Authorization Server compliant with this specification SHOULD signal via metadata whether a server-provided nonce MUST be used by the client. 
+
+A Request to an endpoint from the AS can include the `attestation-nonce-request` field name with the value `true`. The server answers with a HTTP Response with status code 200, no payload, and the header field name `attestation-nonce` and value equal to the nonce.
+
+The client MUST use this nonce in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
+
+
+The following is a non-normative example of a request:
+
+~~~
+POST /token HTTP/1.1
+Host: as.example.com
+attestation-nonce-request: true
+~~~
+
+the following is a non-normative example of a response:
+
+~~~
+HTTP/1.1 200 OK
+Host: as.example.com
+attestation-nonce: AYjcyMzY3ZDhiNmJkNTZ
+~~~
+
 # Implementation Considerations
 
 ## Reuse of a Client Attestation JWT
