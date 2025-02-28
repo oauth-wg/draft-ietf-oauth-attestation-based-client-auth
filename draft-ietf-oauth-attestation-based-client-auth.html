@@ -11,11 +11,11 @@
 <meta content="
        This specification defines an extension to the OAuth 2 protocol as defined in   which enables a Client Instance to include a key-bound attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to utilize this key-bound attestation to authenticate. 
     " name="description">
-<meta content="xml2rfc 3.25.0" name="generator">
+<meta content="xml2rfc 3.27.0" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.25.0
-    Python 3.12.8
+  xml2rfc 3.27.0
+    Python 3.12.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -436,7 +436,7 @@ dl {
     margin-bottom: 0;
   }
 }
-dl > dt {
+dl:not(.dlNewline) > dt {
   float: left;
   margin-right: 2ch;
   min-width: 8ch;
@@ -1045,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">January 2025</td>
+<td class="right">February 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 2 August 2025</td>
+<td class="center">Expires 1 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-01-29" class="published">29 January 2025</time>
+<time datetime="2025-02-28" class="published">28 February 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-08-02">2 August 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-01">1 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1436,13 +1436,13 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <div class="alignLeft art-text artwork" id="section-5.1-9">
 <pre>
 {
-  "typ": "oauth-client-attestation+jwt"
+  "typ": "oauth-client-attestation+jwt",
   "alg": "ES256",
   "kid": "11"
 }
 .
 {
-  "iss": "https://client.example.com",
+  "iss": "https://server.example.com",
   "sub": "https://client.example.com",
   "nbf":1300815780,
   "exp":1300819380,
@@ -1560,24 +1560,26 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-6.1-3">The following is an example of the OAuth-Client-Attestation header.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-4">
 <pre>
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
+lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
+bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
+joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
+ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
+0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
+kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
 </pre><a href="#section-6.1-4" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-5">The following is an example of the OAuth-Client-Attestation-PoP header.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.1-6">
 <pre>
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
-GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
-AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
-CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
-Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
+eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
+DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
+FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
+1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
+HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 </pre><a href="#section-6.1-6" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-7">Note that per <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
@@ -1626,19 +1628,21 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
-GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
-AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
-CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
-Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
+lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
+bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
+joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
+ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
+0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
+kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
+eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
+DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
+FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
+1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
+HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 
 grant_type=authorization_code&amp;
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -1659,19 +1663,21 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 POST /as/par HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
-OAuth-Client-Attestation: eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJ\
-pc3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2x\
-pZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODA\
-sImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiI\
-sIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiw\
-ieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX1\
-9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAia\
-HR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5le\
-GFtcGxlLmNvbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwL\
-AogICJqdGkiOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKI\
-CAibm9uY2UiIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKf\
-Q.coB_mtdXwvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
+lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
+bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
+joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
+ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
+0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
+kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
+eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
+DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
+FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
+1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
+HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 
 response_type=code&amp;state=af0ifjsldkj&amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
@@ -1706,18 +1712,20 @@ In those cases, a concatenated serialization of the Client Attestation and Clien
 <p id="section-7.1-5">The following is an example of such a concatenated serialization (with extra line breaks for display purposes only):<a href="#section-7.1-5" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-7.1-6">
 <pre>
-eyJhbGciOiAiRVMyNTYiLCJraWQiOiAiMTEifQ.eyJpc3MiOiJodHRwczovL2NsaWVud\
-C5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwib\
-mJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I\
-joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZON\
-lZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Z\
-lk0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.SflKxwRJSMeKKF2QT4fwpMeJ\
-f36POk6yJV_adQssw5c~eyJhbGciOiJFUzI1NiJ9.ewogICJpc3MiOiAiaHR0cHM6Ly9\
-jbGllbnQuZXhhbXBsZS5jb20iLAogICJhdWQiOiAiaHR0cHM6Ly9hcy5leGFtcGxlLmN\
-vbSIsCiAgIm5iZiI6MTMwMDgxNTc4MCwKICAiZXhwIjoxMzAwODE5MzgwLAogICJqdGk\
-iOiAiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0IiwKICAibm9uY2U\
-iIDogIjVjMWE5ZTEwLTI5ZmYtNGMyYi1hZTczLTU3YzA5NTdjMDljNCIKfQ.coB_mtdX\
-wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
+eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiL
+CJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1Y
+iI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleH
+AiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJ
+jcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4
+bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1N
+W83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFlkxQUOVJ94H_GUKxYoCI6pfUffg
+18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw~eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXR
+oLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVu
+dC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiO
+jEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00Nm
+ZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSW
+B7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 </pre><a href="#section-7.1-6" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1958,7 +1966,7 @@ wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
 <dd class="break"></dd>
 <dt id="SD-JWT">[SD-JWT]</dt>
       <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-15</span>, <time datetime="2025-01-16" class="refDate">16 January 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-15">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-15</a>&gt;</span>. </dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-16</span>, <time datetime="2025-02-27" class="refDate">27 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-16">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1970,85 +1978,91 @@ wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
       <h2 id="name-document-history">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-A-1">-04<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">-05<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">remove key attestation example<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">restructured JWT Claims for better readability<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">added JOSE typ values for Client Attestation and Client Attestation PoP<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">add RATS relation<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">add concatenated representation without headers<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">add PAR endpoint example<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1">fix PoP examples to include jti and nonce<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.8">
-          <p id="appendix-A-2.8.1">add iana http field name registration<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">fix missing typ header in examples<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-3">-03<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">-04<a href="#appendix-A-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-4.1">
-          <p id="appendix-A-4.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-A-4.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.1.1">remove key attestation example<a href="#appendix-A-4.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.2">
-          <p id="appendix-A-4.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-A-4.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.2.1">restructured JWT Claims for better readability<a href="#appendix-A-4.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.3">
-          <p id="appendix-A-4.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-A-4.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.3.1">added JOSE typ values for Client Attestation and Client Attestation PoP<a href="#appendix-A-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.4">
+          <p id="appendix-A-4.4.1">add RATS relation<a href="#appendix-A-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.5">
+          <p id="appendix-A-4.5.1">add concatenated representation without headers<a href="#appendix-A-4.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.6">
+          <p id="appendix-A-4.6.1">add PAR endpoint example<a href="#appendix-A-4.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.7">
+          <p id="appendix-A-4.7.1">fix PoP examples to include jti and nonce<a href="#appendix-A-4.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-4.8">
+          <p id="appendix-A-4.8.1">add iana http field name registration<a href="#appendix-A-4.8.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-5">-02<a href="#appendix-A-5" class="pilcrow">¶</a></p>
+<p id="appendix-A-5">-03<a href="#appendix-A-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-6.1">
-          <p id="appendix-A-6.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-A-6.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-A-6.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.2">
+          <p id="appendix-A-6.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-A-6.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.3">
+          <p id="appendix-A-6.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-A-6.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-7">-01<a href="#appendix-A-7" class="pilcrow">¶</a></p>
+<p id="appendix-A-7">-02<a href="#appendix-A-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-8.1">
-          <p id="appendix-A-8.1.1">Updated eIDAS example in appendix<a href="#appendix-A-8.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.2">
-          <p id="appendix-A-8.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-A-8.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.3">
-          <p id="appendix-A-8.3.1">Refined text around cnf claim in client attestation<a href="#appendix-A-8.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.4">
-          <p id="appendix-A-8.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-A-8.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.5">
-          <p id="appendix-A-8.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-A-8.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.6">
-          <p id="appendix-A-8.6.1">Updated acknowledgments<a href="#appendix-A-8.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.7">
-          <p id="appendix-A-8.7.1">Simplified the diagram in the introduction<a href="#appendix-A-8.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.8">
-          <p id="appendix-A-8.8.1">Updated references<a href="#appendix-A-8.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.9">
-          <p id="appendix-A-8.9.1">Added some guidance around replay attack detection<a href="#appendix-A-8.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-A-8.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-9">-00<a href="#appendix-A-9" class="pilcrow">¶</a></p>
+<p id="appendix-A-9">-01<a href="#appendix-A-9" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-10.1">
-          <p id="appendix-A-10.1.1">Initial draft<a href="#appendix-A-10.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.1.1">Updated eIDAS example in appendix<a href="#appendix-A-10.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.2">
+          <p id="appendix-A-10.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-A-10.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.3">
+          <p id="appendix-A-10.3.1">Refined text around cnf claim in client attestation<a href="#appendix-A-10.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.4">
+          <p id="appendix-A-10.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-A-10.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.5">
+          <p id="appendix-A-10.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-A-10.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.6">
+          <p id="appendix-A-10.6.1">Updated acknowledgments<a href="#appendix-A-10.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.7">
+          <p id="appendix-A-10.7.1">Simplified the diagram in the introduction<a href="#appendix-A-10.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.8">
+          <p id="appendix-A-10.8.1">Updated references<a href="#appendix-A-10.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.9">
+          <p id="appendix-A-10.9.1">Added some guidance around replay attack detection<a href="#appendix-A-10.9.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-11">-00<a href="#appendix-A-11" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-12.1">
+          <p id="appendix-A-12.1.1">Initial draft<a href="#appendix-A-12.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
