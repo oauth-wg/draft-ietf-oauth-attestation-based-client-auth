@@ -416,7 +416,7 @@ The client MUST use this nonce in the OAuth-Attestation-PoP as defined in (#clie
 The following is a non-normative example of a request:
 
 ~~~
-HEAD /token HTTP/1.1
+HEAD /as/par HTTP/1.1
 Host: as.example.com
 attestation-nonce-request: true
 ~~~
