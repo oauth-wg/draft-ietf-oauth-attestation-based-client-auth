@@ -1045,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">February 2025</td>
+<td class="right">March 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 1 September 2025</td>
+<td class="center">Expires 3 September 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-02-28" class="published">28 February 2025</time>
+<time datetime="2025-03-02" class="published">2 March 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-01">1 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-09-03">3 September 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1753,12 +1753,12 @@ wvi9RxSMzbIey8GVVQLv9qQrBUqmc1qj9Bs
       </h2>
 <p id="section-8-1">This specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP.
 An Authorization Server compliant with this specification <span class="bcp14">SHOULD</span> signal via metadata whether a server-provided nonce <span class="bcp14">MUST</span> be used by the client.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">A Request to an endpoint from the AS can include the <code>attestation-nonce-request</code> field name with the value <code>true</code>. The server answers with a HTTP Response with status code 200, no payload, and the header field name <code>attestation-nonce</code> and value equal to the nonce.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-2">A Request to an endpoint from the AS can include the <code>attestation-nonce-request</code> field name with the value <code>true</code> and use the HTTP method of type HEAD (without payload). The server answers with an HTTP Response with status code 200, no payload, and the header field name <code>attestation-nonce</code> and value equal to the nonce.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">The client <span class="bcp14">MUST</span> use this nonce in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">The following is a non-normative example of a request:<a href="#section-8-4" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-8-5">
 <pre>
-POST /token HTTP/1.1
+HEAD /token HTTP/1.1
 Host: as.example.com
 attestation-nonce-request: true
 </pre><a href="#section-8-5" class="pilcrow">¶</a>
@@ -1988,7 +1988,7 @@ attestation-nonce: AYjcyMzY3ZDhiNmJkNTZ
 <dd class="break"></dd>
 <dt id="SD-JWT">[SD-JWT]</dt>
       <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-16</span>, <time datetime="2025-02-27" class="refDate">27 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-16">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-16</a>&gt;</span>. </dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-17</span>, <time datetime="2025-03-01" class="refDate">1 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-17">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
