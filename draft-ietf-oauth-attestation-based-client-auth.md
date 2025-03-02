@@ -409,15 +409,14 @@ To validate a client attestation using the concatenated serialization form, the 
 This specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP.
 An Authorization Server compliant with this specification SHOULD signal via metadata whether a server-provided nonce MUST be used by the client.
 
-A Request to an endpoint from the AS can include the `attestation-nonce-request` field name with the value `true`. The server answers with a HTTP Response with status code 200, no payload, and the header field name `attestation-nonce` and value equal to the nonce.
+A Request to an endpoint from the AS can include the `attestation-nonce-request` field name with the value `true` and use the HTTP method of type HEAD (without payload). The server answers with an HTTP Response with status code 200, no payload, and the header field name `attestation-nonce` and value equal to the nonce.
 
 The client MUST use this nonce in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
-
 
 The following is a non-normative example of a request:
 
 ~~~
-POST /token HTTP/1.1
+HEAD /token HTTP/1.1
 Host: as.example.com
 attestation-nonce-request: true
 ~~~
