@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T00:11:25.568502+00:00",
+  "timestamp": "2025-03-02T00:12:20.292407+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2559,7 +2559,7 @@
       "id": "I_kwDOJaEkaM6a_oSx",
       "title": "Remove backslash for line wrapping from examples",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/89",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
@@ -2568,8 +2568,8 @@
       ],
       "body": "Most of the specs I've seen do not use an extra backslash to signal newline in their examples. I've checked PAR (https://datatracker.ietf.org/doc/html/rfc9126), JWT(https://datatracker.ietf.org/doc/html/rfc7519), OpenID specs and most of the current OAuth WG drafts and none of them have a backslash. I am aware of https://datatracker.ietf.org/doc/html/rfc8792, but I would to like to keep things somewhat consistent with other work.\r\n\r\n --> I would prefer to remove the backslash from the examples",
       "createdAt": "2024-10-20T11:42:34Z",
-      "updatedAt": "2024-10-20T11:42:34Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-28T09:10:57Z",
+      "closedAt": "2025-02-28T09:10:57Z",
       "comments": []
     },
     {
@@ -2577,7 +2577,7 @@
       "id": "I_kwDOJaEkaM6f1u6M",
       "title": "JWT examples are missing the `typ` header parameter",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/94",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "TakahikoKawasaki",
       "authorAssociation": "NONE",
       "assignees": [
@@ -2589,8 +2589,8 @@
       ],
       "body": "JWT examples in the following sections are missing the `typ` header parameter. These examples should be corrected.\r\n\r\n- 6.1. Client Attestation HTTP Headers\r\n- 6.3. Client Attestation at the Token Endpoint\r\n- 6.4. Client Attestation at the PAR Endpoint\r\n- 7.1. Concatenated Serialization Format\r\n\r\n",
       "createdAt": "2024-11-22T03:35:52Z",
-      "updatedAt": "2025-01-22T11:43:18Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-28T09:10:16Z",
+      "closedAt": "2025-02-28T09:10:16Z",
       "comments": [
         {
           "author": "c2bo",
@@ -7589,24 +7589,26 @@
       "id": "PR_kwDOJaEkaM6IWVZo",
       "title": "fix examples (missing typ)",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/96",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "fixes #94, #89",
       "createdAt": "2025-01-20T12:34:28Z",
-      "updatedAt": "2025-01-29T07:57:59Z",
+      "updatedAt": "2025-02-28T09:10:15Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "8be32e23f15c3936fdff51e3f3f27907788452f5",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "94-typ-header",
       "headRefOid": "8da14090941419d2404da0d7102e6db1f7d79476",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-02-28T09:10:15Z",
+      "mergedAt": "2025-02-28T09:10:15Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "2954aac8f2a0cd7f86d5ea9a0b727e9b97b2c2d6"
+      },
       "comments": [],
       "reviews": [
         {
@@ -7733,6 +7735,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 99,
+      "id": "PR_kwDOJaEkaM6M8eZs",
+      "title": "initial formulation on server provided nonce",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/99",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #59 ",
+      "createdAt": "2025-02-28T14:11:08Z",
+      "updatedAt": "2025-02-28T14:17:53Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "2954aac8f2a0cd7f86d5ea9a0b727e9b97b2c2d6",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "59-server-provided-nonce",
+      "headRefOid": "fafac83f4362ecb71c349c49c028a1838b27013b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
