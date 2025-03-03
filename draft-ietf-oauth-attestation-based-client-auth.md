@@ -48,6 +48,11 @@ normative:
       org: "IANA"
     title: "Hypertext Transfer Protocol (HTTP) Field Name Registry"
     target: "https://www.iana.org/assignments/http-fields/http-fields.xhtml"
+  IANA.OAuth.Params:
+    author:
+      org: "IANA"
+    title: "OAuth Authorization Server Metadata"
+    target: "https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#authorization-server-metadata"
 informative:
   RFC6749: RFC6749
   RFC9334: RFC9334
