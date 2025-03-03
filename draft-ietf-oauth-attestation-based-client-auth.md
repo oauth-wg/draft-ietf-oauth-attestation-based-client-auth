@@ -419,12 +419,13 @@ To validate a client attestation using the concatenated serialization form, the 
 2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained after the '~' character verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained before the '~' character.
 
-# Nonce Retrieval
+# Nonce Retrieval {#nonce-retrieval}
 
-This specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP.
-An Authorization Server compliant with this specification SHOULD signal via metadata whether a server-provided nonce MUST be used by the client.
+This specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP. The nonce is opaque to the client.
 
-A Request to an endpoint from the AS can include the `attestation-nonce-request` field name with the value `true` and use the HTTP method of type HEAD (without payload). The server answers with an HTTP Response with status code 200, no payload, and the header field name `attestation-nonce` and value equal to the nonce.
+An Authorization Server compliant with this specification SHOULD signal via the metadata entry `attestation_nonce_required` which endpoints support a server-provided nonce. The client MUST retrieve a nonce before calls to this endpoint and MUST use this nonce for the Client Attestation PoP.
+
+A Request to an endpoint supporting the server-provided nonce MUST include the `attestation-nonce-request` field name with the value `true` and use the HTTP method of type HEAD (without payload) to actively request a nonce. The server answers with an HTTP Response with status code 200 without body, but sets the header field `attestation-nonce` to the nonce.
 
 The client MUST use this nonce in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
 
@@ -483,6 +484,15 @@ The approach using a nonce explicitly provided by the authorization server gives
 
 # Appendix A IANA Considerations
 
+## OAuth Parameters Registration
+
+This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry {{IANA.OAuth.Params}} established by {{RFC8414}}.
+
+* Metadata Name: attestation_nonce_required
+* Metadata Description: An array of the strings that lists the endpoints supporting the nonce retrieval and expecting a Client Attestation bound to a server-provided nonce.
+* Change Controller: IETF
+* Reference: [](#nonce-retrieval) of this specification
+
 ## Registration of attest_jwt_client_auth Token Endpoint Authentication Method
 
 This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol {{RFC7591}}.
@@ -510,6 +520,8 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -05
 
+* add nonce endpoint
+* add metadata entry for nonce
 * improve introduction
 * rename client backend to client attester
 * fix missing typ header in examples
