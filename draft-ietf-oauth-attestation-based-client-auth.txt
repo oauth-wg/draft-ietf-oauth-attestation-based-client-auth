@@ -91,21 +91,23 @@ Table of Contents
    7.  Concatenated Serialization for Client Attestations
      7.1.  Concatenated Serialization Format
      7.2.  Validating the Concatenated Serialization
-   8.  Implementation Considerations
-     8.1.  Reuse of a Client Attestation JWT
-     8.2.  Refresh token binding
-       8.2.1.  Web Server Default Maximum HTTP Header Sizes
-   9.  Privacy Considerations
-     9.1.  Client Instance Tracking Across Authorization Servers
-   10. Security Considerations
-     10.1.  Replay Attack Detection
-   11. Appendix A IANA Considerations
-     11.1.  Registration of attest_jwt_client_auth Token Endpoint
+   8.  Nonce Retrieval
+   9.  Implementation Considerations
+     9.1.  Reuse of a Client Attestation JWT
+     9.2.  Refresh token binding
+       9.2.1.  Web Server Default Maximum HTTP Header Sizes
+   10. Privacy Considerations
+     10.1.  Client Instance Tracking Across Authorization Servers
+   11. Security Considerations
+     11.1.  Replay Attack Detection
+   12. Appendix A IANA Considerations
+     12.1.  OAuth Parameters Registration
+     12.2.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     11.2.  HTTP Field Name Registration
-   12. References
-     12.1.  Normative References
-     12.2.  Informative References
+     12.3.  HTTP Field Name Registration
+   13. References
+     13.1.  Normative References
+     13.2.  Informative References
    Appendix A.  Document History
    Acknowledgments
    Authors' Addresses
@@ -639,9 +641,43 @@ Table of Contents
        in the cnf claim of the Client Attestation JWT obtained before
        the '~' character.
 
-8.  Implementation Considerations
+8.  Nonce Retrieval
 
-8.1.  Reuse of a Client Attestation JWT
+   This specification defines header fields that allow a Client to
+   request a fresh nonce value to be used in the OAuth-Client-
+   Attestation-PoP.  The nonce is opaque to the client.
+
+   An Authorization Server compliant with this specification SHOULD
+   signal via the metadata entry client_attestation_pop_nonce_required
+   which endpoints support and expect a server-provided nonce.  The
+   client MUST retrieve a nonce before other calls to this endpoint and
+   MUST use this nonce for the Client Attestation PoP.
+
+   A Request to an endpoint supporting the server-provided nonce MUST
+   include the attestation-nonce-request field name with the value true
+   and use the HTTP method of type OPTIONS (without payload) to actively
+   request a nonce.  The server answers with an HTTP Response with
+   status code 200 without body, but sets the header field attestation-
+   nonce to the nonce.
+
+   The client MUST use this nonce in the OAuth-Attestation-PoP as
+   defined in (#client-attestation-pop-jwt).
+
+   The following is a non-normative example of a request:
+
+   OPTIONS /as/par HTTP/1.1
+   Host: as.example.com
+   attestation-nonce-request: true
+
+   the following is a non-normative example of a response:
+
+   HTTP/1.1 200 OK
+   Host: as.example.com
+   attestation-nonce: AYjcyMzY3ZDhiNmJkNTZ
+
+9.  Implementation Considerations
+
+9.1.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -652,7 +688,7 @@ Table of Contents
    ultimately controls how long a Client Instance can re-use a single
    Client Attestation JWT.
 
-8.2.  Refresh token binding
+9.2.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
@@ -663,7 +699,7 @@ Table of Contents
    the same key that was present in the "cnf" claim of the client
    attestation that was used when the refresh token was issued.
 
-8.2.1.  Web Server Default Maximum HTTP Header Sizes
+9.2.1.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -682,9 +718,9 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
-9.  Privacy Considerations
+10.  Privacy Considerations
 
-9.1.  Client Instance Tracking Across Authorization Servers
+10.1.  Client Instance Tracking Across Authorization Servers
 
    Implementers should be aware that using the same client attestation
    across multiple authorization servers could result in correlation of
@@ -694,11 +730,11 @@ Table of Contents
    Attestation JWTs with different Client Instance Keys across different
    authorization servers.
 
-10.  Security Considerations
+11.  Security Considerations
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-10.1.  Replay Attack Detection
+11.1.  Replay Attack Detection
 
    The following mechanisms exist within this client authentication
    method in order to allow an authorization server to detect replay
@@ -732,9 +768,25 @@ Table of Contents
    implementation requirements.  The "jti" method is mandatory and hence
    acts as a default fallback.
 
-11.  Appendix A IANA Considerations
+12.  Appendix A IANA Considerations
 
-11.1.  Registration of attest_jwt_client_auth Token Endpoint
+12.1.  OAuth Parameters Registration
+
+   This specification requests registration of the following values in
+   the IANA "OAuth Authorization Server Metadata" registry
+   [IANA.OAuth.Params] established by [RFC8414].
+
+   *  Metadata Name: client_attestation_pop_nonce_required
+
+   *  Metadata Description: An array of URLs that specify the endpoints
+      supporting the nonce retrieval and expecting a Client Attestation
+      bound to a server-provided nonce.
+
+   *  Change Controller: IETF
+
+   *  Reference: Section 8 of this specification
+
+12.2.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -748,7 +800,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-11.2.  HTTP Field Name Registration
+12.3.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -768,14 +820,35 @@ Table of Contents
 
    *  Reference: Section 6.1 of this specification
 
-12.  References
 
-12.1.  Normative References
+
+   *  Field Name: attestation-nonce-request
+
+   *  Status: permanent
+
+   *  Reference: Section 8 of this specification
+
+
+
+   *  Field Name: attestation-nonce
+
+   *  Status: permanent
+
+   *  Reference: Section 8 of this specification
+
+13.  References
+
+13.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
               Registry", n.d., <https://www.iana.org/assignments/http-
               fields/http-fields.xhtml>.
+
+   [IANA.OAuth.Params]
+              IANA, "OAuth Authorization Server Metadata", n.d.,
+              <https://www.iana.org/assignments/oauth-parameters/oauth-
+              parameters.xhtml#authorization-server-metadata>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -824,7 +897,7 @@ Table of Contents
               Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
 
-12.2.  Informative References
+13.2.  Informative References
 
    [ARF]      "The European Digital Identity Wallet Architecture and
               Reference Framework", n.d..
@@ -852,6 +925,10 @@ Table of Contents
 Appendix A.  Document History
 
    -05
+
+   *  add nonce endpoint
+
+   *  add metadata entry for nonce
 
    *  improve introduction
 
