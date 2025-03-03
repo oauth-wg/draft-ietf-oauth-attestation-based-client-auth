@@ -649,9 +649,9 @@ Table of Contents
 
    An Authorization Server compliant with this specification SHOULD
    signal via the metadata entry client_attestation_pop_nonce_required
-   which endpoints support a server-provided nonce.  The client MUST
-   retrieve a nonce before calls to this endpoint and MUST use this
-   nonce for the Client Attestation PoP.
+   which endpoints support and expect a server-provided nonce.  The
+   client MUST retrieve a nonce before other calls to this endpoint and
+   MUST use this nonce for the Client Attestation PoP.
 
    A Request to an endpoint supporting the server-provided nonce MUST
    include the attestation-nonce-request field name with the value true
@@ -819,6 +819,22 @@ Table of Contents
    *  Status: permanent
 
    *  Reference: Section 6.1 of this specification
+
+
+
+   *  Field Name: attestation-nonce-request
+
+   *  Status: permanent
+
+   *  Reference: Section 8 of this specification
+
+
+
+   *  Field Name: attestation-nonce
+
+   *  Status: permanent
+
+   *  Reference: Section 8 of this specification
 
 13.  References
 

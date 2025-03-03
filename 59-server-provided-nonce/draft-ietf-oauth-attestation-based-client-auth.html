@@ -1770,7 +1770,7 @@ B7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-nonce-retrieval" class="section-name selfRef">Nonce Retrieval</a>
       </h2>
 <p id="section-8-1">This specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP. The nonce is opaque to the client.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">An Authorization Server compliant with this specification <span class="bcp14">SHOULD</span> signal via the metadata entry <code>client_attestation_pop_nonce_required</code> which endpoints support a server-provided nonce. The client <span class="bcp14">MUST</span> retrieve a nonce before calls to this endpoint and <span class="bcp14">MUST</span> use this nonce for the Client Attestation PoP.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-2">An Authorization Server compliant with this specification <span class="bcp14">SHOULD</span> signal via the metadata entry <code>client_attestation_pop_nonce_required</code> which endpoints support and expect a server-provided nonce. The client <span class="bcp14">MUST</span> retrieve a nonce before other calls to this endpoint and <span class="bcp14">MUST</span> use this nonce for the Client Attestation PoP.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">A Request to an endpoint supporting the server-provided nonce <span class="bcp14">MUST</span> include the <code>attestation-nonce-request</code> field name with the value <code>true</code> and use the HTTP method of type OPTIONS (without payload) to actively request a nonce. The server answers with an HTTP Response with status code 200 without body, but sets the header field <code>attestation-nonce</code> to the nonce.<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">The client <span class="bcp14">MUST</span> use this nonce in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).<a href="#section-8-4" class="pilcrow">¶</a></p>
 <p id="section-8-5">The following is a non-normative example of a request:<a href="#section-8-5" class="pilcrow">¶</a></p>
@@ -1940,6 +1940,30 @@ attestation-nonce: AYjcyMzY3ZDhiNmJkNTZ
 </li>
           <li class="normal" id="section-12.3-4.3">
             <p id="section-12.3-4.3.1">Reference: <a href="#headers" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-12.3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-12.3-5"><br></p>
+<ul class="normal">
+<li class="normal" id="section-12.3-6.1">
+            <p id="section-12.3-6.1.1">Field Name: attestation-nonce-request<a href="#section-12.3-6.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-12.3-6.2">
+            <p id="section-12.3-6.2.1">Status: permanent<a href="#section-12.3-6.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-12.3-6.3">
+            <p id="section-12.3-6.3.1">Reference: <a href="#nonce-retrieval" class="auto internal xref">Section 8</a> of this specification<a href="#section-12.3-6.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-12.3-7"><br></p>
+<ul class="normal">
+<li class="normal" id="section-12.3-8.1">
+            <p id="section-12.3-8.1.1">Field Name: attestation-nonce<a href="#section-12.3-8.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-12.3-8.2">
+            <p id="section-12.3-8.2.1">Status: permanent<a href="#section-12.3-8.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-12.3-8.3">
+            <p id="section-12.3-8.3.1">Reference: <a href="#nonce-retrieval" class="auto internal xref">Section 8</a> of this specification<a href="#section-12.3-8.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
