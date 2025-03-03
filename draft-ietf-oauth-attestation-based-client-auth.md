@@ -494,7 +494,7 @@ The approach using a nonce explicitly provided by the authorization server gives
 This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry {{IANA.OAuth.Params}} established by {{RFC8414}}.
 
 * Metadata Name: client_attestation_pop_nonce_required
-* Metadata Description: An array of the strings that lists the endpoints supporting the nonce retrieval and expecting a Client Attestation bound to a server-provided nonce.
+* Metadata Description: An array of URLs that specify the endpoints supporting the nonce retrieval and expecting a Client Attestation bound to a server-provided nonce.
 * Change Controller: IETF
 * Reference: [](#nonce-retrieval) of this specification
 
