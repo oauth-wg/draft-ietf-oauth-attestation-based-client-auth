@@ -423,16 +423,16 @@ To validate a client attestation using the concatenated serialization form, the 
 
 This specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP. The nonce is opaque to the client.
 
-An Authorization Server compliant with this specification SHOULD signal via the metadata entry `attestation_nonce_required` which endpoints support a server-provided nonce. The client MUST retrieve a nonce before calls to this endpoint and MUST use this nonce for the Client Attestation PoP.
+An Authorization Server compliant with this specification SHOULD signal via the metadata entry `client_attestation_pop_nonce_required` which endpoints support a server-provided nonce. The client MUST retrieve a nonce before calls to this endpoint and MUST use this nonce for the Client Attestation PoP.
 
-A Request to an endpoint supporting the server-provided nonce MUST include the `attestation-nonce-request` field name with the value `true` and use the HTTP method of type HEAD (without payload) to actively request a nonce. The server answers with an HTTP Response with status code 200 without body, but sets the header field `attestation-nonce` to the nonce.
+A Request to an endpoint supporting the server-provided nonce MUST include the `attestation-nonce-request` field name with the value `true` and use the HTTP method of type OPTIONS (without payload) to actively request a nonce. The server answers with an HTTP Response with status code 200 without body, but sets the header field `attestation-nonce` to the nonce.
 
 The client MUST use this nonce in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
 
 The following is a non-normative example of a request:
 
 ~~~
-HEAD /as/par HTTP/1.1
+OPTIONS /as/par HTTP/1.1
 Host: as.example.com
 attestation-nonce-request: true
 ~~~
@@ -488,7 +488,7 @@ The approach using a nonce explicitly provided by the authorization server gives
 
 This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry {{IANA.OAuth.Params}} established by {{RFC8414}}.
 
-* Metadata Name: attestation_nonce_required
+* Metadata Name: client_attestation_pop_nonce_required
 * Metadata Description: An array of the strings that lists the endpoints supporting the nonce retrieval and expecting a Client Attestation bound to a server-provided nonce.
 * Change Controller: IETF
 * Reference: [](#nonce-retrieval) of this specification
