@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T00:12:20.292407+00:00",
+  "timestamp": "2025-03-04T00:11:38.507631+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1481,15 +1481,15 @@
       "id": "I_kwDOJaEkaM5wQR5G",
       "title": "Replay prevention",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/39",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "To prevent replay attacks the following mechanisms could be used:\r\n- AS/Issuer providing a nonce\r\n- reuse of existing of existing parameters as nonce\r\n- limiting the lifetime of PoP (through JTI)\r\n\r\n### AS/Issuer providing a nonce\r\nThis requires an additional endpoint/ an additional roundtrip\r\n\r\n### reuse of existing of existing parameters as nonce\r\nFor some flows it might be doable to reuse the auth code/pre-auth code as a nonce, this saves another roundtrip but might not work for all flows, like PAR endpoint\r\n\r\n### limiting the lifetime of PoP (through JTI)\r\nThis is the existing mechanism described in the spec, the JWT PoP includes a jti and the AS needs to keep track of used jti values until they are expired",
       "createdAt": "2023-09-06T06:17:55Z",
-      "updatedAt": "2023-10-23T20:32:12Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-03T19:07:28Z",
+      "closedAt": "2025-03-03T19:07:28Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -1866,15 +1866,15 @@
       "id": "I_kwDOJaEkaM52OUZK",
       "title": "Using a server provided nonce to limit the lifetime of a Client Attestation PoP JWT",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/59",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "pmhsfelix",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Following up on the conversations some of us had after IIW (see https://github.com/openid/OpenID4VCI/issues/71#issuecomment-1719631991), this issue proposes the addition of a server provided nonce mechanism to limit the lifetime of a Client Attestation PoP JWT, similar to the [DPoP nonce mechanism](https://www.rfc-editor.org/rfc/rfc9449.html#name-authorization-server-provid).\r\n\r\nThis relates to https://github.com/openid/OpenID4VCI/issues/71, however the required changes need to be addressed on the attestation spec and not on the VCI spec.\r\n\r\nI'm currently working on a PR to add this. ",
       "createdAt": "2023-11-08T12:14:18Z",
-      "updatedAt": "2024-08-22T13:48:53Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-03T19:07:28Z",
+      "closedAt": "2025-03-03T19:07:28Z",
       "comments": [
         {
           "author": "tplooker",
@@ -2473,7 +2473,7 @@
       "id": "I_kwDOJaEkaM6ZepgU",
       "title": "Rewrite introduction that the main purpose is not about key attestation",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/84",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2484,16 +2484,24 @@
       ],
       "body": "",
       "createdAt": "2024-10-09T06:49:23Z",
-      "updatedAt": "2025-01-09T09:19:14Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-03-03T07:14:37Z",
+      "closedAt": "2025-03-03T07:14:35Z",
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Closed with #100",
+          "createdAt": "2025-03-03T07:14:35Z",
+          "updatedAt": "2025-03-03T07:14:35Z"
+        }
+      ]
     },
     {
       "number": 85,
       "id": "I_kwDOJaEkaM6Zes1k",
       "title": "Take lessons learned from nonce endpoint in OpenID4VCI and apply to this draft",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/85",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2504,8 +2512,8 @@
       ],
       "body": "",
       "createdAt": "2024-10-09T06:53:36Z",
-      "updatedAt": "2025-01-09T09:19:15Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-03T19:07:29Z",
+      "closedAt": "2025-03-03T19:07:28Z",
       "comments": []
     },
     {
@@ -5442,21 +5450,21 @@
       "id": "PR_kwDOJaEkaM5fajeK",
       "title": "Adds server-provided nonces for Client Attestation PoP JWT freshness verification",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/64",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "pmhsfelix",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "<!-- If this pull request closes an issue, please mention the issue number below -->\r\nCloses #59\r\n\r\n## \ud83d\udcd1 Description\r\nThis PR adds server-provided nonces as a way to check the freshness of Client Attestation PoP JWT, in a similar way to what is done in DPoP (RFC 9449).\r\n\r\n## Preview Link\r\n\r\n<!-- Update the link below to provide reviewers with a convenient link to view a rendered version of the PR-->\r\n<!-- In general the link should be of the form https://github.com/<repo-name>/<branch-name>/<draft-name>.html-->\r\n\r\nNA",
       "createdAt": "2023-11-14T14:08:40Z",
-      "updatedAt": "2024-08-22T09:02:40Z",
+      "updatedAt": "2025-03-03T19:08:04Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "4375d894ce7e58c91d5ed282cfd733dd48417812",
       "headRepository": "pmhsfelix/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "add-server-provided-nonce",
       "headRefOid": "fa66a20f14e5e2425f583d1c53ac8e13c3c31c73",
-      "closedAt": null,
+      "closedAt": "2025-03-03T19:08:04Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -5565,6 +5573,13 @@
           "body": "We had a discussion on this topic in today's editors call, I posted my thoughts here: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/59#issuecomment-2304146071",
           "createdAt": "2024-08-22T09:02:39Z",
           "updatedAt": "2024-08-22T09:02:39Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing given we have merged in #99 ",
+          "createdAt": "2025-03-03T19:08:04Z",
+          "updatedAt": "2025-03-03T19:08:04Z"
         }
       ],
       "reviews": [
@@ -7741,26 +7756,184 @@
       "id": "PR_kwDOJaEkaM6M8eZs",
       "title": "initial formulation on server provided nonce",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/99",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #59 ",
+      "body": "Closes #39 \r\nCloses #59 \r\nCloses #85 \r\n\r\nSupersedes #64 ",
       "createdAt": "2025-02-28T14:11:08Z",
-      "updatedAt": "2025-02-28T14:17:53Z",
+      "updatedAt": "2025-03-03T19:07:27Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "c7f7a11b81d5e2a837fb8d99605d7539a613a715",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "59-server-provided-nonce",
+      "headRefOid": "83a3d4b799104826916099a05da41eb56df5a88b",
+      "closedAt": "2025-03-03T19:07:27Z",
+      "mergedAt": "2025-03-03T19:07:27Z",
+      "mergedBy": "tplooker",
+      "mergeCommit": {
+        "oid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6eI52V",
+          "commit": {
+            "abbreviatedOid": "25bb87c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T06:03:19Z",
+          "updatedAt": "2025-03-03T06:03:20Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThis specification defines header fields that allow a Client to request a fresh nonce value to be used in the OAuth-Client-Attestation-PoP header.\r\n```\r\n\r\nor something to this affect otherwise it feels like the sentence is incomplete.",
+              "createdAt": "2025-03-03T06:03:20Z",
+              "updatedAt": "2025-03-03T06:03:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6ePzeN",
+          "commit": {
+            "abbreviatedOid": "163dcc9"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T18:39:23Z",
+          "updatedAt": "2025-03-03T18:39:24Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\r\n* Metadata Description: An array of URLs that specify the endpoints supporting the nonce retrieval and expecting a Client Attestation bound to a server-provided nonce.\r\n```",
+              "createdAt": "2025-03-03T18:39:24Z",
+              "updatedAt": "2025-03-03T18:39:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6eP0Lx",
+          "commit": {
+            "abbreviatedOid": "83a3d4b"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-03T18:40:47Z",
+          "updatedAt": "2025-03-03T18:40:47Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6eP0Zm",
+          "commit": {
+            "abbreviatedOid": "83a3d4b"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I appove",
+          "createdAt": "2025-03-03T18:41:03Z",
+          "updatedAt": "2025-03-03T18:41:03Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6eQFPc",
+          "commit": {
+            "abbreviatedOid": "83a3d4b"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-03T19:07:20Z",
+          "updatedAt": "2025-03-03T19:07:20Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 100,
+      "id": "PR_kwDOJaEkaM6NEJql",
+      "title": "improve introduction, rename client backend to client attester",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/100",
+      "state": "MERGED",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-02T14:01:25Z",
+      "updatedAt": "2025-03-03T07:14:19Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "2954aac8f2a0cd7f86d5ea9a0b727e9b97b2c2d6",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
-      "headRefName": "59-server-provided-nonce",
-      "headRefOid": "fafac83f4362ecb71c349c49c028a1838b27013b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "headRefName": "pb/introduction2",
+      "headRefOid": "a4028506faeec4bc555b43f05ce0f7c386456c81",
+      "closedAt": "2025-03-03T07:12:55Z",
+      "mergedAt": "2025-03-03T07:12:55Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "c7f7a11b81d5e2a837fb8d99605d7539a613a715"
+      },
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Closes #84, #32 ",
+          "createdAt": "2025-03-03T07:14:18Z",
+          "updatedAt": "2025-03-03T07:14:18Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6eHbSY",
+          "commit": {
+            "abbreviatedOid": "a402850"
+          },
+          "author": "selfissued",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-02T14:55:45Z",
+          "updatedAt": "2025-03-02T14:55:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6eHiFm",
+          "commit": {
+            "abbreviatedOid": "a402850"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-02T17:14:33Z",
+          "updatedAt": "2025-03-02T17:14:33Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6eI6tw",
+          "commit": {
+            "abbreviatedOid": "a402850"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-03T06:06:11Z",
+          "updatedAt": "2025-03-03T06:06:11Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
