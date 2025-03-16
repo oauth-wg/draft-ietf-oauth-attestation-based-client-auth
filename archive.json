@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-13T00:12:09.585157+00:00",
+  "timestamp": "2025-03-16T00:12:41.877910+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2622,6 +2622,22 @@
       "body": "add section 6.5 to use this mechniams at the resource Server",
       "createdAt": "2024-12-13T11:02:53Z",
       "updatedAt": "2024-12-13T11:02:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 101,
+      "id": "I_kwDOJaEkaM6uMQVQ",
+      "title": "Support returning nonce in non-OPTIONS request, similar to DPoP",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/101",
+      "state": "OPEN",
+      "author": "TimoGlastra",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "DPoP allows returning the DPoP nonce in any response using the DPoP-Nonce header.\n\nWould it be possible to also enable support for this in this specification.\n\nFor integration with OID4VCI we now have three nonces:\n- DPoP nonce\n- Client Attestation Nonce\n- Credential request/proof nonce \n\nIt would be great if we can bundle these in one request to the nonce endpoint. For DPoP I see no problems, but it seems incompatible with the method described in this specification",
+      "createdAt": "2025-03-15T18:54:12Z",
+      "updatedAt": "2025-03-15T18:54:12Z",
       "closedAt": null,
       "comments": []
     }
