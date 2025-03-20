@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-18T00:11:50.586417+00:00",
+  "timestamp": "2025-03-20T00:11:42.619078+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2638,6 +2638,54 @@
       "body": "DPoP allows returning the DPoP nonce in any response using the DPoP-Nonce header.\n\nWould it be possible to also enable support for this in this specification.\n\nFor integration with OID4VCI we now have three nonces:\n- DPoP nonce\n- Client Attestation Nonce\n- Credential request/proof nonce \n\nIt would be great if we can bundle these in one request to the nonce endpoint. For DPoP I see no problems, but it seems incompatible with the method described in this specification",
       "createdAt": "2025-03-15T18:54:12Z",
       "updatedAt": "2025-03-15T18:54:12Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 102,
+      "id": "I_kwDOJaEkaM6ufMFT",
+      "title": "Potential problems with HTTP OPTIONS?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/102",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Filip Skokan at IETF 122:\n\nA good web application framework will discern between a preflight and a non-Preflight request and give the dev an option to handle the non-preflight.\n\nWhat this dance will do in a browser, since both the nonce-fetching and actual request is\n\n1) OPTIONS Preflight for the nonce-fetch\n\n2) nonce-fetch\n\n3) OPTIONS Preflight for the actual request\n\n4) actual request\n\nThe js client has no access to the preflight response so there's no option to make the preflight the nonce-value vessel. Of course at the point the actual request's preflight the nonce must be incorporated in the request.\n\n(meetecho messed up the list formatting)\n\nfix: since both the nonce-fetching and actual request * are not \"simple\" requests\n\nsee \"simple requests\" https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests",
+      "createdAt": "2025-03-18T07:10:19Z",
+      "updatedAt": "2025-03-18T07:10:19Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 103,
+      "id": "I_kwDOJaEkaM6ufObi",
+      "title": "Client MUST support nonce fetching",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/103",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Feedback from IETF 122: We should be more explicit and state that the client MUST support the nonce fetching mechanism.",
+      "createdAt": "2025-03-18T07:13:54Z",
+      "updatedAt": "2025-03-18T07:13:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 104,
+      "id": "I_kwDOJaEkaM6uyc-l",
+      "title": "Nonce is meant for freshness, not to guarantee one-time use",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/104",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Feedback from IETF 122: We should be more clear in the draft that the intention of the nonce is to guarantee freshness, not one-time use (which can be really hard to guarantee depending on deployment etc).",
+      "createdAt": "2025-03-19T16:36:19Z",
+      "updatedAt": "2025-03-19T16:36:19Z",
       "closedAt": null,
       "comments": []
     }
