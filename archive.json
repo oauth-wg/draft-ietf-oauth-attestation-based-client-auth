@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-03T00:11:45.773069+00:00",
+  "timestamp": "2025-04-06T00:13:06.962482+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1188,7 +1188,7 @@
       "id": "I_kwDOJaEkaM5rrQsf",
       "title": "Client Backend -> Client Attester",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/32",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "TakahikoKawasaki",
       "authorAssociation": "NONE",
       "assignees": [
@@ -1197,8 +1197,8 @@
       "labels": [],
       "body": "\"Client Backend\" in the specification should be replaced with \"Client Attester\".\r\n\r\n\"Client Backend\" creates the impression that both the client and the system issuing the attestation for the client are managed by the same entity. While it is possible for actual deployments to be structured in this manner, it appears that the specification intends to treat them as separate entities.",
       "createdAt": "2023-07-16T08:52:40Z",
-      "updatedAt": "2023-11-09T22:32:18Z",
-      "closedAt": null,
+      "updatedAt": "2025-04-03T06:54:56Z",
+      "closedAt": "2025-04-03T06:54:55Z",
       "comments": [
         {
           "author": "TakahikoKawasaki",
@@ -1248,6 +1248,13 @@
           "body": "FWIW, I'm not totally convinced there's really a need to allow for an attestation service that's not managed by the same entity as the client but other folks seem to want it so my prior comment assumes it. ",
           "createdAt": "2023-11-09T22:30:44Z",
           "updatedAt": "2023-11-09T22:32:18Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Solved by #100 ",
+          "createdAt": "2025-04-03T06:54:55Z",
+          "updatedAt": "2025-04-03T06:54:55Z"
         }
       ]
     },
@@ -2634,12 +2641,29 @@
       "author": "TimoGlastra",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "DPoP allows returning the DPoP nonce in any response using the DPoP-Nonce header.\n\nWould it be possible to also enable support for this in this specification.\n\nFor integration with OID4VCI we now have three nonces:\n- DPoP nonce\n- Client Attestation Nonce\n- Credential request/proof nonce \n\nIt would be great if we can bundle these in one request to the nonce endpoint. For DPoP I see no problems, but it seems incompatible with the method described in this specification",
       "createdAt": "2025-03-15T18:54:12Z",
-      "updatedAt": "2025-03-15T18:54:12Z",
+      "updatedAt": "2025-04-03T07:24:19Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call\n- agree that this is useful\n- solution could be to state that `attestation-nonce` headers could be returned in any previous responses (e.g. other endpoints)\n- be aware that the text on DPoP standard is not as clear as you may think, see also https://github.com/openid/OpenID4VCI/pull/478",
+          "createdAt": "2025-04-03T06:42:06Z",
+          "updatedAt": "2025-04-03T06:42:06Z"
+        },
+        {
+          "author": "TimoGlastra",
+          "authorAssociation": "NONE",
+          "body": "Section 8.2 of DPoP spec reads to me that you can include a DPoP nonce in any response\n\nhttps://datatracker.ietf.org/doc/html/rfc9449#name-providing-a-new-nonce-value\n\n(Ah i see the PR now, I interpreted it the same as @jogu, but I also don't see a lot of ambiguity in the text, it seems pretty clear to me)",
+          "createdAt": "2025-04-03T07:21:42Z",
+          "updatedAt": "2025-04-03T07:24:18Z"
+        }
+      ]
     },
     {
       "number": 102,
@@ -2666,10 +2690,12 @@
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Feedback from IETF 122: We should be more explicit and state that the client MUST support the nonce fetching mechanism.",
       "createdAt": "2025-03-18T07:13:54Z",
-      "updatedAt": "2025-03-18T07:13:54Z",
+      "updatedAt": "2025-04-03T06:42:42Z",
       "closedAt": null,
       "comments": []
     },
@@ -8035,7 +8061,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-04-01T21:42:40Z",
-      "updatedAt": "2025-04-01T21:42:40Z",
+      "updatedAt": "2025-04-03T06:53:37Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
@@ -8046,7 +8072,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hello @Stefan41199 do you have any further explanations, comments or feedback what this PR is about?",
+          "createdAt": "2025-04-03T06:53:35Z",
+          "updatedAt": "2025-04-03T06:53:35Z"
+        }
+      ],
       "reviews": []
     }
   ]
