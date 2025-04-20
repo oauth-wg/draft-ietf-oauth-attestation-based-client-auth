@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-06T00:13:06.962482+00:00",
+  "timestamp": "2025-04-20T00:13:20.357030+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2635,7 +2635,7 @@
     {
       "number": 101,
       "id": "I_kwDOJaEkaM6uMQVQ",
-      "title": "Support returning nonce in non-OPTIONS request, similar to DPoP",
+      "title": "Support returning nonce in any responses, similar to DPoP",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/101",
       "state": "OPEN",
       "author": "TimoGlastra",
@@ -2646,7 +2646,7 @@
       ],
       "body": "DPoP allows returning the DPoP nonce in any response using the DPoP-Nonce header.\n\nWould it be possible to also enable support for this in this specification.\n\nFor integration with OID4VCI we now have three nonces:\n- DPoP nonce\n- Client Attestation Nonce\n- Credential request/proof nonce \n\nIt would be great if we can bundle these in one request to the nonce endpoint. For DPoP I see no problems, but it seems incompatible with the method described in this specification",
       "createdAt": "2025-03-15T18:54:12Z",
-      "updatedAt": "2025-04-03T07:24:19Z",
+      "updatedAt": "2025-04-17T11:44:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -2677,9 +2677,17 @@
       "labels": [],
       "body": "Filip Skokan at IETF 122:\n\nA good web application framework will discern between a preflight and a non-Preflight request and give the dev an option to handle the non-preflight.\n\nWhat this dance will do in a browser, since both the nonce-fetching and actual request is\n\n1) OPTIONS Preflight for the nonce-fetch\n\n2) nonce-fetch\n\n3) OPTIONS Preflight for the actual request\n\n4) actual request\n\nThe js client has no access to the preflight response so there's no option to make the preflight the nonce-value vessel. Of course at the point the actual request's preflight the nonce must be incorporated in the request.\n\n(meetecho messed up the list formatting)\n\nfix: since both the nonce-fetching and actual request * are not \"simple\" requests\n\nsee \"simple requests\" https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests",
       "createdAt": "2025-03-18T07:10:19Z",
-      "updatedAt": "2025-03-18T07:10:19Z",
+      "updatedAt": "2025-04-17T15:20:57Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "francis-pouatcha",
+          "authorAssociation": "NONE",
+          "body": "An alternative could be a dedicated `GET /nonce` endpoint. This endpoint would return a periodically updated, server-generated nonce (non-client-specific, protected by a server secret).\n\nIf this `GET` request qualifies as a CORS simple request (i.e., requires no custom headers for the fetch), it could avoid the preflight *for the nonce fetch itself*.\n\nWhile the subsequent authenticated request (using the nonce and custom attestation headers) would still require its own preflight, this `GET` approach could potentially reduce the total number of requests, resulting to:\n\n1. GET /nonce-fetch\n2. OPTIONS Preflight for the actual request\n3. actual request",
+          "createdAt": "2025-04-17T15:20:56Z",
+          "updatedAt": "2025-04-17T15:20:56Z"
+        }
+      ]
     },
     {
       "number": 103,
@@ -8054,21 +8062,21 @@
       "id": "PR_kwDOJaEkaM6Q_2_1",
       "title": "Create generator-generic-ossf-slsa3-publish.yml",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/106",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Stefan41199",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-04-01T21:42:40Z",
-      "updatedAt": "2025-04-03T06:53:37Z",
+      "updatedAt": "2025-04-17T06:33:07Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "Stefan41199/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "Stefan41199-patch-1",
       "headRefOid": "9d398504efe3be6adb6ede22da0406a150b19206",
-      "closedAt": null,
+      "closedAt": "2025-04-17T06:33:07Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -8079,6 +8087,13 @@
           "body": "Hello @Stefan41199 do you have any further explanations, comments or feedback what this PR is about?",
           "createdAt": "2025-04-03T06:53:35Z",
           "updatedAt": "2025-04-03T06:53:35Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing as no comment",
+          "createdAt": "2025-04-17T06:33:07Z",
+          "updatedAt": "2025-04-17T06:33:07Z"
         }
       ],
       "reviews": []
