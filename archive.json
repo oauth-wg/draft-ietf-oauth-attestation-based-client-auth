@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-20T00:13:20.357030+00:00",
+  "timestamp": "2025-05-06T00:12:54.600116+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2744,6 +2744,54 @@
       "body": "Steps (1) to (4) are described as follows:\n\n>    (1) The Client Instance generates a key (Client Instance Key) and\n>    optional further attestations (that are out of scope) to prove its\n>    authenticity to the Client Attester.\n> \n>    (2) The Client Instance sends this data to the Client Attester in\n>    request for a Client Attestation JWT.\n> \n>    (3) The Client Attester validates the Client Instance Key and\n>    optional further data.  It generates a signed Client Attestation JWT\n>    that is cryptographically bound to the Client Instance Key generated\n>    by the Client.  Therefore, the attestation is bound to this\n>    particular Client Instance.\n> \n>    (4) The Client Attester responds to the Client Instance by sending\n>    the Client Attestation JWT.\n\n\nSteps (1) to (4) are OPTIONAL while steps (2) and (4) are not described and hence cannot be implemented. \n\nThe current draft is only addressing a small part of the whole picture.\n\nAlternatively, the Client instance can be installed (downloaded) with one Client Attestation JWT that is already present.  \nLater on, the client will need to renew its original Client Attestation JWT before it expires.\n\nThe draft should either assume that the Client Attestation JWT is already present or should describe in details how it can be obtained.\n\nIf only a rough description is provided (as it is the case for the moment for steps (1) to (4) ), steps (1) to (4) should be taken out of the figure placed on page 3 and moved into an informative annex. The same approach should be made for the other alternative when the Client Attestation JWT is already present when installing/downloading the client from a trusted source.",
       "createdAt": "2025-04-01T08:46:43Z",
       "updatedAt": "2025-04-01T08:51:05Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 107,
+      "id": "I_kwDOJaEkaM61NEnw",
+      "title": "Further implementer guidance on Client Instance Attestations",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/107",
+      "state": "OPEN",
+      "author": "Macke",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I suggest that it would be useful to implementers if non-normative examples of \"client instance attestations\" were provided.  Attestations about the status of a device, key pair, or application instance may be useful pointers for implementers.  Additionally being clear that it is possible to have several attestations in a single request to the Client Attester would be very helpful to potential implementers.\n\nLine 110 of current editors .md",
+      "createdAt": "2025-05-05T15:54:59Z",
+      "updatedAt": "2025-05-05T15:56:36Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 108,
+      "id": "I_kwDOJaEkaM61NJTE",
+      "title": "What is \"unreasonably far in the past\"?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/108",
+      "state": "OPEN",
+      "author": "Macke",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Suggest a re-word of this sentence to say something clearer... perhaps...\n\"The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an \"iat\" claim value that is deemed to increase risk of mis-use to a level they choose.\"\n\nLine 225 of current editors .md",
+      "createdAt": "2025-05-05T16:02:28Z",
+      "updatedAt": "2025-05-05T16:02:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 109,
+      "id": "I_kwDOJaEkaM61NVxq",
+      "title": "Add Authorization Server policy section about \"Reuse of a Client Attestation JWT\"",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/109",
+      "state": "OPEN",
+      "author": "Macke",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "It would be beneficial to describe that the Authorization Server can also decide whether to accept or reject a Client Attestation JWT.  It might also be beneficial to describe the AZ error response if a request is rejected based on Authorization Server policy.",
+      "createdAt": "2025-05-05T16:24:14Z",
+      "updatedAt": "2025-05-05T16:24:14Z",
       "closedAt": null,
       "comments": []
     }
