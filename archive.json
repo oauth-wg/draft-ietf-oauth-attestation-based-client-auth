@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-06T00:12:54.600116+00:00",
+  "timestamp": "2025-05-08T00:12:51.908884+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2677,7 +2677,7 @@
       "labels": [],
       "body": "Filip Skokan at IETF 122:\n\nA good web application framework will discern between a preflight and a non-Preflight request and give the dev an option to handle the non-preflight.\n\nWhat this dance will do in a browser, since both the nonce-fetching and actual request is\n\n1) OPTIONS Preflight for the nonce-fetch\n\n2) nonce-fetch\n\n3) OPTIONS Preflight for the actual request\n\n4) actual request\n\nThe js client has no access to the preflight response so there's no option to make the preflight the nonce-value vessel. Of course at the point the actual request's preflight the nonce must be incorporated in the request.\n\n(meetecho messed up the list formatting)\n\nfix: since both the nonce-fetching and actual request * are not \"simple\" requests\n\nsee \"simple requests\" https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests",
       "createdAt": "2025-03-18T07:10:19Z",
-      "updatedAt": "2025-04-17T15:20:57Z",
+      "updatedAt": "2025-05-07T23:27:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -2686,6 +2686,13 @@
           "body": "An alternative could be a dedicated `GET /nonce` endpoint. This endpoint would return a periodically updated, server-generated nonce (non-client-specific, protected by a server secret).\n\nIf this `GET` request qualifies as a CORS simple request (i.e., requires no custom headers for the fetch), it could avoid the preflight *for the nonce fetch itself*.\n\nWhile the subsequent authenticated request (using the nonce and custom attestation headers) would still require its own preflight, this `GET` approach could potentially reduce the total number of requests, resulting to:\n\n1. GET /nonce-fetch\n2. OPTIONS Preflight for the actual request\n3. actual request",
           "createdAt": "2025-04-17T15:20:56Z",
           "updatedAt": "2025-04-17T15:20:56Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@panva I may be missing something here, but I'm not sure how using HTTP OPTIONS is any less efficient then using another HTTP verb in the nonce request like GET. Practically speaking if we boil this down to a simple sequence diagram, the proposal to use a HTTP OPTIONS based request would net the following.\n\n```mermaid\nsequenceDiagram\n    participant WA as Web Application\n    participant WP as Web Platform\n    participant CI as Credential Issuer\n\n    WA->>WP: Nonce request using fetch() with HTTP Options\n    WP->>CI: Preflight HTTP OPTIONS request for CORS\n    CI->>WP: HTTP Response to Preflight request\n    WP->>WP: Evaluate CORS policy\n    WP->>CI: Send nonce request using HTTP Options\n    CI->>WP: HTTP Response to nonce request\n    WP->>WA: Return HTTP response from nonce request \n```\n\nWhich yes does mean two HTTP requests are sent to get the nonce, but I dont think this can be avoided in any solution because of how the web platform works. Unless as pointed out we can get the nonce request to qualify as a simple request? \n\nFor example if the nonce fetching were instead based on an endpoint that is interfaced with using the GET HTTP Verb, wouldn't the following sequence diagram be what ensues?\n\n```mermaid\nsequenceDiagram\n    participant WA as Web Application\n    participant WP as Web Platform\n    participant CI as Credential Issuer\n\n    WA->>WP: Nonce request using fetch() with HTTP Get\n    WP->>CI: Preflight HTTP OPTIONS request for CORS\n    CI->>WP: HTTP Response to Preflight request\n    WP->>WP: Evaluate CORS policy\n    WP->>CI: Send nonce request using HTTP Get\n    CI->>WP: HTTP Response to nonce request\n    WP->>WA: Return HTTP response from nonce request \n```\n",
+          "createdAt": "2025-05-07T23:27:35Z",
+          "updatedAt": "2025-05-07T23:27:35Z"
         }
       ]
     },
@@ -2792,6 +2799,22 @@
       "body": "It would be beneficial to describe that the Authorization Server can also decide whether to accept or reject a Client Attestation JWT.  It might also be beneficial to describe the AZ error response if a request is rejected based on Authorization Server policy.",
       "createdAt": "2025-05-05T16:24:14Z",
       "updatedAt": "2025-05-05T16:24:14Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 110,
+      "id": "I_kwDOJaEkaM61j3rO",
+      "title": "Evolution of the nonce fetching",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/110",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "After many discussions over the last months and especially OSW 2025, in -05 we introduced explicit nonce fetching using HTTP OPTIONS. On the mailing list and IETF 122 we got feedback that this may not be the best approach (#102), so here is another proposal how to advance the mechanisms for explicit nonce fetching in this draft:\n\n- remove the HTTP OPTIONS  mechanism\n- introduce a new, dedicated nonce/challenge endpoint, that enables explicit nonce/challenge fetching\n  - usage of the endpoint is optional, alternative being jti\n- we would add implementation and security consideration to compare three approaches\n  - 1. jti approach (client chosen random), AS needs to cache seen jti values in a sliding time window for replay protection -> this provides freshness and replay protection\n  - 2. challenge/nonce endpoint with self-contained nonces containing server-chosen timestamp -> this provides freshness but no replay protection within the accepted time window\n  - 3. challenge/nonce endpoint with some kind of binding to the session between AS and client -> this provides freshness and replay protection\n\nThe motivation behind this is that other approaches seem complicated and did not lead us to success, while OpenID4VCI already defines a nonce endpoint for the Credential Issuer. Therefore AS nonce endpoint may fit nicely to this concept with little overhead.\n\nMoreover, this would enable us to optionally provide DPoP nonces over this new nonce/challenge endpoint, which seem to present significant challenges for some architectures.\n\nWDYT?",
+      "createdAt": "2025-05-07T14:00:09Z",
+      "updatedAt": "2025-05-07T14:00:09Z",
       "closedAt": null,
       "comments": []
     }
