@@ -430,7 +430,7 @@ To validate a client attestation using the concatenated serialization form, the 
 # Challenge Retrieval {#challenge-retrieval}
 
 This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be used for the OAuth-Client-Attestation-PoP. This construct may be similar or equivalent to a nonce, see [](terminology). The challenge is opaque to the client.
- 
+
 An Authorization Server MAY offer a challenge endpoint, that it MUST signal via the metadata entry `challenge_endpoint`. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
 
 A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata.
