@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-08T00:12:51.908884+00:00",
+  "timestamp": "2025-05-11T00:13:46.000522+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2677,7 +2677,7 @@
       "labels": [],
       "body": "Filip Skokan at IETF 122:\n\nA good web application framework will discern between a preflight and a non-Preflight request and give the dev an option to handle the non-preflight.\n\nWhat this dance will do in a browser, since both the nonce-fetching and actual request is\n\n1) OPTIONS Preflight for the nonce-fetch\n\n2) nonce-fetch\n\n3) OPTIONS Preflight for the actual request\n\n4) actual request\n\nThe js client has no access to the preflight response so there's no option to make the preflight the nonce-value vessel. Of course at the point the actual request's preflight the nonce must be incorporated in the request.\n\n(meetecho messed up the list formatting)\n\nfix: since both the nonce-fetching and actual request * are not \"simple\" requests\n\nsee \"simple requests\" https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests",
       "createdAt": "2025-03-18T07:10:19Z",
-      "updatedAt": "2025-05-07T23:27:37Z",
+      "updatedAt": "2025-05-08T12:04:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -2693,6 +2693,20 @@
           "body": "@panva I may be missing something here, but I'm not sure how using HTTP OPTIONS is any less efficient then using another HTTP verb in the nonce request like GET. Practically speaking if we boil this down to a simple sequence diagram, the proposal to use a HTTP OPTIONS based request would net the following.\n\n```mermaid\nsequenceDiagram\n    participant WA as Web Application\n    participant WP as Web Platform\n    participant CI as Credential Issuer\n\n    WA->>WP: Nonce request using fetch() with HTTP Options\n    WP->>CI: Preflight HTTP OPTIONS request for CORS\n    CI->>WP: HTTP Response to Preflight request\n    WP->>WP: Evaluate CORS policy\n    WP->>CI: Send nonce request using HTTP Options\n    CI->>WP: HTTP Response to nonce request\n    WP->>WA: Return HTTP response from nonce request \n```\n\nWhich yes does mean two HTTP requests are sent to get the nonce, but I dont think this can be avoided in any solution because of how the web platform works. Unless as pointed out we can get the nonce request to qualify as a simple request? \n\nFor example if the nonce fetching were instead based on an endpoint that is interfaced with using the GET HTTP Verb, wouldn't the following sequence diagram be what ensues?\n\n```mermaid\nsequenceDiagram\n    participant WA as Web Application\n    participant WP as Web Platform\n    participant CI as Credential Issuer\n\n    WA->>WP: Nonce request using fetch() with HTTP Get\n    WP->>CI: Preflight HTTP OPTIONS request for CORS\n    CI->>WP: HTTP Response to Preflight request\n    WP->>WP: Evaluate CORS policy\n    WP->>CI: Send nonce request using HTTP Get\n    CI->>WP: HTTP Response to nonce request\n    WP->>WA: Return HTTP response from nonce request \n```\n",
           "createdAt": "2025-05-07T23:27:35Z",
           "updatedAt": "2025-05-07T23:27:35Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "@tplooker https://mailarchive.ietf.org/arch/msg/oauth/nKdi0aeGymSMxkL51CmNgzbh8_g/\n\n> Summarizing, we should look for a different solution than OPTIONS on\n> existing endpoints because it conflicts with existing unrelated behaviours\n> (CORS). Any solution we consider that doesn't extend existing OAuth 2.0\n> responses should also likely stay within the confines of being a Simple\n> Request\n> <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests>\n> but\n> preferably we'll consider extending our existing protocol messages and\n> using their existing semantics before resorting to adding new endpoints.\n",
+          "createdAt": "2025-05-08T09:49:44Z",
+          "updatedAt": "2025-05-08T09:49:44Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "@panva, could you take a look at #110? That was the outcome of paul, justin and me discussing for another hour at EIC",
+          "createdAt": "2025-05-08T12:04:52Z",
+          "updatedAt": "2025-05-08T12:04:52Z"
         }
       ]
     },
@@ -2750,9 +2764,17 @@
       "labels": [],
       "body": "Steps (1) to (4) are described as follows:\n\n>    (1) The Client Instance generates a key (Client Instance Key) and\n>    optional further attestations (that are out of scope) to prove its\n>    authenticity to the Client Attester.\n> \n>    (2) The Client Instance sends this data to the Client Attester in\n>    request for a Client Attestation JWT.\n> \n>    (3) The Client Attester validates the Client Instance Key and\n>    optional further data.  It generates a signed Client Attestation JWT\n>    that is cryptographically bound to the Client Instance Key generated\n>    by the Client.  Therefore, the attestation is bound to this\n>    particular Client Instance.\n> \n>    (4) The Client Attester responds to the Client Instance by sending\n>    the Client Attestation JWT.\n\n\nSteps (1) to (4) are OPTIONAL while steps (2) and (4) are not described and hence cannot be implemented. \n\nThe current draft is only addressing a small part of the whole picture.\n\nAlternatively, the Client instance can be installed (downloaded) with one Client Attestation JWT that is already present.  \nLater on, the client will need to renew its original Client Attestation JWT before it expires.\n\nThe draft should either assume that the Client Attestation JWT is already present or should describe in details how it can be obtained.\n\nIf only a rough description is provided (as it is the case for the moment for steps (1) to (4) ), steps (1) to (4) should be taken out of the figure placed on page 3 and moved into an informative annex. The same approach should be made for the other alternative when the Client Attestation JWT is already present when installing/downloading the client from a trusted source.",
       "createdAt": "2025-04-01T08:46:43Z",
-      "updatedAt": "2025-04-01T08:51:05Z",
+      "updatedAt": "2025-05-08T03:49:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> The draft should either assume that the Client Attestation JWT is already present or should describe in details how it can be obtained.\n\nI'm not sure I agree here and there is lots of precedent with in OAuth related specifications to frame as we have in this draft. For example RFC 6749 does not stipulate how the authorisation process occurs after the client has initiated an authorisation request. We are focusing on what drives interoperability while leaving implementations the freedom to differentiate.\n\n> If only a rough description is provided (as it is the case for the moment for steps (1) to (4) ), steps (1) to (4) should be taken out of the figure placed on page 3 and moved into an informative annex. The same approach should be made for the other alternative when the Client Attestation JWT is already present when installing/downloading the client from a trusted source.\n\nI believe the text at this point in the draft is important framing.",
+          "createdAt": "2025-05-08T03:49:24Z",
+          "updatedAt": "2025-05-08T03:49:24Z"
+        }
+      ]
     },
     {
       "number": 107,
@@ -2782,9 +2804,17 @@
       "labels": [],
       "body": "Suggest a re-word of this sentence to say something clearer... perhaps...\n\"The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an \"iat\" claim value that is deemed to increase risk of mis-use to a level they choose.\"\n\nLine 225 of current editors .md",
       "createdAt": "2025-05-05T16:02:28Z",
-      "updatedAt": "2025-05-05T16:02:28Z",
+      "updatedAt": "2025-05-08T03:45:17Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This language was inspired by [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523#section-3) which is somewhat related to this draft.\n\n> The JWT MAY contain an \"iat\" (issued at) claim that identifies\n        the time at which the JWT was issued.  Note that the\n        authorization server may reject JWTs with an \"iat\" claim value\n        that is unreasonably far in the past.\n\nYour suggested text is more general but it doesn't really indicate the driver for deciding the risk which is the time represented by the `iat` value relative to the time of validation, which is what the current text focuses more on.",
+          "createdAt": "2025-05-08T03:45:16Z",
+          "updatedAt": "2025-05-08T03:45:16Z"
+        }
+      ]
     },
     {
       "number": 109,
@@ -2798,9 +2828,17 @@
       "labels": [],
       "body": "It would be beneficial to describe that the Authorization Server can also decide whether to accept or reject a Client Attestation JWT.  It might also be beneficial to describe the AZ error response if a request is rejected based on Authorization Server policy.",
       "createdAt": "2025-05-05T16:24:14Z",
-      "updatedAt": "2025-05-05T16:24:14Z",
+      "updatedAt": "2025-05-08T03:41:18Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "IMO this is probably worthwhile documenting in section 6 along side the validation rule OR we could opt for a seperate implementation consideration. Given this isn't the first form of client authentication in OAuth im reluctant to define a specific error type for this method of client authentication failing. Typically client configuration and authorisation server metadata makes it clear what is supported and required.",
+          "createdAt": "2025-05-08T03:41:17Z",
+          "updatedAt": "2025-05-08T03:41:17Z"
+        }
+      ]
     },
     {
       "number": 110,
@@ -2814,7 +2852,52 @@
       "labels": [],
       "body": "After many discussions over the last months and especially OSW 2025, in -05 we introduced explicit nonce fetching using HTTP OPTIONS. On the mailing list and IETF 122 we got feedback that this may not be the best approach (#102), so here is another proposal how to advance the mechanisms for explicit nonce fetching in this draft:\n\n- remove the HTTP OPTIONS  mechanism\n- introduce a new, dedicated nonce/challenge endpoint, that enables explicit nonce/challenge fetching\n  - usage of the endpoint is optional, alternative being jti\n- we would add implementation and security consideration to compare three approaches\n  - 1. jti approach (client chosen random), AS needs to cache seen jti values in a sliding time window for replay protection -> this provides freshness and replay protection\n  - 2. challenge/nonce endpoint with self-contained nonces containing server-chosen timestamp -> this provides freshness but no replay protection within the accepted time window\n  - 3. challenge/nonce endpoint with some kind of binding to the session between AS and client -> this provides freshness and replay protection\n\nThe motivation behind this is that other approaches seem complicated and did not lead us to success, while OpenID4VCI already defines a nonce endpoint for the Credential Issuer. Therefore AS nonce endpoint may fit nicely to this concept with little overhead.\n\nMoreover, this would enable us to optionally provide DPoP nonces over this new nonce/challenge endpoint, which seem to present significant challenges for some architectures.\n\nWDYT?",
       "createdAt": "2025-05-07T14:00:09Z",
-      "updatedAt": "2025-05-07T14:00:09Z",
+      "updatedAt": "2025-05-09T12:00:29Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Generally supportive of this proposal, I have some seperate questions about the issue with the HTTP OPTIONS mechanism we have currently which I've documented in #102 but all other aspects of the proposal im aligned with.",
+          "createdAt": "2025-05-08T02:41:48Z",
+          "updatedAt": "2025-05-08T02:41:48Z"
+        },
+        {
+          "author": "mcguinness",
+          "authorAssociation": "NONE",
+          "body": "Sharing more as FYI as most folks probably have not seen but there is example in production today of new challenge endpoint with [Apple SSO Platform extension](https://developer.apple.com/documentation/authenticationservices/obtaining-a-server-nonce).\n\nIdPs need to implement this endpoint so Apple devices can sign an assertion with the nonce and registered device key (https://developer.apple.com/documentation/authenticationservices/authentication-process) for login to the Apple Device\n\n",
+          "createdAt": "2025-05-08T15:40:21Z",
+          "updatedAt": "2025-05-08T15:40:21Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Thanks for the link @mcguinness! From a quick google search, it seems that the approach is also in use by Microsoft/Entra (so not only Apple)?\n\nThey overload the token endpoint with a new grant_type called \"srv_challenge\" to request a challenge which would be an alternative to the http method currently proposed and very similar to our first proposal (which was header based instead of a grant type) from what I understand. \nedit: I guess overload is not the fully correct description - it would also allow for a dedicated endpoint, so both options are covered by that (overload existing endpoint and provide in different endpoint)\n\nThat would leave us with these general options seen/discussed so far:\n\n- no server provided challenge - use JTI\n- server provided challenge by overloading existing endpoints\n  - grant_type=srv_challenge \n  - ~~header (but people didn't like this one, so maybe let's ignore it?)~~\n  - ~~http method (there was also pushback, so maybe also ignore?)~~\n- server provided challenge by different endpoint \n\nIMHO, we should support at least 2 of those: JTI and some kind of server provided challenge. My current feeling would be that it might be reasonable to allow for all 3 models (since they also have differences in terms of deployment)?",
+          "createdAt": "2025-05-09T11:38:40Z",
+          "updatedAt": "2025-05-09T11:41:29Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I am not sure  if I really like overloading the grant_type, but I guess that is a different discussion (and it also seems better than a header)",
+          "createdAt": "2025-05-09T12:00:28Z",
+          "updatedAt": "2025-05-09T12:00:28Z"
+        }
+      ]
+    },
+    {
+      "number": 111,
+      "id": "I_kwDOJaEkaM6150qT",
+      "title": "Add option without PoP but with ad-hoc client attetation and nonce",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/111",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In discussions with European Commission, an alternative mechanism for proofing the Client Attestation emerged. Instead of having a Client Attestation containing a key and adding a PoP, we could have the AS provide a nonce and this nonce would be included in the Client Attestation within an ad-hoc issuance, thus requireing no PoP. The discussion was inspired by the mechanism of key attestation in OpenID4VCI that also includes these both options (in the form of two proof_types `jwt` and `attestation`).\n\nThe EU document suggests:\n> The WAA SHALL either be sent along with a Proof-of-Possession (PoP) OR it SHALL contain the nonce value obtained from the nonce endpoint of the Credential Issuer. The former will be referred to as a key bound WAA and the latter as an ephemeral WAA.\n\n",
+      "createdAt": "2025-05-09T11:14:02Z",
+      "updatedAt": "2025-05-09T11:14:02Z",
       "closedAt": null,
       "comments": []
     }
@@ -8168,6 +8251,133 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 112,
+      "id": "PR_kwDOJaEkaM6VmKZu",
+      "title": "initial draft for challenge endpoint",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/112",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention\r\n- [ ] discuss option to include some state parameter to the challenge request",
+      "createdAt": "2025-05-09T14:25:35Z",
+      "updatedAt": "2025-05-10T13:42:28Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "nonce_endpoint",
+      "headRefOid": "6cbc2ae36e5a8c2f77b04e518b6b91785f893247",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6ouj0R",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "TimoGlastra",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-10T12:44:29Z",
+          "updatedAt": "2025-05-10T12:44:30Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "Standard practice is to use snake case, specific reason to use `-` here?\r\n\r\n```suggestion\r\n* attestation_challenge: REQUIRED. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).\r\n```",
+              "createdAt": "2025-05-10T12:44:29Z",
+              "updatedAt": "2025-05-10T12:44:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6ouj43",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "TimoGlastra",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-10T12:46:19Z",
+          "updatedAt": "2025-05-10T12:46:19Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "I think it should look something like this\r\n\r\n```suggestion\r\nContent-Type: application/json\r\n\r\n{\r\n  \"attestation_challenge\": \"AYjcyMzY3ZDhiNmJkNTZ\"\r\n}\r\n```",
+              "createdAt": "2025-05-10T12:46:19Z",
+              "updatedAt": "2025-05-10T12:46:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6ouj6z",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "TimoGlastra",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-10T12:46:59Z",
+          "updatedAt": "2025-05-10T12:47:00Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "At least that's how i understood the \"message body of the HTTP response using the application/json media type\" from above",
+              "createdAt": "2025-05-10T12:47:00Z",
+              "updatedAt": "2025-05-10T12:47:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6oukCk",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "TimoGlastra",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-10T12:49:53Z",
+          "updatedAt": "2025-05-10T12:49:53Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "Now that there's a dedicated endpoint, this should be registered in the iana registry i think? ",
+              "createdAt": "2025-05-10T12:49:53Z",
+              "updatedAt": "2025-05-10T12:49:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6ouuBH",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-10T13:42:28Z",
+          "updatedAt": "2025-05-10T13:42:28Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "Yeah, we didn't get to finish that part yesterday - your proposal looks good",
+              "createdAt": "2025-05-10T13:42:28Z",
+              "updatedAt": "2025-05-10T13:42:28Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
