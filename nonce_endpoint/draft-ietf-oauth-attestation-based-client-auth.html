@@ -21,7 +21,7 @@
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.7
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1049,7 +1049,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 10 November 2025</td>
+<td class="center">Expires 21 November 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-09" class="published">9 May 2025</time>
+<time datetime="2025-05-20" class="published">20 May 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-10">10 November 2025</time></dd>
+<dd class="expires"><time datetime="2025-11-21">21 November 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 10 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1373,7 +1373,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <dd class="break"></dd>
 <dt id="section-3-1.11">Challenge:</dt>
         <dd style="margin-left: 1.5em" id="section-3-1.12">
-          <p id="section-3-1.12.1">A String that is the input to a cryptographic challenge-response pattern. This is traditionally called nonce within OAuth.<a href="#section-3-1.12.1" class="pilcrow">¶</a></p>
+          <p id="section-3-1.12.1">A String that is the input to a cryptographic challenge-response pattern. This is traditionally called a nonce within OAuth.<a href="#section-3-1.12.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1510,7 +1510,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.2-5.4.1"><code>jti</code>: <span class="bcp14">REQUIRED</span>. The <code>jti</code> (JWT identifier) claim <span class="bcp14">MUST</span> specify a unique identifier for the Client Attestation PoP. The authorization server <span class="bcp14">MAY</span> ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.<a href="#section-5.2-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.5">
-            <p id="section-5.2-5.5.1"><code>challenge</code>: <span class="bcp14">OPTIONAL</span>. The <code>challenge</code> (challenge) claim <span class="bcp14">MUST</span> specify a String value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.<a href="#section-5.2-5.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.5.1"><code>challenge</code>: <span class="bcp14">OPTIONAL</span>. The <code>challenge</code> (challenge) claim <span class="bcp14">MUST</span> specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.<a href="#section-5.2-5.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.6">
             <p id="section-5.2-5.6.1"><code>iat</code>: <span class="bcp14">OPTIONAL</span>. The <code>iat</code> (issued at) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-5.2-5.6.1" class="pilcrow">¶</a></p>
@@ -1779,7 +1779,7 @@ B7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
       <h2 id="name-challenge-retrieval">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-challenge-retrieval" class="section-name selfRef">Challenge Retrieval</a>
       </h2>
-<p id="section-8-1">This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be used for the OAuth-Client-Attestation-PoP. This construct may be similar or equivalent to a nonce, see <span><a href="terminology">terminology</a></span>. The challenge is opaque to the client.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be included in the Client Attestation PoP JWT. This construct may be similar or equivalent to a nonce, see <span><a href="terminology">terminology</a></span>. The value of the challenge is opaque to the client.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">An Authorization Server <span class="bcp14">MAY</span> offer a challenge endpoint, that it <span class="bcp14">MUST</span> signal via the metadata entry <code>challenge_endpoint</code>. If the Authorization Server offers a challenge endpoint, the Client <span class="bcp14">MUST</span> retrieve a challenge and <span class="bcp14">MUST</span> use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata.<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">The following is a non-normative example of a request:<a href="#section-8-4" class="pilcrow">¶</a></p>
@@ -1791,14 +1791,18 @@ Accept: application/json
 </pre><a href="#section-8-5" class="pilcrow">¶</a>
 </div>
 <p id="section-8-6">The Authorization Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
-* attestation-challenge: <span class="bcp14">REQUIRED</span>. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).<a href="#section-8-6" class="pilcrow">¶</a></p>
+* attestation_challenge: <span class="bcp14">REQUIRED</span>. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).<a href="#section-8-6" class="pilcrow">¶</a></p>
 <p id="section-8-7">The Authorization Server <span class="bcp14">MUST</span> make the response uncacheable by adding a <code>Cache-Control</code> header field including the value <code>no-store</code>. The Authorization Server <span class="bcp14">MAY</span> add additional challenges or data.<a href="#section-8-7" class="pilcrow">¶</a></p>
 <p id="section-8-8">The following is a non-normative example of a response:<a href="#section-8-8" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-8-9">
 <pre>
 HTTP/1.1 200 OK
 Host: as.example.com
-attestation-challenge: AYjcyMzY3ZDhiNmJkNTZ
+Content-Type: application/json
+
+{
+  "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
+}
 </pre><a href="#section-8-9" class="pilcrow">¶</a>
 </div>
 <div id="providing-challenges-on-previous-successful-responses">
@@ -2073,7 +2077,7 @@ Location: https://Wallet.example.org/cb?
 <dd class="break"></dd>
 <dt id="SD-JWT">[SD-JWT]</dt>
       <dd>
-<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-18</span>, <time datetime="2025-04-28" class="refDate">28 April 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-18">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-18</a>&gt;</span>. </dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-19</span>, <time datetime="2025-05-12" class="refDate">12 May 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-19">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-19</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
