@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-11T00:13:46.000522+00:00",
+  "timestamp": "2025-05-20T00:13:07.637215+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -8264,7 +8264,7 @@
       "labels": [],
       "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention\r\n- [ ] discuss option to include some state parameter to the challenge request",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-05-10T13:42:28Z",
+      "updatedAt": "2025-05-18T06:55:24Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
@@ -8374,6 +8374,146 @@
               "body": "Yeah, we didn't get to finish that part yesterday - your proposal looks good",
               "createdAt": "2025-05-10T13:42:28Z",
               "updatedAt": "2025-05-10T13:42:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6pyuig",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-18T02:55:20Z",
+          "updatedAt": "2025-05-18T02:55:20Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n: A String that is the input to a cryptographic challenge-response pattern. This is traditionally called a nonce within OAuth.\r\n```",
+              "createdAt": "2025-05-18T02:55:20Z",
+              "updatedAt": "2025-05-18T02:55:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6pyvdU",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-18T02:57:11Z",
+          "updatedAt": "2025-05-18T02:57:11Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\r\n* `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.\r\n```\r\n\r\nI know this language wasn't modified in the PR but just took the opportunity to make a minor edit.",
+              "createdAt": "2025-05-18T02:57:11Z",
+              "updatedAt": "2025-05-18T06:41:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6pyxYQ",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-18T03:01:44Z",
+          "updatedAt": "2025-05-18T03:01:44Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "Generally the challenge really provides the AS with an assurance around freshness when taken to the extreme this can then be used to detect replay attacks but certain implementations might allow for limited replay-ability of challenges for other reasons such as scalability.",
+              "createdAt": "2025-05-18T03:01:44Z",
+              "updatedAt": "2025-05-18T03:01:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6pzMXl",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-18T06:42:16Z",
+          "updatedAt": "2025-05-18T06:42:16Z",
+          "comments": [
+            {
+              "originalPosition": 47,
+              "body": "```suggestion\r\nThis section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be included in the Client Attestation PoP JWT. This construct may be similar or equivalent to a nonce, see [](terminology). The value of the challenge is opaque to the client.\r\n```",
+              "createdAt": "2025-05-18T06:42:16Z",
+              "updatedAt": "2025-05-18T06:44:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6pzMyc",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-18T06:48:09Z",
+          "updatedAt": "2025-05-18T06:48:09Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "```suggestion\r\nAn Authorization Server MAY offer a challenge endpoint which it MUST signal support for via inclusion of the \r\n`challenge_endpoint` entry in the Authorisation Server metadata response as defined in RFC8414. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).\r\n```\r\n\r\nJust checking we are intending all AS's MUST support RFC 8414 with this language, that could be somewhat strict.",
+              "createdAt": "2025-05-18T06:48:09Z",
+              "updatedAt": "2025-05-18T06:48:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6pzM0z",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-18T06:49:03Z",
+          "updatedAt": "2025-05-18T06:49:03Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "Agreed we should add an IANA registration request here for this element.",
+              "createdAt": "2025-05-18T06:49:03Z",
+              "updatedAt": "2025-05-18T06:49:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6pzNaN",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-18T06:55:24Z",
+          "updatedAt": "2025-05-18T06:55:24Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "While we are doing the renaming, do we want maybe consider something that might give us a little more collision resistance e.g `oauth-client-attestation-challenge`? Don't feel too strongly about it",
+              "createdAt": "2025-05-18T06:55:24Z",
+              "updatedAt": "2025-05-18T06:55:24Z"
             }
           ]
         }
