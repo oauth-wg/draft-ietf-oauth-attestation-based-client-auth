@@ -143,7 +143,7 @@ Client Attester:
 : An entity that authenticates a Client Instance and attests it by issuing a Client Attestation JWT.
 
 Challenge:
-: A String that is the input to a cryptographic challenge-response pattern. This is traditionally called nonce within OAuth.
+: A String that is the input to a cryptographic challenge-response pattern. This is traditionally called a nonce within OAuth.
 
 # Relation to RATS
 
@@ -224,7 +224,7 @@ The following content applies to the JWT Claims Set:
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation PoP is considered expired. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems. Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.
 * `aud`: REQUIRED. The `aud` (audience) claim MUST specify a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
 * `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
-* `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server to associate the Client Attestation PoP JWT with a particular transaction and prevent replay attacks.
+* `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.
 * `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
 * `nbf`: OPTIONAL. The `nbf` (not before) claim MUST specify the time before which the Client Attestation PoP MUST NOT be accepted for processing.
 
@@ -429,7 +429,7 @@ To validate a client attestation using the concatenated serialization form, the 
 
 # Challenge Retrieval {#challenge-retrieval}
 
-This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be used for the OAuth-Client-Attestation-PoP. This construct may be similar or equivalent to a nonce, see [](terminology). The challenge is opaque to the client.
+This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be included in the Client Attestation PoP JWT. This construct may be similar or equivalent to a nonce, see [](terminology). The value of the challenge is opaque to the client.
 
 An Authorization Server MAY offer a challenge endpoint, that it MUST signal via the metadata entry `challenge_endpoint`. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
 
@@ -444,7 +444,7 @@ Accept: application/json
 ~~~
 
 The Authorization Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
-* attestation-challenge: REQUIRED. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
+* attestation_challenge: REQUIRED. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
 
 The Authorization Server MUST make the response uncacheable by adding a `Cache-Control` header field including the value `no-store`. The Authorization Server MAY add additional challenges or data.
 
@@ -453,7 +453,11 @@ The following is a non-normative example of a response:
 ~~~
 HTTP/1.1 200 OK
 Host: as.example.com
-attestation-challenge: AYjcyMzY3ZDhiNmJkNTZ
+Content-Type: application/json
+
+{
+  "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
+}
 ~~~
 
 ## Providing Challenges on Previous Successful Responses
