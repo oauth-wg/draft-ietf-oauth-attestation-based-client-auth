@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-20T00:13:07.637215+00:00",
+  "timestamp": "2025-05-22T00:12:37.719119+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -8262,15 +8262,15 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention\r\n- [ ] discuss option to include some state parameter to the challenge request",
+      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention\r\n- [ ] discuss option to include some state parameter to the challenge request\r\n- [ ] IANA registry entry\r\n- [ ] adapt header based syntax to Attestation-Challenge",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-05-18T06:55:24Z",
+      "updatedAt": "2025-05-20T16:21:55Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "6cbc2ae36e5a8c2f77b04e518b6b91785f893247",
+      "headRefOid": "b0678359141d1ce26b3544416e8cb005962b3d35",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -8471,9 +8471,9 @@
           "comments": [
             {
               "originalPosition": 50,
-              "body": "```suggestion\r\nAn Authorization Server MAY offer a challenge endpoint which it MUST signal support for via inclusion of the \r\n`challenge_endpoint` entry in the Authorisation Server metadata response as defined in RFC8414. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).\r\n```\r\n\r\nJust checking we are intending all AS's MUST support RFC 8414 with this language, that could be somewhat strict.",
+              "body": "```suggestion\r\nAn Authorization Server MAY offer a challenge endpoint which it MUST signal support for via inclusion of the `challenge_endpoint` entry in the Authorisation Server metadata response as defined in {{RFC8414}}}. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).\r\n```\r\n\r\nJust checking we are intending all AS's MUST support RFC 8414 with this language, that could be somewhat strict.",
               "createdAt": "2025-05-18T06:48:09Z",
-              "updatedAt": "2025-05-18T06:48:09Z"
+              "updatedAt": "2025-05-20T16:01:44Z"
             }
           ]
         },
@@ -8514,6 +8514,66 @@
               "body": "While we are doing the renaming, do we want maybe consider something that might give us a little more collision resistance e.g `oauth-client-attestation-challenge`? Don't feel too strongly about it",
               "createdAt": "2025-05-18T06:55:24Z",
               "updatedAt": "2025-05-18T06:55:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6qKMIx",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-20T16:04:31Z",
+          "updatedAt": "2025-05-20T16:04:31Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "```suggestion\r\nAn Authorization Server MAY offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).\r\n```\r\nAlternative as discussed with @c2bo to only mandate the challenge endpoint if metadata is used by AS.",
+              "createdAt": "2025-05-20T16:04:31Z",
+              "updatedAt": "2025-05-20T16:07:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6qKVRX",
+          "commit": {
+            "abbreviatedOid": "6cbc2ae"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-20T16:14:08Z",
+          "updatedAt": "2025-05-20T16:14:08Z",
+          "comments": [
+            {
+              "originalPosition": 77,
+              "body": "@tplooker I feel the same, but DPoP also has no prefix",
+              "createdAt": "2025-05-20T16:14:08Z",
+              "updatedAt": "2025-05-20T16:14:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6qKacs",
+          "commit": {
+            "abbreviatedOid": "b067835"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-20T16:21:55Z",
+          "updatedAt": "2025-05-20T16:21:55Z",
+          "comments": [
+            {
+              "originalPosition": 121,
+              "body": "exchage this with challenge_endpoint",
+              "createdAt": "2025-05-20T16:21:55Z",
+              "updatedAt": "2025-05-20T16:21:56Z"
             }
           ]
         }
