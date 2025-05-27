@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 21 November 2025                                               
+Expires: 28 November 2025                                               
                                                               C. Bormann
                                                                   SPRIND
-                                                             20 May 2025
+                                                             27 May 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 November 2025.
+   This Internet-Draft will expire on 28 November 2025.
 
 Copyright Notice
 
@@ -653,11 +653,15 @@ Table of Contents
    similar or equivalent to a nonce, see terminology.  The value of the
    challenge is opaque to the client.
 
-   An Authorization Server MAY offer a challenge endpoint, that it MUST
-   signal via the metadata entry challenge_endpoint.  If the
-   Authorization Server offers a challenge endpoint, the Client MUST
-   retrieve a challenge and MUST use this challenge in the OAuth-
-   Attestation-PoP as defined in (#client-attestation-pop-jwt).
+   An Authorization Server MAY offer a challenge endpoint for Clients to
+   fetch Challenges in the context of this specification.  If the
+   Authorization Server supports metadata as defined in [RFC8414], it
+   MUST signal support for the challenge endpoint by including the
+   metadata entry challenge_endpoint containing the URL of the endpoint
+   as its value.  If the Authorization Server offers a challenge
+   endpoint, the Client MUST retrieve a challenge and MUST use this
+   challenge in the OAuth-Attestation-PoP as defined in (#client-
+   attestation-pop-jwt).
 
    A request for a Challenge is made by sending an HTTP POST request to
    the URL provided in the challenge_endpoint parameter of the
