@@ -191,10 +191,10 @@ The following example is the decoded header and payload of a JWT meeting the pro
 }
 .
 {
-  "iss": "https://server.example.com",
+  "iss": "https://attester.example.com",
   "sub": "https://client.example.com",
-  "nbf":1300815780,
-  "exp":1300819380,
+  "nbf": 1300815780,
+  "exp": 1300819380,
   "cnf": {
     "jwk": {
       "kty": "EC",
@@ -246,8 +246,8 @@ The following example is the decoded header and payload of a JWT meeting the pro
 {
   "iss": "https://client.example.com",
   "aud": "https://as.example.com",
-  "nbf":1300815780,
-  "exp":1300819380,
+  "nbf": 1300815780,
+  "exp": 1300819380,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
   "nonce" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
@@ -271,13 +271,13 @@ The following is an example of the OAuth-Client-Attestation header.
 
 ~~~
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
-lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
-bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
-joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
-ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
-0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
-kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
+zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
+LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
+HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
+42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
+mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
+gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
 ~~~
 
 The following is an example of the OAuth-Client-Attestation-PoP header.
@@ -584,6 +584,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 We would like to thank
 Brian Campbell,
+Filip Skokan,
 Francesco Marino,
 Guiseppe De Marco,
 Kristina Yasuda,
