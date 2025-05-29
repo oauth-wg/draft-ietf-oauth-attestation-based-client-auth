@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-22T00:12:37.719119+00:00",
+  "timestamp": "2025-05-29T00:12:49.265657+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1322,7 +1322,7 @@
       "labels": [],
       "body": "[OpenID Connect Dynamic Client Registration 1.0](https://openid.net/specs/openid-connect-registration-1_0.html), [Section 2. Client Metadata](https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata), defines the `token_endpoint_auth_signing_alg` client metadata as follows.\r\n\r\n>OPTIONAL. [JWS](https://openid.net/specs/openid-connect-registration-1_0.html#JWS) [JWS] `alg` algorithm [[JWA]](https://openid.net/specs/openid-connect-registration-1_0.html#JWA) that MUST be used for signing the JWT [[JWT]](https://openid.net/specs/openid-connect-registration-1_0.html#JWT) used to authenticate the Client at the Token Endpoint for the `private_key_jwt` and `client_secret_jwt` authentication methods. All Token Requests using these authentication methods from this Client MUST be rejected, if the JWT is not signed with this algorithm. Servers SHOULD support `RS256`. The value `none` MUST NOT be used. The default, if omitted, is that any algorithm supported by the OP and the RP MAY be used.\r\n\r\nShould server-side implementations of the `attest_jwt_client_auth` client authentication method take the client metadata into consideration? To be concrete, should server-side implementations reject requests when the Client Attestation PoP JWT is not signed with the algorithm specified by the client metadata if the metadata is set, or may server-side implementations ignore the client metadata when processing the `attest_jwt_client_auth` client authentication method?",
       "createdAt": "2023-07-21T10:56:23Z",
-      "updatedAt": "2023-11-08T14:16:15Z",
+      "updatedAt": "2025-05-28T11:30:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -1352,13 +1352,6 @@
           "body": "Considering this more I think it is safer to have a new seperate metadata element for signalling support algorithms for this client authentication mechanism.",
           "createdAt": "2023-11-06T07:59:13Z",
           "updatedAt": "2023-11-06T07:59:13Z"
-        },
-        {
-          "author": "panva",
-          "authorAssociation": "MEMBER",
-          "body": "I believe the re-use of both AS discovery `token_endpoint_auth_signing_alg_values_supported` and Client `token_endpoint_auth_signing_alg` is the right way to move forward and needs to be mentioned in the document.\r\n\r\n---\r\n\r\n> token_endpoint_auth_signing_alg_values_supported\r\n\r\nJSON array containing a list of the JWS signing algorithms supported by the token endpoint for the signature on the JWT used to authenticate the client at the token endpoint\r\n\r\nThis fits.\r\n\r\n--- \r\n\r\n> token_endpoint_auth_signing_alg\r\n\r\nJWS alg algorithm that MUST be used for signing the JWT used to authenticate the Client at the Token Endpoint for the private_key_jwt and client_secret_jwt authentication methods\r\n\r\nThis doesn't fit but only needs an updated description.",
-          "createdAt": "2023-11-08T14:13:54Z",
-          "updatedAt": "2023-11-08T14:16:15Z"
         }
       ]
     },
@@ -1724,7 +1717,7 @@
       "labels": [],
       "body": "Currently, section 5.2 \"Refresh token binding\"  gives requirements for how an authorization server must bind the client instance to the refresh token. Could we reuse this mechanism to bind the authorization code to the client instance in the case that client auth was performed in the authorization request?",
       "createdAt": "2023-10-24T08:59:21Z",
-      "updatedAt": "2023-11-06T13:49:21Z",
+      "updatedAt": "2025-05-28T08:16:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -1747,6 +1740,20 @@
           "body": "> @cobward do you mean in the event we are using something like a signed PAR request?\r\n\r\nI'm not sure that it only applies to signed PAR request. I mean just generally that if client authentication is required at the authorization endpoint then the same requirements of binding the client instance to the authorization code still apply.\r\n\r\n> If I understand you correctly, you get a similar set of assurances like with PKCE, so I'm unsure if we want to duplicate this mechanism.\r\n\r\nIf that is the case then would it make sense to add text to that effect? Something along the lines of:\r\n\r\n_The Authorization Server is not required to bind the client instance to the authorization code, as PKCE provides sufficient mitigation of security risks._\r\n",
           "createdAt": "2023-11-06T13:49:21Z",
           "updatedAt": "2023-11-06T13:49:21Z"
+        },
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "PKCE is actually a weaker mechanism, and DPoP has mechanisms that provide additional security that Pieter nicely explains here: https://bitbucket.org/openid/fapi/issues/503/dpop-par-and-authorization-code-binding#comment-63863178\n\nHowever the current draft also doesn't say anything about using PKCE. It probably should?\n\nI think it also needs to be explicitly called out in security considerations that the authorization code is NOT bound to the client instance. I think that's probably a significant change in the security model compared to normal client authentication, and PKCE and/or the above DPoP binding of the authorization code are both potential mitigations.\n",
+          "createdAt": "2025-05-27T07:48:51Z",
+          "updatedAt": "2025-05-27T07:49:10Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "> However the current draft also doesn't say anything about using PKCE. It probably should?\n\nRefs: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/113\n\n> I think it also needs to be explicitly called out in security considerations that the authorization code is NOT bound to the client instance. I think that's probably a significant change in the security model compared to normal client authentication, and PKCE and/or the above DPoP binding of the authorization code are both potential mitigations.\n\nRefs: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/114 there's more that could be bound to the client instance than just the auth code when using PAR.",
+          "createdAt": "2025-05-28T08:16:48Z",
+          "updatedAt": "2025-05-28T08:16:48Z"
         }
       ]
     },
@@ -2828,7 +2835,7 @@
       "labels": [],
       "body": "It would be beneficial to describe that the Authorization Server can also decide whether to accept or reject a Client Attestation JWT.  It might also be beneficial to describe the AZ error response if a request is rejected based on Authorization Server policy.",
       "createdAt": "2025-05-05T16:24:14Z",
-      "updatedAt": "2025-05-08T03:41:18Z",
+      "updatedAt": "2025-05-28T11:11:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -2837,6 +2844,13 @@
           "body": "IMO this is probably worthwhile documenting in section 6 along side the validation rule OR we could opt for a seperate implementation consideration. Given this isn't the first form of client authentication in OAuth im reluctant to define a specific error type for this method of client authentication failing. Typically client configuration and authorisation server metadata makes it clear what is supported and required.",
           "createdAt": "2025-05-08T03:41:17Z",
           "updatedAt": "2025-05-08T03:41:17Z"
+        },
+        {
+          "author": "Macke",
+          "authorAssociation": "NONE",
+          "body": "Just for context I am thinking about a scenario where the Authorization Server has additional contextual information that means they wish to force the client to get a fresh Client Attestatiuon JWT before the expiry time is reached.  It is certainly possible to do that by using one of the existing OAuth error responses in RFC6749 but none of them really reflect that scenario and I don't think that client configuration or server metadata is granular enough.  If this scenario is to be supported it might be better to be explicit that the client should request a new attestation. Note OAuth 2.0 does allow for new error codes to be defined in https://www.rfc-editor.org/rfc/rfc6749.html#section-8.5.\n",
+          "createdAt": "2025-05-28T11:11:27Z",
+          "updatedAt": "2025-05-28T11:11:27Z"
         }
       ]
     },
@@ -2898,6 +2912,102 @@
       "body": "In discussions with European Commission, an alternative mechanism for proofing the Client Attestation emerged. Instead of having a Client Attestation containing a key and adding a PoP, we could have the AS provide a nonce and this nonce would be included in the Client Attestation within an ad-hoc issuance, thus requireing no PoP. The discussion was inspired by the mechanism of key attestation in OpenID4VCI that also includes these both options (in the form of two proof_types `jwt` and `attestation`).\n\nThe EU document suggests:\n> The WAA SHALL either be sent along with a Proof-of-Possession (PoP) OR it SHALL contain the nonce value obtained from the nonce endpoint of the Credential Issuer. The former will be referred to as a key bound WAA and the latter as an ephemeral WAA.\n\n",
       "createdAt": "2025-05-09T11:14:02Z",
       "updatedAt": "2025-05-09T11:14:02Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 113,
+      "id": "I_kwDOJaEkaM64fGiD",
+      "title": "Public clients and their interaction with existing OAuth 2.0 extensions vs attest_jwt_client_auth clients",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/113",
+      "state": "OPEN",
+      "author": "panva",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Today we generally equate public client to those which have their auth method set to \"none\", i.e. it they only provide a client_id in the request body to client-authenticated endpoints. All other clients are considered \"confidential\", i.e. they have credentials they prove the access to with the authenticated requests.\n\nThe following are measures that we apply to public clients wrt to a number of OAuth 2.0 extensions off the top of my head (i.e. this may not be a comprehensive list) that may or not be questionable when attest_jwt_client_auth is used.\n\n> TL;DR\n> is a client using attest_jwt_client_auth considered a confidential client with all the bells and whistles?\n\nRefs: https://github.com/oauth-wg/oauth-v2-1/issues/107\nRefs: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/79\nRefs: https://www.ietf.org/archive/id/draft-ietf-oauth-v2-1-12.html#section-2.1\n\n> \"confidential\":\n> Clients that have credentials with the AS are designated as \"confidential clients\"\n>\n> \"public\":\n> Clients without credentials are called \"public clients\"\n\nhttps://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/79 (unresolved at this time) puts the client type to which attest_jwt_client_auth clients fall to into question, so here's a couple more points for that discussion.\n\n---\n\n**RFC 7662 - OAuth 2.0 Token Introspection, Security Considerations**\n\nhttps://www.rfc-editor.org/rfc/rfc7662.html#section-4\n\n> If left unprotected and un-throttled, the introspection endpoint\n   could present a means for an attacker to poll a series of possible\n   token values, fishing for a valid token.  To prevent this, the\n   authorization server MUST require authentication of protected\n   resources that need to access the introspection endpoint and SHOULD\n   require protected resources to be specifically authorized to call the\n   introspection endpoint.  The specifics of such authentication\n   credentials are out of scope of this specification, but commonly\n   these credentials could take the form of any valid client\n   authentication mechanism used with the token endpoint, an OAuth 2.0\n   access token, or other HTTP authorization or authentication\n   mechanism.\n\nAssuming the chosen form authentication is one of the client authentication mechanisms, a public client (possibly a client made for the sole purpose of the RS retrieving token introspection responses) should not be able to get introspection responses for tokens that are not intended for it. In that same spirit, an actual public client should not be able to get introspection responses for tokens, e.g. refresh tokens, for tokens not issued for that client.\n\nThe first case (an RS registration) is most likely not going to be a public client and it would be using a method other than attest_jwt_client_auth, so no real problem there, I think.\n\nThe latter case tho, when a client is using attest_jwt_client_auth, should the AS keep track of the client instance a token was issued to and only provide introspection responses for the client instance a token was issued to? For refresh tokens this is already done, for other types of issued tokens it isn't.\n\n---\n\n**BCP 240 / RFC 9700 Best Current Practice for OAuth 2.0 Security, specifically on use of PKCE**\n**BCP 212 / RFC 8252 OAuth 2.0 for Native Apps, specifically on use of PKCE**\n\nBoth BCPs require the use of PKCE for public clients.\n\n\nhttps://www.rfc-editor.org/rfc/rfc9700.html#section-2.1.1-2.1\n\n> Public clients MUST use PKCE\n\nhttps://www.rfc-editor.org/rfc/rfc8252.html#section-6\n\n> Public native app clients MUST implement the Proof Key for Code Exchange (PKCE)\n\nBased on how these are written and how \"public\" is defined it would appear clients using attest_jwt_client_auth are technically no longer required to use PKCE. Should they still be required to?\n\n---\n\n**BCP 240 / RFC 9700 Best Current Practice for OAuth 2.0 Security, specifically on Refresh Token Rotation**\n\nhttps://www.rfc-editor.org/rfc/rfc9700.html#section-2.2.2\n\n> Refresh tokens for public clients MUST be sender-constrained or use refresh token rotation as described in [Section 4.14](https://www.rfc-editor.org/rfc/rfc9700.html#refresh_token_protection). [[RFC6749](https://www.rfc-editor.org/rfc/rfc9700.html#RFC6749)] already mandates that refresh tokens for confidential clients can only be used by the client for which they were issued.\n\nattest_jwt_client_auth (through https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-05.html#section-9.2) already handles this well.\n\n---\n\n**No reference, on Refresh Token Sliding Expiration**\n\nExisting Authorization Servers may offer a scheme where dormant/unused refresh tokens are pruned but when an RT is used its expiration timestamp is pushed back, this can usually be done infinitely for non-public clients but maybe only to a certain total duration for public clients.\n\nDoes use of attest_jwt_client_auth make a difference here?\n\n---\n\n**RFC 9126 - OAuth 2.0 Pushed Authorization Requests (PAR), specifically on use of unregistered redirect URIs**\n\nhttps://www.rfc-editor.org/rfc/rfc9126.html#section-2.4\n\n> The exact matching requirement MAY be relaxed when using PAR for clients that have established authentication credentials with the authorization server. This is possible since, in contrast to a conventional authorization request, the authorization server authenticates the client before the authorization process starts and thus ensures it is interacting with the legitimate client. The authorization server MAY allow such clients to specify redirect_uri values that were not previously registered with the authorization server.\n\nDoes use of attest_jwt_client_auth apply as \"clients that have established authentication credentials with the authorization server\" such that an AS may fall into this \"MAY\" clause?",
+      "createdAt": "2025-05-27T20:41:58Z",
+      "updatedAt": "2025-05-27T20:41:58Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 114,
+      "id": "I_kwDOJaEkaM64fgIK",
+      "title": "Further attest_jwt_client_auth client instance bindings",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/114",
+      "state": "OPEN",
+      "author": "panva",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "When attest_jwt_client_auth is used the following OAuth 2.0 extension artefacts may also be made to be bound to the individual client instance (much like Refresh Tokens are in draft 05)\n\n- PAR endpoint -> request_uri -> authorization code -> token endpoint authorization_code grant type exchange\n- CIBA Backchannel Authentication Endpoint -> auth_req_id -> token endpoint urn:openid:params:grant-type:ciba grant type exchange\n- Device Authorization Endpoint -> device_code -> token endpoint urn:ietf:params:oauth:grant-type:device_code grant type exchange",
+      "createdAt": "2025-05-27T21:23:24Z",
+      "updatedAt": "2025-05-27T21:29:24Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 116,
+      "id": "I_kwDOJaEkaM64nDXM",
+      "title": "\"transaction\" is easily misunderstood",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/116",
+      "state": "OPEN",
+      "author": "Macke",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In the section about replay attack detection it states that \"The authorization server provides a nonce for the particular transaction and the client uses it for the \"nonce\" claim in the Client Attestation PoP JWT. The authorization server validates that the nonce matches for the transaction.\"  It is pretty unclear what is meant by \"transaction\" in this context.  It might be helpful to clarify the meaning of \"transaction\" in this context.  Would \"the particular OAuth2 Authorization flow\" cover it more precisely?\n\n\n\n",
+      "createdAt": "2025-05-28T12:46:03Z",
+      "updatedAt": "2025-05-28T12:46:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 117,
+      "id": "I_kwDOJaEkaM64nGEr",
+      "title": "Editorial - what is a \"traditional OAuth2 ecosystem\"",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/117",
+      "state": "OPEN",
+      "author": "Macke",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Suggest more specific wording as \"traditional\" is not terribly clear.",
+      "createdAt": "2025-05-28T12:49:54Z",
+      "updatedAt": "2025-05-28T12:49:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 118,
+      "id": "I_kwDOJaEkaM64nMXT",
+      "title": "Client Attestation HTTP Headers",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/118",
+      "state": "OPEN",
+      "author": "Macke",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "\"6.1. Client Attestation HTTP Headers \nA Client Attestation JWT and Client Attestation PoP JWT can be included in an HTTP request using the following request header fields.\"\n\nSuggest re-drafting this such that it is a normative requirement to have those headers if the two attestations are being transferred by header.\n\nperhaps:\n\n\"6.1. Client Attestation HTTP Headers \nWhen using headers to transfer the Client Attestation JWT and Client Attestation PoP JWT to an Authorization Server they MUST be provided in an HTTP request using the following HTTP headers.\"",
+      "createdAt": "2025-05-28T12:58:18Z",
+      "updatedAt": "2025-05-28T13:00:05Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 119,
+      "id": "I_kwDOJaEkaM64nPgq",
+      "title": "Editorial - \"## Rotation of Client Instance Key\"",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/119",
+      "state": "OPEN",
+      "author": "Macke",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The MD does not seem to be rendering correctly for the intended heading: \"## Rotation of Client Instance Key\" ",
+      "createdAt": "2025-05-28T13:01:05Z",
+      "updatedAt": "2025-05-28T13:01:05Z",
       "closedAt": null,
       "comments": []
     }
@@ -8262,15 +8372,15 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention\r\n- [ ] discuss option to include some state parameter to the challenge request\r\n- [ ] IANA registry entry\r\n- [ ] adapt header based syntax to Attestation-Challenge",
+      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [ ] IANA registry entry @tplooker \r\n- [ ] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [ ] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [ ] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [ ] introduce invalid_client_attestation @c2bo \r\n- [ ] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-05-20T16:21:55Z",
+      "updatedAt": "2025-05-27T06:47:48Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "b0678359141d1ce26b3544416e8cb005962b3d35",
+      "headRefOid": "ce8fc80c92326c2005b613998ccaaaba256e9f9f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -8576,8 +8686,94 @@
               "updatedAt": "2025-05-20T16:21:56Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6rDM4y",
+          "commit": {
+            "abbreviatedOid": "b067835"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-27T06:22:37Z",
+          "updatedAt": "2025-05-27T06:22:37Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "Similarity to OpenID4VCI: A Credential Issuer that requires c_nonce values to be incorporated into proofs in the Credential Request (see [Section 8.2](https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html#credential-request)) MUST offer a Nonce Endpoint.",
+              "createdAt": "2025-05-27T06:22:37Z",
+              "updatedAt": "2025-05-27T06:22:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6rDQpF",
+          "commit": {
+            "abbreviatedOid": "ce8fc80"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-27T06:28:30Z",
+          "updatedAt": "2025-05-27T06:28:31Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "```suggestion\r\nThe Authorization Server MAY provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter MUST be named \"Attestation-Challenge\" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.\r\n```",
+              "createdAt": "2025-05-27T06:28:31Z",
+              "updatedAt": "2025-05-27T06:28:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6rDQ0N",
+          "commit": {
+            "abbreviatedOid": "ce8fc80"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-27T06:28:45Z",
+          "updatedAt": "2025-05-27T06:28:46Z",
+          "comments": [
+            {
+              "originalPosition": 92,
+              "body": "```suggestion\r\nAttestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ\r\n```",
+              "createdAt": "2025-05-27T06:28:46Z",
+              "updatedAt": "2025-05-27T06:28:46Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 115,
+      "id": "PR_kwDOJaEkaM6X7bUW",
+      "title": "update example attestation jwt iss",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/115",
+      "state": "OPEN",
+      "author": "panva",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Updates the the `iss` claim in the Client Attestation JWT example to use a value that clearly describes it as the \"attester\" rather than a generic \"server\"\r\n\r\nAlso adds a blank space between the claim and value for NumericDate claims.",
+      "createdAt": "2025-05-28T09:29:13Z",
+      "updatedAt": "2025-05-28T09:30:31Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
+      "headRepository": "panva/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "example-attester",
+      "headRefOid": "2a7b0cdba06277ad694b3a1bcfeaaf0fa2d1bc67",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
