@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-29T00:12:49.265657+00:00",
+  "timestamp": "2025-06-01T00:16:15.137379+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2430,7 +2430,7 @@
       ],
       "body": "              \"public clients\" ... \"to authenticate\" is a contradiction. The text further up speaks about \"deployments traditionally viewed as a public client\", that's a better description. I would even argue either this spec is for confidential clients of a new kind or it is a new type of client. But it is not for public clients.\r\n\r\n_Originally posted by @tlodderstedt in https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/74#discussion_r1606620990_\r\n            ",
       "createdAt": "2024-05-22T05:43:06Z",
-      "updatedAt": "2024-09-14T07:58:17Z",
+      "updatedAt": "2025-05-29T20:54:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -2453,6 +2453,13 @@
           "body": "> What would be the downside of defining a new type of client, e.g. attested client?\r\n\r\nI am not sure about the spec, yet [Attested Client](https://github.com/eu-digital-identity-wallet/eudi-lib-jvm-openid4vci-kt/blob/1e85b1b2867f6bd47bdcddc1f5a54048e24a172e/src/main/kotlin/eu/europa/ec/eudi/openid4vci/Config.kt#L39) was the term to use in our VCI library.\r\n",
           "createdAt": "2024-09-14T07:58:16Z",
           "updatedAt": "2024-09-14T07:58:16Z"
+        },
+        {
+          "author": "aaronpk",
+          "authorAssociation": "MEMBER",
+          "body": "To be clear, the term \"credentialed client\" in the earlier OAuth 2.1 draft had nothing to do with app attestations. ",
+          "createdAt": "2025-05-29T20:54:44Z",
+          "updatedAt": "2025-05-29T20:54:44Z"
         }
       ]
     },
