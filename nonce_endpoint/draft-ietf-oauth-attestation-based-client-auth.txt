@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 28 November 2025                                               
+Expires: 4 December 2025                                                
                                                               C. Bormann
                                                                   SPRIND
-                                                             27 May 2025
+                                                             2 June 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 November 2025.
+   This Internet-Draft will expire on 4 December 2025.
 
 Copyright Notice
 
@@ -92,7 +92,7 @@ Table of Contents
      7.1.  Concatenated Serialization Format
      7.2.  Validating the Concatenated Serialization
    8.  Challenge Retrieval
-     8.1.  Providing Challenges on Previous Successful Responses
+     8.1.  Providing Challenges on Previous Responses
    9.  Implementation Considerations
      9.1.  Reuse of a Client Attestation JWT
      9.2.  Refresh token binding
@@ -103,9 +103,10 @@ Table of Contents
      11.1.  Replay Attack Detection
    12. Appendix A IANA Considerations
      12.1.  OAuth Parameters Registration
-     12.2.  Registration of attest_jwt_client_auth Token Endpoint
+     12.2.  OAuth Extensions Error Registration
+     12.3.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     12.3.  HTTP Field Name Registration
+     12.4.  HTTP Field Name Registration
    13. References
      13.1.  Normative References
      13.2.  Informative References
@@ -508,6 +509,14 @@ Table of Contents
        Instance Key contained in the cnf claim of the Client Attestation
        JWT obtained from the OAuth-Client-Attestation HTTP header.
 
+   An error parameter according to Section 3 of [RFC6750] SHOULD be
+   included to indicate why a request was declined.  If the client
+   attestation is absent or not using an expected server-provided
+   challenge, the value use_attestation_challenge can be used to
+   indicate that an attestation with a server-provided challenge was
+   expected.  If the attestation was present but could not be
+   successfully verified, the value invalid_client_attestation is used.
+
 6.3.  Client Attestation at the Token Endpoint
 
    While usage of the the client attestation mechanism defined by this
@@ -694,13 +703,14 @@ Table of Contents
      "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
    }
 
-8.1.  Providing Challenges on Previous Successful Responses
+8.1.  Providing Challenges on Previous Responses
 
    The Authorization Server MAY provide a fresh Challenge on any
    previous successful response using a HTTP header-based syntax.  The
    HTTP header field parameter MUST be named "attestation-challenge" and
    contain the value of the Challenge.  The Client MUST use this new
-   Challenge for the next OAuth-Client-Attestation-PoP.
+   Challenge for the next OAuth-Client-Attestation-PoP.  Note that this
+   also includes error responses.
 
    The following is a non-normative example of an Authorization Response
    containing a fresh Challenge:
@@ -821,7 +831,37 @@ Table of Contents
 
    *  Reference: Section 8 of this specification
 
-12.2.  Registration of attest_jwt_client_auth Token Endpoint
+12.2.  OAuth Extensions Error Registration
+
+   This specification requests registration of the following values in
+   the IANA "OAuth Extensions Error Registry" registry of
+   [IANA.OAuth.Params] established by [RFC6749].
+
+   *  Name: use_attestation_challenge
+
+   *  Usage Location: token error response, resource access error
+      response
+
+   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+      Authentication
+
+   *  Change Controller: IETF
+
+   *  Reference: this specification
+
+   *  Name: invalid_client_attestation
+
+   *  Usage Location: token error response, resource access error
+      response
+
+   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+      Authentication
+
+   *  Change Controller: IETF
+
+   *  Reference: this specification
+
+12.3.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -835,7 +875,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-12.3.  HTTP Field Name Registration
+12.4.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -886,6 +926,11 @@ Table of Contents
               Resource Identifier (URI): Generic Syntax", STD 66,
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
               <https://www.rfc-editor.org/rfc/rfc3986>.
+
+   [RFC6750]  Jones, M. and D. Hardt, "The OAuth 2.0 Authorization
+              Framework: Bearer Token Usage", RFC 6750,
+              DOI 10.17487/RFC6750, October 2012,
+              <https://www.rfc-editor.org/rfc/rfc6750>.
 
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
@@ -945,13 +990,16 @@ Table of Contents
 
    [SD-JWT]   Fett, D., Yasuda, K., and B. Campbell, "Selective
               Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-19, 12
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-22, 29
               May 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-19>.
+              ietf-oauth-selective-disclosure-jwt-22>.
 
 Appendix A.  Document History
 
    -06
+
+   *  add oauth error response values invalid_client_attestation and
+      use_attestation_challenge
 
    *  revert the HTTP OPTIONS mechanism to fetch nonces and add a
       dedicated challenge endpoint
