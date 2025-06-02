@@ -707,7 +707,7 @@ Table of Contents
 
    The Authorization Server MAY provide a fresh Challenge on any
    previous successful response using a HTTP header-based syntax.  The
-   HTTP header field parameter MUST be named "attestation-challenge" and
+   HTTP header field parameter MUST be named "Attestation-Challenge" and
    contain the value of the Challenge.  The Client MUST use this new
    Challenge for the next OAuth-Client-Attestation-PoP.  Note that this
    also includes error responses.
@@ -716,7 +716,7 @@ Table of Contents
    containing a fresh Challenge:
 
    HTTP/1.1 302 Found
-   attestation-challenge: AYjcyMzY3ZDhiNmJkNTZ
+   Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
    Location: https://Wallet.example.org/cb?
      code=SplxlOBeZQQYbYS6WxSbIA
 
@@ -897,7 +897,7 @@ Table of Contents
 
 
 
-   *  Field Name: attestation-challenge
+   *  Field Name: Attestation-Challenge
 
    *  Status: permanent
 
