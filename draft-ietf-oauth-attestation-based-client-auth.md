@@ -317,6 +317,8 @@ To validate an HTTP request which contains the client attestation headers, the r
 2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.
 
+An error parameter according to Section 3 of {{RFC6750}} SHOULD be included to indicate why a request was declined. If the client attestation is absent or not using an expected server-provided challenge, the value `use_attestation_challenge` can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation was present but could not be successfully verified, the value `invalid_client_attestation` is used.
+
 ## Client Attestation at the Token Endpoint {#token-endpoint}
 
 While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage within the token request as defined by {{RFC6749}} has particular additional considerations outlined below.
@@ -521,6 +523,22 @@ This specification requests registration of the following values in the IANA "OA
 * Metadata Description: An array of URLs that specify the endpoints supporting the challenge retrieval and expecting a Client Attestation bound to a server-provided challenge.
 * Change Controller: IETF
 * Reference: [](#challenge-retrieval) of this specification
+
+## OAuth Extensions Error Registration
+
+This specification requests registration of the following values in the IANA "OAuth Extensions Error Registry" registry of {{IANA.OAuth.Params}} established by {{RFC6749}}.
+
+* Name: use_attestation_challenge
+* Usage Location: token error response, resource access error response
+* Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
+* Change Controller: IETF
+* Reference: this specification
+
+* Name: invalid_client_attestation
+* Usage Location: token error response, resource access error response
+* Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
+* Change Controller: IETF
+* Reference: this specification
 
 ## Registration of attest_jwt_client_auth Token Endpoint Authentication Method
 
