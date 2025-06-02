@@ -465,13 +465,13 @@ Content-Type: application/json
 
 ## Providing Challenges on Previous Responses
 
-The Authorization Server MAY provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "attestation-challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP. Note that this also includes error responses.
+The Authorization Server MAY provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "Attestation-Challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP. Note that this also includes error responses.
 
 The following is a non-normative example of an Authorization Response containing a fresh Challenge:
 
 ~~~
 HTTP/1.1 302 Found
-attestation-challenge: AYjcyMzY3ZDhiNmJkNTZ
+Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 Location: https://Wallet.example.org/cb?
   code=SplxlOBeZQQYbYS6WxSbIA
 ~~~
@@ -564,7 +564,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 <br/>
 
-* Field Name: attestation-challenge
+* Field Name: Attestation-Challenge
 * Status: permanent
 * Reference: [](#challenge-retrieval) of this specification
 --- back
