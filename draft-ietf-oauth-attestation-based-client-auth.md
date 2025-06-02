@@ -460,9 +460,9 @@ Content-Type: application/json
 }
 ~~~
 
-## Providing Challenges on Previous Successful Responses
+## Providing Challenges on Previous Responses
 
-The Authorization Server MAY provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "attestation-challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.
+The Authorization Server MAY provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "attestation-challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP. Note that this also includes error responses.
 
 The following is a non-normative example of an Authorization Response containing a fresh Challenge:
 
