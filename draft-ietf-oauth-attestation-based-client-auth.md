@@ -36,6 +36,7 @@ author:
 
 normative:
   RFC3986: RFC3986
+  RFC6750: RFC6750
   RFC7591: RFC7591
   RFC7519: RFC7519
   RFC7800: RFC7800
@@ -572,6 +573,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -06
 
+* add oauth error response values `invalid_client_attestation` and `use_attestation_challenge`
 * revert the HTTP OPTIONS mechanism to fetch nonces and add a dedicated challenge endpoint
 * rename nonce to challenge
 
