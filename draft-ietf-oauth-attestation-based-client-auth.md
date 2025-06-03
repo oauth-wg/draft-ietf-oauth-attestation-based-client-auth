@@ -520,8 +520,8 @@ The approach using a challenge explicitly provided by the authorization server g
 
 This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry {{IANA.OAuth.Params}} established by {{RFC8414}}.
 
-* Metadata Name: client_attestation_pop_challenge_required
-* Metadata Description: An array of URLs that specify the endpoints supporting the challenge retrieval and expecting a Client Attestation bound to a server-provided challenge.
+* Metadata Name: challenge_endpoint
+* Metadata Description: URL of the authorization servers challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.
 * Change Controller: IETF
 * Reference: [](#challenge-retrieval) of this specification
 
