@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 4 December 2025                                                
+Expires: 5 December 2025                                                
                                                               C. Bormann
                                                                   SPRIND
-                                                             2 June 2025
+                                                             3 June 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 December 2025.
+   This Internet-Draft will expire on 5 December 2025.
 
 Copyright Notice
 
@@ -821,11 +821,11 @@ Table of Contents
    the IANA "OAuth Authorization Server Metadata" registry
    [IANA.OAuth.Params] established by [RFC8414].
 
-   *  Metadata Name: client_attestation_pop_challenge_required
+   *  Metadata Name: challenge_endpoint
 
-   *  Metadata Description: An array of URLs that specify the endpoints
-      supporting the challenge retrieval and expecting a Client
-      Attestation bound to a server-provided challenge.
+   *  Metadata Description: URL of the authorization servers challenge
+      endpoint which is used to obtain a fresh challenge for usage in
+      client authentication methods such as client attestation.
 
    *  Change Controller: IETF
 

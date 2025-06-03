@@ -20,12 +20,12 @@
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.0
+    lxml 5.3.1
     platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
-    setuptools 70.3.0
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-oauth-attestation-based-client-auth.xml" rel="alternate" type="application/rfc+xml">
@@ -1049,7 +1049,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 4 December 2025</td>
+<td class="center">Expires 5 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-02" class="published">2 June 2025</time>
+<time datetime="2025-06-03" class="published">3 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-04">4 December 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-05">5 December 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1917,10 +1917,10 @@ Location: https://Wallet.example.org/cb?
 <p id="section-12.1-1">This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>.<a href="#section-12.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-12.1-2.1">
-            <p id="section-12.1-2.1.1">Metadata Name: client_attestation_pop_challenge_required<a href="#section-12.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-12.1-2.1.1">Metadata Name: challenge_endpoint<a href="#section-12.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-12.1-2.2">
-            <p id="section-12.1-2.2.1">Metadata Description: An array of URLs that specify the endpoints supporting the challenge retrieval and expecting a Client Attestation bound to a server-provided challenge.<a href="#section-12.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-12.1-2.2.1">Metadata Description: URL of the authorization servers challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.<a href="#section-12.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-12.1-2.3">
             <p id="section-12.1-2.3.1">Change Controller: IETF<a href="#section-12.1-2.3.1" class="pilcrow">¶</a></p>
