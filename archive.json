@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-01T00:16:15.137379+00:00",
+  "timestamp": "2025-06-03T00:13:01.797490+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -8379,15 +8379,15 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [ ] IANA registry entry @tplooker \r\n- [ ] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [ ] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [ ] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [ ] introduce invalid_client_attestation @c2bo \r\n- [ ] consider namespacing headers etc @tplooker ",
+      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [ ] IANA registry entry @tplooker \r\n- [ ] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [ ] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-05-27T06:47:48Z",
+      "updatedAt": "2025-06-02T21:13:17Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "ce8fc80c92326c2005b613998ccaaaba256e9f9f",
+      "headRefOid": "43261f9e6a2447d1e8801302fc61a3abd31d4445",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -8751,6 +8751,32 @@
               "body": "```suggestion\r\nAttestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ\r\n```",
               "createdAt": "2025-05-27T06:28:46Z",
               "updatedAt": "2025-05-27T06:28:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6sQQK0",
+          "commit": {
+            "abbreviatedOid": "bc574ab"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-02T21:08:00Z",
+          "updatedAt": "2025-06-02T21:08:35Z",
+          "comments": [
+            {
+              "originalPosition": 167,
+              "body": "```suggestion\r\n* Field Name: Attestation-Challenge\r\n```",
+              "createdAt": "2025-06-02T21:08:00Z",
+              "updatedAt": "2025-06-02T21:08:35Z"
+            },
+            {
+              "originalPosition": 103,
+              "body": "```suggestion\r\nThe Authorization Server MAY provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter MUST be named \"Attestation-Challenge\" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP. Note that this also includes error responses.\r\n```",
+              "createdAt": "2025-06-02T21:08:12Z",
+              "updatedAt": "2025-06-02T21:08:35Z"
             }
           ]
         }
