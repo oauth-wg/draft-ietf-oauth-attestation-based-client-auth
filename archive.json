@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-03T00:13:01.797490+00:00",
+  "timestamp": "2025-06-05T00:13:00.584754+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -62,6 +62,11 @@
       "name": "ready-for-pr",
       "description": "",
       "color": "19E11B"
+    },
+    {
+      "name": "has-pr",
+      "description": null,
+      "color": "aaaaaa"
     }
   ],
   "issues": [
@@ -2477,7 +2482,7 @@
       ],
       "body": "OAuth2 chapter 4.1.3 Access Token Request says:\r\n\r\n>  client_id\r\n>         REQUIRED, if the client is not authenticating with the\r\n>         authorization server as described in [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1).\r\n\r\nbut then client assertion drafts make client_id optional https://datatracker.ietf.org/doc/html/rfc7521\r\n\r\nWould you agree that client_id should be optional in this draft, too?",
       "createdAt": "2024-07-26T20:24:32Z",
-      "updatedAt": "2024-09-11T06:47:24Z",
+      "updatedAt": "2025-06-04T00:53:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -2486,6 +2491,20 @@
           "body": "This draft doesn't directly use the assertion framework anymore, but I think the idea (to not require client_id) makes sense here as well. This would basically mean this?\r\n- if client_id exists, then\r\n  - Attestation `sub` MUST be equal to `client_id`\r\n  - Attestation PoP `iss` MUST be equal to `client_id`\r\n- otherwise client_id is implicit and \r\n  - Attestation `sub` MUST be equal to Attestation PoP `iss` \r\n ",
           "createdAt": "2024-08-21T12:50:06Z",
           "updatedAt": "2024-08-21T12:50:06Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think just re-reading the context of this issue we do need to make sure that the client ID is present in the request somewhere for interactions with the AS otherwise the AS wont be able to authenticate the client as it wont know what key to use to identify the client and or decide whether that client should even be trying to authenticate with a client attestation. The current spec text makes its required and I think thats the right direction.",
+          "createdAt": "2025-06-04T00:41:48Z",
+          "updatedAt": "2025-06-04T00:41:48Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@Sakurann do you still think this should be optional if so can you explain how we could accomodate the above?",
+          "createdAt": "2025-06-04T00:53:31Z",
+          "updatedAt": "2025-06-04T00:53:31Z"
         }
       ]
     },
@@ -2642,9 +2661,17 @@
       "labels": [],
       "body": "add section 6.5 to use this mechniams at the resource Server",
       "createdAt": "2024-12-13T11:02:53Z",
-      "updatedAt": "2024-12-13T11:02:53Z",
+      "updatedAt": "2025-06-04T00:43:39Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Im not sure we should define any usage of this outside of the AS, generally client authentication schemes in OAuth have always been about authenticating the client to the AS, the AS then issues a token that can be used to authenticate the client to the RS.",
+          "createdAt": "2025-06-04T00:43:38Z",
+          "updatedAt": "2025-06-04T00:43:38Z"
+        }
+      ]
     },
     {
       "number": 101,
@@ -2656,11 +2683,11 @@
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [
-        "ready-for-pr"
+        "has-pr"
       ],
       "body": "DPoP allows returning the DPoP nonce in any response using the DPoP-Nonce header.\n\nWould it be possible to also enable support for this in this specification.\n\nFor integration with OID4VCI we now have three nonces:\n- DPoP nonce\n- Client Attestation Nonce\n- Credential request/proof nonce \n\nIt would be great if we can bundle these in one request to the nonce endpoint. For DPoP I see no problems, but it seems incompatible with the method described in this specification",
       "createdAt": "2025-03-15T18:54:12Z",
-      "updatedAt": "2025-04-17T11:44:04Z",
+      "updatedAt": "2025-06-04T00:11:02Z",
       "closedAt": null,
       "comments": [
         {
@@ -2688,10 +2715,12 @@
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "Filip Skokan at IETF 122:\n\nA good web application framework will discern between a preflight and a non-Preflight request and give the dev an option to handle the non-preflight.\n\nWhat this dance will do in a browser, since both the nonce-fetching and actual request is\n\n1) OPTIONS Preflight for the nonce-fetch\n\n2) nonce-fetch\n\n3) OPTIONS Preflight for the actual request\n\n4) actual request\n\nThe js client has no access to the preflight response so there's no option to make the preflight the nonce-value vessel. Of course at the point the actual request's preflight the nonce must be incorporated in the request.\n\n(meetecho messed up the list formatting)\n\nfix: since both the nonce-fetching and actual request * are not \"simple\" requests\n\nsee \"simple requests\" https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests",
       "createdAt": "2025-03-18T07:10:19Z",
-      "updatedAt": "2025-05-08T12:04:53Z",
+      "updatedAt": "2025-06-04T00:10:50Z",
       "closedAt": null,
       "comments": [
         {
@@ -2734,11 +2763,11 @@
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [
-        "ready-for-pr"
+        "has-pr"
       ],
       "body": "Feedback from IETF 122: We should be more explicit and state that the client MUST support the nonce fetching mechanism.",
       "createdAt": "2025-03-18T07:13:54Z",
-      "updatedAt": "2025-04-03T06:42:42Z",
+      "updatedAt": "2025-06-04T00:10:39Z",
       "closedAt": null,
       "comments": []
     },
@@ -2751,10 +2780,12 @@
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "Feedback from IETF 122: We should be more clear in the draft that the intention of the nonce is to guarantee freshness, not one-time use (which can be really hard to guarantee depending on deployment etc).",
       "createdAt": "2025-03-19T16:36:19Z",
-      "updatedAt": "2025-04-01T08:26:39Z",
+      "updatedAt": "2025-06-04T00:10:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -2839,10 +2870,12 @@
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "It would be beneficial to describe that the Authorization Server can also decide whether to accept or reject a Client Attestation JWT.  It might also be beneficial to describe the AZ error response if a request is rejected based on Authorization Server policy.",
       "createdAt": "2025-05-05T16:24:14Z",
-      "updatedAt": "2025-05-28T11:11:28Z",
+      "updatedAt": "2025-06-04T11:07:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -2858,6 +2891,20 @@
           "body": "Just for context I am thinking about a scenario where the Authorization Server has additional contextual information that means they wish to force the client to get a fresh Client Attestatiuon JWT before the expiry time is reached.  It is certainly possible to do that by using one of the existing OAuth error responses in RFC6749 but none of them really reflect that scenario and I don't think that client configuration or server metadata is granular enough.  If this scenario is to be supported it might be better to be explicit that the client should request a new attestation. Note OAuth 2.0 does allow for new error codes to be defined in https://www.rfc-editor.org/rfc/rfc6749.html#section-8.5.\n",
           "createdAt": "2025-05-28T11:11:27Z",
           "updatedAt": "2025-05-28T11:11:27Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@Macke with regard to defining an interoperable error type would you mind reviewing #112 for this too as we have introduced the `invalid_client_attestation` error type? ",
+          "createdAt": "2025-06-04T00:36:10Z",
+          "updatedAt": "2025-06-04T00:36:10Z"
+        },
+        {
+          "author": "Macke",
+          "authorAssociation": "NONE",
+          "body": "I like it",
+          "createdAt": "2025-06-04T11:07:02Z",
+          "updatedAt": "2025-06-04T11:07:02Z"
         }
       ]
     },
@@ -2870,10 +2917,12 @@
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "After many discussions over the last months and especially OSW 2025, in -05 we introduced explicit nonce fetching using HTTP OPTIONS. On the mailing list and IETF 122 we got feedback that this may not be the best approach (#102), so here is another proposal how to advance the mechanisms for explicit nonce fetching in this draft:\n\n- remove the HTTP OPTIONS  mechanism\n- introduce a new, dedicated nonce/challenge endpoint, that enables explicit nonce/challenge fetching\n  - usage of the endpoint is optional, alternative being jti\n- we would add implementation and security consideration to compare three approaches\n  - 1. jti approach (client chosen random), AS needs to cache seen jti values in a sliding time window for replay protection -> this provides freshness and replay protection\n  - 2. challenge/nonce endpoint with self-contained nonces containing server-chosen timestamp -> this provides freshness but no replay protection within the accepted time window\n  - 3. challenge/nonce endpoint with some kind of binding to the session between AS and client -> this provides freshness and replay protection\n\nThe motivation behind this is that other approaches seem complicated and did not lead us to success, while OpenID4VCI already defines a nonce endpoint for the Credential Issuer. Therefore AS nonce endpoint may fit nicely to this concept with little overhead.\n\nMoreover, this would enable us to optionally provide DPoP nonces over this new nonce/challenge endpoint, which seem to present significant challenges for some architectures.\n\nWDYT?",
       "createdAt": "2025-05-07T14:00:09Z",
-      "updatedAt": "2025-05-09T12:00:29Z",
+      "updatedAt": "2025-06-04T00:10:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -2918,9 +2967,24 @@
       "labels": [],
       "body": "In discussions with European Commission, an alternative mechanism for proofing the Client Attestation emerged. Instead of having a Client Attestation containing a key and adding a PoP, we could have the AS provide a nonce and this nonce would be included in the Client Attestation within an ad-hoc issuance, thus requireing no PoP. The discussion was inspired by the mechanism of key attestation in OpenID4VCI that also includes these both options (in the form of two proof_types `jwt` and `attestation`).\n\nThe EU document suggests:\n> The WAA SHALL either be sent along with a Proof-of-Possession (PoP) OR it SHALL contain the nonce value obtained from the nonce endpoint of the Credential Issuer. The former will be referred to as a key bound WAA and the latter as an ephemeral WAA.\n\n",
       "createdAt": "2025-05-09T11:14:02Z",
-      "updatedAt": "2025-05-09T11:14:02Z",
+      "updatedAt": "2025-06-04T00:31:38Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conceptually this seems quite similar to private_key_jwt as defined in section 9 of OpenID Connect Core.",
+          "createdAt": "2025-06-04T00:30:41Z",
+          "updatedAt": "2025-06-04T00:30:41Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "To be clear im not recommending that gets used here as that re-muddies the water we are trying to clarify around public vs confidential clients.",
+          "createdAt": "2025-06-04T00:31:25Z",
+          "updatedAt": "2025-06-04T00:31:37Z"
+        }
+      ]
     },
     {
       "number": 113,
@@ -2931,10 +2995,12 @@
       "author": "panva",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "Today we generally equate public client to those which have their auth method set to \"none\", i.e. it they only provide a client_id in the request body to client-authenticated endpoints. All other clients are considered \"confidential\", i.e. they have credentials they prove the access to with the authenticated requests.\n\nThe following are measures that we apply to public clients wrt to a number of OAuth 2.0 extensions off the top of my head (i.e. this may not be a comprehensive list) that may or not be questionable when attest_jwt_client_auth is used.\n\n> TL;DR\n> is a client using attest_jwt_client_auth considered a confidential client with all the bells and whistles?\n\nRefs: https://github.com/oauth-wg/oauth-v2-1/issues/107\nRefs: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/79\nRefs: https://www.ietf.org/archive/id/draft-ietf-oauth-v2-1-12.html#section-2.1\n\n> \"confidential\":\n> Clients that have credentials with the AS are designated as \"confidential clients\"\n>\n> \"public\":\n> Clients without credentials are called \"public clients\"\n\nhttps://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/79 (unresolved at this time) puts the client type to which attest_jwt_client_auth clients fall to into question, so here's a couple more points for that discussion.\n\n---\n\n**RFC 7662 - OAuth 2.0 Token Introspection, Security Considerations**\n\nhttps://www.rfc-editor.org/rfc/rfc7662.html#section-4\n\n> If left unprotected and un-throttled, the introspection endpoint\n   could present a means for an attacker to poll a series of possible\n   token values, fishing for a valid token.  To prevent this, the\n   authorization server MUST require authentication of protected\n   resources that need to access the introspection endpoint and SHOULD\n   require protected resources to be specifically authorized to call the\n   introspection endpoint.  The specifics of such authentication\n   credentials are out of scope of this specification, but commonly\n   these credentials could take the form of any valid client\n   authentication mechanism used with the token endpoint, an OAuth 2.0\n   access token, or other HTTP authorization or authentication\n   mechanism.\n\nAssuming the chosen form authentication is one of the client authentication mechanisms, a public client (possibly a client made for the sole purpose of the RS retrieving token introspection responses) should not be able to get introspection responses for tokens that are not intended for it. In that same spirit, an actual public client should not be able to get introspection responses for tokens, e.g. refresh tokens, for tokens not issued for that client.\n\nThe first case (an RS registration) is most likely not going to be a public client and it would be using a method other than attest_jwt_client_auth, so no real problem there, I think.\n\nThe latter case tho, when a client is using attest_jwt_client_auth, should the AS keep track of the client instance a token was issued to and only provide introspection responses for the client instance a token was issued to? For refresh tokens this is already done, for other types of issued tokens it isn't.\n\n---\n\n**BCP 240 / RFC 9700 Best Current Practice for OAuth 2.0 Security, specifically on use of PKCE**\n**BCP 212 / RFC 8252 OAuth 2.0 for Native Apps, specifically on use of PKCE**\n\nBoth BCPs require the use of PKCE for public clients.\n\n\nhttps://www.rfc-editor.org/rfc/rfc9700.html#section-2.1.1-2.1\n\n> Public clients MUST use PKCE\n\nhttps://www.rfc-editor.org/rfc/rfc8252.html#section-6\n\n> Public native app clients MUST implement the Proof Key for Code Exchange (PKCE)\n\nBased on how these are written and how \"public\" is defined it would appear clients using attest_jwt_client_auth are technically no longer required to use PKCE. Should they still be required to?\n\n---\n\n**BCP 240 / RFC 9700 Best Current Practice for OAuth 2.0 Security, specifically on Refresh Token Rotation**\n\nhttps://www.rfc-editor.org/rfc/rfc9700.html#section-2.2.2\n\n> Refresh tokens for public clients MUST be sender-constrained or use refresh token rotation as described in [Section 4.14](https://www.rfc-editor.org/rfc/rfc9700.html#refresh_token_protection). [[RFC6749](https://www.rfc-editor.org/rfc/rfc9700.html#RFC6749)] already mandates that refresh tokens for confidential clients can only be used by the client for which they were issued.\n\nattest_jwt_client_auth (through https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-05.html#section-9.2) already handles this well.\n\n---\n\n**No reference, on Refresh Token Sliding Expiration**\n\nExisting Authorization Servers may offer a scheme where dormant/unused refresh tokens are pruned but when an RT is used its expiration timestamp is pushed back, this can usually be done infinitely for non-public clients but maybe only to a certain total duration for public clients.\n\nDoes use of attest_jwt_client_auth make a difference here?\n\n---\n\n**RFC 9126 - OAuth 2.0 Pushed Authorization Requests (PAR), specifically on use of unregistered redirect URIs**\n\nhttps://www.rfc-editor.org/rfc/rfc9126.html#section-2.4\n\n> The exact matching requirement MAY be relaxed when using PAR for clients that have established authentication credentials with the authorization server. This is possible since, in contrast to a conventional authorization request, the authorization server authenticates the client before the authorization process starts and thus ensures it is interacting with the legitimate client. The authorization server MAY allow such clients to specify redirect_uri values that were not previously registered with the authorization server.\n\nDoes use of attest_jwt_client_auth apply as \"clients that have established authentication credentials with the authorization server\" such that an AS may fall into this \"MAY\" clause?",
       "createdAt": "2025-05-27T20:41:58Z",
-      "updatedAt": "2025-05-27T20:41:58Z",
+      "updatedAt": "2025-06-04T00:24:18Z",
       "closedAt": null,
       "comments": []
     },
@@ -2963,12 +3029,29 @@
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "In the section about replay attack detection it states that \"The authorization server provides a nonce for the particular transaction and the client uses it for the \"nonce\" claim in the Client Attestation PoP JWT. The authorization server validates that the nonce matches for the transaction.\"  It is pretty unclear what is meant by \"transaction\" in this context.  It might be helpful to clarify the meaning of \"transaction\" in this context.  Would \"the particular OAuth2 Authorization flow\" cover it more precisely?\n\n\n\n",
       "createdAt": "2025-05-28T12:46:03Z",
-      "updatedAt": "2025-05-28T12:46:03Z",
+      "updatedAt": "2025-06-04T11:20:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I believe this is addressed by #112 @Macke please review that PR and let us know if it does not.",
+          "createdAt": "2025-06-04T00:21:18Z",
+          "updatedAt": "2025-06-04T00:21:18Z"
+        },
+        {
+          "author": "Macke",
+          "authorAssociation": "NONE",
+          "body": "That is a lot better because it is more clear about soem of the stages but I'm afraid that the \"transaction\" itself is pretty undefined.  Perhaps we could make it more specific by changing \"transaction\" to \"client authentication transaction\"?",
+          "createdAt": "2025-06-04T11:20:12Z",
+          "updatedAt": "2025-06-04T11:20:12Z"
+        }
+      ]
     },
     {
       "number": 117,
@@ -2982,9 +3065,24 @@
       "labels": [],
       "body": "Suggest more specific wording as \"traditional\" is not terribly clear.",
       "createdAt": "2025-05-28T12:49:54Z",
-      "updatedAt": "2025-05-28T12:49:54Z",
+      "updatedAt": "2025-06-04T11:16:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I understand the point of view but I'm struggling to find an alternative phrase or term that describes the pre-existing security practises and mechanisms around OAuth 2.0 that pre-date this draft. Personally I feel the word \"tradition\" captures this intent well.",
+          "createdAt": "2025-06-04T00:18:16Z",
+          "updatedAt": "2025-06-04T00:18:16Z"
+        },
+        {
+          "author": "Macke",
+          "authorAssociation": "NONE",
+          "body": "Current wording is: \"to enable usage outside of the traditional OAuth2 ecosystem.\"\n\nHaving looked at section 7 maybe we could reword to something like: \"to enable usage outside of the HTTP Based OAuth2 interactions.\"",
+          "createdAt": "2025-06-04T11:16:23Z",
+          "updatedAt": "2025-06-04T11:16:23Z"
+        }
+      ]
     },
     {
       "number": 118,
@@ -2995,12 +3093,36 @@
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "\"6.1. Client Attestation HTTP Headers \nA Client Attestation JWT and Client Attestation PoP JWT can be included in an HTTP request using the following request header fields.\"\n\nSuggest re-drafting this such that it is a normative requirement to have those headers if the two attestations are being transferred by header.\n\nperhaps:\n\n\"6.1. Client Attestation HTTP Headers \nWhen using headers to transfer the Client Attestation JWT and Client Attestation PoP JWT to an Authorization Server they MUST be provided in an HTTP request using the following HTTP headers.\"",
       "createdAt": "2025-05-28T12:58:18Z",
-      "updatedAt": "2025-05-28T13:00:05Z",
+      "updatedAt": "2025-06-04T11:10:19Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- agree that a MUST for this text makes sense\n- we will iterate a little on the given text proposal",
+          "createdAt": "2025-06-03T06:41:15Z",
+          "updatedAt": "2025-06-03T06:41:15Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'd be comfortable with us making the HTTP header syntax more clearly normative. However the suggested text is too strong as it would prevent other extension specifications which may want to convey the attestation to the AS in otherways including not as an HTTP header.",
+          "createdAt": "2025-06-04T00:13:52Z",
+          "updatedAt": "2025-06-04T00:13:52Z"
+        },
+        {
+          "author": "Macke",
+          "authorAssociation": "NONE",
+          "body": "That sentence is only about the case in question because it starts with \"When using headers to transfer the Client Attestation JWT and Client Attestation PoP JWT...\"\n\nThis is intended to allow other cases without this normative requirement.",
+          "createdAt": "2025-06-04T11:10:18Z",
+          "updatedAt": "2025-06-04T11:10:18Z"
+        }
+      ]
     },
     {
       "number": 119,
@@ -3011,10 +3133,12 @@
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "The MD does not seem to be rendering correctly for the intended heading: \"## Rotation of Client Instance Key\" ",
       "createdAt": "2025-05-28T13:01:05Z",
-      "updatedAt": "2025-05-28T13:01:05Z",
+      "updatedAt": "2025-06-04T00:09:58Z",
       "closedAt": null,
       "comments": []
     }
@@ -8379,20 +8503,49 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [ ] IANA registry entry @tplooker \r\n- [ ] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [ ] consider namespacing headers etc @tplooker ",
+      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nPotentially Closes #109 ?\r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-02T21:13:17Z",
+      "updatedAt": "2025-06-04T00:36:53Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "43261f9e6a2447d1e8801302fc61a3abd31d4445",
+      "headRefOid": "803ea079375a6e1fd3a3aae1254ec540d7fef7d0",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "FYI\r\n[f1fef28](https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/112/commits/f1fef28c224fee753ea2c436463123cee76a96b9) updates the iana registration.\r\n[803ea07](https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/112/commits/803ea079375a6e1fd3a3aae1254ec540d7fef7d0) namespaces the Attestation-Challenge HTTP header by suffixing it with OAuth-Client- making it consistent with the other HTTP headers we've defined in the spec.",
+          "createdAt": "2025-06-04T00:00:06Z",
+          "updatedAt": "2025-06-04T00:00:06Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Have updated the list of issues this PR closes as I think it also addresses #103, with this sentence.\r\n\r\n> If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).\r\n\r\nWe could if we felt the need make this even clearer but I'm pretty comfortable with it, as it is.",
+          "createdAt": "2025-06-04T00:08:38Z",
+          "updatedAt": "2025-06-04T00:08:38Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also added #116 to the list of issues this PR closes.",
+          "createdAt": "2025-06-04T00:22:06Z",
+          "updatedAt": "2025-06-04T00:22:06Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "To discuss whether this also covers #109 ",
+          "createdAt": "2025-06-04T00:36:52Z",
+          "updatedAt": "2025-06-04T00:36:52Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJaEkaM6ouj0R",
@@ -8779,6 +8932,86 @@
               "updatedAt": "2025-06-02T21:08:35Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6sToUv",
+          "commit": {
+            "abbreviatedOid": "43261f9"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-03T06:11:30Z",
+          "updatedAt": "2025-06-03T06:11:31Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\r\nAn error parameter according to Section 3 of {{RFC6750}} SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value `use_attestation_challenge` can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation was present but could not be successfully verified, the value `invalid_client_attestation` is used.\r\n```",
+              "createdAt": "2025-06-03T06:11:30Z",
+              "updatedAt": "2025-06-03T06:11:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6sTqmP",
+          "commit": {
+            "abbreviatedOid": "43261f9"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-03T06:15:18Z",
+          "updatedAt": "2025-06-03T06:15:18Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "say SHOULD instead of can be used/is used?",
+              "createdAt": "2025-06-03T06:15:18Z",
+              "updatedAt": "2025-06-03T06:15:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6shT47",
+          "commit": {
+            "abbreviatedOid": "f1fef28"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-03T23:54:40Z",
+          "updatedAt": "2025-06-03T23:54:41Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "Added in https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/112/commits/f1fef28c224fee753ea2c436463123cee76a96b9",
+              "createdAt": "2025-06-03T23:54:41Z",
+              "updatedAt": "2025-06-03T23:54:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6shUUV",
+          "commit": {
+            "abbreviatedOid": "f1fef28"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-03T23:56:18Z",
+          "updatedAt": "2025-06-03T23:56:18Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "Given the whole error parameter here is already a SHOULD i think its already covered, but im ok if we want to be more explicit.",
+              "createdAt": "2025-06-03T23:56:18Z",
+              "updatedAt": "2025-06-03T23:56:18Z"
+            }
+          ]
         }
       ]
     },
@@ -8787,26 +9020,124 @@
       "id": "PR_kwDOJaEkaM6X7bUW",
       "title": "update example attestation jwt iss",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/115",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "panva",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Updates the the `iss` claim in the Client Attestation JWT example to use a value that clearly describes it as the \"attester\" rather than a generic \"server\"\r\n\r\nAlso adds a blank space between the claim and value for NumericDate claims.",
       "createdAt": "2025-05-28T09:29:13Z",
-      "updatedAt": "2025-05-28T09:30:31Z",
+      "updatedAt": "2025-06-04T10:28:14Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "panva/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "example-attester",
-      "headRefOid": "2a7b0cdba06277ad694b3a1bcfeaaf0fa2d1bc67",
+      "headRefOid": "4052fc8de35d08cfc083e82b106f5eaae5236721",
+      "closedAt": "2025-06-04T08:53:03Z",
+      "mergedAt": "2025-06-04T08:53:03Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "91861b0d00a86d2bf91d3e9ee9a04fa9333beefe"
+      },
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Thanks for the PR @panva, could you also update the other examples that use the older payload?",
+          "createdAt": "2025-06-03T06:19:40Z",
+          "updatedAt": "2025-06-03T06:19:40Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6sfktV",
+          "commit": {
+            "abbreviatedOid": "4052fc8"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-03T20:05:25Z",
+          "updatedAt": "2025-06-03T20:05:25Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6sgcJ7",
+          "commit": {
+            "abbreviatedOid": "4052fc8"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-03T21:36:27Z",
+          "updatedAt": "2025-06-03T21:36:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6sm4ba",
+          "commit": {
+            "abbreviatedOid": "4052fc8"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-04T08:51:56Z",
+          "updatedAt": "2025-06-04T08:51:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 120,
+      "id": "PR_kwDOJaEkaM6Y61_w",
+      "title": "Minor tweak to implementation considerations formatting",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/120",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #119\r\n\r\nThanks @macke.",
+      "createdAt": "2025-06-04T00:04:16Z",
+      "updatedAt": "2025-06-04T08:53:45Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "tl/issue-119",
+      "headRefOid": "f735b5bb6501e6e34308ccfcc6c8e84b29c6cdfe",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Pretty sure the failing CI check is just because of the branch name I gave for this PR.",
+          "createdAt": "2025-06-04T00:05:58Z",
+          "updatedAt": "2025-06-04T00:05:58Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6sm59Q",
+          "commit": {
+            "abbreviatedOid": "f735b5b"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-04T08:53:45Z",
+          "updatedAt": "2025-06-04T08:53:45Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
