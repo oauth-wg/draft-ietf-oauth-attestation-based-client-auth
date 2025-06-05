@@ -239,7 +239,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
 
 ~~~
 {
-  "typ": "oauth-client-attestation-pop",
+  "typ": "oauth-client-attestation-pop+jwt",
   "alg": "ES256"
 }
 .
