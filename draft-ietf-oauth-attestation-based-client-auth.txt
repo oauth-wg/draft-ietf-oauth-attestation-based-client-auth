@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 6 December 2025                                                
+Expires: 7 December 2025                                                
                                                               C. Bormann
                                                                   SPRIND
-                                                             4 June 2025
+                                                             5 June 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 December 2025.
+   This Internet-Draft will expire on 7 December 2025.
 
 Copyright Notice
 
@@ -95,7 +95,8 @@ Table of Contents
    9.  Implementation Considerations
      9.1.  Reuse of a Client Attestation JWT
      9.2.  Refresh token binding
-       9.2.1.  Web Server Default Maximum HTTP Header Sizes
+     9.3.  Web Server Default Maximum HTTP Header Sizes
+     9.4.  Rotation of Client Instance Key
    10. Privacy Considerations
      10.1.  Client Instance Tracking Across Authorization Servers
    11. Security Considerations
@@ -699,7 +700,7 @@ Table of Contents
    the same key that was present in the "cnf" claim of the client
    attestation that was used when the refresh token was issued.
 
-9.2.1.  Web Server Default Maximum HTTP Header Sizes
+9.3.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -709,8 +710,9 @@ Table of Contents
    this limit is not given by the HTTP [RFC9112], but instead web server
    implementations commonly set a default maximum size for HTTP headers.
    As of 2024, typical limits for modern web servers configure maximum
-   HTTP headers as 8 kB or more as a default. ## Rotation of Client
-   Instance Key
+   HTTP headers as 8 kB or more as a default.
+
+9.4.  Rotation of Client Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
