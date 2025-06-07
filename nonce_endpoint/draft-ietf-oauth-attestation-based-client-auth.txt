@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 5 December 2025                                                
+Expires: 9 December 2025                                                
                                                               C. Bormann
                                                                   SPRIND
-                                                             3 June 2025
+                                                             7 June 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 December 2025.
+   This Internet-Draft will expire on 9 December 2025.
 
 Copyright Notice
 
@@ -97,10 +97,12 @@ Table of Contents
      9.1.  Reuse of a Client Attestation JWT
      9.2.  Refresh token binding
        9.2.1.  Web Server Default Maximum HTTP Header Sizes
+     9.3.  Replay Attack Detection
    10. Privacy Considerations
      10.1.  Client Instance Tracking Across Authorization Servers
    11. Security Considerations
-     11.1.  Replay Attack Detection
+     11.1.  Freshness
+     11.2.  Replay Attack Detection
    12. Appendix A IANA Considerations
      12.1.  OAuth Parameters Registration
      12.2.  OAuth Extensions Error Registration
@@ -763,6 +765,34 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
+9.3.  Replay Attack Detection
+
+   Authorization Servers implementing measures to detect replay attacks
+   as described in security-consideration-replay require efficient data
+   structures to manage large amounts of challenges for use cases with
+   high volumes of transactions.  To limit the size of the data
+   structure, the Authorization Server should use a sliding window,
+   allowing Client Attestation PoPs within a certain time window, in
+   which the seen challenge or jti values are stored, but discard them
+   afterwards.  To ensure security, Client Attestation PoPs outside this
+   time window MUST be rejected by the Authorization Server.  The
+   allowed window is determined by the iat of the Client Attestation PoP
+   and the sliding window time duration chosen by the Authorization
+   Server.  These data structures need to:
+
+   *  search the data structure to validate whether a challenge form a
+      Client Attestation PoP has been previously seen
+
+   *  insert the new challenges from the Client Attestation PoP if the
+      search returned no result
+
+   *  delete the challenges after the Client Attestation PoP has passed
+      the sliding time window
+
+   A trie (also called prefix tree), or a patricia trie (also called
+   radix tree) is a RECOMMENDED data structures to implement such a
+   mechanism.
+
 10.  Privacy Considerations
 
 10.1.  Client Instance Tracking Across Authorization Servers
@@ -779,7 +809,11 @@ Table of Contents
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-11.1.  Replay Attack Detection
+11.1.  Freshness
+
+   todo
+
+11.2.  Replay Attack Detection
 
    The following mechanisms exist within this client authentication
    method in order to allow an authorization server to detect replay
