@@ -494,6 +494,16 @@ Because the Client Attestation and Client Attestation PoP are communicated using
 
 This specification does not provide a mechanism to rotate the Client Instance Key in the Client Attestation JWT's "cnf" claim. If the Client Instance needs to use a new Client Instance Key for any reason, then it MUST request a new Client Attestation JWT from its Client Attester.
 
+## Replay Attack Detection
+
+Authorization Servers implementing measures to detect replay attacks as described in [](security-consideration-replay) require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen `challenge` or `jti` values are stored, but discard them afterwards. To ensure security, Client Attestation PoPs outside this time window MUST be rejected by the Authorization Server. The allowed window is determined by the `iat` of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server. These data structures need to:
+
+- search the data structure to validate whether a challenge form a Client Attestation PoP has been previously seen
+- insert the new challenges from the Client Attestation PoP if the search returned no result
+- delete the challenges after the Client Attestation PoP has passed the sliding time window
+
+A trie (also called prefix tree), or a patricia trie (also called radix tree) is a RECOMMENDED data structures to implement such a mechanism.
+
 # Privacy Considerations
 
 ## Client Instance Tracking Across Authorization Servers
@@ -504,7 +514,11 @@ Implementers should be aware that using the same client attestation across multi
 
 The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
 
-## Replay Attack Detection
+## Freshness {#security-consideration-freshness}
+
+todo
+
+## Replay Attack Detection {#security-consideration-replay}
 
 The following mechanisms exist within this client authentication method in order to allow an authorization server to detect replay attacks for presented client attestation PoPs:
 
