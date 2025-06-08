@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-05T00:13:00.584754+00:00",
+  "timestamp": "2025-06-08T00:14:33.036481+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2482,7 +2482,7 @@
       ],
       "body": "OAuth2 chapter 4.1.3 Access Token Request says:\r\n\r\n>  client_id\r\n>         REQUIRED, if the client is not authenticating with the\r\n>         authorization server as described in [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1).\r\n\r\nbut then client assertion drafts make client_id optional https://datatracker.ietf.org/doc/html/rfc7521\r\n\r\nWould you agree that client_id should be optional in this draft, too?",
       "createdAt": "2024-07-26T20:24:32Z",
-      "updatedAt": "2025-06-04T00:53:32Z",
+      "updatedAt": "2025-06-06T11:25:42Z",
       "closedAt": null,
       "comments": [
         {
@@ -2505,6 +2505,13 @@
           "body": "@Sakurann do you still think this should be optional if so can you explain how we could accomodate the above?",
           "createdAt": "2025-06-04T00:53:31Z",
           "updatedAt": "2025-06-04T00:53:31Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I don't think we always need a client_id for all cases, but let's discuss",
+          "createdAt": "2025-06-06T11:25:41Z",
+          "updatedAt": "2025-06-06T11:25:41Z"
         }
       ]
     },
@@ -2658,10 +2665,12 @@
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "add section 6.5 to use this mechniams at the resource Server",
       "createdAt": "2024-12-13T11:02:53Z",
-      "updatedAt": "2025-06-04T00:43:39Z",
+      "updatedAt": "2025-06-06T08:25:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -2670,6 +2679,13 @@
           "body": "Im not sure we should define any usage of this outside of the AS, generally client authentication schemes in OAuth have always been about authenticating the client to the AS, the AS then issues a token that can be used to authenticate the client to the RS.",
           "createdAt": "2025-06-04T00:43:38Z",
           "updatedAt": "2025-06-04T00:43:38Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I see value in allowing this - there are imho 2 cases where attestation based client auth might be interesting:\n- as a mechanism to authenticate the client at AS\n- additional information (security) about the state of a client (via its attestation) at possibly other endpoints like RS\n\nLet's discuss",
+          "createdAt": "2025-06-06T08:25:27Z",
+          "updatedAt": "2025-06-06T08:25:27Z"
         }
       ]
     },
@@ -2806,10 +2822,12 @@
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pending-close"
+      ],
       "body": "Steps (1) to (4) are described as follows:\n\n>    (1) The Client Instance generates a key (Client Instance Key) and\n>    optional further attestations (that are out of scope) to prove its\n>    authenticity to the Client Attester.\n> \n>    (2) The Client Instance sends this data to the Client Attester in\n>    request for a Client Attestation JWT.\n> \n>    (3) The Client Attester validates the Client Instance Key and\n>    optional further data.  It generates a signed Client Attestation JWT\n>    that is cryptographically bound to the Client Instance Key generated\n>    by the Client.  Therefore, the attestation is bound to this\n>    particular Client Instance.\n> \n>    (4) The Client Attester responds to the Client Instance by sending\n>    the Client Attestation JWT.\n\n\nSteps (1) to (4) are OPTIONAL while steps (2) and (4) are not described and hence cannot be implemented. \n\nThe current draft is only addressing a small part of the whole picture.\n\nAlternatively, the Client instance can be installed (downloaded) with one Client Attestation JWT that is already present.  \nLater on, the client will need to renew its original Client Attestation JWT before it expires.\n\nThe draft should either assume that the Client Attestation JWT is already present or should describe in details how it can be obtained.\n\nIf only a rough description is provided (as it is the case for the moment for steps (1) to (4) ), steps (1) to (4) should be taken out of the figure placed on page 3 and moved into an informative annex. The same approach should be made for the other alternative when the Client Attestation JWT is already present when installing/downloading the client from a trusted source.",
       "createdAt": "2025-04-01T08:46:43Z",
-      "updatedAt": "2025-05-08T03:49:25Z",
+      "updatedAt": "2025-06-06T08:20:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -2818,6 +2836,13 @@
           "body": "> The draft should either assume that the Client Attestation JWT is already present or should describe in details how it can be obtained.\n\nI'm not sure I agree here and there is lots of precedent with in OAuth related specifications to frame as we have in this draft. For example RFC 6749 does not stipulate how the authorisation process occurs after the client has initiated an authorisation request. We are focusing on what drives interoperability while leaving implementations the freedom to differentiate.\n\n> If only a rough description is provided (as it is the case for the moment for steps (1) to (4) ), steps (1) to (4) should be taken out of the figure placed on page 3 and moved into an informative annex. The same approach should be made for the other alternative when the Client Attestation JWT is already present when installing/downloading the client from a trusted source.\n\nI believe the text at this point in the draft is important framing.",
           "createdAt": "2025-05-08T03:49:24Z",
           "updatedAt": "2025-05-08T03:49:24Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree with Tobias, the draft orientates at what other OAuth drafts did for introduction and I believe this is good practice.",
+          "createdAt": "2025-06-06T08:20:47Z",
+          "updatedAt": "2025-06-06T08:20:47Z"
         }
       ]
     },
@@ -2849,7 +2874,7 @@
       "labels": [],
       "body": "Suggest a re-word of this sentence to say something clearer... perhaps...\n\"The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an \"iat\" claim value that is deemed to increase risk of mis-use to a level they choose.\"\n\nLine 225 of current editors .md",
       "createdAt": "2025-05-05T16:02:28Z",
-      "updatedAt": "2025-05-08T03:45:17Z",
+      "updatedAt": "2025-06-06T08:19:02Z",
       "closedAt": null,
       "comments": [
         {
@@ -3129,7 +3154,7 @@
       "id": "I_kwDOJaEkaM64nPgq",
       "title": "Editorial - \"## Rotation of Client Instance Key\"",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/119",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -3138,7 +3163,39 @@
       ],
       "body": "The MD does not seem to be rendering correctly for the intended heading: \"## Rotation of Client Instance Key\" ",
       "createdAt": "2025-05-28T13:01:05Z",
-      "updatedAt": "2025-06-04T00:09:58Z",
+      "updatedAt": "2025-06-05T20:52:01Z",
+      "closedAt": "2025-06-05T20:52:01Z",
+      "comments": []
+    },
+    {
+      "number": 122,
+      "id": "I_kwDOJaEkaM66NJfb",
+      "title": "Create section on Processing and Verification",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/122",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "We should create a small section describing the verification rules for the JWT/PoP.",
+      "createdAt": "2025-06-06T08:16:16Z",
+      "updatedAt": "2025-06-06T08:18:41Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 123,
+      "id": "I_kwDOJaEkaM66arcs",
+      "title": "Similar proposal in AT Protocol: DPoP-bound private_key_jwt client authentication",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/123",
+      "state": "OPEN",
+      "author": "devinivy",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In [AT Protocol](https://atproto.com/) we've recently published a proposal that takes a similar shape and fills similar use cases to attestation-based client authentication as described the draft being worked on here.  It can be found here: [0010-client-assertion-backend](https://github.com/bluesky-social/proposals/tree/main/0010-client-assertion-backend).  Once the proposal is finalized, it could end up being widely adopted in the AT Protocol ecosystem, as we have many folks who want to author browser-based clients that are given the security and UX affordances of a confidential client.\n\nWe wanted to share our use case and our thinking with the hopes that we may be able to converge on something compatible with the work being done here.\n\nRather than proposing a new client authentication method, we opted to layer a small mechanism on top of the private_key_jwt method from [RFC 7523](https://datatracker.ietf.org/doc/rfc7523/).  It's quite limited:\n> [If] the `client_assertion` JWT contains a `cnf` claim using the `jkt` method (JWK Thumbprint Confirmation Method) then it MUST be validated by the AS against the public key of the request\u2019s DPoP proof.\n\nThe result is DPoP-bound client assertions, which fits neatly with existing DPoP-bound authorization flows, i.e. both authorization code and access token binding as described in [RFC 9449](https://datatracker.ietf.org/doc/rfc9449/).  We considered the need for separate client keys in the client attestation vs. the authorization flow in our proposal, as has been raised in #67 and more recently #74. We do not anticipate any practical issues with using a single PoP key and mechanism, but would be interested to continue getting to the bottom of that question.\n\nOn the flip side, we certainly see many benefits to using a single PoP mechanism across these OAuth flows.  We found the following benefits aligning on DPoP and private_key_jwt client authentication:\n - overall the specification becomes much smaller:\n   - answers questions around the nonce mechanism, as actively discussed in #101 and #110.\n   - supports authorization code binding, as discussed in #56.\n   - supports binding the PoP to the attestation used to authenticate, as discussed in #47.\n   - answers to the attack surface area when used in conjunction with DPoP-bound access tokens, as discussed in #69.\n - as a result it's more straightforward for client implementers, particularly those who already implement DPoP-bound access tokens, which we believe will continue to rise in popularity. Fewer novel PoP implementations on the client side has its security benefits too.\n\nThat's where we're currently at\u2014appreciate the consideration from this group, and the work being done on this draft.",
+      "createdAt": "2025-06-07T21:29:12Z",
+      "updatedAt": "2025-06-07T21:31:59Z",
       "closedAt": null,
       "comments": []
     }
@@ -8505,13 +8562,13 @@
       "labels": [],
       "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nPotentially Closes #109 ?\r\n\r\n- [ ] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-04T00:36:53Z",
+      "updatedAt": "2025-06-07T20:37:26Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "803ea079375a6e1fd3a3aae1254ec540d7fef7d0",
+      "headRefOid": "42b73d6e384db9260719e48284658094d9f449af",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -9096,24 +9153,26 @@
       "id": "PR_kwDOJaEkaM6Y61_w",
       "title": "Minor tweak to implementation considerations formatting",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/120",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #119\r\n\r\nThanks @macke.",
       "createdAt": "2025-06-04T00:04:16Z",
-      "updatedAt": "2025-06-04T08:53:45Z",
+      "updatedAt": "2025-06-05T20:52:06Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/issue-119",
       "headRefOid": "f735b5bb6501e6e34308ccfcc6c8e84b29c6cdfe",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-06-05T20:52:00Z",
+      "mergedAt": "2025-06-05T20:52:00Z",
+      "mergedBy": "tplooker",
+      "mergeCommit": {
+        "oid": "78ed1e485e3f3fccc1e923b10d4de6b71e301f54"
+      },
       "comments": [
         {
           "author": "tplooker",
@@ -9121,6 +9180,13 @@
           "body": "Pretty sure the failing CI check is just because of the branch name I gave for this PR.",
           "createdAt": "2025-06-04T00:05:58Z",
           "updatedAt": "2025-06-04T00:05:58Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "seems to have some problem with the branch name tl/ for some reason?",
+          "createdAt": "2025-06-05T10:12:54Z",
+          "updatedAt": "2025-06-05T10:12:54Z"
         }
       ],
       "reviews": [
@@ -9135,6 +9201,85 @@
           "body": "",
           "createdAt": "2025-06-04T08:53:45Z",
           "updatedAt": "2025-06-04T08:53:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6s1flS",
+          "commit": {
+            "abbreviatedOid": "f735b5b"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-05T10:09:42Z",
+          "updatedAt": "2025-06-05T10:09:42Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 121,
+      "id": "PR_kwDOJaEkaM6ZLPRx",
+      "title": "Add missing +jwt in Client Attestation PoP JWT example",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/121",
+      "state": "OPEN",
+      "author": "thomasdarimont",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Adds a missing+jwt in Client Attestation PoP JWT for consistency.",
+      "createdAt": "2025-06-05T10:32:10Z",
+      "updatedAt": "2025-06-06T19:00:34Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "91861b0d00a86d2bf91d3e9ee9a04fa9333beefe",
+      "headRepository": "thomasdarimont/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "fix/fix-client-pop-jwt-example",
+      "headRefOid": "cca859bb29432f4287d1aa4d624e0b179054fdb7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6tF2Tc",
+          "commit": {
+            "abbreviatedOid": "cca859b"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-06T07:04:53Z",
+          "updatedAt": "2025-06-06T07:04:53Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6tGOFw",
+          "commit": {
+            "abbreviatedOid": "cca859b"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "Good catch, thank you!",
+          "createdAt": "2025-06-06T07:49:53Z",
+          "updatedAt": "2025-06-06T07:49:53Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6tM6Bi",
+          "commit": {
+            "abbreviatedOid": "cca859b"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-06T19:00:34Z",
+          "updatedAt": "2025-06-06T19:00:34Z",
           "comments": []
         }
       ]
