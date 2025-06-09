@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 9 December 2025                                                
+Expires: 11 December 2025                                               
                                                               C. Bormann
                                                                   SPRIND
-                                                             7 June 2025
+                                                             9 June 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 December 2025.
+   This Internet-Draft will expire on 11 December 2025.
 
 Copyright Notice
 
@@ -101,8 +101,7 @@ Table of Contents
    10. Privacy Considerations
      10.1.  Client Instance Tracking Across Authorization Servers
    11. Security Considerations
-     11.1.  Freshness
-     11.2.  Replay Attack Detection
+     11.1.  Replay Attacks
    12. Appendix A IANA Considerations
      12.1.  OAuth Parameters Registration
      12.2.  OAuth Extensions Error Registration
@@ -768,17 +767,17 @@ Table of Contents
 9.3.  Replay Attack Detection
 
    Authorization Servers implementing measures to detect replay attacks
-   as described in security-consideration-replay require efficient data
-   structures to manage large amounts of challenges for use cases with
-   high volumes of transactions.  To limit the size of the data
-   structure, the Authorization Server should use a sliding window,
-   allowing Client Attestation PoPs within a certain time window, in
-   which the seen challenge or jti values are stored, but discard them
-   afterwards.  To ensure security, Client Attestation PoPs outside this
-   time window MUST be rejected by the Authorization Server.  The
-   allowed window is determined by the iat of the Client Attestation PoP
-   and the sliding window time duration chosen by the Authorization
-   Server.  These data structures need to:
+   as described in Section 11.1 require efficient data structures to
+   manage large amounts of challenges for use cases with high volumes of
+   transactions.  To limit the size of the data structure, the
+   Authorization Server should use a sliding window, allowing Client
+   Attestation PoPs within a certain time window, in which the seen
+   challenge or jti values are stored, but discard them afterwards.  To
+   ensure security, Client Attestation PoPs outside this time window
+   MUST be rejected by the Authorization Server.  The allowed window is
+   determined by the iat of the Client Attestation PoP and the sliding
+   window time duration chosen by the Authorization Server.  These data
+   structures need to:
 
    *  search the data structure to validate whether a challenge form a
       Client Attestation PoP has been previously seen
@@ -809,43 +808,64 @@ Table of Contents
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-11.1.  Freshness
+11.1.  Replay Attacks
 
-   todo
+   An Authorization Server MUST implement measures to detect replay
+   attacks by the Client Instance.  In the context of this
+   specification, this means to detect that an attacker is resending any
+   Client Attestation PoP JWT an Authorization Server.  The following
+   options are RECOMMENDED for this client authentication method:
 
-11.2.  Replay Attack Detection
+   *  The Authorization Server manages a list of witnessed jti values of
+      the Client Attestation PoP JWT for the time window of which the
+      JWT would be considered valid.  This sliding time window is based
+      on the iat of the Client Attestation PoP and and the duration
+      chosen by the Authorization Server.  If any Client Attestation PoP
+      JWT would be replayed, the Authorization Server would recognize
+      the jti value in the list and respond with an authentication
+      error.  Details how to implement such a data structure to maintain
+      jti values is given in Section 9.3.
 
-   The following mechanisms exist within this client authentication
-   method in order to allow an authorization server to detect replay
-   attacks for presented client attestation PoPs:
+   *  The Authorization Server provides a challenge as an OAuth-Client-
+      Attestation-Challenge in the challenge endpoint to the Client
+      Instance and the Client uses it as a challenge value in the Client
+      Attestation PoP JWT.  The Authorization Server may chose to:
 
-   *  The client uses "jti" (JWT ID) claims for the Client Attestation
-      PoP JWT and the authorization server maintains a list of used
-      (seen) "jti" values for the time of which the JWT would be
-      considered valid based on the applicable "exp" claim.  If any
-      Client Attestation PoP JWT would be replayed, the authorization
-      server would recognize the "jti" and respond with an
-      authentication error.
+      -  manage a list of witnissed challenge values, similar to the
+         previously described jti approach.  Details how to implement
+         such a data structure to maintain challenge values is given in
+         Section 9.3.  This guarantees stronger replay protection with a
+         challenge chosen by the Authorization Server itself, at the
+         potential cost of an additional round-trip.
 
-   *  The authorization server provides a challenge for the particular
-      transaction and the client uses it for the "challenge" claim in
-      the Client Attestation PoP JWT.  The authorization server
-      validates that the challenge matches for the transaction.  This
-      approach may require an additional roundtrip in the protocol.  The
-      authorization server MUST ensure that the challenge provides
-      sufficient entropy.
+      -  use self-contained challenges while not storing the seen
+         challenges.  This approach scales well, while only guaranteeing
+         freshness, but no replay protection within the limited time-
+         window chosen by the Authorization Server.
 
-   *  The authorization server may expect the usage of a challenge in
-      the Client Attestation PoP JWT, but instead of providing the
-      challenge explicitly, the client may implicitly reuse an existing
-      artefact, e.g. the authorization code.  The authorization server
-      MUST ensure that the challenge provides sufficient entropy.
+   *  The Authorization Server generates a challenge that is bound to
+      the Client Instance's session, such that a specific challenge in
+      the Client Attestation PoP JWT is expected and validated.  The
+      Authorization Server may either:
+
+   *  send the challenge as part of another previous response to the
+      Client Instance of providing the challenge explicitly
+
+   *  reuse an existing artefact of the Client Instance's session, e.g.
+      the authorization code.  This MUST be communicated out-of-band
+      between Authorization Server and Client.
+
+   It is important for successful replay attack detection to have
+   considerable time synchronization between Authorization Server and
+   the Client.  Furthermore, the Authorization Server MUST reject Client
+   Attestation PoP JWTs that have iat values too far in the future or
+   past beyond an agreeable time difference.
 
    The approach using a challenge explicitly provided by the
-   authorization server gives stronger replay attack detection
-   guarantees, however support by the authorization server is OPTIONAL
-   to simplify mandatory implementation requirements.  The "jti" method
-   is mandatory and hence acts as a default fallback.
+   Authorization Server gives stronger replay attack detection
+   guarantees, however support by the Authorization Server is OPTIONAL
+   to simplify mandatory implementation requirements.  The jti value is
+   mandatory and hence acts as a default fallback.
 
 12.  Appendix A IANA Considerations
 
@@ -1039,6 +1059,10 @@ Appendix A.  Document History
       dedicated challenge endpoint
 
    *  rename nonce to challenge
+
+   *  rewrite security consideration on replay attacks
+
+   *  add implementation consideration on replay attacks
 
    -05
 
