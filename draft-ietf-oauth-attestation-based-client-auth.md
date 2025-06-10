@@ -523,8 +523,8 @@ An Authorization Server MUST implement measures to detect replay attacks by the 
   - manage a list of witnissed `challenge` values, similar to the previously described `jti` approach. Details how to implement such a data structure to maintain `challenge` values is given in [](#implementation-consideration-replay). This guarantees stronger replay protection with a challenge chosen by the Authorization Server itself, at the potential cost of an additional round-trip.
   - use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization Server.
 - The Authorization Server generates a challenge that is bound to the Client Instance's session, such that a specific `challenge` in the Client Attestation PoP JWT is expected and validated. The Authorization Server may either:
-- send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
-- reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.
+  - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
+  - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.
 
 It is important for successful replay attack detection to have considerable time synchronization between Authorization Server and the Client. Furthermore, the Authorization Server MUST reject Client Attestation PoP JWTs that have `iat` values too far in the future or past beyond an agreeable time difference.
 
