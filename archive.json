@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-10T00:13:05.619481+00:00",
+  "timestamp": "2025-06-12T00:12:59.489690+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2482,7 +2482,7 @@
       ],
       "body": "OAuth2 chapter 4.1.3 Access Token Request says:\r\n\r\n>  client_id\r\n>         REQUIRED, if the client is not authenticating with the\r\n>         authorization server as described in [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1).\r\n\r\nbut then client assertion drafts make client_id optional https://datatracker.ietf.org/doc/html/rfc7521\r\n\r\nWould you agree that client_id should be optional in this draft, too?",
       "createdAt": "2024-07-26T20:24:32Z",
-      "updatedAt": "2025-06-06T11:25:42Z",
+      "updatedAt": "2025-06-11T06:20:18Z",
       "closedAt": null,
       "comments": [
         {
@@ -2512,6 +2512,20 @@
           "body": "I don't think we always need a client_id for all cases, but let's discuss",
           "createdAt": "2025-06-06T11:25:41Z",
           "updatedAt": "2025-06-06T11:25:41Z"
+        },
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "> I think just re-reading the context of this issue we do need to make sure that the client ID is present in the request somewhere for interactions with the AS otherwise the AS wont be able to authenticate the client as it wont know what key to use to identify the client and or decide whether that client should even be trying to authenticate with a client attestation. The current spec text makes its required and I think thats the right direction.\n\nBut in all cases with this draft the AS is already receiving client_id in both the iss & sub? Passing it in client_id as well definitely seems unnecessary, in the same way as it's unnecessary (and not required) when using private_key_jwt.",
+          "createdAt": "2025-06-10T21:30:02Z",
+          "updatedAt": "2025-06-10T21:30:19Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I also had trouble explaining why we have the client_id in the request, if it's already present inside the client attestation JWT.",
+          "createdAt": "2025-06-11T06:19:55Z",
+          "updatedAt": "2025-06-11T06:20:18Z"
         }
       ]
     },
@@ -8562,13 +8576,13 @@
       "labels": [],
       "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nPotentially Closes #109 ?\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-09T21:55:04Z",
+      "updatedAt": "2025-06-10T08:52:09Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "a43db1b87ec460c81676469527f13a7621c40410",
+      "headRefOid": "e4b289e37706e30f71436f6339c191153f31a9c4",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -9067,6 +9081,26 @@
               "body": "Given the whole error parameter here is already a SHOULD i think its already covered, but im ok if we want to be more explicit.",
               "createdAt": "2025-06-03T23:56:18Z",
               "updatedAt": "2025-06-03T23:56:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6tmqrt",
+          "commit": {
+            "abbreviatedOid": "a43db1b"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-10T08:52:03Z",
+          "updatedAt": "2025-06-10T08:52:03Z",
+          "comments": [
+            {
+              "originalPosition": 151,
+              "body": "```suggestion\r\n  - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly\r\n  - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.\r\n```",
+              "createdAt": "2025-06-10T08:52:03Z",
+              "updatedAt": "2025-06-10T08:52:03Z"
             }
           ]
         }
