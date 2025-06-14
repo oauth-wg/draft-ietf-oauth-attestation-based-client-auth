@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 12 December 2025                                               
+Expires: 16 December 2025                                               
                                                               C. Bormann
                                                                   SPRIND
-                                                            10 June 2025
+                                                            14 June 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 December 2025.
+   This Internet-Draft will expire on 16 December 2025.
 
 Copyright Notice
 
@@ -511,8 +511,8 @@ Table of Contents
        JWT obtained from the OAuth-Client-Attestation HTTP header.
 
    An error parameter according to Section 3 of [RFC6750] SHOULD be
-   included to indicate why a request was declined.  If the client
-   attestation is absent or not using an expected server-provided
+   included to indicate why a request was declined.  If the Client
+   Attestation is absent or not using an expected server-provided
    challenge, the value use_attestation_challenge can be used to
    indicate that an attestation with a server-provided challenge was
    expected.  If the attestation was present but could not be
