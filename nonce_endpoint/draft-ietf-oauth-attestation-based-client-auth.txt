@@ -772,7 +772,7 @@ Table of Contents
    transactions.  To limit the size of the data structure, the
    Authorization Server should use a sliding window, allowing Client
    Attestation PoPs within a certain time window, in which the seen
-   challenge or jti values are stored, but discard them afterwards.  To
+   challenge or jti values are stored, but discarded afterwards.  To
    ensure security, Client Attestation PoPs outside this time window
    MUST be rejected by the Authorization Server.  The allowed window is
    determined by the iat of the Client Attestation PoP and the sliding
