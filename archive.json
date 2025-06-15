@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-12T00:12:59.489690+00:00",
+  "timestamp": "2025-06-15T00:14:42.417554+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3209,9 +3209,24 @@
       "labels": [],
       "body": "In [AT Protocol](https://atproto.com/) we've recently published a proposal that takes a similar shape and fills similar use cases to attestation-based client authentication as described in the draft being worked on here.  It can be found here: [0010-client-assertion-backend](https://github.com/bluesky-social/proposals/tree/main/0010-client-assertion-backend).  Once the proposal is finalized, it could end up being widely adopted in the AT Protocol ecosystem, as we have many folks who want to author browser-based clients that are given the security and UX affordances of a confidential client.\n\nWe wanted to share our use case and our thinking with the hopes that we may be able to converge on something compatible with the work being done here.\n\nRather than proposing a new client authentication method, we opted to layer a small mechanism on top of the private_key_jwt method from [RFC 7523](https://datatracker.ietf.org/doc/rfc7523/).  It's quite limited:\n> [If] the `client_assertion` JWT contains a `cnf` claim using the `jkt` method (JWK Thumbprint Confirmation Method) then it MUST be validated by the AS against the public key of the request\u2019s DPoP proof.\n\nThe result is DPoP-bound client assertions, which fits neatly with existing DPoP-bound authorization flows, i.e. both authorization code and access token binding as described in [RFC 9449](https://datatracker.ietf.org/doc/rfc9449/).  We considered the need for separate client keys in the client attestation vs. the authorization flow in our proposal, as has been raised in #67 and more recently #74. We do not anticipate any practical issues with using a single PoP key and mechanism, but would be interested to continue getting to the bottom of that question.\n\nOn the flip side, we certainly see many benefits to using a single PoP mechanism across these OAuth flows.  We found the following benefits aligning on DPoP and private_key_jwt client authentication:\n - overall the specification becomes much smaller:\n   - answers questions around the nonce mechanism, as actively discussed in #101 and #110.\n   - supports authorization code binding, as discussed in #56.\n   - supports binding the PoP to the attestation used to authenticate, as discussed in #47.\n   - answers to the attack surface area when used in conjunction with DPoP-bound access tokens, as discussed in #69.\n - as a result it's more straightforward for client implementers, particularly those who already implement DPoP-bound access tokens, which we believe will continue to rise in popularity. Fewer novel PoP implementations on the client side has its security benefits too.\n\nThat's where we're currently at\u2014appreciate the consideration from this group, and the work being done on this draft.",
       "createdAt": "2025-06-07T21:29:12Z",
-      "updatedAt": "2025-06-08T03:59:23Z",
+      "updatedAt": "2025-06-14T12:12:56Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "We had a long discussion about DPoP and in general what mechanism to use for nonce/challenge retrieval. The problem with only relying on DPoP is that for a part of the use-cases interested in this mechanism, the current mode of getting a fresh DPoP nonce is problematic:\n- DPoP nonces can be retrieved from an error or from any previous response\n- Triggering an error is somewhat ambiguous, the usual way is to create a valid request with an invalid/no nonce and then retrieve a fresh nonce\n- This requires a valid request which might be expensive (requires user interaction or a call to a remote system)\n\nEspecially in the context of smartphone interactions (e.g., digital wallets), interactions would often happen for the first time with a specific AS (e.g., credential issuance). In those cases, it is highly beneficial to be able to explicitly request a fresh nonce/challenge to avoid additional roundtrips or even worse user confirmation. It also feels a lot cleaner than somehow trying to create an error case.\nFrom my perspective, those are the main motivations to deviate from the DPoP model here. ",
+          "createdAt": "2025-06-12T08:34:30Z",
+          "updatedAt": "2025-06-12T08:34:30Z"
+        },
+        {
+          "author": "matthieusieben",
+          "authorAssociation": "NONE",
+          "body": "If this is the main motivation, wouldn't it be simpler to add a small spec for a `dpop_nonce_endpoint` that returns the nonce, rather than re-inventing something essentially identical to DPoP?\n\nThis would benefit any DPoP only implementation in addition to this one.\n\nFWIW we [did feel the pain](https://github.com/bluesky-social/atproto/issues/3859) of not knowing the DPoP nonce in advance and still think this mechanism is worth pursuing.",
+          "createdAt": "2025-06-14T12:02:14Z",
+          "updatedAt": "2025-06-14T12:12:56Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -8576,13 +8591,13 @@
       "labels": [],
       "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nPotentially Closes #109 ?\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-10T08:52:09Z",
+      "updatedAt": "2025-06-14T06:43:25Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "e4b289e37706e30f71436f6339c191153f31a9c4",
+      "headRefOid": "32254ad440d38074713421f549463d5c928f3a37",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -8615,6 +8630,13 @@
           "body": "To discuss whether this also covers #109 ",
           "createdAt": "2025-06-04T00:36:52Z",
           "updatedAt": "2025-06-04T00:36:52Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I think this is in a decent state now - at least good enough to get more feedback. Should we post this to the mailing list and ask for feedback?\n\nI agree. Next steps afterwards should be making PoP exp optional/removed and the processing & verification to round it up. However, this is ready for the mailing list. Wdyt @tplooker ",
+          "createdAt": "2025-06-14T06:43:25Z",
+          "updatedAt": "2025-06-14T06:43:25Z"
         }
       ],
       "reviews": [
@@ -9101,6 +9123,46 @@
               "body": "```suggestion\r\n  - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly\r\n  - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.\r\n```",
               "createdAt": "2025-06-10T08:52:03Z",
               "updatedAt": "2025-06-10T08:52:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6uXT4Q",
+          "commit": {
+            "abbreviatedOid": "e4b289e"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-13T15:57:53Z",
+          "updatedAt": "2025-06-13T15:57:53Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "I don't think we need the SHOULD here. This section was more or less directly copied from other RFCs (I think it was DPoP) to stay consistent in language/behaviour.",
+              "createdAt": "2025-06-13T15:57:53Z",
+              "updatedAt": "2025-06-13T15:57:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6uXVLn",
+          "commit": {
+            "abbreviatedOid": "e4b289e"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "I think this is in a decent state now - at least good enough to get more feedback. Should we post this to the mailing list and ask for feedback?",
+          "createdAt": "2025-06-13T15:59:20Z",
+          "updatedAt": "2025-06-13T16:02:17Z",
+          "comments": [
+            {
+              "originalPosition": 124,
+              "body": "```suggestion\r\nAuthorization Servers implementing measures to detect replay attacks as described in [](#security-consideration-replay) require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen `challenge` or `jti` values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window MUST be rejected by the Authorization Server. The allowed window is determined by the `iat` of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server. These data structures need to:\r\n```",
+              "createdAt": "2025-06-13T15:59:20Z",
+              "updatedAt": "2025-06-13T16:02:17Z"
             }
           ]
         }
