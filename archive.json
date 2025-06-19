@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-17T00:13:06.224543+00:00",
+  "timestamp": "2025-06-19T00:13:14.668239+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2169,7 +2169,7 @@
       "labels": [],
       "body": "What about introducing a general purpose client authentication using a holder-of-key JWT assertion instead of Client Attestation JWT?\r\n\r\nThe draft introduces the Client Attestation JWT that is bound to the public key of a Client Instance Key. What about having a spec that replaces the Client Attestation JWT with an assertion that is a holder-of-key JWT, meaning a JWT bound to a key that the client proofs to be able to control (e.g. using DPoP as suggested in #67 ). The draft would not make any assumptions on whether the holder-of-key JWT is an attestation or not; it technically would support any JWT with a `cnf` claim and require a proof-of-possession for client authentication.\r\nAttestation-based client authentication could profile such a spec if necessary. In the ecosystem, there would be RFC7521, upon it RFC7523 for the bearer JWT assertion and next to it some spec for holder-of-key JWT assertion, and upon that the attestation-based client authentication. What do you think? \r\n\r\nThis idea was first proposed by @pmhsfelix in #64 (https://github.com/vcstuff/draft-ietf-oauth-attestation-based-client-auth/pull/64#issuecomment-1838969799). ",
       "createdAt": "2024-01-18T15:58:38Z",
-      "updatedAt": "2024-02-05T08:24:10Z",
+      "updatedAt": "2025-06-17T19:44:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -2206,6 +2206,27 @@
           "body": "I do not have any (additional) use cases for a general purpose client authentication using a holder-of-key JWT, other than the general one that @pmhsfelix described: a JWT-assertion-based authentication for scenarios where bearer is not enough. \r\n\r\nThis draft does not specify any attestation specific claims for the client attestation JWT (it does not even define attestation and how it differs from an assertion). The only thing, that defines the client attestation JWT is the fact that it is bound to a public key and that the draft expects a client backend to generate it, which imo is not enough for an attestation. For example, the client attestation JWT does not provide any information about how the client protects the key as pointed out in this comment: https://github.com/openid/OpenID4VCI/issues/150#issuecomment-1918865432\r\n\r\nIn best cases, this draft provides some confidence that the request comes from a genuine client (or what the \"client backend\" thinks is genuine). I believe that you do not need a client backend to get this confidence. Technically, I don't think, it makes a difference if the client attestation JWT was issued by a client backend or any other third party because it all boils down to how the client authenticates to the client backend (step 2) which is out of scope of the draft anyways. \r\nI believe, to make this draft applicable, you will need a profile that defines the  attestation-specific claims in the client attestation JWT as well as the client authentication to who-ever-issues-the-key-bound-jwt. Imo, the current draft is more suited as a general-purpose holder-of-key-based client authentication method.\r\n\r\nMaybe you can help me to understand the difference between an attestation and a key-bound JWT?",
           "createdAt": "2024-02-05T08:24:09Z",
           "updatedAt": "2024-02-05T08:24:09Z"
+        },
+        {
+          "author": "davux",
+          "authorAssociation": "NONE",
+          "body": "It does seem way cleaner to build this spec on top of RFC 7521 (and to explain the differences with RFC 7523), rather than recreating a new concept from scratch.\n\nAs a corollary, an assertion type around the lines of `urn:ietf:params:oauth:client-assertion-type:jwt-dpop` would be consistent with common practice.",
+          "createdAt": "2025-06-17T17:37:21Z",
+          "updatedAt": "2025-06-17T17:37:21Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> It does seem way cleaner to build this spec on top of RFC 7521 (and to explain the differences with RFC 7523), rather than recreating a new concept from scratch.\n> \n> As a corollary, an assertion type around the lines of `urn:ietf:params:oauth:client-assertion-type:jwt-dpop` would be consistent with common practice.\n\nWe started there, but it felt weird, when we moved to HTTP headers, because the RFC7521 used the body. @bc-pi recommended that RFC7521 is not required and we followed this advice",
+          "createdAt": "2025-06-17T19:09:21Z",
+          "updatedAt": "2025-06-17T19:09:21Z"
+        },
+        {
+          "author": "davux",
+          "authorAssociation": "NONE",
+          "body": "Thanks @paulbastian for the context -- I'm not a spec veteran, but moving attributes from body to header does indeed sound incompatible enough to justify breaking the link from a spec.\n\nReversely, I wonder what justified introducing that incompatibility in the first place. Relevant design and back-compatibility is sometimes a delicate balance -- you probably gathered advice at the time from people experienced in writing IETF specs. If you could share links to that discussion, it would make for very informative context in this issue.",
+          "createdAt": "2025-06-17T19:44:54Z",
+          "updatedAt": "2025-06-17T19:44:54Z"
         }
       ]
     },
@@ -8596,7 +8617,7 @@
     {
       "number": 112,
       "id": "PR_kwDOJaEkaM6VmKZu",
-      "title": "initial draft for challenge endpoint",
+      "title": "new proposal for challenge endpoint",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/112",
       "state": "OPEN",
       "author": "paulbastian",
@@ -8605,7 +8626,7 @@
       "labels": [],
       "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nPotentially Closes #109 ?\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-16T06:34:43Z",
+      "updatedAt": "2025-06-17T15:34:18Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
