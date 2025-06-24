@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 7 December 2025                                                
+Expires: 26 December 2025                                               
                                                               C. Bormann
                                                                   SPRIND
-                                                             5 June 2025
+                                                            24 June 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 December 2025.
+   This Internet-Draft will expire on 26 December 2025.
 
 Copyright Notice
 
@@ -417,7 +417,7 @@ Table of Contents
    meeting the processing rules as defined above.
 
    {
-     "typ": "oauth-client-attestation-pop",
+     "typ": "oauth-client-attestation-pop+jwt",
      "alg": "ES256"
    }
    .
