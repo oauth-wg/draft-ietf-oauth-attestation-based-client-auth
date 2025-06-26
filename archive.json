@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-24T00:13:14.236619+00:00",
+  "timestamp": "2025-06-26T00:13:09.572744+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2272,11 +2272,11 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [
-        "discuss"
+        "ready-for-pr"
       ],
       "body": "I think the \"attestation\" term in the draft name causes confusing and a wrong perception what this draft is about. \r\n\r\nIn my opinion, this draft evolves the concept RFC 7523 to allow use of JWTs bound to a key for client authentication. \r\n\r\nConsequently,  I suggest to rename the draft to \"Key-bound JWT Client Authentication\".",
       "createdAt": "2024-03-26T18:55:21Z",
-      "updatedAt": "2024-11-27T08:43:03Z",
+      "updatedAt": "2025-06-24T07:04:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -2299,6 +2299,13 @@
           "body": "Also related to #68 where I argue (or try to) that this draft is all about \"Key-bound JWT Client Authentication\" and not attestation per se.",
           "createdAt": "2024-11-27T08:43:02Z",
           "updatedAt": "2024-11-27T08:43:02Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As editors we believe the draft name fits the scope of this work, hence we don't believe it needs to be changed. Marking pending close.",
+          "createdAt": "2025-06-24T07:04:25Z",
+          "updatedAt": "2025-06-24T07:04:25Z"
         }
       ]
     },
@@ -2347,11 +2354,11 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "ready-for-pr"
+        "has-pr"
       ],
       "body": "",
       "createdAt": "2024-03-27T22:27:44Z",
-      "updatedAt": "2024-09-11T06:58:23Z",
+      "updatedAt": "2025-06-24T07:05:00Z",
       "closedAt": null,
       "comments": []
     },
@@ -2499,11 +2506,11 @@
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [
-        "discuss"
+        "ready-for-pr"
       ],
       "body": "OAuth2 chapter 4.1.3 Access Token Request says:\r\n\r\n>  client_id\r\n>         REQUIRED, if the client is not authenticating with the\r\n>         authorization server as described in [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1).\r\n\r\nbut then client assertion drafts make client_id optional https://datatracker.ietf.org/doc/html/rfc7521\r\n\r\nWould you agree that client_id should be optional in this draft, too?",
       "createdAt": "2024-07-26T20:24:32Z",
-      "updatedAt": "2025-06-11T06:20:18Z",
+      "updatedAt": "2025-06-24T07:12:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -2547,6 +2554,13 @@
           "body": "I also had trouble explaining why we have the client_id in the request, if it's already present inside the client attestation JWT.",
           "createdAt": "2025-06-11T06:19:55Z",
           "updatedAt": "2025-06-11T06:20:18Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Proposing to add text to section 6.3. Usage of Cleint Attestation at Token Endpoint, informative statement saying:\n- it's not required to send `client_id` in the Token Request body\n- if it's present in the Token Request body, then it MUST match with `sub` of Client Attestation JWT",
+          "createdAt": "2025-06-24T07:12:23Z",
+          "updatedAt": "2025-06-24T07:12:23Z"
         }
       ]
     },
@@ -2738,7 +2752,7 @@
       ],
       "body": "DPoP allows returning the DPoP nonce in any response using the DPoP-Nonce header.\n\nWould it be possible to also enable support for this in this specification.\n\nFor integration with OID4VCI we now have three nonces:\n- DPoP nonce\n- Client Attestation Nonce\n- Credential request/proof nonce \n\nIt would be great if we can bundle these in one request to the nonce endpoint. For DPoP I see no problems, but it seems incompatible with the method described in this specification",
       "createdAt": "2025-03-15T18:54:12Z",
-      "updatedAt": "2025-06-04T00:11:02Z",
+      "updatedAt": "2025-06-24T07:00:22Z",
       "closedAt": null,
       "comments": [
         {
@@ -2771,7 +2785,7 @@
       ],
       "body": "Filip Skokan at IETF 122:\n\nA good web application framework will discern between a preflight and a non-Preflight request and give the dev an option to handle the non-preflight.\n\nWhat this dance will do in a browser, since both the nonce-fetching and actual request is\n\n1) OPTIONS Preflight for the nonce-fetch\n\n2) nonce-fetch\n\n3) OPTIONS Preflight for the actual request\n\n4) actual request\n\nThe js client has no access to the preflight response so there's no option to make the preflight the nonce-value vessel. Of course at the point the actual request's preflight the nonce must be incorporated in the request.\n\n(meetecho messed up the list formatting)\n\nfix: since both the nonce-fetching and actual request * are not \"simple\" requests\n\nsee \"simple requests\" https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS#simple_requests",
       "createdAt": "2025-03-18T07:10:19Z",
-      "updatedAt": "2025-06-04T00:10:50Z",
+      "updatedAt": "2025-06-24T07:00:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -2818,7 +2832,7 @@
       ],
       "body": "Feedback from IETF 122: We should be more explicit and state that the client MUST support the nonce fetching mechanism.",
       "createdAt": "2025-03-18T07:13:54Z",
-      "updatedAt": "2025-06-04T00:10:39Z",
+      "updatedAt": "2025-06-24T07:00:37Z",
       "closedAt": null,
       "comments": []
     },
@@ -2836,7 +2850,7 @@
       ],
       "body": "Feedback from IETF 122: We should be more clear in the draft that the intention of the nonce is to guarantee freshness, not one-time use (which can be really hard to guarantee depending on deployment etc).",
       "createdAt": "2025-03-19T16:36:19Z",
-      "updatedAt": "2025-06-04T00:10:28Z",
+      "updatedAt": "2025-06-24T07:00:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -2853,7 +2867,7 @@
       "id": "I_kwDOJaEkaM6wl9zh",
       "title": "Steps (1) to (4) should be moved into an informative annex",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/105",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -2862,8 +2876,8 @@
       ],
       "body": "Steps (1) to (4) are described as follows:\n\n>    (1) The Client Instance generates a key (Client Instance Key) and\n>    optional further attestations (that are out of scope) to prove its\n>    authenticity to the Client Attester.\n> \n>    (2) The Client Instance sends this data to the Client Attester in\n>    request for a Client Attestation JWT.\n> \n>    (3) The Client Attester validates the Client Instance Key and\n>    optional further data.  It generates a signed Client Attestation JWT\n>    that is cryptographically bound to the Client Instance Key generated\n>    by the Client.  Therefore, the attestation is bound to this\n>    particular Client Instance.\n> \n>    (4) The Client Attester responds to the Client Instance by sending\n>    the Client Attestation JWT.\n\n\nSteps (1) to (4) are OPTIONAL while steps (2) and (4) are not described and hence cannot be implemented. \n\nThe current draft is only addressing a small part of the whole picture.\n\nAlternatively, the Client instance can be installed (downloaded) with one Client Attestation JWT that is already present.  \nLater on, the client will need to renew its original Client Attestation JWT before it expires.\n\nThe draft should either assume that the Client Attestation JWT is already present or should describe in details how it can be obtained.\n\nIf only a rough description is provided (as it is the case for the moment for steps (1) to (4) ), steps (1) to (4) should be taken out of the figure placed on page 3 and moved into an informative annex. The same approach should be made for the other alternative when the Client Attestation JWT is already present when installing/downloading the client from a trusted source.",
       "createdAt": "2025-04-01T08:46:43Z",
-      "updatedAt": "2025-06-06T08:20:58Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-24T06:56:52Z",
+      "closedAt": "2025-06-24T06:56:52Z",
       "comments": [
         {
           "author": "tplooker",
@@ -2878,6 +2892,13 @@
           "body": "I agree with Tobias, the draft orientates at what other OAuth drafts did for introduction and I believe this is good practice.",
           "createdAt": "2025-06-06T08:20:47Z",
           "updatedAt": "2025-06-06T08:20:47Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This issue has been marked as pending-close for 3 weeks and an explanation for the current text has been provided, closing.",
+          "createdAt": "2025-06-24T06:56:52Z",
+          "updatedAt": "2025-06-24T06:56:52Z"
         }
       ]
     },
@@ -2906,10 +2927,12 @@
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pending-close"
+      ],
       "body": "Suggest a re-word of this sentence to say something clearer... perhaps...\n\"The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an \"iat\" claim value that is deemed to increase risk of mis-use to a level they choose.\"\n\nLine 225 of current editors .md",
       "createdAt": "2025-05-05T16:02:28Z",
-      "updatedAt": "2025-06-06T08:19:02Z",
+      "updatedAt": "2025-06-24T06:55:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -2918,6 +2941,13 @@
           "body": "This language was inspired by [RFC7523](https://datatracker.ietf.org/doc/html/rfc7523#section-3) which is somewhat related to this draft.\n\n> The JWT MAY contain an \"iat\" (issued at) claim that identifies\n        the time at which the JWT was issued.  Note that the\n        authorization server may reject JWTs with an \"iat\" claim value\n        that is unreasonably far in the past.\n\nYour suggested text is more general but it doesn't really indicate the driver for deciding the risk which is the time represented by the `iat` value relative to the time of validation, which is what the current text focuses more on.",
           "createdAt": "2025-05-08T03:45:16Z",
           "updatedAt": "2025-05-08T03:45:16Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Adding pending close to this issue based on the above comment.",
+          "createdAt": "2025-06-24T06:55:58Z",
+          "updatedAt": "2025-06-24T06:55:58Z"
         }
       ]
     },
@@ -2935,7 +2965,7 @@
       ],
       "body": "It would be beneficial to describe that the Authorization Server can also decide whether to accept or reject a Client Attestation JWT.  It might also be beneficial to describe the AZ error response if a request is rejected based on Authorization Server policy.",
       "createdAt": "2025-05-05T16:24:14Z",
-      "updatedAt": "2025-06-04T11:07:03Z",
+      "updatedAt": "2025-06-24T07:00:02Z",
       "closedAt": null,
       "comments": [
         {
@@ -2982,7 +3012,7 @@
       ],
       "body": "After many discussions over the last months and especially OSW 2025, in -05 we introduced explicit nonce fetching using HTTP OPTIONS. On the mailing list and IETF 122 we got feedback that this may not be the best approach (#102), so here is another proposal how to advance the mechanisms for explicit nonce fetching in this draft:\n\n- remove the HTTP OPTIONS  mechanism\n- introduce a new, dedicated nonce/challenge endpoint, that enables explicit nonce/challenge fetching\n  - usage of the endpoint is optional, alternative being jti\n- we would add implementation and security consideration to compare three approaches\n  - 1. jti approach (client chosen random), AS needs to cache seen jti values in a sliding time window for replay protection -> this provides freshness and replay protection\n  - 2. challenge/nonce endpoint with self-contained nonces containing server-chosen timestamp -> this provides freshness but no replay protection within the accepted time window\n  - 3. challenge/nonce endpoint with some kind of binding to the session between AS and client -> this provides freshness and replay protection\n\nThe motivation behind this is that other approaches seem complicated and did not lead us to success, while OpenID4VCI already defines a nonce endpoint for the Credential Issuer. Therefore AS nonce endpoint may fit nicely to this concept with little overhead.\n\nMoreover, this would enable us to optionally provide DPoP nonces over this new nonce/challenge endpoint, which seem to present significant challenges for some architectures.\n\nWDYT?",
       "createdAt": "2025-05-07T14:00:09Z",
-      "updatedAt": "2025-06-04T00:10:16Z",
+      "updatedAt": "2025-06-24T07:00:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -3094,7 +3124,7 @@
       ],
       "body": "In the section about replay attack detection it states that \"The authorization server provides a nonce for the particular transaction and the client uses it for the \"nonce\" claim in the Client Attestation PoP JWT. The authorization server validates that the nonce matches for the transaction.\"  It is pretty unclear what is meant by \"transaction\" in this context.  It might be helpful to clarify the meaning of \"transaction\" in this context.  Would \"the particular OAuth2 Authorization flow\" cover it more precisely?\n\n\n\n",
       "createdAt": "2025-05-28T12:46:03Z",
-      "updatedAt": "2025-06-04T11:20:13Z",
+      "updatedAt": "2025-06-24T07:00:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -3122,10 +3152,12 @@
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Suggest more specific wording as \"traditional\" is not terribly clear.",
       "createdAt": "2025-05-28T12:49:54Z",
-      "updatedAt": "2025-06-04T11:16:25Z",
+      "updatedAt": "2025-06-24T06:58:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -3211,10 +3243,12 @@
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "We should create a small section describing the verification rules for the JWT/PoP.",
       "createdAt": "2025-06-06T08:16:16Z",
-      "updatedAt": "2025-06-06T08:18:41Z",
+      "updatedAt": "2025-06-24T07:02:19Z",
       "closedAt": null,
       "comments": []
     },
@@ -3230,7 +3264,7 @@
       "labels": [],
       "body": "In [AT Protocol](https://atproto.com/) we've recently published a proposal that takes a similar shape and fills similar use cases to attestation-based client authentication as described in the draft being worked on here.  It can be found here: [0010-client-assertion-backend](https://github.com/bluesky-social/proposals/tree/main/0010-client-assertion-backend).  Once the proposal is finalized, it could end up being widely adopted in the AT Protocol ecosystem, as we have many folks who want to author browser-based clients that are given the security and UX affordances of a confidential client.\n\nWe wanted to share our use case and our thinking with the hopes that we may be able to converge on something compatible with the work being done here.\n\nRather than proposing a new client authentication method, we opted to layer a small mechanism on top of the private_key_jwt method from [RFC 7523](https://datatracker.ietf.org/doc/rfc7523/).  It's quite limited:\n> [If] the `client_assertion` JWT contains a `cnf` claim using the `jkt` method (JWK Thumbprint Confirmation Method) then it MUST be validated by the AS against the public key of the request\u2019s DPoP proof.\n\nThe result is DPoP-bound client assertions, which fits neatly with existing DPoP-bound authorization flows, i.e. both authorization code and access token binding as described in [RFC 9449](https://datatracker.ietf.org/doc/rfc9449/).  We considered the need for separate client keys in the client attestation vs. the authorization flow in our proposal, as has been raised in #67 and more recently #74. We do not anticipate any practical issues with using a single PoP key and mechanism, but would be interested to continue getting to the bottom of that question.\n\nOn the flip side, we certainly see many benefits to using a single PoP mechanism across these OAuth flows.  We found the following benefits aligning on DPoP and private_key_jwt client authentication:\n - overall the specification becomes much smaller:\n   - answers questions around the nonce mechanism, as actively discussed in #101 and #110.\n   - supports authorization code binding, as discussed in #56.\n   - supports binding the PoP to the attestation used to authenticate, as discussed in #47.\n   - answers to the attack surface area when used in conjunction with DPoP-bound access tokens, as discussed in #69.\n - as a result it's more straightforward for client implementers, particularly those who already implement DPoP-bound access tokens, which we believe will continue to rise in popularity. Fewer novel PoP implementations on the client side has its security benefits too.\n\nThat's where we're currently at\u2014appreciate the consideration from this group, and the work being done on this draft.",
       "createdAt": "2025-06-07T21:29:12Z",
-      "updatedAt": "2025-06-23T08:17:31Z",
+      "updatedAt": "2025-06-24T06:58:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -3267,8 +3301,33 @@
           "body": "> The nonce retrieval method defined in https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html#section-7.2 would indeed work for us, though we would not be able to adopt that full spec. Too bad there isn't an RFC _just_ for the retrieval of nonces (that I know of).\n\nThere was https://datatracker.ietf.org/doc/draft-demarco-nonce-endpoint/ proposed a year ago and people didn't like that since it was too generic if I recall correctly. That is part of the reason why we tried to scope the whole mechanism within this draft clearly around the intended use-case.",
           "createdAt": "2025-06-23T08:17:30Z",
           "updatedAt": "2025-06-23T08:17:30Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree with @c2bo , extending `private_key_jwt` spec like this looks quite far-stretched and maybe dangerous, as this becomes basically a fundamental new client authentication mechanism, it deserves it's own identifier, as it wouldn't be possible to distinguish them otherwise in the metadata. We have been thinking about how to optionally leverage DPoP for this spec, see https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/69\nIn general, I think it makes sense to discuss on a call?",
+          "createdAt": "2025-06-24T06:58:46Z",
+          "updatedAt": "2025-06-24T06:58:46Z"
         }
       ]
+    },
+    {
+      "number": 124,
+      "id": "I_kwDOJaEkaM68_BkT",
+      "title": "Remove `exp` from the PoP",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/124",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "ready-for-pr"
+      ],
+      "body": "It became clear from the PR on challenge endpoint, that a mandatory `exp` in the Client-Attestation-PoP doesn't make sense any longer ",
+      "createdAt": "2025-06-24T07:01:46Z",
+      "updatedAt": "2025-06-24T07:02:38Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -8631,9 +8690,9 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nPotentially Closes #109 ?\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
+      "body": "Closes #73 \r\nCloses #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nCloses #109\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-17T15:34:18Z",
+      "updatedAt": "2025-06-24T07:05:35Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
@@ -8686,6 +8745,13 @@
           "body": "> I agree. Next steps afterwards should be making PoP exp optional/removed and the processing & verification to round it up. However, this is ready for the mailing list. Wdyt @tplooker\r\n\r\nI agree",
           "createdAt": "2025-06-16T06:27:06Z",
           "updatedAt": "2025-06-16T06:27:06Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@jricher would you be able to give this a review, as we've discussed this at EIC?",
+          "createdAt": "2025-06-24T06:39:07Z",
+          "updatedAt": "2025-06-24T06:39:07Z"
         }
       ],
       "reviews": [
@@ -9368,24 +9434,26 @@
       "id": "PR_kwDOJaEkaM6ZLPRx",
       "title": "Add missing +jwt in Client Attestation PoP JWT example",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/121",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomasdarimont",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Adds a missing+jwt in Client Attestation PoP JWT for consistency.",
       "createdAt": "2025-06-05T10:32:10Z",
-      "updatedAt": "2025-06-06T19:00:34Z",
+      "updatedAt": "2025-06-24T06:37:10Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "91861b0d00a86d2bf91d3e9ee9a04fa9333beefe",
       "headRepository": "thomasdarimont/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "fix/fix-client-pop-jwt-example",
       "headRefOid": "cca859bb29432f4287d1aa4d624e0b179054fdb7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-06-24T06:37:10Z",
+      "mergedAt": "2025-06-24T06:37:10Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "513ebddcbd90240c27e95709a9d4c4e3e9f4e2e7"
+      },
       "comments": [],
       "reviews": [
         {
