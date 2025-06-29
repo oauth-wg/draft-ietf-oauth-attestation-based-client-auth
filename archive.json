@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-26T00:13:09.572744+00:00",
+  "timestamp": "2025-06-29T00:14:53.435941+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -8692,7 +8692,7 @@
       "labels": [],
       "body": "Closes #73 \r\nCloses #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nCloses #109\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-24T07:05:35Z",
+      "updatedAt": "2025-06-26T04:22:09Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
@@ -9280,6 +9280,39 @@
               "updatedAt": "2025-06-13T16:02:17Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6wdSjb",
+          "commit": {
+            "abbreviatedOid": "32254ad"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-26T03:59:58Z",
+          "updatedAt": "2025-06-26T03:59:59Z",
+          "comments": [
+            {
+              "originalPosition": 147,
+              "body": "```suggestion\r\n  - manage a list of witnessed `challenge` values, similar to the previously described `jti` approach. Details how to implement such a data structure to maintain `challenge` values is given in [](#implementation-consideration-replay). This guarantees stronger replay protection with a challenge chosen by the Authorization Server itself, at the potential cost of an additional round-trip.\r\n```",
+              "createdAt": "2025-06-26T03:59:59Z",
+              "updatedAt": "2025-06-26T03:59:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6wdZj3",
+          "commit": {
+            "abbreviatedOid": "32254ad"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-06-26T04:22:09Z",
+          "updatedAt": "2025-06-26T04:22:09Z",
+          "comments": []
         }
       ]
     },
