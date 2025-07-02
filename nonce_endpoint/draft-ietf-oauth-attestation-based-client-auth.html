@@ -11,11 +11,11 @@
 <meta content="
        This specification defines an extension to the OAuth 2 protocol as defined in   which enables a Client Instance to include a key-bound attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to utilize this key-bound attestation to authenticate. 
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
@@ -24,7 +24,7 @@
     platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
+    requests 2.32.4
     setuptools 80.9.0
     wcwidth 0.2.13
 -->
@@ -1045,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">June 2025</td>
+<td class="right">July 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 16 December 2025</td>
+<td class="center">Expires 3 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-14" class="published">14 June 2025</time>
+<time datetime="2025-07-02" class="published">2 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-16">16 December 2025</time></dd>
+<dd class="expires"><time datetime="2026-01-03">3 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1919,7 +1919,7 @@ Location: https://Wallet.example.org/cb?
             <p id="section-11.1-2.2.1">The Authorization Server provides a challenge as an <code>OAuth-Client-Attestation-Challenge</code> in the challenge endpoint to the Client Instance and the Client uses it as a <code>challenge</code> value in the Client Attestation PoP JWT. The Authorization Server may chose to:<a href="#section-11.1-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.1-2.2.2.1">
-                <p id="section-11.1-2.2.2.1.1">manage a list of witnissed <code>challenge</code> values, similar to the previously described <code>jti</code> approach. Details how to implement such a data structure to maintain <code>challenge</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.3</a>. This guarantees stronger replay protection with a challenge chosen by the Authorization Server itself, at the potential cost of an additional round-trip.<a href="#section-11.1-2.2.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-11.1-2.2.2.1.1">manage a list of witnessed <code>challenge</code> values, similar to the previously described <code>jti</code> approach. Details how to implement such a data structure to maintain <code>challenge</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.3</a>. This guarantees stronger replay protection with a challenge chosen by the Authorization Server itself, at the potential cost of an additional round-trip.<a href="#section-11.1-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-11.1-2.2.2.2">
                 <p id="section-11.1-2.2.2.2.1">use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization Server.<a href="#section-11.1-2.2.2.2.1" class="pilcrow">¶</a></p>

@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 16 December 2025                                               
+Expires: 3 January 2026                                                 
                                                               C. Bormann
                                                                   SPRIND
-                                                            14 June 2025
+                                                             2 July 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 December 2025.
+   This Internet-Draft will expire on 3 January 2026.
 
 Copyright Notice
 
@@ -831,7 +831,7 @@ Table of Contents
       Instance and the Client uses it as a challenge value in the Client
       Attestation PoP JWT.  The Authorization Server may chose to:
 
-      -  manage a list of witnissed challenge values, similar to the
+      -  manage a list of witnessed challenge values, similar to the
          previously described jti approach.  Details how to implement
          such a data structure to maintain challenge values is given in
          Section 9.3.  This guarantees stronger replay protection with a
