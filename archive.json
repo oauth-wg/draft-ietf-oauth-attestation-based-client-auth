@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-29T00:14:53.435941+00:00",
+  "timestamp": "2025-07-03T00:13:24.645795+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -8692,13 +8692,13 @@
       "labels": [],
       "body": "Closes #73 \r\nCloses #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nCloses #109\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-06-26T04:22:09Z",
+      "updatedAt": "2025-07-02T19:55:51Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "32254ad440d38074713421f549463d5c928f3a37",
+      "headRefOid": "962e5d102077c6c5602c295ba7c7378ae5941b71",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
