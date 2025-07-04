@@ -222,9 +222,8 @@ The following content applies to the JWT Header:
 The following content applies to the JWT Claims Set:
 
 * `iss`: REQUIRED. The `iss` (subject) claim MUST specify client_id value of the OAuth Client.
-* `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation PoP is considered expired. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems. Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.
 * `aud`: REQUIRED. The `aud` (audience) claim MUST specify a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
-* `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server MAY ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.
+* `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server MAY utilize the `jti` value for replay attack detection, see [](#security-consideration-replay).
 * `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.
 * `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
 * `nbf`: OPTIONAL. The `nbf` (not before) claim MUST specify the time before which the Client Attestation PoP MUST NOT be accepted for processing.
@@ -251,7 +250,6 @@ The following example is the decoded header and payload of a JWT meeting the pro
   "iss": "https://client.example.com",
   "aud": "https://as.example.com",
   "nbf":1300815780,
-  "exp":1300819380,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
   "challenge" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
@@ -594,6 +592,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * rename nonce to challenge
 * rewrite security consideration on replay attacks
 * add implementation consideration on replay attacks
+* remove `exp` from Client Attestation PoP JWT
 
 -05
 
