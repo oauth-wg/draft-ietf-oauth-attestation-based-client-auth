@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 3 January 2026                                                 
+Expires: 6 January 2026                                                 
                                                               C. Bormann
                                                                   SPRIND
-                                                             2 July 2025
+                                                             5 July 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 January 2026.
+   This Internet-Draft will expire on 6 January 2026.
 
 Copyright Notice
 
@@ -432,7 +432,7 @@ Table of Contents
      "nbf":1300815780,
      "exp":1300819380,
      "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
-     "challenge" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
+     "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
    }
 
 6.  Client Attestation using a Header based syntax
@@ -515,8 +515,9 @@ Table of Contents
    Attestation is absent or not using an expected server-provided
    challenge, the value use_attestation_challenge can be used to
    indicate that an attestation with a server-provided challenge was
-   expected.  If the attestation was present but could not be
-   successfully verified, the value invalid_client_attestation is used.
+   expected.  If the attestation and proof of possession was present but
+   could not be successfully verified, the value
+   invalid_client_attestation is used.
 
 6.3.  Client Attestation at the Token Endpoint
 
@@ -706,20 +707,25 @@ Table of Contents
 
 8.1.  Providing Challenges on Previous Responses
 
-   The Authorization Server MAY provide a fresh Challenge on any
-   previous successful response using a HTTP header-based syntax.  The
-   HTTP header field parameter MUST be named "OAuth-Client-Attestation-
-   Challenge" and contain the value of the Challenge.  The Client MUST
-   use this new Challenge for the next OAuth-Client-Attestation-PoP.
-   Note that this also includes error responses.
+   The Authorization Server MAY provide a fresh Challenge with any HTTP
+   response using a HTTP header-based syntax.  The HTTP header field
+   parameter MUST be named "OAuth-Client-Attestation-Challenge" and
+   contain the value of the Challenge.  The Client MUST use this new
+   Challenge for the next OAuth-Client-Attestation-PoP.
 
    The following is a non-normative example of an Authorization Response
    containing a fresh Challenge:
 
-   HTTP/1.1 302 Found
+   HTTP/1.1 200 OK
+   Content-Type: application/json
+   Cache-Control: no-store
    OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
-   Location: https://Wallet.example.org/cb?
-     code=SplxlOBeZQQYbYS6WxSbIA
+
+   {
+     "access_token": "2YotnFZFEjr1zCsicMWpAA",
+     "token_type": "Bearer",
+     "expires_in": 3600
+   }
 
 9.  Implementation Considerations
 
