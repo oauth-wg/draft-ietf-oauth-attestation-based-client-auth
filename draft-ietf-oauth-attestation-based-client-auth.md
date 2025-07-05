@@ -253,7 +253,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
   "nbf":1300815780,
   "exp":1300819380,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
-  "challenge" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
+  "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
 ~~~
 
@@ -318,7 +318,7 @@ To validate an HTTP request which contains the client attestation headers, the r
 2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-An error parameter according to Section 3 of {{RFC6750}} SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value `use_attestation_challenge` can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation was present but could not be successfully verified, the value `invalid_client_attestation` is used.
+An error parameter according to Section 3 of {{RFC6750}} SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value `use_attestation_challenge` can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value `invalid_client_attestation` is used.
 
 ## Client Attestation at the Token Endpoint {#token-endpoint}
 
@@ -465,15 +465,21 @@ Content-Type: application/json
 
 ## Providing Challenges on Previous Responses
 
-The Authorization Server MAY provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP. Note that this also includes error responses.
+The Authorization Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.
 
 The following is a non-normative example of an Authorization Response containing a fresh Challenge:
 
 ~~~
-HTTP/1.1 302 Found
+HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
 OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
-Location: https://Wallet.example.org/cb?
-  code=SplxlOBeZQQYbYS6WxSbIA
+
+{
+  "access_token": "2YotnFZFEjr1zCsicMWpAA",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
 ~~~
 
 
