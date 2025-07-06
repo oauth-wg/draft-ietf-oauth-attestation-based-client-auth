@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-03T00:13:24.645795+00:00",
+  "timestamp": "2025-07-06T00:14:43.390310+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2267,17 +2267,17 @@
       "id": "I_kwDOJaEkaM6Dq8a3",
       "title": "Propose to change the draft name",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/71",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tlodderstedt",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [
-        "ready-for-pr"
+        "pending-close"
       ],
       "body": "I think the \"attestation\" term in the draft name causes confusing and a wrong perception what this draft is about. \r\n\r\nIn my opinion, this draft evolves the concept RFC 7523 to allow use of JWTs bound to a key for client authentication. \r\n\r\nConsequently,  I suggest to rename the draft to \"Key-bound JWT Client Authentication\".",
       "createdAt": "2024-03-26T18:55:21Z",
-      "updatedAt": "2025-06-24T07:04:38Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-04T06:42:43Z",
+      "closedAt": "2025-07-04T06:42:43Z",
       "comments": [
         {
           "author": "adeinega",
@@ -2504,13 +2504,15 @@
       "state": "OPEN",
       "author": "Sakurann",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "tplooker"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "OAuth2 chapter 4.1.3 Access Token Request says:\r\n\r\n>  client_id\r\n>         REQUIRED, if the client is not authenticating with the\r\n>         authorization server as described in [Section 3.2.1](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2.1).\r\n\r\nbut then client assertion drafts make client_id optional https://datatracker.ietf.org/doc/html/rfc7521\r\n\r\nWould you agree that client_id should be optional in this draft, too?",
       "createdAt": "2024-07-26T20:24:32Z",
-      "updatedAt": "2025-06-24T07:12:35Z",
+      "updatedAt": "2025-07-04T06:49:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -2923,7 +2925,7 @@
       "id": "I_kwDOJaEkaM61NJTE",
       "title": "What is \"unreasonably far in the past\"?",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/108",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -2932,8 +2934,8 @@
       ],
       "body": "Suggest a re-word of this sentence to say something clearer... perhaps...\n\"The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an \"iat\" claim value that is deemed to increase risk of mis-use to a level they choose.\"\n\nLine 225 of current editors .md",
       "createdAt": "2025-05-05T16:02:28Z",
-      "updatedAt": "2025-06-24T06:55:58Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-04T06:41:45Z",
+      "closedAt": "2025-07-04T06:41:45Z",
       "comments": [
         {
           "author": "tplooker",
@@ -3151,13 +3153,15 @@
       "state": "OPEN",
       "author": "Macke",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "tplooker"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "Suggest more specific wording as \"traditional\" is not terribly clear.",
       "createdAt": "2025-05-28T12:49:54Z",
-      "updatedAt": "2025-06-24T06:58:45Z",
+      "updatedAt": "2025-07-04T06:43:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -3242,13 +3246,15 @@
       "state": "OPEN",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
-      "assignees": [],
+      "assignees": [
+        "c2bo"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "We should create a small section describing the verification rules for the JWT/PoP.",
       "createdAt": "2025-06-06T08:16:16Z",
-      "updatedAt": "2025-06-24T07:02:19Z",
+      "updatedAt": "2025-07-04T06:50:44Z",
       "closedAt": null,
       "comments": []
     },
@@ -3319,13 +3325,15 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulbastian"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "It became clear from the PR on challenge endpoint, that a mandatory `exp` in the Client-Attestation-PoP doesn't make sense any longer ",
       "createdAt": "2025-06-24T07:01:46Z",
-      "updatedAt": "2025-06-24T07:02:38Z",
+      "updatedAt": "2025-07-04T06:53:00Z",
       "closedAt": null,
       "comments": []
     }
@@ -8692,13 +8700,13 @@
       "labels": [],
       "body": "Closes #73 \r\nCloses #110 \r\nCloses #104 \r\nCloses #102 \r\nCloses #101 \r\nCloses #103 \r\nCloses #116 \r\nCloses #109\r\n\r\n- [x] include some security consideration comparing freshness and replay prevention @paulbastian \r\n- [ ] discuss option to include some state parameter to the challenge request \r\n- [x] IANA registry entry @tplooker \r\n- [x] adapt header based syntax to Attestation-Challenge @paulbastian \r\n- [x] clarify that the response using the HTTP header may also be an error @c2bo \r\n- [x] introduce an use_attestation_challenge OAuth error @c2bo \r\n- [x] introduce invalid_client_attestation @c2bo \r\n- [x] consider namespacing headers etc @tplooker ",
       "createdAt": "2025-05-09T14:25:35Z",
-      "updatedAt": "2025-07-02T19:55:51Z",
+      "updatedAt": "2025-07-05T17:28:29Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0d1e8330a3490fbc9ad29b6e35b031288852dbf1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "nonce_endpoint",
-      "headRefOid": "962e5d102077c6c5602c295ba7c7378ae5941b71",
+      "headRefOid": "66fc8bac38ab2d7cd94f3c371765571d481d07b9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -9313,6 +9321,148 @@
           "createdAt": "2025-06-26T04:22:09Z",
           "updatedAt": "2025-06-26T04:22:09Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6yDVtt",
+          "commit": {
+            "abbreviatedOid": "962e5d1"
+          },
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "Review as per @paulbastian's request. \ud83d\ude4f ",
+          "createdAt": "2025-07-04T13:18:05Z",
+          "updatedAt": "2025-07-04T13:48:25Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "```suggestion\n  \"challenge\": \"5c1a9e10-29ff-4c2b-ae73-57c0957c09c4\"\n```",
+              "createdAt": "2025-07-04T13:18:05Z",
+              "updatedAt": "2025-07-04T13:48:25Z"
+            },
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\nAn error parameter according to Section 3 of {{RFC6750}} SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value `use_attestation_challenge` can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value `invalid_client_attestation` is used.\n```",
+              "createdAt": "2025-07-04T13:24:03Z",
+              "updatedAt": "2025-07-04T13:48:25Z"
+            },
+            {
+              "originalPosition": 84,
+              "body": "Can we make it optionally REQUIRED for the purposes of this specification but generally OPTIONAL if this endpoint happens to find its use in future extensions?",
+              "createdAt": "2025-07-04T13:28:50Z",
+              "updatedAt": "2025-07-04T13:48:25Z"
+            },
+            {
+              "originalPosition": 103,
+              "body": "```suggestion\nThe Authorization Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named \"OAuth-Client-Attestation-Challenge\" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.\n```",
+              "createdAt": "2025-07-04T13:30:11Z",
+              "updatedAt": "2025-07-04T13:48:25Z"
+            },
+            {
+              "originalPosition": 112,
+              "body": "This is a very poor example as it indicates a 302 from an authorization endpoint to the user-agent which the client has no way of getting the `OAuth-Client-Attestation-Challenge` out of. Please use an example such as a 200 OK from the token endpoint.",
+              "createdAt": "2025-07-04T13:32:31Z",
+              "updatedAt": "2025-07-04T13:48:25Z"
+            },
+            {
+              "originalPosition": 142,
+              "body": "> An Authorization Server MUST implement measures to detect replay attacks by the Client Instance.\n\nThis seems overly strong. I don't think we need replay protection requirements any stronger for this auth method than we have for DPoP or private_key_jwt do. In there IIRC it's a recommendation at best.",
+              "createdAt": "2025-07-04T13:40:55Z",
+              "updatedAt": "2025-07-04T13:48:25Z"
+            },
+            {
+              "originalPosition": 156,
+              "body": "A fresh challenge should mean the `iat` value check may be relaxed. Just like in DPoP.\r\n\r\nQuoting from DPoP\r\n\r\n> Because clock skews between servers and clients may be large, servers MAY limit DPoP proof lifetimes by using server-provided nonce values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Nonces created in this way yield the same result even in the face of arbitrarily large clock skews.\r\n\r\n> The creation time of the JWT, as determined by either the iat claim or a server managed timestamp via the nonce claim, is within an acceptable window",
+              "createdAt": "2025-07-04T13:43:48Z",
+              "updatedAt": "2025-07-04T14:11:22Z"
+            },
+            {
+              "originalPosition": 142,
+              "body": "Furthermore, it should be permitted to re-use the same challenge if new one was not received or manually retrieved.\n\nQuoting from DPoP:\n\n> Server-provided nonces are an effective means for further reducing the chances for successful DPoP proof replay. Unlike cryptographic nonces, it is acceptable for clients to use the same nonce multiple times and for the server to accept the same nonce multiple times. As long as the jti value is tracked and duplicates are rejected for the lifetime of the nonce, there is no additional risk of token replay.\n\nWhat i'm looking for here is flexibility in the deployed protection proportional to the use case this method is deployed in.",
+              "createdAt": "2025-07-04T13:46:18Z",
+              "updatedAt": "2025-07-04T13:48:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6yF4UD",
+          "commit": {
+            "abbreviatedOid": "962e5d1"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-04T16:59:14Z",
+          "updatedAt": "2025-07-04T16:59:14Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "Does this look good to you @panva ?\r\n\r\n```suggestion\r\nHTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nOAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ\r\n\r\n{\r\n  \"access_token\": \"2YotnFZFEjr1zCsicMWpAA\",\r\n  \"token_type\": \"Bearer\",\r\n  \"expires_in\": 3600\r\n}\r\n```",
+              "createdAt": "2025-07-04T16:59:14Z",
+              "updatedAt": "2025-07-05T07:39:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6yGOPi",
+          "commit": {
+            "abbreviatedOid": "962e5d1"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-04T17:41:18Z",
+          "updatedAt": "2025-07-04T17:41:18Z",
+          "comments": [
+            {
+              "originalPosition": 84,
+              "body": "Hmm do you have a proposal on wording for this?",
+              "createdAt": "2025-07-04T17:41:18Z",
+              "updatedAt": "2025-07-04T17:41:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6yGQja",
+          "commit": {
+            "abbreviatedOid": "962e5d1"
+          },
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-04T17:50:20Z",
+          "updatedAt": "2025-07-04T17:50:21Z",
+          "comments": [
+            {
+              "originalPosition": 84,
+              "body": "Smth like this?\r\n\r\n> OPTIONAL. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt). REQUIRED if the authorization server supports {{this specification/attestation based client auth}}. ",
+              "createdAt": "2025-07-04T17:50:21Z",
+              "updatedAt": "2025-07-04T17:50:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6yGpCP",
+          "commit": {
+            "abbreviatedOid": "962e5d1"
+          },
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-04T18:45:20Z",
+          "updatedAt": "2025-07-04T18:45:20Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "```http\r\nHTTP/1.1 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-store\r\nOAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ\r\n\r\n{\r\n  \"access_token\": \"2YotnFZFEjr1zCsicMWpAA\",\r\n  \"token_type\": \"Bearer\",\r\n  \"expires_in\": 3600\r\n}\r\n```",
+              "createdAt": "2025-07-04T18:45:20Z",
+              "updatedAt": "2025-07-04T18:46:16Z"
+            }
+          ]
         }
       ]
     },
@@ -9529,6 +9679,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 125,
+      "id": "PR_kwDOJaEkaM6dZAEF",
+      "title": "Remove expr from pop",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/125",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #124 ",
+      "createdAt": "2025-07-04T07:46:54Z",
+      "updatedAt": "2025-07-04T07:46:55Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "513ebddcbd90240c27e95709a9d4c4e3e9f4e2e7",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "remove_expr_from_pop",
+      "headRefOid": "09e2be735aeeec071d736d1aab6cd825995f4860",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
