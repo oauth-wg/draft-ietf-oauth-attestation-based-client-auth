@@ -535,6 +535,10 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 # Document History
 
+-06
+
+* clarify usage of client attestation outside of oauth2 applications
+
 -05
 
 * add nonce endpoint
@@ -542,7 +546,6 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * improve introduction
 * rename client backend to client attester
 * fix missing typ header in examples
-* clarify usage of client attestation outside of oauth2 applications
 
 -04
 
