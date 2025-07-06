@@ -539,6 +539,10 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 # Document History
 
+-06
+
+* clarify client_id processing in token request with client attestation
+
 -05
 
 * add nonce endpoint
