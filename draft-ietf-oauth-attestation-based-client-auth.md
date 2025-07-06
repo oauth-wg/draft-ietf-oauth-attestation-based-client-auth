@@ -231,9 +231,11 @@ The following additional rules apply:
 
 2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
-3.  The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
+3. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
 
-4.  The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+4. The value of the `iss` claim, representing the client_id MUST match the value of the `sub` claim in the corresponding Client Attestation JWT.
+
+5. The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
