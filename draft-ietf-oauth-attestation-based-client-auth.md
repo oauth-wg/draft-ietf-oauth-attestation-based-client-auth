@@ -27,7 +27,8 @@ author:
     email: tobias.looker@mattr.global
  -
     fullname: Paul Bastian
-    email: paul.bastian@bdr.de
+    organization: Bundesdruckerei
+    email: paul.bastian@posteo.de
  -
     fullname: Christian Bormann
     organization: SPRIND
