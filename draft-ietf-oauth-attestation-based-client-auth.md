@@ -320,6 +320,8 @@ While usage of the the client attestation mechanism defined by this draft can be
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.
 
+If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
+
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
 ~~~
