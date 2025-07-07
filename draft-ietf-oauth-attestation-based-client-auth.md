@@ -532,7 +532,9 @@ An Authorization Server SHOULD implement measures to detect replay attacks by th
   - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
   - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.
 
-It is important for successful replay attack detection to have considerable time synchronization between Authorization Server and the Client. Furthermore, the Authorization Server MUST reject Client Attestation PoP JWTs that have `iat` values too far in the future or past beyond an agreeable time difference.
+Because clock skews between servers and clients may be large, Authorization Servers MAY limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.
+
+In any case the Authorization Server SHOULD ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.
 
 The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
 
