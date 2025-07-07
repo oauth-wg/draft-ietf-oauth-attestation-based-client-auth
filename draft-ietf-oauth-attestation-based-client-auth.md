@@ -627,6 +627,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * rewrite security consideration on replay attacks
 * add implementation consideration on replay attacks
 * remove `exp` from Client Attestation PoP JWT
+* add verification and processing rules
 
 -05
 
@@ -635,7 +636,6 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * improve introduction
 * rename client backend to client attester
 * fix missing typ header in examples
-* add verification and processing rules
 
 -04
 
