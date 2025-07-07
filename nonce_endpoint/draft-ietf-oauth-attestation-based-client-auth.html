@@ -1944,8 +1944,9 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             </ul>
 </li>
         </ul>
-<p id="section-11.1-3">It is important for successful replay attack detection to have considerable time synchronization between Authorization Server and the Client. Furthermore, the Authorization Server <span class="bcp14">MUST</span> reject Client Attestation PoP JWTs that have <code>iat</code> values too far in the future or past beyond an agreeable time difference.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
-<p id="section-11.1-4">The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The <code>jti</code> value is mandatory and hence acts as a default fallback.<a href="#section-11.1-4" class="pilcrow">¶</a></p>
+<p id="section-11.1-3">Because clock skews between servers and clients may be large, Authorization Servers <span class="bcp14">MAY</span> limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
+<p id="section-11.1-4">In any case the Authorization Server <span class="bcp14">SHOULD</span> ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.<a href="#section-11.1-4" class="pilcrow">¶</a></p>
+<p id="section-11.1-5">The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The <code>jti</code> value is mandatory and hence acts as a default fallback.<a href="#section-11.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
