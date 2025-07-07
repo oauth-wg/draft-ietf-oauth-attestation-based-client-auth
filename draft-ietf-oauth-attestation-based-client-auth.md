@@ -222,7 +222,7 @@ The following content applies to the JWT Header:
 
 The following content applies to the JWT Claims Set:
 
-* `iss`: REQUIRED. The `iss` (subject) claim MUST specify client_id value of the OAuth Client.
+* `iss`: REQUIRED. The `iss` (issuer) claim MUST specify client_id value of the OAuth Client.
 * `aud`: REQUIRED. The `aud` (audience) claim MUST specify a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
 * `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the `jti` value for replay attack detection, see [](#security-consideration-replay).
 * `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.
@@ -235,9 +235,11 @@ The following additional rules apply:
 
 2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
-3.  The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
+3. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
 
-4.  The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+4. The value of the `iss` claim, representing the client_id MUST match the value of the `sub` claim in the corresponding Client Attestation JWT.
+
+5. The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -324,6 +326,8 @@ An error parameter according to Section 3 of {{RFC6750}} SHOULD be included to i
 While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage within the token request as defined by {{RFC6749}} has particular additional considerations outlined below.
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.
+
+If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
@@ -597,6 +601,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -06
 
+* clarify client_id processing in token request with client attestation
 * clarify usage of client attestation outside of oauth2 applications
 * add oauth error response values `invalid_client_attestation` and `use_attestation_challenge`
 * revert the HTTP OPTIONS mechanism to fetch nonces and add a dedicated challenge endpoint
