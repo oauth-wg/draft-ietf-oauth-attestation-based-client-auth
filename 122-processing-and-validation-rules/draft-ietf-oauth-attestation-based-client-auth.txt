@@ -765,7 +765,15 @@ Table of Contents
 
    10.  The audience claim in the Client Attestation PoP JWT is the
         issuer identifier URL of the authorization server as described
-        in [RFC8414] .
+        in [RFC8414].
+
+   11.  The Client Attestation JWT is fresh enough for the policies of
+        the authorization server by checking the iat or exp claims.
+
+   12.  Depending on the security requirements of the deployment,
+        additional checks to guarantee replay protection for the Client
+        Attestation PoP JWT might need to be applied (see Section 12.1
+        for more details).
 
 10.  Implementation Considerations
 
