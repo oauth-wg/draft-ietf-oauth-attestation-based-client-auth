@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 7 January 2026                                                 
+Expires: 8 January 2026                                  Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                             6 July 2025
+                                                             7 July 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2026.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -91,22 +91,25 @@ Table of Contents
    7.  Concatenated Serialization for Client Attestations
      7.1.  Concatenated Serialization Format
      7.2.  Validating the Concatenated Serialization
-   8.  Nonce Retrieval
+   8.  Challenge Retrieval
+     8.1.  Providing Challenges on Previous Responses
    9.  Verification and Processing
    10. Implementation Considerations
      10.1.  Reuse of a Client Attestation JWT
      10.2.  Refresh token binding
      10.3.  Web Server Default Maximum HTTP Header Sizes
      10.4.  Rotation of Client Instance Key
+     10.5.  Replay Attack Detection
    11. Privacy Considerations
      11.1.  Client Instance Tracking Across Authorization Servers
    12. Security Considerations
-     12.1.  Replay Attack Detection
+     12.1.  Replay Attacks
    13. Appendix A IANA Considerations
      13.1.  OAuth Parameters Registration
-     13.2.  Registration of attest_jwt_client_auth Token Endpoint
+     13.2.  OAuth Extensions Error Registration
+     13.3.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     13.3.  HTTP Field Name Registration
+     13.4.  HTTP Field Name Registration
    14. References
      14.1.  Normative References
      14.2.  Informative References
@@ -231,6 +234,10 @@ Table of Contents
 
    Client Attester:  An entity that authenticates a Client Instance and
       attests it by issuing a Client Attestation JWT.
+
+   Challenge:  A String that is the input to a cryptographic challenge-
+      response pattern.  This is traditionally called a nonce within
+      OAuth.
 
 4.  Relation to RATS
 
@@ -363,13 +370,6 @@ Table of Contents
    *  iss: REQUIRED.  The iss (subject) claim MUST specify client_id
       value of the OAuth Client.
 
-   *  exp: REQUIRED.  The exp (expiration time) claim MUST specify the
-      time at which the Client Attestation PoP is considered expired.
-      The authorization server MUST reject any JWT with an expiration
-      time that has passed, subject to allowable clock skew between
-      systems.  Note that the authorization server may reject JWTs with
-      an "exp" claim value that is unreasonably far in the future.
-
    *  aud: REQUIRED.  The aud (audience) claim MUST specify a value that
       identifies the authorization server as an intended audience.  The
       [RFC8414] issuer identifier URL of the authorization server MUST
@@ -378,15 +378,12 @@ Table of Contents
 
    *  jti: REQUIRED.  The jti (JWT identifier) claim MUST specify a
       unique identifier for the Client Attestation PoP.  The
-      authorization server MAY ensure that JWTs are not replayed by
-      maintaining the set of used "jti" values for the length of time
-      for which the JWT would be considered valid based on the
-      applicable "exp" instant.
+      authorization server can utilize the jti value for replay attack
+      detection, see Section 12.1.
 
-   *  nonce: OPTIONAL.  The nonce (nonce) claim MUST specify a String
-      value that is provided by the authorization server to associate
-      the Client Attestation PoP JWT with a particular transaction and
-      prevent replay attacks.
+   *  challenge: OPTIONAL.  The challenge (challenge) claim MUST specify
+      a String value that is provided by the authorization server for
+      the client to include in the Client Attestation PoP JWT.
 
    *  iat: OPTIONAL.  The iat (issued at) claim MUST specify the time at
       which the Client Attestation PoP was issued.  Note that the
@@ -425,10 +422,9 @@ Table of Contents
    {
      "iss": "https://client.example.com",
      "aud": "https://as.example.com",
-     "nbf": 1300815780,
-     "exp": 1300819380,
+     "nbf":1300815780,
      "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
-     "nonce" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
+     "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
    }
 
 6.  Client Attestation using a Header based syntax
@@ -505,6 +501,15 @@ Table of Contents
        OAuth-Client-Attestation-PoP HTTP header verifies with the Client
        Instance Key contained in the cnf claim of the Client Attestation
        JWT obtained from the OAuth-Client-Attestation HTTP header.
+
+   An error parameter according to Section 3 of [RFC6750] SHOULD be
+   included to indicate why a request was declined.  If the Client
+   Attestation is absent or not using an expected server-provided
+   challenge, the value use_attestation_challenge can be used to
+   indicate that an attestation with a server-provided challenge was
+   expected.  If the attestation and proof of possession was present but
+   could not be successfully verified, the value
+   invalid_client_attestation is used.
 
 6.3.  Client Attestation at the Token Endpoint
 
@@ -641,39 +646,80 @@ Table of Contents
        in the cnf claim of the Client Attestation JWT obtained before
        the '~' character.
 
-8.  Nonce Retrieval
+8.  Challenge Retrieval
 
-   This specification defines header fields that allow a Client to
-   request a fresh nonce value to be used in the OAuth-Client-
-   Attestation-PoP.  The nonce is opaque to the client.
+   This section defines an optional mechanism that allows a Client to
+   request a fresh Challenge from the Authorization Server to be
+   included in the Client Attestation PoP JWT.  This construct may be
+   similar or equivalent to a nonce, see terminology.  The value of the
+   challenge is opaque to the client.
 
-   An Authorization Server compliant with this specification SHOULD
-   signal via the metadata entry client_attestation_pop_nonce_required
-   which endpoints support and expect a server-provided nonce.  The
-   client MUST retrieve a nonce before other calls to this endpoint and
-   MUST use this nonce for the Client Attestation PoP.
+   An Authorization Server MAY offer a challenge endpoint for Clients to
+   fetch Challenges in the context of this specification.  If the
+   Authorization Server supports metadata as defined in [RFC8414], it
+   MUST signal support for the challenge endpoint by including the
+   metadata entry challenge_endpoint containing the URL of the endpoint
+   as its value.  If the Authorization Server offers a challenge
+   endpoint, the Client MUST retrieve a challenge and MUST use this
+   challenge in the OAuth-Attestation-PoP as defined in (#client-
+   attestation-pop-jwt).
 
-   A Request to an endpoint supporting the server-provided nonce MUST
-   include the attestation-nonce-request field name with the value true
-   and use the HTTP method of type OPTIONS (without payload) to actively
-   request a nonce.  The server answers with an HTTP Response with
-   status code 200 without body, but sets the header field attestation-
-   nonce to the nonce.
-
-   The client MUST use this nonce in the OAuth-Attestation-PoP as
-   defined in Section 5.2.
+   A request for a Challenge is made by sending an HTTP POST request to
+   the URL provided in the challenge_endpoint parameter of the
+   Authorization Server metadata.
 
    The following is a non-normative example of a request:
 
-   OPTIONS /as/par HTTP/1.1
+   POST /as/challenge HTTP/1.1
    Host: as.example.com
-   attestation-nonce-request: true
+   Accept: application/json
 
-   the following is a non-normative example of a response:
+   The Authorization Server provides a Challenge in the HTTP response
+   with a 200 status code and the following parameters included in the
+   message body of the HTTP response using the application/json media
+   type: * attestation_challenge: REQUIRED if the authorization server
+   supports Client Attestations and server provided challenges as
+   described in this document.  String containing a Challenge to be used
+   in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-
+   jwt).  The intention of this element not being required in other
+   circumstances is to preserve the ability for the challenge endpoint
+   to be used in other applications unrelated to client attestations.
+
+   The Authorization Server MUST make the response uncacheable by adding
+   a Cache-Control header field including the value no-store.  The
+   Authorization Server MAY add additional challenges or data.
+
+   The following is a non-normative example of a response:
 
    HTTP/1.1 200 OK
    Host: as.example.com
-   attestation-nonce: AYjcyMzY3ZDhiNmJkNTZ
+   Content-Type: application/json
+
+   {
+     "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
+   }
+
+8.1.  Providing Challenges on Previous Responses
+
+   The Authorization Server MAY provide a fresh Challenge with any HTTP
+   response using a HTTP header-based syntax.  The HTTP header field
+   parameter MUST be named "OAuth-Client-Attestation-Challenge" and
+   contain the value of the Challenge.  The Client MUST use this new
+   Challenge for the next OAuth-Client-Attestation-PoP.
+
+   The following is a non-normative example of an Authorization Response
+   containing a fresh Challenge:
+
+   HTTP/1.1 200 OK
+   Content-Type: application/json
+   Cache-Control: no-store
+   OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
+
+   {
+     "access_token": "2YotnFZFEjr1zCsicMWpAA",
+     "token_type": "Bearer",
+     "expires_in": 3600
+   }
 
 9.  Verification and Processing
 
@@ -765,6 +811,34 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
+10.5.  Replay Attack Detection
+
+   Authorization Servers implementing measures to detect replay attacks
+   as described in Section 12.1 require efficient data structures to
+   manage large amounts of challenges for use cases with high volumes of
+   transactions.  To limit the size of the data structure, the
+   Authorization Server should use a sliding window, allowing Client
+   Attestation PoPs within a certain time window, in which the seen
+   challenge or jti values are stored, but discarded afterwards.  To
+   ensure security, Client Attestation PoPs outside this time window
+   MUST be rejected by the Authorization Server.  The allowed window is
+   determined by the iat of the Client Attestation PoP and the sliding
+   window time duration chosen by the Authorization Server.  These data
+   structures need to:
+
+   *  search the data structure to validate whether a challenge form a
+      Client Attestation PoP has been previously seen
+
+   *  insert the new challenges from the Client Attestation PoP if the
+      search returned no result
+
+   *  delete the challenges after the Client Attestation PoP has passed
+      the sliding time window
+
+   A trie (also called prefix tree), or a patricia trie (also called
+   radix tree) is a RECOMMENDED data structures to implement such a
+   mechanism.
+
 11.  Privacy Considerations
 
 11.1.  Client Instance Tracking Across Authorization Servers
@@ -781,39 +855,70 @@ Table of Contents
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-12.1.  Replay Attack Detection
+12.1.  Replay Attacks
 
-   The following mechanisms exist within this client authentication
-   method in order to allow an authorization server to detect replay
-   attacks for presented client attestation PoPs:
+   An Authorization Server SHOULD implement measures to detect replay
+   attacks by the Client Instance.  In the context of this
+   specification, this means to detect that an attacker is resending the
+   same Client Attestation PoP JWT in multiple requests.  The following
+   options are RECOMMENDED for this client authentication method:
 
-   *  The client uses "jti" (JWT ID) claims for the Client Attestation
-      PoP JWT and the authorization server maintains a list of used
-      (seen) "jti" values for the time of which the JWT would be
-      considered valid based on the applicable "exp" claim.  If any
-      Client Attestation PoP JWT would be replayed, the authorization
-      server would recognize the "jti" and respond with an
-      authentication error.
+   *  The Authorization Server manages a list of witnessed jti values of
+      the Client Attestation PoP JWT for the time window of which the
+      JWT would be considered valid.  This sliding time window is based
+      on the iat of the Client Attestation PoP and and the duration
+      chosen by the Authorization Server.  If any Client Attestation PoP
+      JWT would be replayed, the Authorization Server would recognize
+      the jti value in the list and respond with an authentication
+      error.  Details how to implement such a data structure to maintain
+      jti values is given in Section 10.5.
 
-   *  The authorization server provides a nonce for the particular
-      transaction and the client uses it for the "nonce" claim in the
-      Client Attestation PoP JWT.  The authorization server validates
-      that the nonce matches for the transaction.  This approach may
-      require an additional roundtrip in the protocol.  The
-      authorization server MUST ensure that the nonce provides
-      sufficient entropy.
+   *  The Authorization Server provides a challenge as an OAuth-Client-
+      Attestation-Challenge in the challenge endpoint to the Client
+      Instance and the Client uses it as a challenge value in the Client
+      Attestation PoP JWT.  The Authorization Server may chose to:
 
-   *  The authorization server may expect the usage of a nonce in the
-      Client Attestation PoP JWT, but instead of providing the nonce
-      explicitly, the client may implicitly reuse an existing artefact,
-      e.g. the authorization code.  The authorization server MUST ensure
-      that the nonce provides sufficient entropy.
+      -  manage a list of witnessed challenge values, similar to the
+         previously described jti approach.  Details how to implement
+         such a data structure to maintain challenge values is given in
+         Section 10.5.  This guarantees stronger replay protection with
+         a challenge chosen by the Authorization Server itself, at the
+         potential cost of an additional round-trip.
 
-   The approach using a nonce explicitly provided by the authorization
-   server gives stronger replay attack detection guarantees, however
-   support by the authorization server is OPTIONAL to simplify mandatory
-   implementation requirements.  The "jti" method is mandatory and hence
-   acts as a default fallback.
+      -  use self-contained challenges while not storing the seen
+         challenges.  This approach scales well, while only guaranteeing
+         freshness, but no replay protection within the limited time-
+         window chosen by the Authorization Server.
+
+   *  The Authorization Server generates a challenge that is bound to
+      the Client Instance's session, such that a specific challenge in
+      the Client Attestation PoP JWT is expected and validated.  The
+      Authorization Server may either:
+
+      -  send the challenge as part of another previous response to the
+         Client Instance of providing the challenge explicitly
+
+      -  reuse an existing artefact of the Client Instance's session,
+         e.g. the authorization code.  This MUST be communicated out-of-
+         band between Authorization Server and Client.
+
+   Because clock skews between servers and clients may be large,
+   Authorization Servers MAY limit Client Attestation PoP lifetimes by
+   using server-provided challenge values containing the time at the
+   server rather than comparing the client-supplied iat time to the time
+   at the server.  Challenges created in this way yield the same result
+   even in the face of arbitrarily large clock skews.
+
+   In any case the Authorization Server SHOULD ensure the freshness of
+   the Client Attestation PoP by checking either the iat claim or if
+   present the server provided challenge, is within an acceptable time
+   window.
+
+   The approach using a challenge explicitly provided by the
+   Authorization Server gives stronger replay attack detection
+   guarantees, however support by the Authorization Server is OPTIONAL
+   to simplify mandatory implementation requirements.  The jti value is
+   mandatory and hence acts as a default fallback.
 
 13.  Appendix A IANA Considerations
 
@@ -823,17 +928,47 @@ Table of Contents
    the IANA "OAuth Authorization Server Metadata" registry
    [IANA.OAuth.Params] established by [RFC8414].
 
-   *  Metadata Name: client_attestation_pop_nonce_required
+   *  Metadata Name: challenge_endpoint
 
-   *  Metadata Description: An array of URLs that specify the endpoints
-      supporting the nonce retrieval and expecting a Client Attestation
-      bound to a server-provided nonce.
+   *  Metadata Description: URL of the authorization servers challenge
+      endpoint which is used to obtain a fresh challenge for usage in
+      client authentication methods such as client attestation.
 
    *  Change Controller: IETF
 
    *  Reference: Section 8 of this specification
 
-13.2.  Registration of attest_jwt_client_auth Token Endpoint
+13.2.  OAuth Extensions Error Registration
+
+   This specification requests registration of the following values in
+   the IANA "OAuth Extensions Error Registry" registry of
+   [IANA.OAuth.Params] established by [RFC6749].
+
+   *  Name: use_attestation_challenge
+
+   *  Usage Location: token error response, resource access error
+      response
+
+   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+      Authentication
+
+   *  Change Controller: IETF
+
+   *  Reference: this specification
+
+   *  Name: invalid_client_attestation
+
+   *  Usage Location: token error response, resource access error
+      response
+
+   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+      Authentication
+
+   *  Change Controller: IETF
+
+   *  Reference: this specification
+
+13.3.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -847,7 +982,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-13.3.  HTTP Field Name Registration
+13.4.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -869,15 +1004,7 @@ Table of Contents
 
 
 
-   *  Field Name: attestation-nonce-request
-
-   *  Status: permanent
-
-   *  Reference: Section 8 of this specification
-
-
-
-   *  Field Name: attestation-nonce
+   *  Field Name: OAuth-Client-Attestation-Challenge
 
    *  Status: permanent
 
@@ -911,6 +1038,11 @@ Table of Contents
               Resource Identifier (URI): Generic Syntax", STD 66,
               RFC 3986, DOI 10.17487/RFC3986, January 2005,
               <https://www.rfc-editor.org/rfc/rfc3986>.
+
+   [RFC6750]  Jones, M. and D. Hardt, "The OAuth 2.0 Authorization
+              Framework: Bearer Token Usage", RFC 6750,
+              DOI 10.17487/RFC6750, October 2012,
+              <https://www.rfc-editor.org/rfc/rfc6750>.
 
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
@@ -975,6 +1107,22 @@ Table of Contents
               ietf-oauth-selective-disclosure-jwt-22>.
 
 Appendix A.  Document History
+
+   -06
+
+   *  add oauth error response values invalid_client_attestation and
+      use_attestation_challenge
+
+   *  revert the HTTP OPTIONS mechanism to fetch nonces and add a
+      dedicated challenge endpoint
+
+   *  rename nonce to challenge
+
+   *  rewrite security consideration on replay attacks
+
+   *  add implementation consideration on replay attacks
+
+   *  remove exp from Client Attestation PoP JWT
 
    -05
 
@@ -1065,7 +1213,8 @@ Authors' Addresses
 
 
    Paul Bastian
-   Email: paul.bastian@bdr.de
+   Bundesdruckerei
+   Email: paul.bastian@posteo.de
 
 
    Christian Bormann
