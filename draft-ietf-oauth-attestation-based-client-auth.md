@@ -55,6 +55,12 @@ normative:
       org: "IANA"
     title: "OAuth Authorization Server Metadata"
     target: "https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#authorization-server-metadata"
+  IANA.JOSE.ALGS:
+    author:
+      org: "IANA"
+    title: "JSON Web Signature and Encryption Algorithms"
+    target: "https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms"
+
 informative:
   RFC6749: RFC6749
   RFC9334: RFC9334
@@ -258,7 +264,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
 }
 ~~~
 
-# Client Attestation using a Header based syntax
+# Client Attestation using a Header based syntax {#header-based}
 
 The following section defines how a Client Attestation can be provided in an HTTP request using HTTP headers.
 
@@ -315,8 +321,8 @@ It is RECOMMENDED that the authorization server validate the Client Attestation 
 
 To validate an HTTP request which contains the client attestation headers, the receiving server MUST ensure the following with regard to a received HTTP request:
 
-1. There is precisely one OAuth-Client-Attestation HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in []{client-attestation-jwt}.
-2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
+1. There is precisely one OAuth-Client-Attestation HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-jwt).
+2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.
 
 An error parameter according to Section 3 of {{RFC6750}} SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value `use_attestation_challenge` can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value `invalid_client_attestation` is used.
@@ -429,8 +435,8 @@ SSWB7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 
 To validate a client attestation using the concatenated serialization form, the receiving server MUST ensure the following:
 
-1. Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-jwt).
-2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](client-attestation-pop-jwt).
+1. Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-jwt).
+2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained after the '~' character verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained before the '~' character.
 
 # Challenge Retrieval {#challenge-retrieval}
@@ -485,6 +491,27 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 }
 ~~~
 
+# Verification and Processing
+
+Upon receiving a Client Attestation, the receiving server MUST ensure the following conditions and rules:
+
+1. If the Client Attestation was received via Header based Syntax (as described in [](#header-based)):
+
+    * The HTTP request contains exactly one field `OAuth-Client-Attestation` and one field `OAuth-Client-Attestation-PoP`.
+    * Both fields contain exactly one well-formed JWT.
+
+2. The Client Attestation JWT contains all claims and header parameters as per [](#client-attestation-jwt).
+3. The Client Attestation PoP JWT contains all claims and header parameters as per [](#client-attestation-pop-jwt).
+4. The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm {{IANA.JOSE.ALGS}}, is not none, is not MAC based, is supported by the application, and is acceptable per local policy.
+5. The signature of the Client Attestation JWT verifies with the public key of a known and trusted Attester.
+6. The key contained in the `cnf` claim of the Client Attestation JWT is not a private key.
+7. The signature of the Client Attestation PoP JWT verifies with the public key contained in the `cnf` claim of the Client Attestation JWT.
+8. If the server provided a challenge value to the client, the `challenge` claim is present in the Client Attestation PoP JWT and matches the server-provided challenge value.
+9. The creation time of the Client Attestation PoP JWT as determined by either the `iat` claim or a server managed timestamp via the challenge claim, is within an acceptable window.
+10. The audience claim in the Client Attestation PoP JWT is the issuer identifier URL of the authorization server as described in {{RFC8414}}.
+11. The Client Attestation JWT is fresh enough for the policies of the authorization server by checking the `iat` or `exp` claims.
+12. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).
+13. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT and the `iss` claim of the Client Attestation PoP JWT.
 
 # Implementation Considerations
 
@@ -609,6 +636,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * rewrite security consideration on replay attacks
 * add implementation consideration on replay attacks
 * remove `exp` from Client Attestation PoP JWT
+* add verification and processing rules
 
 -05
 
