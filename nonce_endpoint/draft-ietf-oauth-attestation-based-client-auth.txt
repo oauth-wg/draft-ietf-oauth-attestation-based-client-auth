@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 6 January 2026                                                 
+Expires: 8 January 2026                                                 
                                                               C. Bormann
                                                                   SPRIND
-                                                             5 July 2025
+                                                             7 July 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2026.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -687,9 +687,13 @@ Table of Contents
    The Authorization Server provides a Challenge in the HTTP response
    with a 200 status code and the following parameters included in the
    message body of the HTTP response using the application/json media
-   type: * attestation_challenge: REQUIRED.  String containing a
-   Challenge to be used in the OAuth-Attestation-PoP as defined in
-   (#client-attestation-pop-jwt).
+   type: * attestation_challenge: REQUIRED if the authorization server
+   supports Client Attestations and server provided challenges as
+   described in this document.  String containing a Challenge to be used
+   in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-
+   jwt).  The intention of this element not being required in other
+   circumstances is to preserve the ability for the challenge endpoint
+   to be used in other applications unrelated to client attestations.
 
    The Authorization Server MUST make the response uncacheable by adding
    a Cache-Control header field including the value no-store.  The
