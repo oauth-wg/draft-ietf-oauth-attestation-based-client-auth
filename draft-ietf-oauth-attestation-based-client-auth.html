@@ -1417,7 +1417,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-client-attestation-format">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-client-attestation-format" class="section-name selfRef">Client Attestation Format</a>
       </h2>
-<p id="section-5-1">This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). The primary purpose of these JWTs is to authenticate the Client Instance. These JWTs can be transmitted via HTTP headers in an HTTP request (as described in <a href="#headers" class="auto internal xref">Section 6.1</a>) from a Client Instance to an Authorization Server or Resource Server, or via a concatenated serialization (as described in <a href="#alternative-representation" class="auto internal xref">Section 7</a>) to enable usage outside of the traditional OAuth2 ecosystem .<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). The primary purpose of these JWTs is to authenticate the Client Instance. These JWTs can be transmitted via HTTP headers in an HTTP request (as described in <a href="#headers" class="auto internal xref">Section 6.1</a>) from a Client Instance to an Authorization Server or Resource Server, or via a concatenated serialization (as described in <a href="#alternative-representation" class="auto internal xref">Section 7</a>) to enable usage outside of OAuth2 based interactions.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div id="client-attestation-jwt">
 <section id="section-5.1">
         <h3 id="name-client-attestation-jwt">
@@ -2191,22 +2191,25 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="appendix-A-1">-06<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">add oauth error response values <code>invalid_client_attestation</code> and <code>use_attestation_challenge</code><a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">clarify usage of client attestation outside of oauth2 applications<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">revert the HTTP OPTIONS mechanism to fetch nonces and add a dedicated challenge endpoint<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">add oauth error response values <code>invalid_client_attestation</code> and <code>use_attestation_challenge</code><a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">rename nonce to challenge<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">revert the HTTP OPTIONS mechanism to fetch nonces and add a dedicated challenge endpoint<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">rewrite security consideration on replay attacks<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">rename nonce to challenge<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">add implementation consideration on replay attacks<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">rewrite security consideration on replay attacks<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">remove <code>exp</code> from Client Attestation PoP JWT<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">add implementation consideration on replay attacks<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.7">
+          <p id="appendix-A-2.7.1">remove <code>exp</code> from Client Attestation PoP JWT<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-05<a href="#appendix-A-3" class="pilcrow">¶</a></p>

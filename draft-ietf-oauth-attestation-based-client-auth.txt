@@ -273,8 +273,7 @@ Table of Contents
    transmitted via HTTP headers in an HTTP request (as described in
    Section 6.1) from a Client Instance to an Authorization Server or
    Resource Server, or via a concatenated serialization (as described in
-   Section 7) to enable usage outside of the traditional OAuth2
-   ecosystem .
+   Section 7) to enable usage outside of OAuth2 based interactions.
 
 5.1.  Client Attestation JWT
 
@@ -1059,6 +1058,8 @@ Table of Contents
 Appendix A.  Document History
 
    -06
+
+   *  clarify usage of client attestation outside of oauth2 applications
 
    *  add oauth error response values invalid_client_attestation and
       use_attestation_challenge
