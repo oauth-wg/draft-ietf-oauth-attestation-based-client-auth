@@ -447,7 +447,7 @@ Accept: application/json
 ~~~
 
 The Authorization Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
-* attestation_challenge: REQUIRED. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).
+* attestation_challenge: REQUIRED if the authorization server supports Client Attestations and server provided challenges as described in this document. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt). The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.
 
 The Authorization Server MUST make the response uncacheable by adding a `Cache-Control` header field including the value `no-store`. The Authorization Server MAY add additional challenges or data.
 
