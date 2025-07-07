@@ -5,7 +5,7 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 8 January 2026                                                 
+Expires: 8 January 2026                                  Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
                                                              7 July 2025
@@ -1161,7 +1161,8 @@ Authors' Addresses
 
 
    Paul Bastian
-   Email: paul.bastian@bdr.de
+   Bundesdruckerei
+   Email: paul.bastian@posteo.de
 
 
    Christian Bormann
