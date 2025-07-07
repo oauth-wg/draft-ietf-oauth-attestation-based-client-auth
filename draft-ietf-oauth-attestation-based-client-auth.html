@@ -1508,22 +1508,19 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.2-5.1.1"><code>iss</code>: <span class="bcp14">REQUIRED</span>. The <code>iss</code> (subject) claim <span class="bcp14">MUST</span> specify client_id value of the OAuth Client.<a href="#section-5.2-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.2">
-            <p id="section-5.2-5.2.1"><code>exp</code>: <span class="bcp14">REQUIRED</span>. The <code>exp</code> (expiration time) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation PoP is considered expired. The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems. Note that the authorization server may reject JWTs with an "exp" claim value that is unreasonably far in the future.<a href="#section-5.2-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.2.1"><code>aud</code>: <span class="bcp14">REQUIRED</span>. The <code>aud</code> (audience) claim <span class="bcp14">MUST</span> specify a value that identifies the authorization server as an intended audience. The <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> issuer identifier URL of the authorization server <span class="bcp14">MUST</span> be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.<a href="#section-5.2-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.3">
-            <p id="section-5.2-5.3.1"><code>aud</code>: <span class="bcp14">REQUIRED</span>. The <code>aud</code> (audience) claim <span class="bcp14">MUST</span> specify a value that identifies the authorization server as an intended audience. The <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> issuer identifier URL of the authorization server <span class="bcp14">MUST</span> be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.<a href="#section-5.2-5.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.3.1"><code>jti</code>: <span class="bcp14">REQUIRED</span>. The <code>jti</code> (JWT identifier) claim <span class="bcp14">MUST</span> specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the <code>jti</code> value for replay attack detection, see <a href="#security-consideration-replay" class="auto internal xref">Section 11.1</a>.<a href="#section-5.2-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.4">
-            <p id="section-5.2-5.4.1"><code>jti</code>: <span class="bcp14">REQUIRED</span>. The <code>jti</code> (JWT identifier) claim <span class="bcp14">MUST</span> specify a unique identifier for the Client Attestation PoP. The authorization server <span class="bcp14">MAY</span> ensure that JWTs are not replayed by maintaining the set of used "jti" values for the length of time for which the JWT would be considered valid based on the applicable "exp" instant.<a href="#section-5.2-5.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.4.1"><code>challenge</code>: <span class="bcp14">OPTIONAL</span>. The <code>challenge</code> (challenge) claim <span class="bcp14">MUST</span> specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.<a href="#section-5.2-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.5">
-            <p id="section-5.2-5.5.1"><code>challenge</code>: <span class="bcp14">OPTIONAL</span>. The <code>challenge</code> (challenge) claim <span class="bcp14">MUST</span> specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.<a href="#section-5.2-5.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.5.1"><code>iat</code>: <span class="bcp14">OPTIONAL</span>. The <code>iat</code> (issued at) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-5.2-5.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.6">
-            <p id="section-5.2-5.6.1"><code>iat</code>: <span class="bcp14">OPTIONAL</span>. The <code>iat</code> (issued at) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-5.2-5.6.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-5.7">
-            <p id="section-5.2-5.7.1"><code>nbf</code>: <span class="bcp14">OPTIONAL</span>. The <code>nbf</code> (not before) claim <span class="bcp14">MUST</span> specify the time before which the Client Attestation PoP <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-5.2-5.7.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.6.1"><code>nbf</code>: <span class="bcp14">OPTIONAL</span>. The <code>nbf</code> (not before) claim <span class="bcp14">MUST</span> specify the time before which the Client Attestation PoP <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-5.2-5.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.2-6">The following additional rules apply:<a href="#section-5.2-6" class="pilcrow">¶</a></p>
@@ -1552,8 +1549,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 {
   "iss": "https://client.example.com",
   "aud": "https://as.example.com",
-  "nbf": 1300815780,
-  "exp": 1300819380,
+  "nbf":1300815780,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
   "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
@@ -2207,6 +2203,9 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 </li>
         <li class="normal" id="appendix-A-2.5">
           <p id="appendix-A-2.5.1">add implementation consideration on replay attacks<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.6">
+          <p id="appendix-A-2.6.1">remove <code>exp</code> from Client Attestation PoP JWT<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-05<a href="#appendix-A-3" class="pilcrow">¶</a></p>
