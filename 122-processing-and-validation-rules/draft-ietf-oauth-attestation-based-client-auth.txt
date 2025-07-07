@@ -724,7 +724,7 @@ Table of Contents
 9.  Verification and Processing
 
    Upon receiving a Client Attestation, the receiving server MUST ensure
-   the following:
+   the following conditions and rules:
 
    1.   If the Client Attestation was received via Header based Syntax
         (as described in Section 6):
