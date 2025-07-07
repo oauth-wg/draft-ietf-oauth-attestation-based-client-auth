@@ -489,7 +489,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 
 # Verification and Processing
 
-Upon receiving a Client Attestation, the receiving server MUST ensure the following:
+Upon receiving a Client Attestation, the receiving server MUST ensure the following conditions and rules:
 
 1. If the Client Attestation was received via Header based Syntax (as described in [](#header-based)):
 
