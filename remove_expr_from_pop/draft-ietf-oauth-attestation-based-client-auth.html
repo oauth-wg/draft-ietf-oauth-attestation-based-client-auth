@@ -1049,7 +1049,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 5 January 2026</td>
+<td class="center">Expires 8 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-04" class="published">4 July 2025</time>
+<time datetime="2025-07-07" class="published">7 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-05">5 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-01-08">8 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1220,14 +1220,15 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
                 <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-refresh-token-binding" class="internal xref">Refresh token binding</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2.2.1">
-                    <p id="section-toc.1-1.9.2.2.2.1.1"><a href="#section-9.2.1" class="auto internal xref">9.2.1</a>.  <a href="#name-web-server-default-maximum-" class="internal xref">Web Server Default Maximum HTTP Header Sizes</a></p>
-</li>
-                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
-                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-replay-attack-detection" class="internal xref">Replay Attack Detection</a></p>
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-web-server-default-maximum-" class="internal xref">Web Server Default Maximum HTTP Header Sizes</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.4">
+                <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="auto internal xref">9.4</a>.  <a href="#name-rotation-of-client-instance" class="internal xref">Rotation of Client Instance Key</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.5">
+                <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="auto internal xref">9.5</a>.  <a href="#name-replay-attack-detection" class="internal xref">Replay Attack Detection</a></p>
 </li>
             </ul>
 </li>
@@ -1471,10 +1472,10 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 }
 .
 {
-  "iss": "https://server.example.com",
+  "iss": "https://attester.example.com",
   "sub": "https://client.example.com",
-  "nbf":1300815780,
-  "exp":1300819380,
+  "nbf": 1300815780,
+  "exp": 1300819380,
   "cnf": {
     "jwk": {
       "kty": "EC",
@@ -1541,7 +1542,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <div class="alignLeft art-text artwork" id="section-5.2-9">
 <pre>
 {
-  "typ": "oauth-client-attestation-pop",
+  "typ": "oauth-client-attestation-pop+jwt",
   "alg": "ES256"
 }
 .
@@ -1550,7 +1551,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
   "aud": "https://as.example.com",
   "nbf":1300815780,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
-  "challenge" : "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
+  "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
 </pre><a href="#section-5.2-9" class="pilcrow">¶</a>
 </div>
@@ -1586,13 +1587,13 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <div class="alignLeft art-text artwork" id="section-6.1-4">
 <pre>
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
-lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
-bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
-joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
-ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
-0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
-kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
+zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
+LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
+HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
+42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
+mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
+gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
 </pre><a href="#section-6.1-4" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-5">The following is an example of the OAuth-Client-Attestation-PoP header.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
@@ -1638,7 +1639,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
             <p id="section-6.2-2.3.1">The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the <code>cnf</code> claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.<a href="#section-6.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-6.2-3">An error parameter according to Section 3 of <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span> <span class="bcp14">SHOULD</span> be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value <code>use_attestation_challenge</code> can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation was present but could not be successfully verified, the value <code>invalid_client_attestation</code> is used.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">An error parameter according to Section 3 of <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span> <span class="bcp14">SHOULD</span> be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value <code>use_attestation_challenge</code> can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value <code>invalid_client_attestation</code> is used.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="token-endpoint">
@@ -1655,13 +1656,13 @@ POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
-lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
-bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
-joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
-ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
-0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
-kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
+zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
+LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
+HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
+42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
+mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
+gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
 saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
 eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
@@ -1690,13 +1691,13 @@ POST /as/par HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZ
-lci5leGFtcGxlLmNvbSIsInN1YiI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwi
-bmJmIjoxMzAwODE1NzgwLCJleHAiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5I
-joiRUMiLCJ1c2UiOiJzaWciLCJjcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONl
-ZEMVR4Z3BxeTJMc3pZa01mNko4bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk
-0ajhpcjdjbDFUWGxGZEFnY3g1NW83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFl
-kxQUOVJ94H_GUKxYoCI6pfUffg18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
+zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
+LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
+HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
+42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
+mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
+gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
 saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
 eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
@@ -1739,19 +1740,19 @@ In those cases, a concatenated serialization of the Client Attestation and Clien
 <div class="alignLeft art-text artwork" id="section-7.1-6">
 <pre>
 eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiL
-CJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1Y
-iI6Imh0dHBzOi8vY2xpZW50LmV4YW1wbGUuY29tIiwibmJmIjoxMzAwODE1NzgwLCJleH
-AiOjEzMDA4MTkzODAsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJ1c2UiOiJzaWciLCJ
-jcnYiOiJQLTI1NiIsIngiOiIxOHdITGVJZ1c5d1ZONlZEMVR4Z3BxeTJMc3pZa01mNko4
-bmpWQWlidmhNIiwieSI6Ii1WNGRTNFVhTE1nUF80Zlk0ajhpcjdjbDFUWGxGZEFnY3g1N
-W83VGtjU0EifX19.pvZKZSdfEHMoc9Bb3liuLYDGWFlkxQUOVJ94H_GUKxYoCI6pfUffg
-18lKjlwE-8TeZ2k9vql1E0BR5Nu0Ed_kw~eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXR
-oLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVu
-dC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiO
-jEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00Nm
-ZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
-3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSW
-B7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
+CJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGVzdGVyLmV4YW1wbGUuY29tIiwic
+3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsIm
+V4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrdHkiOiJFQyIsInVzZSI6InNpZyI
+sImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk42VkQxVHhncHF5MkxzellrTWY2
+SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzRmWTRqOGlyN2NsMVRYbEZkQWdje
+DU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySRgjj73yCEIcrz3Mv7Bgns4Bm1tC
+Q9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g~eyJhbGciOiJFUzI1NiIsInR5cCI6Im9h
+dXRoLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2Nsa
+WVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYm
+YiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi0
+0NmZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmIt
+YWU3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5j
+SSWB7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 </pre><a href="#section-7.1-6" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1794,7 +1795,7 @@ Accept: application/json
 </pre><a href="#section-8-5" class="pilcrow">¶</a>
 </div>
 <p id="section-8-6">The Authorization Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
-* attestation_challenge: <span class="bcp14">REQUIRED</span>. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).<a href="#section-8-6" class="pilcrow">¶</a></p>
+* attestation_challenge: <span class="bcp14">REQUIRED</span> if the authorization server supports Client Attestations and server provided challenges as described in this document. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt). The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.<a href="#section-8-6" class="pilcrow">¶</a></p>
 <p id="section-8-7">The Authorization Server <span class="bcp14">MUST</span> make the response uncacheable by adding a <code>Cache-Control</code> header field including the value <code>no-store</code>. The Authorization Server <span class="bcp14">MAY</span> add additional challenges or data.<a href="#section-8-7" class="pilcrow">¶</a></p>
 <p id="section-8-8">The following is a non-normative example of a response:<a href="#section-8-8" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-8-9">
@@ -1813,14 +1814,20 @@ Content-Type: application/json
         <h3 id="name-providing-challenges-on-pre">
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-providing-challenges-on-pre" class="section-name selfRef">Providing Challenges on Previous Responses</a>
         </h3>
-<p id="section-8.1-1">The Authorization Server <span class="bcp14">MAY</span> provide a fresh Challenge on any previous successful response using a HTTP header-based syntax. The HTTP header field parameter <span class="bcp14">MUST</span> be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client <span class="bcp14">MUST</span> use this new Challenge for the next OAuth-Client-Attestation-PoP. Note that this also includes error responses.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-1">The Authorization Server <span class="bcp14">MAY</span> provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter <span class="bcp14">MUST</span> be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client <span class="bcp14">MUST</span> use this new Challenge for the next OAuth-Client-Attestation-PoP.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1-2">The following is a non-normative example of an Authorization Response containing a fresh Challenge:<a href="#section-8.1-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-8.1-3">
 <pre>
-HTTP/1.1 302 Found
+HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
 OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
-Location: https://Wallet.example.org/cb?
-  code=SplxlOBeZQQYbYS6WxSbIA
+
+{
+  "access_token": "2YotnFZFEjr1zCsicMWpAA",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
 </pre><a href="#section-8.1-3" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1846,36 +1853,42 @@ Location: https://Wallet.example.org/cb?
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-refresh-token-binding" class="section-name selfRef">Refresh token binding</a>
         </h3>
 <p id="section-9.2-1">Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft <span class="bcp14">MUST</span> bind the refresh token to the Client Instance, and NOT just the client as specified in section 6 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. To prove this binding, the Client Instance <span class="bcp14">MUST</span> use the client attestation mechanism when refreshing an access token. The client <span class="bcp14">MUST</span> also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-<div id="web-server-default-maximum-http-header-sizes">
-<section id="section-9.2.1">
-          <h4 id="name-web-server-default-maximum-">
-<a href="#section-9.2.1" class="section-number selfRef">9.2.1. </a><a href="#name-web-server-default-maximum-" class="section-name selfRef">Web Server Default Maximum HTTP Header Sizes</a>
-          </h4>
-<p id="section-9.2.1-1">Because the Client Attestation and Client Attestation PoP are communicated using HTTP headers, implementers should consider that web servers may have a default maximum HTTP header size configured which could be too low to allow conveying a Client Attestation and or Client Attestation PoP in an HTTP request. It should be noted, that this limit is not given by the HTTP <span>[<a href="#RFC9112" class="cite xref">RFC9112</a>]</span>, but instead web server implementations commonly set a default maximum size for HTTP headers. As of 2024, typical limits for modern web servers configure maximum HTTP headers as 8 kB or more as a default.
-## Rotation of Client Instance Key<a href="#section-9.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-9.2.1-2">This specification does not provide a mechanism to rotate the Client Instance Key in the Client Attestation JWT's "cnf" claim. If the Client Instance needs to use a new Client Instance Key for any reason, then it <span class="bcp14">MUST</span> request a new Client Attestation JWT from its Client Attester.<a href="#section-9.2.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="web-server-default-maximum-http-header-sizes">
+<section id="section-9.3">
+        <h3 id="name-web-server-default-maximum-">
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-web-server-default-maximum-" class="section-name selfRef">Web Server Default Maximum HTTP Header Sizes</a>
+        </h3>
+<p id="section-9.3-1">Because the Client Attestation and Client Attestation PoP are communicated using HTTP headers, implementers should consider that web servers may have a default maximum HTTP header size configured which could be too low to allow conveying a Client Attestation and or Client Attestation PoP in an HTTP request. It should be noted, that this limit is not given by the HTTP <span>[<a href="#RFC9112" class="cite xref">RFC9112</a>]</span>, but instead web server implementations commonly set a default maximum size for HTTP headers. As of 2024, typical limits for modern web servers configure maximum HTTP headers as 8 kB or more as a default.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="rotation-of-client-instance-key">
+<section id="section-9.4">
+        <h3 id="name-rotation-of-client-instance">
+<a href="#section-9.4" class="section-number selfRef">9.4. </a><a href="#name-rotation-of-client-instance" class="section-name selfRef">Rotation of Client Instance Key</a>
+        </h3>
+<p id="section-9.4-1">This specification does not provide a mechanism to rotate the Client Instance Key in the Client Attestation JWT's "cnf" claim. If the Client Instance needs to use a new Client Instance Key for any reason, then it <span class="bcp14">MUST</span> request a new Client Attestation JWT from its Client Attester.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="implementation-consideration-replay">
-<section id="section-9.3">
+<section id="section-9.5">
         <h3 id="name-replay-attack-detection">
-<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-replay-attack-detection" class="section-name selfRef">Replay Attack Detection</a>
+<a href="#section-9.5" class="section-number selfRef">9.5. </a><a href="#name-replay-attack-detection" class="section-name selfRef">Replay Attack Detection</a>
         </h3>
-<p id="section-9.3-1">Authorization Servers implementing measures to detect replay attacks as described in <a href="#security-consideration-replay" class="auto internal xref">Section 11.1</a> require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen <code>challenge</code> or <code>jti</code> values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window <span class="bcp14">MUST</span> be rejected by the Authorization Server. The allowed window is determined by the <code>iat</code> of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server. These data structures need to:<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.5-1">Authorization Servers implementing measures to detect replay attacks as described in <a href="#security-consideration-replay" class="auto internal xref">Section 11.1</a> require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen <code>challenge</code> or <code>jti</code> values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window <span class="bcp14">MUST</span> be rejected by the Authorization Server. The allowed window is determined by the <code>iat</code> of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server. These data structures need to:<a href="#section-9.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.3-2.1">
-            <p id="section-9.3-2.1.1">search the data structure to validate whether a challenge form a Client Attestation PoP has been previously seen<a href="#section-9.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9.5-2.1">
+            <p id="section-9.5-2.1.1">search the data structure to validate whether a challenge form a Client Attestation PoP has been previously seen<a href="#section-9.5-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.3-2.2">
-            <p id="section-9.3-2.2.1">insert the new challenges from the Client Attestation PoP if the search returned no result<a href="#section-9.3-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.5-2.2">
+            <p id="section-9.5-2.2.1">insert the new challenges from the Client Attestation PoP if the search returned no result<a href="#section-9.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.3-2.3">
-            <p id="section-9.3-2.3.1">delete the challenges after the Client Attestation PoP has passed the sliding time window<a href="#section-9.3-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.5-2.3">
+            <p id="section-9.5-2.3.1">delete the challenges after the Client Attestation PoP has passed the sliding time window<a href="#section-9.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.3-3">A trie (also called prefix tree), or a patricia trie (also called radix tree) is a <span class="bcp14">RECOMMENDED</span> data structures to implement such a mechanism.<a href="#section-9.3-3" class="pilcrow">¶</a></p>
+<p id="section-9.5-3">A trie (also called prefix tree), or a patricia trie (also called radix tree) is a <span class="bcp14">RECOMMENDED</span> data structures to implement such a mechanism.<a href="#section-9.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1906,16 +1919,16 @@ Location: https://Wallet.example.org/cb?
         <h3 id="name-replay-attacks">
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-replay-attacks" class="section-name selfRef">Replay Attacks</a>
         </h3>
-<p id="section-11.1-1">An Authorization Server <span class="bcp14">MUST</span> implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending any Client Attestation PoP JWT an Authorization Server. The following options are <span class="bcp14">RECOMMENDED</span> for this client authentication method:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<p id="section-11.1-1">An Authorization Server <span class="bcp14">SHOULD</span> implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending the same Client Attestation PoP JWT in multiple requests. The following options are <span class="bcp14">RECOMMENDED</span> for this client authentication method:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.1-2.1">
-            <p id="section-11.1-2.1.1">The Authorization Server manages a list of witnessed <code>jti</code> values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the <code>iat</code> of the Client Attestation PoP and and the duration chosen by the Authorization Server. If any Client Attestation PoP JWT would be replayed, the Authorization Server would recognize the <code>jti</code> value in the list and respond with an authentication error. Details how to implement such a data structure to maintain <code>jti</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.3</a>.<a href="#section-11.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-2.1.1">The Authorization Server manages a list of witnessed <code>jti</code> values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the <code>iat</code> of the Client Attestation PoP and and the duration chosen by the Authorization Server. If any Client Attestation PoP JWT would be replayed, the Authorization Server would recognize the <code>jti</code> value in the list and respond with an authentication error. Details how to implement such a data structure to maintain <code>jti</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.5</a>.<a href="#section-11.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.1-2.2">
             <p id="section-11.1-2.2.1">The Authorization Server provides a challenge as an <code>OAuth-Client-Attestation-Challenge</code> in the challenge endpoint to the Client Instance and the Client uses it as a <code>challenge</code> value in the Client Attestation PoP JWT. The Authorization Server may chose to:<a href="#section-11.1-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.1-2.2.2.1">
-                <p id="section-11.1-2.2.2.1.1">manage a list of witnessed <code>challenge</code> values, similar to the previously described <code>jti</code> approach. Details how to implement such a data structure to maintain <code>challenge</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.3</a>. This guarantees stronger replay protection with a challenge chosen by the Authorization Server itself, at the potential cost of an additional round-trip.<a href="#section-11.1-2.2.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-11.1-2.2.2.1.1">manage a list of witnessed <code>challenge</code> values, similar to the previously described <code>jti</code> approach. Details how to implement such a data structure to maintain <code>challenge</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.5</a>. This guarantees stronger replay protection with a challenge chosen by the Authorization Server itself, at the potential cost of an additional round-trip.<a href="#section-11.1-2.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-11.1-2.2.2.2">
                 <p id="section-11.1-2.2.2.2.1">use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization Server.<a href="#section-11.1-2.2.2.2.1" class="pilcrow">¶</a></p>
@@ -1934,8 +1947,9 @@ Location: https://Wallet.example.org/cb?
             </ul>
 </li>
         </ul>
-<p id="section-11.1-3">It is important for successful replay attack detection to have considerable time synchronization between Authorization Server and the Client. Furthermore, the Authorization Server <span class="bcp14">MUST</span> reject Client Attestation PoP JWTs that have <code>iat</code> values too far in the future or past beyond an agreeable time difference.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
-<p id="section-11.1-4">The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The <code>jti</code> value is mandatory and hence acts as a default fallback.<a href="#section-11.1-4" class="pilcrow">¶</a></p>
+<p id="section-11.1-3">Because clock skews between servers and clients may be large, Authorization Servers <span class="bcp14">MAY</span> limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
+<p id="section-11.1-4">In any case the Authorization Server <span class="bcp14">SHOULD</span> ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.<a href="#section-11.1-4" class="pilcrow">¶</a></p>
+<p id="section-11.1-5">The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The <code>jti</code> value is mandatory and hence acts as a default fallback.<a href="#section-11.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2302,6 +2316,7 @@ Location: https://Wallet.example.org/cb?
       </h2>
 <p id="appendix-B-1">We would like to thank
 Brian Campbell,
+Filip Skokan,
 Francesco Marino,
 Guiseppe De Marco,
 Kristina Yasuda,
