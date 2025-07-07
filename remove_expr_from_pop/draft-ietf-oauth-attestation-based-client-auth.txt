@@ -377,7 +377,7 @@ Table of Contents
 
    *  jti: REQUIRED.  The jti (JWT identifier) claim MUST specify a
       unique identifier for the Client Attestation PoP.  The
-      authorization server MAY utilize the jti value for replay attack
+      authorization server can utilize the jti value for replay attack
       detection, see Section 11.1.
 
    *  challenge: OPTIONAL.  The challenge (challenge) claim MUST specify
