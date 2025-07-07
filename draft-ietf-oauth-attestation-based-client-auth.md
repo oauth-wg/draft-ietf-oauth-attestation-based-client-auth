@@ -522,7 +522,7 @@ The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
 
 ## Replay Attacks {#security-consideration-replay}
 
-An Authorization Server MUST implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending any Client Attestation PoP JWT an Authorization Server. The following options are RECOMMENDED for this client authentication method:
+An Authorization Server SHOULD implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending the same Client Attestation PoP JWT in multiple requests. The following options are RECOMMENDED for this client authentication method:
 
 - The Authorization Server manages a list of witnessed `jti` values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the `iat` of the Client Attestation PoP and and the duration chosen by the Authorization Server. If any Client Attestation PoP JWT would be replayed, the Authorization Server would recognize the `jti` value in the list and respond with an authentication error. Details how to implement such a data structure to maintain `jti` values is given in [](#implementation-consideration-replay).
 - The Authorization Server provides a challenge as an `OAuth-Client-Attestation-Challenge` in the challenge endpoint to the Client Instance and the Client uses it as a `challenge` value in the Client Attestation PoP JWT. The Authorization Server may chose to:
