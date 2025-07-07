@@ -820,10 +820,10 @@ Table of Contents
 
 11.1.  Replay Attacks
 
-   An Authorization Server MUST implement measures to detect replay
+   An Authorization Server SHOULD implement measures to detect replay
    attacks by the Client Instance.  In the context of this
-   specification, this means to detect that an attacker is resending any
-   Client Attestation PoP JWT an Authorization Server.  The following
+   specification, this means to detect that an attacker is resending the
+   same Client Attestation PoP JWT in multiple requests.  The following
    options are RECOMMENDED for this client authentication method:
 
    *  The Authorization Server manages a list of witnessed jti values of
