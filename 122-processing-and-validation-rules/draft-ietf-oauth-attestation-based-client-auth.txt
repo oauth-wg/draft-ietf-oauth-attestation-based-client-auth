@@ -775,6 +775,11 @@ Table of Contents
         Attestation PoP JWT might need to be applied (see Section 12.1
         for more details).
 
+   13.  If a client_id is provided in the request containing the Client
+        Attestation, then this client_id matches the sub claim of the
+        Client Attestation JWT and the iss claim of the Client
+        Attestation PoP JWT.
+
 10.  Implementation Considerations
 
 10.1.  Reuse of a Client Attestation JWT

@@ -1889,6 +1889,9 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
         <li id="section-9-2.12">
           <p id="section-9-2.12.1">Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see <a href="#security-consideration-replay" class="auto internal xref">Section 12.1</a> for more details).<a href="#section-9-2.12.1" class="pilcrow">¶</a></p>
 </li>
+        <li id="section-9-2.13">
+          <p id="section-9-2.13.1">If a <code>client_id</code> is provided in the request containing the Client Attestation, then this <code>client_id</code> matches the <code>sub</code> claim of the Client Attestation JWT and the <code>iss</code> claim of the Client Attestation PoP JWT.<a href="#section-9-2.13.1" class="pilcrow">¶</a></p>
+</li>
       </ol>
 </section>
 </div>
