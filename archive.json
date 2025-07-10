@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-08T00:13:22.885930+00:00",
+  "timestamp": "2025-07-10T00:13:32.065909+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3366,6 +3366,58 @@
       "updatedAt": "2025-07-07T06:56:13Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 131,
+      "id": "I_kwDOJaEkaM6_p6sA",
+      "title": "Dedicated error code for missing client attestation",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/131",
+      "state": "OPEN",
+      "author": "mickrau",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In the current version of the spec, a server should use error code `use_attestation_challenge`, when client attestation is absent, even when no challenge is expected. This is misleading..\n\n> An error parameter according to Section 3 of [[RFC6750](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-06.html#RFC6750)] SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value use_attestation_challenge can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value invalid_client_attestation is used.\n\nI suggest defining a third error code:\n\n`missing_client_attestation` (new), when expected client atttestation is absent\n`use_attestation_challenge` (already defined), when attestation is present but without challenge\n`invalid_client_attestation` (already defined), when attestation is present but invalid (other than missing challenge)",
+      "createdAt": "2025-07-09T10:34:05Z",
+      "updatedAt": "2025-07-09T18:17:44Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "> missing_client_attestation (new), when expected client atttestation is absent\n\nThat would be akin to just `invalid_client`. I don't agree we want a `missing_client_attestation` error defined just to tell the client it forgot to use its assigned client auth method.",
+          "createdAt": "2025-07-09T13:02:26Z",
+          "updatedAt": "2025-07-09T13:02:26Z"
+        },
+        {
+          "author": "mickrau",
+          "authorAssociation": "NONE",
+          "body": "I had this option also in mind. After your words, i agree that this would be the better solution especially when supporting multiple client auth methods.",
+          "createdAt": "2025-07-09T16:35:43Z",
+          "updatedAt": "2025-07-09T16:35:43Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "Then I don't believe there's anything to do here as all the scaffolding is already present in RFC6749",
+          "createdAt": "2025-07-09T18:09:20Z",
+          "updatedAt": "2025-07-09T18:09:20Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The text currently suggests that if current attestation is absent, that 'use_attestation_nonce' should be used, which seems not correct?",
+          "createdAt": "2025-07-09T18:16:09Z",
+          "updatedAt": "2025-07-09T18:16:09Z"
+        },
+        {
+          "author": "mickrau",
+          "authorAssociation": "NONE",
+          "body": "Yes, I think \"absent or\" should be deleted in the following part\n\n> An error parameter according to Section 3 of [[RFC6750](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-06.html#RFC6750)] SHOULD be included to indicate why a request was declined. If the Client Attestation is ~~absent or~~ not using an expected server-provided challenge, the value use_attestation_challenge can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value invalid_client_attestation is used.",
+          "createdAt": "2025-07-09T18:17:44Z",
+          "updatedAt": "2025-07-09T18:17:44Z"
+        }
+      ]
     }
   ],
   "pulls": [
