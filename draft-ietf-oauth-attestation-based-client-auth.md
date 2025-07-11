@@ -694,6 +694,7 @@ Filip Skokan,
 Francesco Marino,
 Guiseppe De Marco,
 Kristina Yasuda,
+Micha Kraus,
 Michael B. Jones,
 Takahiko Kawasaki
 and
