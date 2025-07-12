@@ -627,6 +627,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 # Document History
 
 -07
+
 * require `iat` in Client Attestation PoP JWT
 
 -06
