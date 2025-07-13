@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-10T00:13:32.065909+00:00",
+  "timestamp": "2025-07-13T00:15:12.468118+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3379,7 +3379,7 @@
       "labels": [],
       "body": "In the current version of the spec, a server should use error code `use_attestation_challenge`, when client attestation is absent, even when no challenge is expected. This is misleading..\n\n> An error parameter according to Section 3 of [[RFC6750](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-06.html#RFC6750)] SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value use_attestation_challenge can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value invalid_client_attestation is used.\n\nI suggest defining a third error code:\n\n`missing_client_attestation` (new), when expected client atttestation is absent\n`use_attestation_challenge` (already defined), when attestation is present but without challenge\n`invalid_client_attestation` (already defined), when attestation is present but invalid (other than missing challenge)",
       "createdAt": "2025-07-09T10:34:05Z",
-      "updatedAt": "2025-07-09T18:17:44Z",
+      "updatedAt": "2025-07-12T18:51:43Z",
       "closedAt": null,
       "comments": [
         {
@@ -3418,6 +3418,22 @@
           "updatedAt": "2025-07-09T18:17:44Z"
         }
       ]
+    },
+    {
+      "number": 133,
+      "id": "I_kwDOJaEkaM7AQj-j",
+      "title": "pop iat should now be required",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/133",
+      "state": "OPEN",
+      "author": "panva",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "With exp removed from the pop and challenge being optional it would be prudent to require iat to allow the AS to enforce one time use within a certain window whilst having a timestamp reference in the pop token. ",
+      "createdAt": "2025-07-12T16:42:57Z",
+      "updatedAt": "2025-07-12T16:42:57Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -10164,6 +10180,211 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 132,
+      "id": "PR_kwDOJaEkaM6ecrqI",
+      "title": "fix using use_attestation_challenge error parameter code for missing \u2026",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/132",
+      "state": "OPEN",
+      "author": "mickrau",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "solves #131 ",
+      "createdAt": "2025-07-11T08:16:57Z",
+      "updatedAt": "2025-07-12T19:22:00Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
+      "headRepository": "mickrau/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "issue_131",
+      "headRefOid": "d55a321f49973ef0f7aa8b7991d566f3432cd8b4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6zXWAJ",
+          "commit": {
+            "abbreviatedOid": "d55a321"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-11T08:29:50Z",
+          "updatedAt": "2025-07-11T08:29:50Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zhB4e",
+          "commit": {
+            "abbreviatedOid": "d55a321"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-11T19:48:12Z",
+          "updatedAt": "2025-07-11T19:48:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zndRN",
+          "commit": {
+            "abbreviatedOid": "d55a321"
+          },
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-12T18:57:47Z",
+          "updatedAt": "2025-07-12T18:59:20Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\nWhen validation errors are encountered the following error codes are defined for use in either Authorization Server authenticated endpoint error responses or Resource Server error responses.\r\n\r\n- `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-header)).\r\n- `invalid_client_attestation` MAY be used if the attestation or its proof of possession could not be successfully verified.\r\n```",
+              "createdAt": "2025-07-12T18:57:47Z",
+              "updatedAt": "2025-07-12T19:11:19Z"
+            },
+            {
+              "originalPosition": 5,
+              "body": "And change\n\n```\n## Providing Challenges on Previous Responses\n```\n\nto \n\n```\n## Providing Challenges on Previous Responses {#challenge-header}\n```",
+              "createdAt": "2025-07-12T18:59:12Z",
+              "updatedAt": "2025-07-12T18:59:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zngxx",
+          "commit": {
+            "abbreviatedOid": "d55a321"
+          },
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-12T19:13:54Z",
+          "updatedAt": "2025-07-12T19:13:54Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I am making this suggestion because a) this section is referenced from Token and PAR endpoint sections and linking 6750 error handling is invalid.\r\n\r\nMaking `use_attestation_challenge` a MUST use when challenge validations fail just makes sense and having to have it accompanied by `OAuth-Client-Attestation-Challenge` as well. I don't mind defining `invalid_client_attestation` but only as a MAY because on the AS authenticated endpoints the convention is already `invalid_client` for client authentication failures.",
+              "createdAt": "2025-07-12T19:13:54Z",
+              "updatedAt": "2025-07-12T19:13:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6znhTH",
+          "commit": {
+            "abbreviatedOid": "d55a321"
+          },
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-12T19:21:59Z",
+          "updatedAt": "2025-07-12T19:22:00Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I've opened #135 as an alternative to this PR with all suggestions applied.",
+              "createdAt": "2025-07-12T19:22:00Z",
+              "updatedAt": "2025-07-12T19:22:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 134,
+      "id": "PR_kwDOJaEkaM6epHOW",
+      "title": "require iat in PoP",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/134",
+      "state": "OPEN",
+      "author": "panva",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "The draft has a lot to say about utilizing `iat` and `jti` for replay detection, to that end the `iat` must be present.\r\n\r\ncloses #133",
+      "createdAt": "2025-07-12T18:50:41Z",
+      "updatedAt": "2025-07-12T22:05:31Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
+      "headRepository": "panva/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "iat",
+      "headRefOid": "45b6ff620698263c2cfa0e1df7e12ae0af6f5ca7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6znrhO",
+          "commit": {
+            "abbreviatedOid": "260f4d5"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "Yeah, especially with the removal of exp, mandating iat seems like a good idea.",
+          "createdAt": "2025-07-12T20:48:03Z",
+          "updatedAt": "2025-07-12T20:48:31Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n-07\r\n\r\n```",
+              "createdAt": "2025-07-12T20:48:03Z",
+              "updatedAt": "2025-07-12T20:48:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zn5ed",
+          "commit": {
+            "abbreviatedOid": "45b6ff6"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-12T22:05:31Z",
+          "updatedAt": "2025-07-12T22:05:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 135,
+      "id": "PR_kwDOJaEkaM6epLsO",
+      "title": "Updates to error handling",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/135",
+      "state": "OPEN",
+      "author": "panva",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Additional to #131 this updates the error section a bit more since it is referenced from later Token and PAR endpoint sections and linking to RFC6750 error handling is just not right then.\r\n\r\nMaking `use_attestation_challenge` a MUST use when challenge validations fail just makes sense and having to have it accompanied by `OAuth-Client-Attestation-Challenge` as well. I don't mind defining `invalid_client_attestation` but only as a MAY because on the AS authenticated endpoints the convention is already invalid_client for client authentication failures, for the RS responses it's probably fine.\r\n\r\ncloses #131",
+      "createdAt": "2025-07-12T19:18:39Z",
+      "updatedAt": "2025-07-12T19:18:40Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
+      "headRepository": "panva/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "update-error-responses",
+      "headRefOid": "357529737b60199de8917ac9f10650fd9ad0bf97",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
