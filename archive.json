@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-13T00:15:12.468118+00:00",
+  "timestamp": "2025-07-15T00:14:00.809751+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3376,10 +3376,12 @@
       "author": "mickrau",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "In the current version of the spec, a server should use error code `use_attestation_challenge`, when client attestation is absent, even when no challenge is expected. This is misleading..\n\n> An error parameter according to Section 3 of [[RFC6750](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-06.html#RFC6750)] SHOULD be included to indicate why a request was declined. If the Client Attestation is absent or not using an expected server-provided challenge, the value use_attestation_challenge can be used to indicate that an attestation with a server-provided challenge was expected. If the attestation and proof of possession was present but could not be successfully verified, the value invalid_client_attestation is used.\n\nI suggest defining a third error code:\n\n`missing_client_attestation` (new), when expected client atttestation is absent\n`use_attestation_challenge` (already defined), when attestation is present but without challenge\n`invalid_client_attestation` (already defined), when attestation is present but invalid (other than missing challenge)",
       "createdAt": "2025-07-09T10:34:05Z",
-      "updatedAt": "2025-07-12T18:51:43Z",
+      "updatedAt": "2025-07-13T21:28:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -3428,10 +3430,12 @@
       "author": "panva",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "has-pr"
+      ],
       "body": "With exp removed from the pop and challenge being optional it would be prudent to require iat to allow the AS to enforce one time use within a certain window whilst having a timestamp reference in the pop token. ",
       "createdAt": "2025-07-12T16:42:57Z",
-      "updatedAt": "2025-07-12T16:42:57Z",
+      "updatedAt": "2025-07-13T21:28:41Z",
       "closedAt": null,
       "comments": []
     }
@@ -10193,7 +10197,7 @@
       "labels": [],
       "body": "solves #131 ",
       "createdAt": "2025-07-11T08:16:57Z",
-      "updatedAt": "2025-07-12T19:22:00Z",
+      "updatedAt": "2025-07-13T21:31:32Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
@@ -10204,7 +10208,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @mickrau, although I'm in favour of #135 here which builds on this PR and provides a little more clarity around when these errors should be returned.",
+          "createdAt": "2025-07-13T21:31:32Z",
+          "updatedAt": "2025-07-13T21:31:32Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJaEkaM6zXWAJ",
@@ -10312,7 +10324,7 @@
       "labels": [],
       "body": "The draft has a lot to say about utilizing `iat` and `jti` for replay detection, to that end the `iat` must be present.\r\n\r\ncloses #133",
       "createdAt": "2025-07-12T18:50:41Z",
-      "updatedAt": "2025-07-12T22:05:31Z",
+      "updatedAt": "2025-07-13T21:05:05Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
@@ -10357,6 +10369,19 @@
           "createdAt": "2025-07-12T22:05:31Z",
           "updatedAt": "2025-07-12T22:05:31Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zqr2f",
+          "commit": {
+            "abbreviatedOid": "45b6ff6"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-13T21:05:05Z",
+          "updatedAt": "2025-07-13T21:05:05Z",
+          "comments": []
         }
       ]
     },
@@ -10372,19 +10397,147 @@
       "labels": [],
       "body": "Additional to #131 this updates the error section a bit more since it is referenced from later Token and PAR endpoint sections and linking to RFC6750 error handling is just not right then.\r\n\r\nMaking `use_attestation_challenge` a MUST use when challenge validations fail just makes sense and having to have it accompanied by `OAuth-Client-Attestation-Challenge` as well. I don't mind defining `invalid_client_attestation` but only as a MAY because on the AS authenticated endpoints the convention is already invalid_client for client authentication failures, for the RS responses it's probably fine.\r\n\r\ncloses #131",
       "createdAt": "2025-07-12T19:18:39Z",
-      "updatedAt": "2025-07-12T19:18:40Z",
+      "updatedAt": "2025-07-14T05:59:24Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
       "headRepository": "panva/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "update-error-responses",
-      "headRefOid": "357529737b60199de8917ac9f10650fd9ad0bf97",
+      "headRefOid": "d4703ba9ffcd804c42ba70fca585e6ac724c8180",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Approved, but then had a couple of suggestions to add.",
+          "createdAt": "2025-07-13T22:06:32Z",
+          "updatedAt": "2025-07-13T22:06:32Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6zqtQ6",
+          "commit": {
+            "abbreviatedOid": "3575297"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-13T21:31:49Z",
+          "updatedAt": "2025-07-13T21:31:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zquAX",
+          "commit": {
+            "abbreviatedOid": "3575297"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-13T21:45:09Z",
+          "updatedAt": "2025-07-13T21:45:09Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "```suggestion\r\n- `invalid_client_attestation` MAY be used if the attestation or its proof of possession could not be successfully verified. Alternatively the more general `invalid_client` error code as defined in {{RFC6749}} MAY also be used.\r\n\r\nIn the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} of when to return suitable Error Responses. \r\n```\r\n\r\nI'm 50/50 on this but feel like it might be worthwhile clarifying the underlying pre-existing error behaviour as per standard OAuth2 applies for all other situations.",
+              "createdAt": "2025-07-13T21:45:09Z",
+              "updatedAt": "2025-07-13T22:02:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zquI8",
+          "commit": {
+            "abbreviatedOid": "3575297"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-13T21:47:48Z",
+          "updatedAt": "2025-07-13T21:47:48Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nWhen validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses or Resource Server error responses. These error codes are used to return an Error Response as defined in Section 5.2 of {{RFC6749}}.\r\n```",
+              "createdAt": "2025-07-13T21:47:48Z",
+              "updatedAt": "2025-07-13T21:54:29Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 136,
+      "id": "PR_kwDOJaEkaM6eq9Zm",
+      "title": "various fixes",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/136",
+      "state": "OPEN",
+      "author": "panva",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes\r\n\r\n- invalid use of internal references\r\n- missing cache-control in challenge endpoint response example\r\n- challenge endpoint parameters not being an unordered list",
+      "createdAt": "2025-07-13T07:49:22Z",
+      "updatedAt": "2025-07-13T21:03:56Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
+      "headRepository": "panva/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "formatting-fixes",
+      "headRefOid": "e62cbdd083d27478961afe6e7851d1405589cb0e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6zpZU6",
+          "commit": {
+            "abbreviatedOid": "e62cbdd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-13T08:20:29Z",
+          "updatedAt": "2025-07-13T08:20:29Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zqoJZ",
+          "commit": {
+            "abbreviatedOid": "e62cbdd"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-13T19:57:55Z",
+          "updatedAt": "2025-07-13T19:57:55Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6zqryJ",
+          "commit": {
+            "abbreviatedOid": "e62cbdd"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-13T21:03:56Z",
+          "updatedAt": "2025-07-13T21:03:56Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
