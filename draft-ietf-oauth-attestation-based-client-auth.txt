@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 8 January 2026                                  Bundesdruckerei
+Expires: 17 January 2026                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                             7 July 2025
+                                                            16 July 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2026.
+   This Internet-Draft will expire on 17 January 2026.
 
 Copyright Notice
 
@@ -380,14 +380,14 @@ Table of Contents
       authorization server can utilize the jti value for replay attack
       detection, see Section 12.1.
 
-   *  challenge: OPTIONAL.  The challenge (challenge) claim MUST specify
-      a String value that is provided by the authorization server for
-      the client to include in the Client Attestation PoP JWT.
-
-   *  iat: OPTIONAL.  The iat (issued at) claim MUST specify the time at
+   *  iat: REQUIRED.  The iat (issued at) claim MUST specify the time at
       which the Client Attestation PoP was issued.  Note that the
       authorization server may reject JWTs with an "iat" claim value
       that is unreasonably far in the past.
+
+   *  challenge: OPTIONAL.  The challenge (challenge) claim MUST specify
+      a String value that is provided by the authorization server for
+      the client to include in the Client Attestation PoP JWT.
 
    *  nbf: OPTIONAL.  The nbf (not before) claim MUST specify the time
       before which the Client Attestation PoP MUST NOT be accepted for
@@ -1128,6 +1128,10 @@ Table of Contents
               ietf-oauth-selective-disclosure-jwt-22>.
 
 Appendix A.  Document History
+
+   -07
+
+   *  require iat in Client Attestation PoP JWT
 
    -06
 
