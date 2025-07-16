@@ -1791,8 +1791,8 @@ SSWB7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
       <h2 id="name-challenge-retrieval">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-challenge-retrieval" class="section-name selfRef">Challenge Retrieval</a>
       </h2>
-<p id="section-8-1">This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be included in the Client Attestation PoP JWT. This construct may be similar or equivalent to a nonce, see <span><a href="terminology">terminology</a></span>. The value of the challenge is opaque to the client.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">An Authorization Server <span class="bcp14">MAY</span> offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>, it <span class="bcp14">MUST</span> signal support for the challenge endpoint by including the metadata entry <code>challenge_endpoint</code> containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client <span class="bcp14">MUST</span> retrieve a challenge and <span class="bcp14">MUST</span> use this challenge in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt).<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-1">This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be included in the Client Attestation PoP JWT. This construct may be similar or equivalent to a nonce, see <a href="#terminology" class="auto internal xref">Section 3</a>. The value of the challenge is opaque to the client.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">An Authorization Server <span class="bcp14">MAY</span> offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>, it <span class="bcp14">MUST</span> signal support for the challenge endpoint by including the metadata entry <code>challenge_endpoint</code> containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client <span class="bcp14">MUST</span> retrieve a challenge and <span class="bcp14">MUST</span> use this challenge in the OAuth-Attestation-PoP as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.2</a>.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata.<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">The following is a non-normative example of a request:<a href="#section-8-4" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-8-5">
@@ -1802,20 +1802,25 @@ Host: as.example.com
 Accept: application/json
 </pre><a href="#section-8-5" class="pilcrow">¶</a>
 </div>
-<p id="section-8-6">The Authorization Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
-* attestation_challenge: <span class="bcp14">REQUIRED</span> if the authorization server supports Client Attestations and server provided challenges as described in this document. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in (#client-attestation-pop-jwt). The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.<a href="#section-8-6" class="pilcrow">¶</a></p>
-<p id="section-8-7">The Authorization Server <span class="bcp14">MUST</span> make the response uncacheable by adding a <code>Cache-Control</code> header field including the value <code>no-store</code>. The Authorization Server <span class="bcp14">MAY</span> add additional challenges or data.<a href="#section-8-7" class="pilcrow">¶</a></p>
-<p id="section-8-8">The following is a non-normative example of a response:<a href="#section-8-8" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-8-9">
+<p id="section-8-6">The Authorization Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:<a href="#section-8-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8-7.1">
+          <p id="section-8-7.1.1">attestation_challenge: <span class="bcp14">REQUIRED</span> if the authorization server supports Client Attestations and server provided challenges as described in this document. String containing a Challenge to be used in the OAuth-Attestation-PoP as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.2</a>. The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.<a href="#section-8-7.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-8-8">The Authorization Server <span class="bcp14">MUST</span> make the response uncacheable by adding a <code>Cache-Control</code> header field including the value <code>no-store</code>. The Authorization Server <span class="bcp14">MAY</span> add additional challenges or data.<a href="#section-8-8" class="pilcrow">¶</a></p>
+<p id="section-8-9">The following is a non-normative example of a response:<a href="#section-8-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-8-10">
 <pre>
 HTTP/1.1 200 OK
 Host: as.example.com
 Content-Type: application/json
+Cache-Control: no-store
 
 {
   "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
 }
-</pre><a href="#section-8-9" class="pilcrow">¶</a>
+</pre><a href="#section-8-10" class="pilcrow">¶</a>
 </div>
 <div id="providing-challenges-on-previous-responses">
 <section id="section-8.1">
