@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-17T00:14:08.761871+00:00",
+  "timestamp": "2025-07-31T00:13:50.727958+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2735,7 +2735,7 @@
       ],
       "body": "add section 6.5 to use this mechniams at the resource Server",
       "createdAt": "2024-12-13T11:02:53Z",
-      "updatedAt": "2025-06-06T08:25:28Z",
+      "updatedAt": "2025-07-30T12:08:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -2751,6 +2751,13 @@
           "body": "I see value in allowing this - there are imho 2 cases where attestation based client auth might be interesting:\n- as a mechanism to authenticate the client at AS\n- additional information (security) about the state of a client (via its attestation) at possibly other endpoints like RS\n\nLet's discuss",
           "createdAt": "2025-06-06T08:25:27Z",
           "updatedAt": "2025-06-06T08:25:27Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "This was also brought up at IETF 123 and the ask was to expand the text on possible usage at RS if I recall correctly",
+          "createdAt": "2025-07-30T12:08:32Z",
+          "updatedAt": "2025-07-30T12:08:32Z"
         }
       ]
     },
@@ -10399,7 +10406,7 @@
       "labels": [],
       "body": "Additional to #131 this updates the error section a bit more since it is referenced from later Token and PAR endpoint sections and linking to RFC6750 error handling is just not right then.\r\n\r\nMaking `use_attestation_challenge` a MUST use when challenge validations fail just makes sense and having to have it accompanied by `OAuth-Client-Attestation-Challenge` as well. I don't mind defining `invalid_client_attestation` but only as a MAY because on the AS authenticated endpoints the convention is already invalid_client for client authentication failures, for the RS responses it's probably fine.\r\n\r\ncloses #131",
       "createdAt": "2025-07-12T19:18:39Z",
-      "updatedAt": "2025-07-14T05:59:24Z",
+      "updatedAt": "2025-07-30T12:02:36Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
@@ -10417,6 +10424,13 @@
           "body": "Approved, but then had a couple of suggestions to add.",
           "createdAt": "2025-07-13T22:06:32Z",
           "updatedAt": "2025-07-13T22:06:32Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Supersedes #132",
+          "createdAt": "2025-07-30T12:02:36Z",
+          "updatedAt": "2025-07-30T12:02:36Z"
         }
       ],
       "reviews": [
@@ -10472,6 +10486,19 @@
               "updatedAt": "2025-07-13T21:54:29Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM63DRYK",
+          "commit": {
+            "abbreviatedOid": "d4703ba"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "Could you add an entry to the document history? Looks good otherwise imho",
+          "createdAt": "2025-07-30T12:01:42Z",
+          "updatedAt": "2025-07-30T12:01:42Z",
+          "comments": []
         }
       ]
     },
