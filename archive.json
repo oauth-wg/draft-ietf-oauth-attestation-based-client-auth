@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-31T00:13:50.727958+00:00",
+  "timestamp": "2025-08-07T00:14:24.827490+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1327,7 +1327,7 @@
       "labels": [],
       "body": "[OpenID Connect Dynamic Client Registration 1.0](https://openid.net/specs/openid-connect-registration-1_0.html), [Section 2. Client Metadata](https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata), defines the `token_endpoint_auth_signing_alg` client metadata as follows.\r\n\r\n>OPTIONAL. [JWS](https://openid.net/specs/openid-connect-registration-1_0.html#JWS) [JWS] `alg` algorithm [[JWA]](https://openid.net/specs/openid-connect-registration-1_0.html#JWA) that MUST be used for signing the JWT [[JWT]](https://openid.net/specs/openid-connect-registration-1_0.html#JWT) used to authenticate the Client at the Token Endpoint for the `private_key_jwt` and `client_secret_jwt` authentication methods. All Token Requests using these authentication methods from this Client MUST be rejected, if the JWT is not signed with this algorithm. Servers SHOULD support `RS256`. The value `none` MUST NOT be used. The default, if omitted, is that any algorithm supported by the OP and the RP MAY be used.\r\n\r\nShould server-side implementations of the `attest_jwt_client_auth` client authentication method take the client metadata into consideration? To be concrete, should server-side implementations reject requests when the Client Attestation PoP JWT is not signed with the algorithm specified by the client metadata if the metadata is set, or may server-side implementations ignore the client metadata when processing the `attest_jwt_client_auth` client authentication method?",
       "createdAt": "2023-07-21T10:56:23Z",
-      "updatedAt": "2025-05-28T11:30:58Z",
+      "updatedAt": "2025-08-05T11:53:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -1357,6 +1357,13 @@
           "body": "Considering this more I think it is safer to have a new seperate metadata element for signalling support algorithms for this client authentication mechanism.",
           "createdAt": "2023-11-06T07:59:13Z",
           "updatedAt": "2023-11-06T07:59:13Z"
+        },
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "This probably now duplicates #70.",
+          "createdAt": "2025-08-05T11:53:24Z",
+          "updatedAt": "2025-08-05T11:53:24Z"
         }
       ]
     },
@@ -3444,6 +3451,22 @@
       "createdAt": "2025-07-12T16:42:57Z",
       "updatedAt": "2025-07-16T06:27:12Z",
       "closedAt": "2025-07-16T06:27:12Z",
+      "comments": []
+    },
+    {
+      "number": 137,
+      "id": "I_kwDOJaEkaM7EROI6",
+      "title": "Merge PAR & token endpoint sections?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/137",
+      "state": "OPEN",
+      "author": "jogu",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The way the current spec has two sections:\n\n> Client Attestation at the Token Endpoint\n\nand:\n\n> Client Attestation at the PAR Endpoint\n\nis a bit weird.\n\nThe text from the token endpoint section:\n\n> If the token request contains a client_id parameter as per [[RFC6749](https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#RFC6749)] the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the sub claim of the Client Attestation and iss claim of the Client Attestation PoP.[\u00b6](https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#section-6.3-3)\n\nseems equally applicable to the PAR endpoint, but that text isn't in the PAR endpoint section nor referenced from it. That text also seems applicable to any endpoint that's using OAuth Client Authentication (e.g. revocation endpoint).\n\nI'd suggest merging the two section, titling them \"Client Attestation as OAuth Client Authentication\" (or something like that), and having the above text plus token endpoint & PAR endpoint examples in that section.\n",
+      "createdAt": "2025-08-05T12:04:24Z",
+      "updatedAt": "2025-08-05T12:04:24Z",
+      "closedAt": null,
       "comments": []
     }
   ],
@@ -10406,7 +10429,7 @@
       "labels": [],
       "body": "Additional to #131 this updates the error section a bit more since it is referenced from later Token and PAR endpoint sections and linking to RFC6750 error handling is just not right then.\r\n\r\nMaking `use_attestation_challenge` a MUST use when challenge validations fail just makes sense and having to have it accompanied by `OAuth-Client-Attestation-Challenge` as well. I don't mind defining `invalid_client_attestation` but only as a MAY because on the AS authenticated endpoints the convention is already invalid_client for client authentication failures, for the RS responses it's probably fine.\r\n\r\ncloses #131",
       "createdAt": "2025-07-12T19:18:39Z",
-      "updatedAt": "2025-07-30T12:02:36Z",
+      "updatedAt": "2025-08-05T06:41:11Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "b89ad4139a902463d0ad046b3c8e04f373d5bd41",
@@ -10498,6 +10521,32 @@
           "body": "Could you add an entry to the document history? Looks good otherwise imho",
           "createdAt": "2025-07-30T12:01:42Z",
           "updatedAt": "2025-07-30T12:01:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM63_P4-",
+          "commit": {
+            "abbreviatedOid": "d4703ba"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "approved., history missing and let's not forget to add Micha to acknowledgments from #132 ",
+          "createdAt": "2025-08-05T06:40:59Z",
+          "updatedAt": "2025-08-05T06:40:59Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM63_P_k",
+          "commit": {
+            "abbreviatedOid": "d4703ba"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-08-05T06:41:11Z",
+          "updatedAt": "2025-08-05T06:41:11Z",
           "comments": []
         }
       ]
