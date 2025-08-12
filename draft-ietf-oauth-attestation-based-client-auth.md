@@ -636,6 +636,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 -07
 
 * require `iat` in Client Attestation PoP JWT
+* clarify `use_attestation_challenge` and add `invalid_client_attestation`
 
 -06
 
@@ -703,6 +704,7 @@ Filip Skokan,
 Francesco Marino,
 Guiseppe De Marco,
 Kristina Yasuda,
+Micha Kraus,
 Michael B. Jones,
 Takahiko Kawasaki
 and
