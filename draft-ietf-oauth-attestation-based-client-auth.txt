@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 17 January 2026                                 Bundesdruckerei
+Expires: 13 February 2026                                Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            16 July 2025
+                                                          12 August 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 January 2026.
+   This Internet-Draft will expire on 13 February 2026.
 
 Copyright Notice
 
@@ -85,7 +85,7 @@ Table of Contents
      5.2.  Client Attestation PoP JWT
    6.  Client Attestation using a Header based syntax
      6.1.  Client Attestation HTTP Headers
-     6.2.  Validating HTTP requests feature client attestations
+     6.2.  Validating HTTP requests featuring client attestations
      6.3.  Client Attestation at the Token Endpoint
      6.4.  Client Attestation at the PAR Endpoint
    7.  Concatenated Serialization for Client Attestations
@@ -486,7 +486,7 @@ Table of Contents
    It is RECOMMENDED that the authorization server validate the Client
    Attestation JWT prior to validating the Client Attestation PoP.
 
-6.2.  Validating HTTP requests feature client attestations
+6.2.  Validating HTTP requests featuring client attestations
 
    To validate an HTTP request which contains the client attestation
    headers, the receiving server MUST ensure the following with regard
@@ -505,14 +505,27 @@ Table of Contents
        Instance Key contained in the cnf claim of the Client Attestation
        JWT obtained from the OAuth-Client-Attestation HTTP header.
 
-   An error parameter according to Section 3 of [RFC6750] SHOULD be
-   included to indicate why a request was declined.  If the Client
-   Attestation is absent or not using an expected server-provided
-   challenge, the value use_attestation_challenge can be used to
-   indicate that an attestation with a server-provided challenge was
-   expected.  If the attestation and proof of possession was present but
-   could not be successfully verified, the value
-   invalid_client_attestation is used.
+   When validation errors specifically related to the use of client
+   attestations are encountered the following additional error codes are
+   defined for use in either Authorization Server authenticated endpoint
+   error responses (as defined in Section 5.2 of [RFC6749]) or Resource
+   Server error responses (as defined in Section 3 of [RFC6750]).
+
+   *  use_attestation_challenge MUST be used when the Client Attestation
+      PoP JWT is not using an expected server-provided challenge.  When
+      used this error code MUST be accompanied by the OAuth-Client-
+      Attestation-Challenge HTTP header field parameter (as described in
+      Section 8.1).
+
+   *  invalid_client_attestation MAY be used in addition to the more
+      general invalid_client error code as defined in [RFC6749] if the
+      attestation or its proof of possession could not be successfully
+      verified.
+
+   In the event of errors due to situations not described above,
+   Authorization and Resource Servers MUST follow the guidance of
+   [RFC6749] and [RFC6750] or their respective extensions of when to
+   return suitable Error Responses.
 
 6.3.  Client Attestation at the Token Endpoint
 
