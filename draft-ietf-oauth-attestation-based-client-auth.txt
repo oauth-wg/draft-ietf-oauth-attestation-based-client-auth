@@ -1149,6 +1149,9 @@ Appendix A.  Document History
 
    *  require iat in Client Attestation PoP JWT
 
+   *  clarify use_attestation_challenge and add
+      invalid_client_attestation
+
    -06
 
    *  clarify client_id processing in token request with client
@@ -1247,8 +1250,8 @@ Appendix A.  Document History
 Acknowledgments
 
    We would like to thank Brian Campbell, Filip Skokan, Francesco
-   Marino, Guiseppe De Marco, Kristina Yasuda, Michael B.  Jones,
-   Takahiko Kawasaki and Torsten Lodderstedt for their valuable
+   Marino, Guiseppe De Marco, Kristina Yasuda, Micha Kraus, Michael B.
+   Jones, Takahiko Kawasaki and Torsten Lodderstedt for their valuable
    contributions to this specification.
 
 Authors' Addresses
