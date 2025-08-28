@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-14T00:13:27.731634+00:00",
+  "timestamp": "2025-08-28T00:12:40.828732+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3547,6 +3547,22 @@
       "body": "> How should the Structured Types field be filled in for the new HTTP Field Names registrations (or should it be left empty)?",
       "createdAt": "2025-08-12T06:37:35Z",
       "updatedAt": "2025-08-12T06:37:35Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 140,
+      "id": "I_kwDOJaEkaM7IDQ1-",
+      "title": "Feedback from mailing list",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/140",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\nFrom https://mailarchive.ietf.org/arch/msg/oauth/ug41q9ykI3we5HKWsvlA6euvMWc/\n \n> - General: why is the document marked Informational? Looks very much like a Proposed Standard to me!\n>   1. Introduction (and even the Abstract): I think it is problematic to refer to this method as \"client authentication\". Even if a specific key is asserted, and even if the client can assert a \"sub\" value, this is not \"authentication\" unless these values are shown to correspond to a managed client identity - where each client instance has a unique identity and where some other management system can enumerate the identities of all valid clients. With the current solution each client instance may have identity X today and identity Y tomorrow.\n> - This (IMHO) misconception is repeated in text such as \"the Client instance generates a key... to prove its authenticity\".\n> - To use a term from the Privacy space: what we have here is a pseudonymous client Instance: it is NOT fully authenticated, but:\n> - If the same Instance Key is used multiple times, we know that it belongs to the same client instance (assuming no colluding client instances).\n> - One client instance may be associated with multiple instance keys.\n> - There is no mapping of an Instance Key to any predefined (\"managed\") entity.\n> - General: the document is targeted at a public deployment, where we want to minimize the information conveyed to the AS. It's not a great fit to other use cases (closed environments, Confidential Computing etc.) where we might want the AS to know what kind of attestation took place and use it in its policy. To support such use cases we might have to extend the Client Attestation JWT to include additional information. I propose it more as food for thought rather than an actionable change.\n> - 5.1: Typo: iss (subject) claim.\n> - sub and client_id: there is nothing here to require uniqueness of client_id or that it is known by the AS - going back to my comments about authentication above.\n> - And shouldn't we define a MTI signing algorithm (e.g. ES256 used here)? I know it's not a very popular thing around here, but it's required for interoperability.\n> - The examples in Sec. 5 both use https://client.example.com/ for the client ID, which is not very typical of a mobile client that usually doesn't have its own DNS address.\n> - The following rule makes the processing of the Attestation PoP non-deterministic: \"Note that the authorization server may reject JWTs with an \"iat\" claim value that is unreasonably far in the past.\" Since we don't want PoPs to be reused, why not say that they MUST be fresh?\n> - 6.1: why define the syntax as \"token68\" which is a strict superset of the real syntax (base64url plus \".\")?\n> - 6.2: in the section title, did you mean \"featuring\" instead of \"feature\"?\n> - 6.4: shouldn't we correlate the client_id value, just as in sec. 6.3?\n> - 8.1: there are two challenge mechanisms defined, but not how they interplay. The most extreme example is a \"OAuth-Client-Attestation-Challenge\" included in the response to \"POST /as/challenge\". A more sane example is a client that doesn't want to cache challenges indefinitely and prefers to use the challenge endpoint even though it had received (maybe days ago) a challenge in a header.\n> - 10.2: \"MUST bind the refresh token to the Client Instance, and NOT just the client\" - the text is not terribly clear. Maybe say \"to the Client Instance and its associated public key\".\n> - 10.4: and upon key rotation, the client must invalidate its refresh token?\n> - Both sec. 12.1 and 10.5 cover the same ground, and I suspect that sec. 10.5 can be removed.\n> - 13: remove \"Appendix A\" from the section title.\n> - 13.3: the document does not define anywhere how this works in DCR.\n",
+      "createdAt": "2025-08-26T16:12:14Z",
+      "updatedAt": "2025-08-26T16:12:14Z",
       "closedAt": null,
       "comments": []
     }
