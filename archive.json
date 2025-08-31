@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T00:12:40.828732+00:00",
+  "timestamp": "2025-08-31T00:14:03.413079+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -2287,11 +2287,14 @@
       "state": "OPEN",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "c2bo",
+        "tplooker"
+      ],
       "labels": [],
       "body": "In the event this client authentication method is used with DPoP bound access tokens. An AS may want the assurance that the key they bind an issued access token, is in fact authenticated to the client. Without this assurance a MITM attack is possible where an intermediary could substitute the DPoP proof in the token request for a key they control, thus then being able to use the returned access token.\r\n\r\nBelow is a simple diagram depicting this attack\r\n\r\n```mermaid\r\nsequenceDiagram\r\n    participant C as Client\r\n    participant A as Attacker\r\n    participant AS as Authorisation Server\r\n    participant RS as Resource Server\r\n\r\n    C->>C: Prepare Token Request (including DPoP proof)\r\n    C->>A: Send token request (intercepted by attacker)\r\n    A->>A: Generate new DPoP key and DPoP proof\r\n    A->>A: Generate new token request using the clients original request but with the new DPoP proof substituted\r\n    A->>AS: Send token request\r\n    AS->>AS: Validate and generate access token bound to attackers DPoP key\r\n    AS->>A: Send token response (with access token bound to attackers DPoP key)\r\n    A->>RS: Protected resource request using obtained access token\r\n```\r\n\r\nDPoP as stated in the RFC [is not designed as a client authentication method, but is instead designed to work with client authentication](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-dpop-16#section-3). The client authentication method as defined by this draft could be such a suitable method that would provide a way to prevent the above attack from occurring.\r\n\r\nRelated to this issue, is PR #67, which explores using the DPoP proof syntax instead of defining a new JWT PoP syntax as is the case with the current draft. Consequently if #67 were adopted, the usage of this client authentication method with DPoP bound access tokens becomes much simpler and the above attack scenario would be prevented implicitly through the design. However, there is concern that #67 risks coupling together the DPoP key and client attestation key where there maybe usecases where these keys should be seperate (cc @tlodderstedt). Personally I'm not convinced that the DPoP key and client attestation key need to be different and I believe the complexity it creates is not worth it. However, if #67 is not adopted, then a different solution to solving the above problem needs to be devised which may require putting the DPoP key in the client attestation PoP so it can be authenticated back to the client. \r\n",
       "createdAt": "2024-01-25T20:54:18Z",
-      "updatedAt": "2025-08-12T06:42:02Z",
+      "updatedAt": "2025-08-28T11:17:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -2311,11 +2314,13 @@
       "state": "OPEN",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tplooker"
+      ],
       "labels": [],
       "body": "We need to consider registering appropriate metadata for an AS and client to respectively indicate what signing algorithms they support for \r\n\r\n- A client attestation\r\n- A client attestation pop",
       "createdAt": "2024-03-23T09:56:57Z",
-      "updatedAt": "2025-08-12T06:36:03Z",
+      "updatedAt": "2025-08-28T11:15:07Z",
       "closedAt": null,
       "comments": []
     },
@@ -3134,10 +3139,12 @@
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "In discussions with European Commission, an alternative mechanism for proofing the Client Attestation emerged. Instead of having a Client Attestation containing a key and adding a PoP, we could have the AS provide a nonce and this nonce would be included in the Client Attestation within an ad-hoc issuance, thus requireing no PoP. The discussion was inspired by the mechanism of key attestation in OpenID4VCI that also includes these both options (in the form of two proof_types `jwt` and `attestation`).\n\nThe EU document suggests:\n> The WAA SHALL either be sent along with a Proof-of-Possession (PoP) OR it SHALL contain the nonce value obtained from the nonce endpoint of the Credential Issuer. The former will be referred to as a key bound WAA and the latter as an ephemeral WAA.\n\n",
       "createdAt": "2025-05-09T11:14:02Z",
-      "updatedAt": "2025-08-12T06:30:17Z",
+      "updatedAt": "2025-08-28T11:14:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -3266,13 +3273,15 @@
       "state": "OPEN",
       "author": "Macke",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "c2bo"
+      ],
       "labels": [
         "discuss"
       ],
       "body": "\"6.1. Client Attestation HTTP Headers \nA Client Attestation JWT and Client Attestation PoP JWT can be included in an HTTP request using the following request header fields.\"\n\nSuggest re-drafting this such that it is a normative requirement to have those headers if the two attestations are being transferred by header.\n\nperhaps:\n\n\"6.1. Client Attestation HTTP Headers \nWhen using headers to transfer the Client Attestation JWT and Client Attestation PoP JWT to an Authorization Server they MUST be provided in an HTTP request using the following HTTP headers.\"",
       "createdAt": "2025-05-28T12:58:18Z",
-      "updatedAt": "2025-08-12T06:23:01Z",
+      "updatedAt": "2025-08-28T11:12:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -3430,11 +3439,13 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulbastian"
+      ],
       "labels": [],
       "body": "Currently, MACs are not allowed. There is work on asymmetric-derived MACs, e.g. ECDH-KDF-MAC which would be disallowed by this constraint.",
       "createdAt": "2025-07-07T06:56:13Z",
-      "updatedAt": "2025-08-12T06:21:23Z",
+      "updatedAt": "2025-08-28T11:11:34Z",
       "closedAt": null,
       "comments": []
     },
@@ -3562,7 +3573,7 @@
       "labels": [],
       "body": "\nFrom https://mailarchive.ietf.org/arch/msg/oauth/ug41q9ykI3we5HKWsvlA6euvMWc/\n \n> - General: why is the document marked Informational? Looks very much like a Proposed Standard to me!\n>   1. Introduction (and even the Abstract): I think it is problematic to refer to this method as \"client authentication\". Even if a specific key is asserted, and even if the client can assert a \"sub\" value, this is not \"authentication\" unless these values are shown to correspond to a managed client identity - where each client instance has a unique identity and where some other management system can enumerate the identities of all valid clients. With the current solution each client instance may have identity X today and identity Y tomorrow.\n> - This (IMHO) misconception is repeated in text such as \"the Client instance generates a key... to prove its authenticity\".\n> - To use a term from the Privacy space: what we have here is a pseudonymous client Instance: it is NOT fully authenticated, but:\n> - If the same Instance Key is used multiple times, we know that it belongs to the same client instance (assuming no colluding client instances).\n> - One client instance may be associated with multiple instance keys.\n> - There is no mapping of an Instance Key to any predefined (\"managed\") entity.\n> - General: the document is targeted at a public deployment, where we want to minimize the information conveyed to the AS. It's not a great fit to other use cases (closed environments, Confidential Computing etc.) where we might want the AS to know what kind of attestation took place and use it in its policy. To support such use cases we might have to extend the Client Attestation JWT to include additional information. I propose it more as food for thought rather than an actionable change.\n> - 5.1: Typo: iss (subject) claim.\n> - sub and client_id: there is nothing here to require uniqueness of client_id or that it is known by the AS - going back to my comments about authentication above.\n> - And shouldn't we define a MTI signing algorithm (e.g. ES256 used here)? I know it's not a very popular thing around here, but it's required for interoperability.\n> - The examples in Sec. 5 both use https://client.example.com/ for the client ID, which is not very typical of a mobile client that usually doesn't have its own DNS address.\n> - The following rule makes the processing of the Attestation PoP non-deterministic: \"Note that the authorization server may reject JWTs with an \"iat\" claim value that is unreasonably far in the past.\" Since we don't want PoPs to be reused, why not say that they MUST be fresh?\n> - 6.1: why define the syntax as \"token68\" which is a strict superset of the real syntax (base64url plus \".\")?\n> - 6.2: in the section title, did you mean \"featuring\" instead of \"feature\"?\n> - 6.4: shouldn't we correlate the client_id value, just as in sec. 6.3?\n> - 8.1: there are two challenge mechanisms defined, but not how they interplay. The most extreme example is a \"OAuth-Client-Attestation-Challenge\" included in the response to \"POST /as/challenge\". A more sane example is a client that doesn't want to cache challenges indefinitely and prefers to use the challenge endpoint even though it had received (maybe days ago) a challenge in a header.\n> - 10.2: \"MUST bind the refresh token to the Client Instance, and NOT just the client\" - the text is not terribly clear. Maybe say \"to the Client Instance and its associated public key\".\n> - 10.4: and upon key rotation, the client must invalidate its refresh token?\n> - Both sec. 12.1 and 10.5 cover the same ground, and I suspect that sec. 10.5 can be removed.\n> - 13: remove \"Appendix A\" from the section title.\n> - 13.3: the document does not define anywhere how this works in DCR.\n",
       "createdAt": "2025-08-26T16:12:14Z",
-      "updatedAt": "2025-08-26T16:12:14Z",
+      "updatedAt": "2025-08-28T11:05:47Z",
       "closedAt": null,
       "comments": []
     }
