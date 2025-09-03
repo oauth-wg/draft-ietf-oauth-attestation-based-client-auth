@@ -582,7 +582,7 @@ The approach using a challenge explicitly provided by the Authorization Server g
 
 The Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata.
 
-The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_alg_values_supported` and `client_attestation_pop_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms.
+The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms.
 
 # Appendix A IANA Considerations
 
@@ -615,12 +615,12 @@ This specification requests registration of the following values in the IANA "OA
 
 This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of {{IANA.OAuth.Params}} established by [RFC8414].
 
-* Metadata Name: client_attestation_alg_values_supported
+* Metadata Name: client_attestation_signing_alg_values_supported
 * Metadata Description: JSON array containing a list of algorithms supported by the authorization server for client attestation signing
 * Change Controller: IETF
 * Reference: [](#checking-http-requests-with-client-attestations) of this specification
 
-* Metadata Name: client_attestation_pop_alg_values_supported
+* Metadata Name: client_attestation_pop_signing_alg_values_supported
 * Metadata Description: JSON array containing a list of algorithms supported by the authorization server for client attestation proof of possession signing
 * Change Controller: IETF
 * Reference: this specification
@@ -647,7 +647,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * Reference: [](#headers) of this specification
 
 <br/>
-
+add implementation consideration for Authorization Server Metadata
 * Field Name: OAuth-Client-Attestation-Challenge
 * Status: permanent
 * Reference: [](#challenge-retrieval) of this specification
@@ -659,7 +659,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 * require `iat` in Client Attestation PoP JWT
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
-* add `client_attestation_alg_values_supported` and `client_attestation_pop_alg_values_supported` to IANA registration
+* add `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` to IANA registration
 * add implementation consideration for Authorization Server Metadata
 
 -06
