@@ -2055,7 +2055,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <a href="#section-13.1" class="section-number selfRef">13.1. </a><a href="#name-authorization-server-metada" class="section-name selfRef">Authorization Server Metadata</a>
         </h3>
 <p id="section-13.1-1">The Authorization Server <span class="bcp14">SHOULD</span> communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value <code>attest_jwt_client_auth</code> in the <code>token_endpoint_auth_methods_supported</code> within its published metadata.<a href="#section-13.1-1" class="pilcrow">¶</a></p>
-<p id="section-13.1-2">The Authorization Server <span class="bcp14">SHOULD</span> communicate supported algorithms for client attestations by using <code>client_attestation_alg_values_supported</code> and <code>client_attestation_pop_alg_values_supported</code> within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client <span class="bcp14">MAY</span> try to get a new client attestation with different algorithms.<a href="#section-13.1-2" class="pilcrow">¶</a></p>
+<p id="section-13.1-2">The Authorization Server <span class="bcp14">SHOULD</span> communicate supported algorithms for client attestations by using <code>client_attestation_signing_alg_values_supported</code> and <code>client_attestation_pop_signing_alg_values_supported</code> within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client <span class="bcp14">MAY</span> try to get a new client attestation with different algorithms.<a href="#section-13.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2135,7 +2135,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="section-14.3-1">This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>.<a href="#section-14.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-14.3-2.1">
-            <p id="section-14.3-2.1.1">Metadata Name: client_attestation_alg_values_supported<a href="#section-14.3-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-14.3-2.1.1">Metadata Name: client_attestation_signing_alg_values_supported<a href="#section-14.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.3-2.2">
             <p id="section-14.3-2.2.1">Metadata Description: JSON array containing a list of algorithms supported by the authorization server for client attestation signing<a href="#section-14.3-2.2.1" class="pilcrow">¶</a></p>
@@ -2147,7 +2147,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-14.3-2.4.1">Reference: <a href="#checking-http-requests-with-client-attestations" class="auto internal xref">Section 6.2</a> of this specification<a href="#section-14.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.3-2.5">
-            <p id="section-14.3-2.5.1">Metadata Name: client_attestation_pop_alg_values_supported<a href="#section-14.3-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-14.3-2.5.1">Metadata Name: client_attestation_pop_signing_alg_values_supported<a href="#section-14.3-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-14.3-2.6">
             <p id="section-14.3-2.6.1">Metadata Description: JSON array containing a list of algorithms supported by the authorization server for client attestation proof of possession signing<a href="#section-14.3-2.6.1" class="pilcrow">¶</a></p>
@@ -2209,18 +2209,11 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-14.5-4.3.1">Reference: <a href="#headers" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-14.5-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-14.5-5"><br></p>
-<ul class="normal">
-<li class="normal" id="section-14.5-6.1">
-            <p id="section-14.5-6.1.1">Field Name: OAuth-Client-Attestation-Challenge<a href="#section-14.5-6.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-14.5-6.2">
-            <p id="section-14.5-6.2.1">Status: permanent<a href="#section-14.5-6.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-14.5-6.3">
-            <p id="section-14.5-6.3.1">Reference: <a href="#challenge-retrieval" class="auto internal xref">Section 8</a> of this specification<a href="#section-14.5-6.3.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
+<p id="section-14.5-5"><br>
+add implementation consideration for Authorization Server Metadata
+* Field Name: OAuth-Client-Attestation-Challenge
+* Status: permanent
+* Reference: <a href="#challenge-retrieval" class="auto internal xref">Section 8</a> of this specification<a href="#section-14.5-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2340,7 +2333,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <p id="appendix-A-2.2.1">clarify <code>use_attestation_challenge</code> and add <code>invalid_client_attestation</code><a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">add <code>client_attestation_alg_values_supported</code> and <code>client_attestation_pop_alg_values_supported</code> to IANA registration<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">add <code>client_attestation_signing_alg_values_supported</code> and <code>client_attestation_pop_signing_alg_values_supported</code> to IANA registration<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
           <p id="appendix-A-2.4.1">add implementation consideration for Authorization Server Metadata<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>

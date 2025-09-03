@@ -970,10 +970,11 @@ Table of Contents
    token_endpoint_auth_methods_supported within its published metadata.
 
    The Authorization Server SHOULD communicate supported algorithms for
-   client attestations by using client_attestation_alg_values_supported
-   and client_attestation_pop_alg_values_supported within its published
-   metadata.  This enables the client to validate that its client
-   attestation is understood by the Authorization Server prior to
+   client attestations by using
+   client_attestation_signing_alg_values_supported and
+   client_attestation_pop_signing_alg_values_supported within its
+   published metadata.  This enables the client to validate that its
+   client attestation is understood by the Authorization Server prior to
    authentication.  The client MAY try to get a new client attestation
    with different algorithms.
 
@@ -1031,7 +1032,7 @@ Table of Contents
    the IANA "OAuth Authorization Server Metadata" registry of
    [IANA.OAuth.Params] established by [RFC8414].
 
-   *  Metadata Name: client_attestation_alg_values_supported
+   *  Metadata Name: client_attestation_signing_alg_values_supported
 
    *  Metadata Description: JSON array containing a list of algorithms
       supported by the authorization server for client attestation
@@ -1041,7 +1042,7 @@ Table of Contents
 
    *  Reference: Section 6.2 of this specification
 
-   *  Metadata Name: client_attestation_pop_alg_values_supported
+   *  Metadata Name: client_attestation_pop_signing_alg_values_supported
 
    *  Metadata Description: JSON array containing a list of algorithms
       supported by the authorization server for client attestation proof
@@ -1086,12 +1087,9 @@ Table of Contents
    *  Reference: Section 6.1 of this specification
 
 
-
-   *  Field Name: OAuth-Client-Attestation-Challenge
-
-   *  Status: permanent
-
-   *  Reference: Section 8 of this specification
+   add implementation consideration for Authorization Server Metadata *
+   Field Name: OAuth-Client-Attestation-Challenge * Status: permanent *
+   Reference: Section 8 of this specification
 
 15.  References
 
@@ -1198,8 +1196,9 @@ Appendix A.  Document History
    *  clarify use_attestation_challenge and add
       invalid_client_attestation
 
-   *  add client_attestation_alg_values_supported and
-      client_attestation_pop_alg_values_supported to IANA registration
+   *  add client_attestation_signing_alg_values_supported and
+      client_attestation_pop_signing_alg_values_supported to IANA
+      registration
 
    *  add implementation consideration for Authorization Server Metadata
 
