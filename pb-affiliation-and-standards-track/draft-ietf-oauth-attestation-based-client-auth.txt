@@ -287,7 +287,7 @@ Table of Contents
 
    The following content applies to the JWT Claims Set:
 
-   *  iss: REQUIRED.  The iss (subject) claim MUST contains a unique
+   *  iss: REQUIRED.  The iss (issuer) claim MUST contains a unique
       identifier for the entity that issued the JWT.  In the absence of
       an application profile specifying otherwise, compliant
       applications MUST compare issuer values using the Simple String
