@@ -104,7 +104,7 @@ Table of Contents
      11.1.  Client Instance Tracking Across Authorization Servers
    12. Security Considerations
      12.1.  Replay Attacks
-   13. Appendix A IANA Considerations
+   13. IANA Considerations
      13.1.  OAuth Parameters Registration
      13.2.  OAuth Extensions Error Registration
      13.3.  Registration of attest_jwt_client_auth Token Endpoint
@@ -958,7 +958,7 @@ Table of Contents
    to simplify mandatory implementation requirements.  The jti value is
    mandatory and hence acts as a default fallback.
 
-13.  Appendix A IANA Considerations
+13.  IANA Considerations
 
 13.1.  OAuth Parameters Registration
 
