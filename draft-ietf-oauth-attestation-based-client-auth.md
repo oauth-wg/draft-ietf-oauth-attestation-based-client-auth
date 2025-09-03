@@ -188,7 +188,7 @@ The following additional rules apply:
 
 1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.
 
-2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
+2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
 3. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
@@ -239,7 +239,7 @@ The following additional rules apply:
 
 1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.
 
-2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server MUST reject JWTs with an invalid signature.
+2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject JWTs with an invalid signature.
 
 3. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
 
@@ -509,7 +509,7 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 
 2. The Client Attestation JWT contains all claims and header parameters as per [](#client-attestation-jwt).
 3. The Client Attestation PoP JWT contains all claims and header parameters as per [](#client-attestation-pop-jwt).
-4. The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm {{IANA.JOSE.ALGS}}, is not none, is not MAC based, is supported by the application, and is acceptable per local policy.
+4. The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy.
 5. The signature of the Client Attestation JWT verifies with the public key of a known and trusted Attester.
 6. The key contained in the `cnf` claim of the Client Attestation JWT is not a private key.
 7. The signature of the Client Attestation PoP JWT verifies with the public key contained in the `cnf` claim of the Client Attestation JWT.
@@ -635,6 +635,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -07
 
+* remove restrictions to not allow MAC-based algorithms
 * require `iat` in Client Attestation PoP JWT
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
 
