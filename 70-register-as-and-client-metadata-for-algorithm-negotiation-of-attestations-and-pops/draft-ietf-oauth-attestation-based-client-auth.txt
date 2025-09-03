@@ -968,6 +968,10 @@ Table of Contents
    for authentication with Attestation-Based Client Authentication by
    using the value attest_jwt_client_auth in the
    token_endpoint_auth_methods_supported within its published metadata.
+   The client SHOULD fetch and parse the Authorization Server metadata
+   and recognize the requirement the requirement for client
+   authentication using Attestation-Based Client Authentication if the
+   given parameters are present.
 
    The Authorization Server SHOULD communicate supported algorithms for
    client attestations by using
