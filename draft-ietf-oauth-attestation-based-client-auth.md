@@ -45,6 +45,7 @@ normative:
   RFC8725: RFC8725
   RFC9110: RFC9110
   RFC9112: RFC9112
+  RFC9126: RFC9126
   IANA.HTTP.Fields:
     author:
       org: "IANA"
@@ -368,9 +369,11 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
 ## Client Attestation at the PAR Endpoint {#par-endpoint}
 
-A Client Attestation can be used at the PAR endpoint instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
+A Client Attestation can be used at the Pushed Authorization Request (PAR) endpoint defined in {{RFC9126}} instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received PAR request which is making use of the client attestation mechanism as defined by this draft.
+
+If the pushed authorization request contains a `client_id` parameter as per {{RFC9126}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):
 
@@ -637,6 +640,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 * require `iat` in Client Attestation PoP JWT
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
+* check client_id at PAR endpoint
 
 -06
 
