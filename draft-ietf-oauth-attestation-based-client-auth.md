@@ -1,6 +1,6 @@
 ---
 title: "OAuth 2.0 Attestation-Based Client Authentication"
-category: info
+category: std
 lang: en
 
 docname: draft-ietf-oauth-attestation-based-client-auth-latest
@@ -28,7 +28,7 @@ author:
  -
     fullname: Paul Bastian
     organization: Bundesdruckerei
-    email: paul.bastian@posteo.de
+    email: paul.bastian@bdr.de
  -
     fullname: Christian Bormann
     organization: SPRIND
