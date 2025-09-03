@@ -637,6 +637,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 * require `iat` in Client Attestation PoP JWT
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
+* clarify refresh token binding
 
 -06
 
