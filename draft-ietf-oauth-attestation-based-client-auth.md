@@ -576,7 +576,7 @@ In any case the Authorization Server SHOULD ensure the freshness of the Client A
 
 The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
 
-# Appendix A IANA Considerations
+# IANA Considerations
 
 ## OAuth Parameters Registration
 
