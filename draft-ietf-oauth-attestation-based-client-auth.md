@@ -204,6 +204,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
 {
   "iss": "https://attester.example.com",
   "sub": "https://client.example.com",
+  "iat": 1300814780,
   "nbf": 1300815780,
   "exp": 1300819380,
   "cnf": {
@@ -233,7 +234,6 @@ The following content applies to the JWT Claims Set:
 * `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the `jti` value for replay attack detection, see [](#security-consideration-replay).
 * `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
 * `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.
-* `nbf`: OPTIONAL. The `nbf` (not before) claim MUST specify the time before which the Client Attestation PoP MUST NOT be accepted for processing.
 
 The following additional rules apply:
 
@@ -258,7 +258,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
 {
   "iss": "https://client.example.com",
   "aud": "https://as.example.com",
-  "nbf":1300815780,
+  "iat": 1300814780,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
   "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
@@ -325,6 +325,8 @@ To validate an HTTP request which contains the client attestation headers, the r
 2. There is precisely one OAuth-Client-Attestation-PoP HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-pop-jwt).
 3. The signature of the Client Attestation PoP JWT obtained from the OAuth-Client-Attestation-PoP HTTP header verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained from the OAuth-Client-Attestation HTTP header.
 
+Alternatively if client attestations are being used in conjunction with DPoP in the combined mode as specified in [](#combined-dpop) the processing rules as specified in that section apply.
+
 When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in Section 5.2 of {{RFC6749}}) or Resource Server error responses (as defined in Section 3 of {{RFC6750}}).
 
 - `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-header)).
@@ -339,6 +341,8 @@ While usage of the the client attestation mechanism defined by this draft can be
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.
 
 If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
+
+If the Authorization Server supports it, a client MAY instead use the combined client attestation and DPoP mode described in [](#combined-dpop).
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
@@ -372,6 +376,8 @@ A Client Attestation can be used at the PAR endpoint instead of alternative clie
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received PAR request which is making use of the client attestation mechanism as defined by this draft.
 
+If the Authorization Server supports it, a client MAY instead use the combined client attestation and DPoP mode described in [](#combined-dpop).
+
 The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):
 
 ~~~
@@ -399,6 +405,66 @@ response_type=code&state=af0ifjsldkj&client_id=s6BhdRkqt3
 &code_challenge=K2-ltc83acc4h0c9w6ESC_rEMTJ3bww-uCHaoeK1t8U
 &code_challenge_method=S256&scope=account-information
 ~~~
+
+## Usage of Client Instance Key as DPoP Key {#combined-dpop}
+
+This section defines an OPTIONAL optimization that allows a single Proof of Possession (PoP) JWT to satisfy both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in {{RFC9449}}. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP).
+
+### Validating HTTP requests
+
+In order to detect whether this combined mode is being used, the following conditions MUST be met:
+1. There is precisely one OAuth-Client-Attestation HTTP request header field, where its value is a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-jwt).
+2. There is precisely one DPoP HTTP request header field, its value is conforming to the syntax outlined in {{RFC9449}}.
+3. There is no OAuth-Client-Attestation-PoP HTTP request header field present.
+
+Provided the above conditions are meet the following additional rules apply:
+1. The public key located in the DPoP proof MUST match the public key located in the `cnf` claim of the Client Attestation JWT.
+2. Beyond what is defined in {{RFC9449}} the following additional claims in the DPoP proof apply.
+    * `iss`: REQUIRED. Value is the client_id (matching the `sub` of the Client Attestation JWT).
+3. As per {{RFC9449}} the DPoP proof `typ` header value MUST be `dpop+jwt`.
+
+// TODO error handling
+
+The following non-normative example shows a token request using combined mode (line breaks for display only):
+
+~~~
+POST /token HTTP/1.1
+Host: as.example.com
+Content-Type: application/x-www-form-urlencoded
+OAuth-Client-Attestation: <Client-Attestation-JWT>
+DPoP: <Combined-DPoP-And-Attestation-PoP-JWT>
+
+grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
+~~~
+
+Decoded (non-normative) DPoP (combined) proof:
+
+Header:
+{
+  "typ": "dpop+jwt",
+  "alg": "ES256",
+  "jwk": {
+    "kty": "EC",
+    "crv": "P-256",
+    "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
+    "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
+  }
+}
+
+Payload:
+{
+  "iss": "https://client.example.com",
+  "htm": "POST",
+  "htu": "https://as.example.com/token",
+  "iat": 1700000000,
+  "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9"
+}
+
+Implementations should be aware of the trade offs of using this mechanism, namely the benefits are as follows:
+* It authenticates (attests) the DPoP key used for sender-constraining tokens against the Client deployment.
+* It can reduce implementation complexity for both the Client and Authorization Server by reducing the number of JWTs that need to be constructed and or validated in a request.
+
+Conversely using this mechanism means the key used for client authentication and token binding is shared, which maybe undesirable depending on the various deployment considerations the Client and or Authorization Server may have.
 
 # Concatenated Serialization for Client Attestations {#alternative-representation}
 
@@ -502,10 +568,10 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 
 Upon receiving a Client Attestation, the receiving server MUST ensure the following conditions and rules:
 
-1. If the Client Attestation was received via Header based Syntax (as described in [](#header-based)):
+1. If the Client Attestation was received via Header based Syntax (as described in [](#header-based)) the HTTP request MUST conform to exactly one of the following:
 
-    * The HTTP request contains exactly one field `OAuth-Client-Attestation` and one field `OAuth-Client-Attestation-PoP`.
-    * Both fields contain exactly one well-formed JWT.
+  * Separate proofs pattern: exactly one field `OAuth-Client-Attestation` and exactly one field `OAuth-Client-Attestation-PoP`, each containing exactly one well-formed JWT; OR
+  * Combined DPoP pattern: exactly one field `OAuth-Client-Attestation` and exactly one field `DPoP` meeting the requirements of [](#combined-dpop), and no `OAuth-Client-Attestation-PoP` field present.
 
 2. The Client Attestation JWT contains all claims and header parameters as per [](#client-attestation-jwt).
 3. The Client Attestation PoP JWT contains all claims and header parameters as per [](#client-attestation-pop-jwt).
@@ -602,6 +668,15 @@ This specification requests registration of the following values in the IANA "OA
 * Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
 * Change Controller: IETF
 * Reference: this specification
+
+## OAuth Authorization Server Metadata Registration
+
+This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of {{IANA.OAuth.Params}} established by [RFC8414].
+
+* Metadata Name: client_attestation_dpop_combined_mode_supported
+* Metadata Description: JSON Boolean indicating whether the usage of client attestations and dpop together in a combined mode is supported
+* Change Controller: IETF
+* Reference: [](#checking-http-requests-with-client-attestations) of this specification
 
 ## Registration of attest_jwt_client_auth Token Endpoint Authentication Method
 
