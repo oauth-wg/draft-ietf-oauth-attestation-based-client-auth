@@ -1,6 +1,6 @@
 ---
 title: "OAuth 2.0 Attestation-Based Client Authentication"
-category: info
+category: std
 lang: en
 
 docname: draft-ietf-oauth-attestation-based-client-auth-latest
@@ -28,7 +28,7 @@ author:
  -
     fullname: Paul Bastian
     organization: Bundesdruckerei
-    email: paul.bastian@posteo.de
+    email: paul.bastian@bdr.de
  -
     fullname: Christian Bormann
     organization: SPRIND
@@ -45,6 +45,7 @@ normative:
   RFC8725: RFC8725
   RFC9110: RFC9110
   RFC9112: RFC9112
+  RFC9126: RFC9126
   IANA.HTTP.Fields:
     author:
       org: "IANA"
@@ -177,7 +178,7 @@ The following content applies to the JWT Header:
 
 The following content applies to the JWT Claims Set:
 
-* `iss`: REQUIRED. The `iss` (subject) claim MUST contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
+* `iss`: REQUIRED. The `iss` (issuer) claim MUST contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
 * `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client.
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
@@ -368,9 +369,11 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
 ## Client Attestation at the PAR Endpoint {#par-endpoint}
 
-A Client Attestation can be used at the PAR endpoint instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
+A Client Attestation can be used at the Pushed Authorization Request (PAR) endpoint defined in {{RFC9126}} instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received PAR request which is making use of the client attestation mechanism as defined by this draft.
+
+If the pushed authorization request contains a `client_id` parameter as per {{RFC9126}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):
 
@@ -638,6 +641,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * require `iat` in Client Attestation PoP JWT
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
 * clarify refresh token binding
+* check client_id at PAR endpoint
 
 -06
 
