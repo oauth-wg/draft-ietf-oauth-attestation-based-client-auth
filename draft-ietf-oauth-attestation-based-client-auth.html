@@ -1253,7 +1253,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-appendix-a-iana-considerati" class="internal xref">Appendix A IANA Considerations</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
                 <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="auto internal xref">13.1</a>.  <a href="#name-oauth-parameters-registrati" class="internal xref">OAuth Parameters Registration</a></p>
@@ -1932,7 +1932,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
         <h3 id="name-refresh-token-binding">
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-refresh-token-binding" class="section-name selfRef">Refresh token binding</a>
         </h3>
-<p id="section-10.2-1">Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft <span class="bcp14">MUST</span> bind the refresh token to the Client Instance, and NOT just the client as specified in section 6 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. To prove this binding, the Client Instance <span class="bcp14">MUST</span> use the client attestation mechanism when refreshing an access token. The client <span class="bcp14">MUST</span> also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.<a href="#section-10.2-1" class="pilcrow">¶</a></p>
+<p id="section-10.2-1">Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft <span class="bcp14">MUST</span> bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in section 6 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. To prove this binding, the Client Instance <span class="bcp14">MUST</span> use the client attestation mechanism when refreshing an access token. The client <span class="bcp14">MUST</span> also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.<a href="#section-10.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="web-server-default-maximum-http-header-sizes">
@@ -2034,10 +2034,10 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 </div>
 </section>
 </div>
-<div id="appendix-a-iana-considerations">
+<div id="iana-considerations">
 <section id="section-13">
-      <h2 id="name-appendix-a-iana-considerati">
-<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-appendix-a-iana-considerati" class="section-name selfRef">Appendix A IANA Considerations</a>
+      <h2 id="name-iana-considerations">
+<a href="#section-13" class="section-number selfRef">13. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <div id="oauth-parameters-registration">
 <section id="section-13.1">
@@ -2284,7 +2284,10 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <p id="appendix-A-2.2.1">clarify <code>use_attestation_challenge</code> and add <code>invalid_client_attestation</code><a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">check client_id at PAR endpoint<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">clarify refresh token binding<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.4">
+          <p id="appendix-A-2.4.1">check client_id at PAR endpoint<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-06<a href="#appendix-A-3" class="pilcrow">¶</a></p>

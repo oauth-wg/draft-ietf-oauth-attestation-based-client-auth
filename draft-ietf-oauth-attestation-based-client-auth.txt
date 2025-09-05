@@ -104,7 +104,7 @@ Table of Contents
      11.1.  Client Instance Tracking Across Authorization Servers
    12. Security Considerations
      12.1.  Replay Attacks
-   13. Appendix A IANA Considerations
+   13. IANA Considerations
      13.1.  OAuth Parameters Registration
      13.2.  OAuth Extensions Error Registration
      13.3.  Registration of attest_jwt_client_auth Token Endpoint
@@ -826,12 +826,13 @@ Table of Contents
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
-   draft MUST bind the refresh token to the Client Instance, and NOT
-   just the client as specified in section 6 [RFC6749].  To prove this
-   binding, the Client Instance MUST use the client attestation
-   mechanism when refreshing an access token.  The client MUST also use
-   the same key that was present in the "cnf" claim of the client
-   attestation that was used when the refresh token was issued.
+   draft MUST bind the refresh token to the Client Instance and its
+   associated public key, and NOT just the client as specified in
+   section 6 [RFC6749].  To prove this binding, the Client Instance MUST
+   use the client attestation mechanism when refreshing an access token.
+   The client MUST also use the same key that was present in the "cnf"
+   claim of the client attestation that was used when the refresh token
+   was issued.
 
 10.3.  Web Server Default Maximum HTTP Header Sizes
 
@@ -962,7 +963,7 @@ Table of Contents
    to simplify mandatory implementation requirements.  The jti value is
    mandatory and hence acts as a default fallback.
 
-13.  Appendix A IANA Considerations
+13.  IANA Considerations
 
 13.1.  OAuth Parameters Registration
 
@@ -1161,6 +1162,8 @@ Appendix A.  Document History
 
    *  clarify use_attestation_challenge and add
       invalid_client_attestation
+
+   *  clarify refresh token binding
 
    *  check client_id at PAR endpoint
 
