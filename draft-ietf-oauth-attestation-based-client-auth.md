@@ -1,6 +1,6 @@
 ---
 title: "OAuth 2.0 Attestation-Based Client Authentication"
-category: info
+category: std
 lang: en
 
 docname: draft-ietf-oauth-attestation-based-client-auth-latest
@@ -28,7 +28,7 @@ author:
  -
     fullname: Paul Bastian
     organization: Bundesdruckerei
-    email: paul.bastian@posteo.de
+    email: paul.bastian@bdr.de
  -
     fullname: Christian Bormann
     organization: SPRIND
@@ -177,7 +177,7 @@ The following content applies to the JWT Header:
 
 The following content applies to the JWT Claims Set:
 
-* `iss`: REQUIRED. The `iss` (subject) claim MUST contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
+* `iss`: REQUIRED. The `iss` (issuer) claim MUST contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
 * `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client.
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
