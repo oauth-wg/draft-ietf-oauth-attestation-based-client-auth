@@ -4,11 +4,11 @@
 
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
-Intended status: Informational                                P. Bastian
-Expires: 7 March 2026                                    Bundesdruckerei
+Intended status: Standards Track                              P. Bastian
+Expires: 9 March 2026                                    Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                        3 September 2025
+                                                        5 September 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 March 2026.
+   This Internet-Draft will expire on 9 March 2026.
 
 Copyright Notice
 
@@ -95,27 +95,26 @@ Table of Contents
      8.1.  Providing Challenges on Previous Responses
    9.  Verification and Processing
    10. Implementation Considerations
-     10.1.  Reuse of a Client Attestation JWT
-     10.2.  Refresh token binding
-     10.3.  Web Server Default Maximum HTTP Header Sizes
-     10.4.  Rotation of Client Instance Key
-     10.5.  Replay Attack Detection
+     10.1.  Authorization Server Metadata
+     10.2.  Reuse of a Client Attestation JWT
+     10.3.  Refresh token binding
+     10.4.  Web Server Default Maximum HTTP Header Sizes
+     10.5.  Rotation of Client Instance Key
+     10.6.  Replay Attack Detection
    11. Privacy Considerations
      11.1.  Client Instance Tracking Across Authorization Servers
    12. Security Considerations
      12.1.  Replay Attacks
-   13. Implementation Consideration
-     13.1.  Authorization Server Metadata
-   14. Appendix A IANA Considerations
-     14.1.  OAuth Parameters Registration
-     14.2.  OAuth Extensions Error Registration
-     14.3.  OAuth Authorization Server Metadata Registration
-     14.4.  Registration of attest_jwt_client_auth Token Endpoint
+   13. IANA Considerations
+     13.1.  OAuth Parameters Registration
+     13.2.  OAuth Extensions Error Registration
+     13.3.  OAuth Authorization Server Metadata Registration
+     13.4.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     14.5.  HTTP Field Name Registration
-   15. References
-     15.1.  Normative References
-     15.2.  Informative References
+     13.5.  HTTP Field Name Registration
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Appendix A.  Document History
    Acknowledgments
    Authors' Addresses
@@ -290,7 +289,7 @@ Table of Contents
 
    The following content applies to the JWT Claims Set:
 
-   *  iss: REQUIRED.  The iss (subject) claim MUST contains a unique
+   *  iss: REQUIRED.  The iss (issuer) claim MUST contains a unique
       identifier for the entity that issued the JWT.  In the absence of
       an application profile specifying otherwise, compliant
       applications MUST compare issuer values using the Simple String
@@ -574,14 +573,19 @@ Table of Contents
 
 6.4.  Client Attestation at the PAR Endpoint
 
-   A Client Attestation can be used at the PAR endpoint instead of
-   alternative client authentication mechanisms like JWT client
-   assertion-based authentication (as defined in Section 2.2 of
-   [RFC7523]).
+   A Client Attestation can be used at the Pushed Authorization Request
+   (PAR) endpoint defined in [RFC9126] instead of alternative client
+   authentication mechanisms like JWT client assertion-based
+   authentication (as defined in Section 2.2 of [RFC7523]).
 
    The Authorization Server MUST perform all of the checks outlined in
    Section 6.2 for a received PAR request which is making use of the
    client attestation mechanism as defined by this draft.
+
+   If the pushed authorization request contains a client_id parameter as
+   per [RFC9126] the Authorization Server MUST verify that the value of
+   this parameter is the same as the client_id value in the sub claim of
+   the Client Attestation and iss claim of the Client Attestation PoP.
 
    The following example demonstrates usage of the client attestation
    mechanism in a PAR request (with extra line breaks for display
@@ -809,7 +813,27 @@ Table of Contents
 
 10.  Implementation Considerations
 
-10.1.  Reuse of a Client Attestation JWT
+10.1.  Authorization Server Metadata
+
+   The Authorization Server SHOULD communicate support and requirement
+   for authentication with Attestation-Based Client Authentication by
+   using the value attest_jwt_client_auth in the
+   token_endpoint_auth_methods_supported within its published metadata.
+   The client SHOULD fetch and parse the Authorization Server metadata
+   and recognize the requirement the requirement for client
+   authentication using Attestation-Based Client Authentication if the
+   given parameters are present.
+
+   The Authorization Server SHOULD communicate supported algorithms for
+   client attestations by using
+   client_attestation_signing_alg_values_supported and
+   client_attestation_pop_signing_alg_values_supported within its
+   published metadata.  This enables the client to validate that its
+   client attestation is understood by the Authorization Server prior to
+   authentication.  The client MAY try to get a new client attestation
+   with different algorithms.
+
+10.2.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -820,18 +844,19 @@ Table of Contents
    ultimately controls how long a Client Instance can re-use a single
    Client Attestation JWT.
 
-10.2.  Refresh token binding
+10.3.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
-   draft MUST bind the refresh token to the Client Instance, and NOT
-   just the client as specified in section 6 [RFC6749].  To prove this
-   binding, the Client Instance MUST use the client attestation
-   mechanism when refreshing an access token.  The client MUST also use
-   the same key that was present in the "cnf" claim of the client
-   attestation that was used when the refresh token was issued.
+   draft MUST bind the refresh token to the Client Instance and its
+   associated public key, and NOT just the client as specified in
+   section 6 [RFC6749].  To prove this binding, the Client Instance MUST
+   use the client attestation mechanism when refreshing an access token.
+   The client MUST also use the same key that was present in the "cnf"
+   claim of the client attestation that was used when the refresh token
+   was issued.
 
-10.3.  Web Server Default Maximum HTTP Header Sizes
+10.4.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -843,7 +868,7 @@ Table of Contents
    As of 2024, typical limits for modern web servers configure maximum
    HTTP headers as 8 kB or more as a default.
 
-10.4.  Rotation of Client Instance Key
+10.5.  Rotation of Client Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
@@ -851,7 +876,7 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
-10.5.  Replay Attack Detection
+10.6.  Replay Attack Detection
 
    Authorization Servers implementing measures to detect replay attacks
    as described in Section 12.1 require efficient data structures to
@@ -911,7 +936,7 @@ Table of Contents
       JWT would be replayed, the Authorization Server would recognize
       the jti value in the list and respond with an authentication
       error.  Details how to implement such a data structure to maintain
-      jti values is given in Section 10.5.
+      jti values is given in Section 10.6.
 
    *  The Authorization Server provides a challenge as an OAuth-Client-
       Attestation-Challenge in the challenge endpoint to the Client
@@ -921,7 +946,7 @@ Table of Contents
       -  manage a list of witnessed challenge values, similar to the
          previously described jti approach.  Details how to implement
          such a data structure to maintain challenge values is given in
-         Section 10.5.  This guarantees stronger replay protection with
+         Section 10.6.  This guarantees stronger replay protection with
          a challenge chosen by the Authorization Server itself, at the
          potential cost of an additional round-trip.
 
@@ -960,31 +985,9 @@ Table of Contents
    to simplify mandatory implementation requirements.  The jti value is
    mandatory and hence acts as a default fallback.
 
-13.  Implementation Consideration
+13.  IANA Considerations
 
-13.1.  Authorization Server Metadata
-
-   The Authorization Server SHOULD communicate support and requirement
-   for authentication with Attestation-Based Client Authentication by
-   using the value attest_jwt_client_auth in the
-   token_endpoint_auth_methods_supported within its published metadata.
-   The client SHOULD fetch and parse the Authorization Server metadata
-   and recognize the requirement the requirement for client
-   authentication using Attestation-Based Client Authentication if the
-   given parameters are present.
-
-   The Authorization Server SHOULD communicate supported algorithms for
-   client attestations by using
-   client_attestation_signing_alg_values_supported and
-   client_attestation_pop_signing_alg_values_supported within its
-   published metadata.  This enables the client to validate that its
-   client attestation is understood by the Authorization Server prior to
-   authentication.  The client MAY try to get a new client attestation
-   with different algorithms.
-
-14.  Appendix A IANA Considerations
-
-14.1.  OAuth Parameters Registration
+13.1.  OAuth Parameters Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry
@@ -1000,7 +1003,7 @@ Table of Contents
 
    *  Reference: Section 8 of this specification
 
-14.2.  OAuth Extensions Error Registration
+13.2.  OAuth Extensions Error Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Extensions Error Registry" registry of
@@ -1030,7 +1033,7 @@ Table of Contents
 
    *  Reference: Section 6.2 of this specification
 
-14.3.  OAuth Authorization Server Metadata Registration
+13.3.  OAuth Authorization Server Metadata Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry of
@@ -1056,7 +1059,7 @@ Table of Contents
 
    *  Reference: this specification
 
-14.4.  Registration of attest_jwt_client_auth Token Endpoint
+13.4.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -1070,7 +1073,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-14.5.  HTTP Field Name Registration
+13.5.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -1095,9 +1098,9 @@ Table of Contents
    Field Name: OAuth-Client-Attestation-Challenge * Status: permanent *
    Reference: Section 8 of this specification
 
-15.  References
+14.  References
 
-15.1.  Normative References
+14.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
@@ -1166,7 +1169,12 @@ Table of Contents
               Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
 
-15.2.  Informative References
+   [RFC9126]  Lodderstedt, T., Campbell, B., Sakimura, N., Tonge, D.,
+              and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
+              RFC 9126, DOI 10.17487/RFC9126, September 2021,
+              <https://www.rfc-editor.org/rfc/rfc9126>.
+
+14.2.  Informative References
 
    [ARF]      "The European Digital Identity Wallet Architecture and
               Reference Framework", n.d..
@@ -1205,6 +1213,10 @@ Appendix A.  Document History
       registration
 
    *  add implementation consideration for Authorization Server Metadata
+
+   *  clarify refresh token binding
+
+   *  check client_id at PAR endpoint
 
    -06
 
@@ -1317,7 +1329,7 @@ Authors' Addresses
 
    Paul Bastian
    Bundesdruckerei
-   Email: paul.bastian@posteo.de
+   Email: paul.bastian@bdr.de
 
 
    Christian Bormann
