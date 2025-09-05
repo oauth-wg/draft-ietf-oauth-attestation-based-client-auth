@@ -531,7 +531,7 @@ Implementers should be aware that the design of this authentication mechanism de
 
 ## Refresh token binding
 
-Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
+Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
 
 ## Web Server Default Maximum HTTP Header Sizes
 
@@ -579,7 +579,7 @@ In any case the Authorization Server SHOULD ensure the freshness of the Client A
 
 The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
 
-# Appendix A IANA Considerations
+# IANA Considerations
 
 ## OAuth Parameters Registration
 
@@ -640,6 +640,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 * require `iat` in Client Attestation PoP JWT
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
+* clarify refresh token binding
 * check client_id at PAR endpoint
 
 -06
