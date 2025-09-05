@@ -1,6 +1,6 @@
 ---
 title: "OAuth 2.0 Attestation-Based Client Authentication"
-category: info
+category: std
 lang: en
 
 docname: draft-ietf-oauth-attestation-based-client-auth-latest
@@ -28,7 +28,7 @@ author:
  -
     fullname: Paul Bastian
     organization: Bundesdruckerei
-    email: paul.bastian@posteo.de
+    email: paul.bastian@bdr.de
  -
     fullname: Christian Bormann
     organization: SPRIND
@@ -45,6 +45,7 @@ normative:
   RFC8725: RFC8725
   RFC9110: RFC9110
   RFC9112: RFC9112
+  RFC9126: RFC9126
   IANA.HTTP.Fields:
     author:
       org: "IANA"
@@ -177,7 +178,7 @@ The following content applies to the JWT Header:
 
 The following content applies to the JWT Claims Set:
 
-* `iss`: REQUIRED. The `iss` (subject) claim MUST contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
+* `iss`: REQUIRED. The `iss` (issuer) claim MUST contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications MUST compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of {{RFC3986}}.
 * `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client.
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
@@ -368,9 +369,11 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
 ## Client Attestation at the PAR Endpoint {#par-endpoint}
 
-A Client Attestation can be used at the PAR endpoint instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
+A Client Attestation can be used at the Pushed Authorization Request (PAR) endpoint defined in {{RFC9126}} instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received PAR request which is making use of the client attestation mechanism as defined by this draft.
+
+If the pushed authorization request contains a `client_id` parameter as per {{RFC9126}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):
 
@@ -522,13 +525,19 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 
 # Implementation Considerations
 
+## Authorization Server Metadata
+
+The Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize the requirement the requirement for client authentication using Attestation-Based Client Authentication if the given parameters are present.
+
+The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms.
+
 ## Reuse of a Client Attestation JWT
 
 Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.
 
 ## Refresh token binding
 
-Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
+Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
 
 ## Web Server Default Maximum HTTP Header Sizes
 
@@ -576,15 +585,7 @@ In any case the Authorization Server SHOULD ensure the freshness of the Client A
 
 The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
 
-# Implementation Consideration
-
-## Authorization Server Metadata
-
-The Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize the requirement the requirement for client authentication using Attestation-Based Client Authentication if the given parameters are present.
-
-The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms.
-
-# Appendix A IANA Considerations
+# IANA Considerations
 
 ## OAuth Parameters Registration
 
@@ -661,6 +662,8 @@ add implementation consideration for Authorization Server Metadata
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
 * add `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` to IANA registration
 * add implementation consideration for Authorization Server Metadata
+* clarify refresh token binding
+* check client_id at PAR endpoint
 
 -06
 
