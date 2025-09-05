@@ -1699,10 +1699,11 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
         <h3 id="name-client-attestation-at-the-p">
 <a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-client-attestation-at-the-p" class="section-name selfRef">Client Attestation at the PAR Endpoint</a>
         </h3>
-<p id="section-6.4-1">A Client Attestation can be used at the PAR endpoint instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of <span>[<a href="#RFC7523" class="cite xref">RFC7523</a>]</span>).<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-1">A Client Attestation can be used at the Pushed Authorization Request (PAR) endpoint defined in <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span> instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of <span>[<a href="#RFC7523" class="cite xref">RFC7523</a>]</span>).<a href="#section-6.4-1" class="pilcrow">¶</a></p>
 <p id="section-6.4-2">The Authorization Server <span class="bcp14">MUST</span> perform all of the checks outlined in <a href="#checking-http-requests-with-client-attestations" class="auto internal xref">Section 6.2</a> for a received PAR request which is making use of the client attestation mechanism as defined by this draft.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
-<p id="section-6.4-3">The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):<a href="#section-6.4-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-6.4-4">
+<p id="section-6.4-3">If the pushed authorization request contains a <code>client_id</code> parameter as per <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span> the Authorization Server <span class="bcp14">MUST</span> verify that the value of this parameter is the same as the client_id value in the <code>sub</code> claim of the Client Attestation and <code>iss</code> claim of the Client Attestation PoP.<a href="#section-6.4-3" class="pilcrow">¶</a></p>
+<p id="section-6.4-4">The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.4-5">
 <pre>
 POST /as/par HTTP/1.1
 Host: as.example.com
@@ -1727,7 +1728,7 @@ response_type=code&amp;state=af0ifjsldkj&amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
 &amp;code_challenge=K2-ltc83acc4h0c9w6ESC_rEMTJ3bww-uCHaoeK1t8U
 &amp;code_challenge_method=S256&amp;scope=account-information
-</pre><a href="#section-6.4-4" class="pilcrow">¶</a>
+</pre><a href="#section-6.4-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2228,8 +2229,12 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9112">[RFC9112]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP/1.1"</span>, <span class="seriesInfo">STD 99</span>, <span class="seriesInfo">RFC 9112</span>, <span class="seriesInfo">DOI 10.17487/RFC9112</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9112">https://www.rfc-editor.org/rfc/rfc9112</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9126">[RFC9126]</dt>
+      <dd>
+<span class="refAuthor">Lodderstedt, T.</span>, <span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Sakimura, N.</span>, <span class="refAuthor">Tonge, D.</span>, and <span class="refAuthor">F. Skokan</span>, <span class="refTitle">"OAuth 2.0 Pushed Authorization Requests"</span>, <span class="seriesInfo">RFC 9126</span>, <span class="seriesInfo">DOI 10.17487/RFC9126</span>, <time datetime="2021-09" class="refDate">September 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9126">https://www.rfc-editor.org/rfc/rfc9126</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2277,6 +2282,9 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 </li>
         <li class="normal" id="appendix-A-2.2">
           <p id="appendix-A-2.2.1">clarify <code>use_attestation_challenge</code> and add <code>invalid_client_attestation</code><a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.3">
+          <p id="appendix-A-2.3.1">check client_id at PAR endpoint<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-06<a href="#appendix-A-3" class="pilcrow">¶</a></p>

@@ -571,14 +571,19 @@ Table of Contents
 
 6.4.  Client Attestation at the PAR Endpoint
 
-   A Client Attestation can be used at the PAR endpoint instead of
-   alternative client authentication mechanisms like JWT client
-   assertion-based authentication (as defined in Section 2.2 of
-   [RFC7523]).
+   A Client Attestation can be used at the Pushed Authorization Request
+   (PAR) endpoint defined in [RFC9126] instead of alternative client
+   authentication mechanisms like JWT client assertion-based
+   authentication (as defined in Section 2.2 of [RFC7523]).
 
    The Authorization Server MUST perform all of the checks outlined in
    Section 6.2 for a received PAR request which is making use of the
    client attestation mechanism as defined by this draft.
+
+   If the pushed authorization request contains a client_id parameter as
+   per [RFC9126] the Authorization Server MUST verify that the value of
+   this parameter is the same as the client_id value in the sub claim of
+   the Client Attestation and iss claim of the Client Attestation PoP.
 
    The following example demonstrates usage of the client attestation
    mechanism in a PAR request (with extra line breaks for display
@@ -1118,6 +1123,11 @@ Table of Contents
               Ed., "HTTP/1.1", STD 99, RFC 9112, DOI 10.17487/RFC9112,
               June 2022, <https://www.rfc-editor.org/rfc/rfc9112>.
 
+   [RFC9126]  Lodderstedt, T., Campbell, B., Sakimura, N., Tonge, D.,
+              and F. Skokan, "OAuth 2.0 Pushed Authorization Requests",
+              RFC 9126, DOI 10.17487/RFC9126, September 2021,
+              <https://www.rfc-editor.org/rfc/rfc9126>.
+
 14.2.  Informative References
 
    [ARF]      "The European Digital Identity Wallet Architecture and
@@ -1151,6 +1161,8 @@ Appendix A.  Document History
 
    *  clarify use_attestation_challenge and add
       invalid_client_attestation
+
+   *  check client_id at PAR endpoint
 
    -06
 
