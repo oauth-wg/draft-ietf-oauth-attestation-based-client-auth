@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-04T00:11:23.014756+00:00",
+  "timestamp": "2025-09-07T00:13:07.812773+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3613,7 +3613,7 @@
       "labels": [],
       "body": "\nFrom https://mailarchive.ietf.org/arch/msg/oauth/ug41q9ykI3we5HKWsvlA6euvMWc/\n \n> - General: why is the document marked Informational? Looks very much like a Proposed Standard to me!\n>   1. Introduction (and even the Abstract): I think it is problematic to refer to this method as \"client authentication\". Even if a specific key is asserted, and even if the client can assert a \"sub\" value, this is not \"authentication\" unless these values are shown to correspond to a managed client identity - where each client instance has a unique identity and where some other management system can enumerate the identities of all valid clients. With the current solution each client instance may have identity X today and identity Y tomorrow.\n> - This (IMHO) misconception is repeated in text such as \"the Client instance generates a key... to prove its authenticity\".\n> - To use a term from the Privacy space: what we have here is a pseudonymous client Instance: it is NOT fully authenticated, but:\n> - If the same Instance Key is used multiple times, we know that it belongs to the same client instance (assuming no colluding client instances).\n> - One client instance may be associated with multiple instance keys.\n> - There is no mapping of an Instance Key to any predefined (\"managed\") entity.\n> - General: the document is targeted at a public deployment, where we want to minimize the information conveyed to the AS. It's not a great fit to other use cases (closed environments, Confidential Computing etc.) where we might want the AS to know what kind of attestation took place and use it in its policy. To support such use cases we might have to extend the Client Attestation JWT to include additional information. I propose it more as food for thought rather than an actionable change.\n> - 5.1: Typo: iss (subject) claim.\n> - sub and client_id: there is nothing here to require uniqueness of client_id or that it is known by the AS - going back to my comments about authentication above.\n> - And shouldn't we define a MTI signing algorithm (e.g. ES256 used here)? I know it's not a very popular thing around here, but it's required for interoperability.\n> - The examples in Sec. 5 both use https://client.example.com/ for the client ID, which is not very typical of a mobile client that usually doesn't have its own DNS address.\n> - The following rule makes the processing of the Attestation PoP non-deterministic: \"Note that the authorization server may reject JWTs with an \"iat\" claim value that is unreasonably far in the past.\" Since we don't want PoPs to be reused, why not say that they MUST be fresh?\n> - 6.1: why define the syntax as \"token68\" which is a strict superset of the real syntax (base64url plus \".\")?\n> - 6.2: in the section title, did you mean \"featuring\" instead of \"feature\"?\n> - 6.4: shouldn't we correlate the client_id value, just as in sec. 6.3?\n> - 8.1: there are two challenge mechanisms defined, but not how they interplay. The most extreme example is a \"OAuth-Client-Attestation-Challenge\" included in the response to \"POST /as/challenge\". A more sane example is a client that doesn't want to cache challenges indefinitely and prefers to use the challenge endpoint even though it had received (maybe days ago) a challenge in a header.\n> - 10.2: \"MUST bind the refresh token to the Client Instance, and NOT just the client\" - the text is not terribly clear. Maybe say \"to the Client Instance and its associated public key\".\n> - 10.4: and upon key rotation, the client must invalidate its refresh token?\n> - Both sec. 12.1 and 10.5 cover the same ground, and I suspect that sec. 10.5 can be removed.\n> - 13: remove \"Appendix A\" from the section title.\n> - 13.3: the document does not define anywhere how this works in DCR.\n",
       "createdAt": "2025-08-26T16:12:14Z",
-      "updatedAt": "2025-09-03T14:40:36Z",
+      "updatedAt": "2025-09-05T11:37:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -10938,13 +10938,13 @@
       "labels": [],
       "body": "Closes #35\r\nCloses #66 \r\nCloses #70 ",
       "createdAt": "2025-09-03T14:01:22Z",
-      "updatedAt": "2025-09-03T14:41:09Z",
+      "updatedAt": "2025-09-05T11:27:40Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
+      "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "70-register-as-and-client-metadata-for-algorithm-negotiation-of-attestations-and-pops",
-      "headRefOid": "a9915910dce861fa895416bbacef724f9cc7c9d2",
+      "headRefOid": "02add0aeb559f6b35dd0f215833b2f08b54b3528",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -10957,24 +10957,26 @@
       "id": "PR_kwDOJaEkaM6mqT0A",
       "title": "make draft standards track and update Paul's affiliation",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/143",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Partially fix #140 ",
       "createdAt": "2025-09-03T14:09:46Z",
-      "updatedAt": "2025-09-03T14:15:41Z",
+      "updatedAt": "2025-09-05T11:14:36Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb-affiliation-and-standards-track",
       "headRefOid": "f1d5d7a1dfa3a90b47c3021c44ead0d8a1a31e24",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-05T11:14:36Z",
+      "mergedAt": "2025-09-05T11:14:35Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "3944ad79bdd5aef910b755b5f2876738c9cb550c"
+      },
       "comments": [],
       "reviews": [
         {
@@ -10989,6 +10991,19 @@
           "createdAt": "2025-09-03T14:15:41Z",
           "updatedAt": "2025-09-03T14:15:41Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM69w1MR",
+          "commit": {
+            "abbreviatedOid": "f1d5d7a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-04T06:46:12Z",
+          "updatedAt": "2025-09-04T06:46:12Z",
+          "comments": []
         }
       ]
     },
@@ -10997,24 +11012,26 @@
       "id": "PR_kwDOJaEkaM6mqgkP",
       "title": "check client_id at PAR endpoint",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/144",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Partially closes #140 ",
       "createdAt": "2025-09-03T14:24:52Z",
-      "updatedAt": "2025-09-03T14:37:39Z",
+      "updatedAt": "2025-09-05T11:14:47Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb-par-check-client_id",
       "headRefOid": "718fa2952b5e2ec08f31048337be6a7b3d351d32",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-05T11:14:47Z",
+      "mergedAt": "2025-09-05T11:14:47Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "0f7f35f9a975f886baaa732d23854a513f69359f"
+      },
       "comments": [],
       "reviews": [
         {
@@ -11029,6 +11046,19 @@
           "createdAt": "2025-09-03T14:37:39Z",
           "updatedAt": "2025-09-03T14:37:39Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM69w1AK",
+          "commit": {
+            "abbreviatedOid": "718fa29"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-04T06:45:53Z",
+          "updatedAt": "2025-09-04T06:45:53Z",
+          "comments": []
         }
       ]
     },
@@ -11037,24 +11067,26 @@
       "id": "PR_kwDOJaEkaM6mqnC0",
       "title": "Pb clarify refresh token binding",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/145",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Partially closes #140 ",
       "createdAt": "2025-09-03T14:33:27Z",
-      "updatedAt": "2025-09-03T14:39:10Z",
+      "updatedAt": "2025-09-05T11:25:04Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
+      "baseRefOid": "0f7f35f9a975f886baaa732d23854a513f69359f",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb-clarify-refresh-token-binding",
-      "headRefOid": "2fb03874c99a97c32b2445aae5e02a9aead86f83",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "3c1dceff67ca37f26d757ab956030f192749627d",
+      "closedAt": "2025-09-05T11:25:04Z",
+      "mergedAt": "2025-09-05T11:25:04Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2"
+      },
       "comments": [],
       "reviews": [
         {
@@ -11069,6 +11101,66 @@
           "createdAt": "2025-09-03T14:35:39Z",
           "updatedAt": "2025-09-03T14:35:39Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM69w0nV",
+          "commit": {
+            "abbreviatedOid": "2fb0387"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-04T06:45:13Z",
+          "updatedAt": "2025-09-04T06:45:13Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 146,
+      "id": "PR_kwDOJaEkaM6m-qwC",
+      "title": "DPoP Optimisation",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/146",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to.\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this.\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
+      "createdAt": "2025-09-05T04:36:11Z",
+      "updatedAt": "2025-09-05T04:37:17Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "tl/dpop-optimisation",
+      "headRefOid": "8c4349c439f3bbacd3a69babbda67d2bddf9648d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6-BFFy",
+          "commit": {
+            "abbreviatedOid": "8c4349c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-05T04:37:17Z",
+          "updatedAt": "2025-09-05T04:37:17Z",
+          "comments": [
+            {
+              "originalPosition": 129,
+              "body": "Note im definitely not convinced of the changes here, it implies the combined mode isn't really optional ",
+              "createdAt": "2025-09-05T04:37:17Z",
+              "updatedAt": "2025-09-05T04:37:17Z"
+            }
+          ]
         }
       ]
     }
