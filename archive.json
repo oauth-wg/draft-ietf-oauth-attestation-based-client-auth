@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-07T00:13:07.812773+00:00",
+  "timestamp": "2025-09-09T00:12:45.031731+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -11163,6 +11163,134 @@
           ]
         }
       ]
+    },
+    {
+      "number": 147,
+      "id": "PR_kwDOJaEkaM6nRa84",
+      "title": "add use_fresh_attestation error type",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/147",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #111 \r\n\r\nDecided to not add metadata right now - let's discuss if we want to add something in metadata that signal to the client the accepted freshness of an attestation. There might be additional reasons to require a fresher client attestation for specific clients (additional risk signals), so I am not sure having a general value is always a good idea.",
+      "createdAt": "2025-09-07T21:37:03Z",
+      "updatedAt": "2025-09-07T22:20:04Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "111-fres-attestation",
+      "headRefOid": "93e6e09f82099d88132db249ce2d9c7f51d8c9fc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "Given that `use_attestation_challenge` must be accompanied by a fresh challenge I am not following the reason for this additional code. Adding a more specific code that achieves the same thing (but is even less defined at least by this very PR than `use_attestation_challenge`) makes little sense.",
+          "createdAt": "2025-09-07T21:41:51Z",
+          "updatedAt": "2025-09-07T21:41:51Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "> Given that `use_attestation_challenge` must be accompanied by a fresh challenge I am not following the reason for this additional code. Adding a more specific code that achieves the same thing (but is even less defined at least by this very PR than `use_attestation_challenge`) makes little sense.\r\n\r\nThe idea behind this error code was to have a way to signal to the client that the reason the attestation was rejected was its freshness (so not challenge related, but the server deemed the attestation too old to be trustworthy). Do you have a better idea to convey that?",
+          "createdAt": "2025-09-07T21:48:34Z",
+          "updatedAt": "2025-09-07T21:48:34Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "The existing code tells the client exactly what to do and gives it a fresh challenge. The client will use the fresh challenge for the retry. Would client do anything different based on a more specific error code? No. So this \"reason\" might as well be conveyed by the optional error_description.",
+          "createdAt": "2025-09-07T21:56:08Z",
+          "updatedAt": "2025-09-07T21:56:08Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "It does something different though if it understands that the attestation itself is not fresh enough to be accepted by the server? The way I currently see it is:\r\n- `use_attestation_challenge` triggers a retry with a new challenge that is also provided with the error\r\n- `use_fresh_attestation` triggers the client to retrieve a new attestation from its attestation backend since it will not be accepted by the server otherwise\r\n\r\nThe ability to easily distinguish these (in a client implementation) was the idea to add this new error type.",
+          "createdAt": "2025-09-07T22:10:56Z",
+          "updatedAt": "2025-09-07T22:20:04Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "Sorry. Please ignore me. This is indeed about the attestation itself, not the challenge in a pop. Apologies.",
+          "createdAt": "2025-09-07T22:14:18Z",
+          "updatedAt": "2025-09-07T22:14:18Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 148,
+      "id": "PR_kwDOJaEkaM6nRb-v",
+      "title": "mandate header fields",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/148",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #118 ",
+      "createdAt": "2025-09-07T21:45:53Z",
+      "updatedAt": "2025-09-08T23:13:28Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "118-http-headers-normative",
+      "headRefOid": "4781905627709985e2bed27fa45010c8a1de52e5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6-pIej",
+          "commit": {
+            "abbreviatedOid": "4781905"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-08T23:13:28Z",
+          "updatedAt": "2025-09-08T23:13:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 149,
+      "id": "PR_kwDOJaEkaM6nfGtp",
+      "title": "OAuth 2 artefact binding",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/149",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #114\r\n\r\nLooking for feedback on the approach here @panva.\r\n\r\nI've opted to not require this behaviour via RECOMMENDED over a MUST this also makes it forward compatible with future OAuth2 extensions that might define new protocol artefacts.",
+      "createdAt": "2025-09-09T00:12:15Z",
+      "updatedAt": "2025-09-09T00:12:16Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "tl/issue-114",
+      "headRefOid": "72e35226fe7a01a0e4e73c16b718a04b042af0a3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
