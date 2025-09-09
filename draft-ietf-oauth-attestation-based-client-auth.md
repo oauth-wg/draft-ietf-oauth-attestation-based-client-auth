@@ -543,7 +543,7 @@ Authorization servers where possible are RECOMMENDED to bind relevant protocol a
 - The authorization_code as specified in section 4.1 {{RFC6749}}.
 - The auth_req_id as specified in section 7.3 {{CIBA}}.
 
-How this binding is established and then proven is specific to the protocol artifact. For example establishing binding to an authorization_code involves the client instance using client attestation in the authorization request, and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint using an authorization code grant.
+How this binding is established and then proven is specific to the protocol artefact. For example establishing binding to an authorization_code involves the client instance using client attestation in the authorization request, and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint using an authorization code grant.
 
 ## Web Server Default Maximum HTTP Header Sizes
 
