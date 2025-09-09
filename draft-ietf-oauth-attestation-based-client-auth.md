@@ -69,6 +69,9 @@ informative:
   ARF:
   	title: "The European Digital Identity Wallet Architecture and Reference Framework"
   SD-JWT: I-D.ietf-oauth-selective-disclosure-jwt
+  CIBA:
+    title: OpenID Connect Client-Initiated Backchannel Authentication Flow - Core 1.0
+    target: https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html
 
 
 --- abstract
@@ -532,6 +535,15 @@ Implementers should be aware that the design of this authentication mechanism de
 ## Refresh token binding
 
 Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
+
+## Binding of OAuth protocol artefacts
+
+Authorization servers where possible are RECOMMENDED to bind relevant protocol artefacts to the Client Instance and its associated public key, and NOT just the client as specified in section 6 {{RFC6749}}. Examples of these artefacts include but are not limited to:
+
+- The authorization_code as specified in section 4.1 {{RFC6749}}.
+- The auth_req_id as specified in section 7.3 {{CIBA}}.
+
+How this binding is established and then proven is specific to the protocol artifact. For example establishing binding to an authorization_code involves the client instance using client attestation in the authorization request, and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint using an authorization code grant.
 
 ## Web Server Default Maximum HTTP Header Sizes
 
