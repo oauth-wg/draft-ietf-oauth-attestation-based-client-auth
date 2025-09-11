@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-09T00:12:45.031731+00:00",
+  "timestamp": "2025-09-11T00:11:52.671381+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -10851,7 +10851,7 @@
       "labels": [],
       "body": "Closes #130 ",
       "createdAt": "2025-09-03T09:12:40Z",
-      "updatedAt": "2025-09-03T14:21:18Z",
+      "updatedAt": "2025-09-09T06:49:07Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
@@ -10923,6 +10923,46 @@
               "updatedAt": "2025-09-03T14:22:15Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6-tBkP",
+          "commit": {
+            "abbreviatedOid": "c1409f0"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T06:09:13Z",
+          "updatedAt": "2025-09-09T06:09:13Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I agree with @c2bo there are lots of Oauth deployments that use MAC to say secure the AT and I think the Client attestation could be treated somewhat similar in certain deployments but asymmetric is required for the PoP.",
+              "createdAt": "2025-09-09T06:09:13Z",
+              "updatedAt": "2025-09-09T06:09:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6-tslr",
+          "commit": {
+            "abbreviatedOid": "c1409f0"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T06:48:47Z",
+          "updatedAt": "2025-09-09T06:49:07Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n2. The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The authorization server MUST reject JWTs if signature or integrity protection validation fails.\r\n```",
+              "createdAt": "2025-09-09T06:48:47Z",
+              "updatedAt": "2025-09-09T06:49:07Z"
+            }
+          ]
         }
       ]
     },
@@ -10938,7 +10978,7 @@
       "labels": [],
       "body": "Closes #35\r\nCloses #66 \r\nCloses #70 ",
       "createdAt": "2025-09-03T14:01:22Z",
-      "updatedAt": "2025-09-05T11:27:40Z",
+      "updatedAt": "2025-09-09T18:22:42Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
@@ -10950,7 +10990,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6-5hss",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "I don't really like \"signing\" if we allow MAC, but that seems to be the same for other/older metadata that seems to convey similar information",
+          "createdAt": "2025-09-09T18:17:20Z",
+          "updatedAt": "2025-09-09T18:22:42Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 143,
@@ -11129,7 +11183,7 @@
       "labels": [],
       "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to.\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this.\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
       "createdAt": "2025-09-05T04:36:11Z",
-      "updatedAt": "2025-09-05T04:37:17Z",
+      "updatedAt": "2025-09-09T06:26:45Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
@@ -11161,6 +11215,46 @@
               "updatedAt": "2025-09-05T04:37:17Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6-tI1V",
+          "commit": {
+            "abbreviatedOid": "8c4349c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T06:15:17Z",
+          "updatedAt": "2025-09-09T06:15:17Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "Should we be more specific around how this matching should occur, e.g if both JWK use thumbprint etc?",
+              "createdAt": "2025-09-09T06:15:17Z",
+              "updatedAt": "2025-09-09T06:15:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6-tU5m",
+          "commit": {
+            "abbreviatedOid": "8c4349c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T06:26:44Z",
+          "updatedAt": "2025-09-09T06:26:44Z",
+          "comments": [
+            {
+              "originalPosition": 141,
+              "body": "The alternative model here is to define a new method of client authentication so that the AS can effectively require the method for a specific client.",
+              "createdAt": "2025-09-09T06:26:44Z",
+              "updatedAt": "2025-09-09T06:26:45Z"
+            }
+          ]
         }
       ]
     },
@@ -11176,7 +11270,7 @@
       "labels": [],
       "body": "Closes #111 \r\n\r\nDecided to not add metadata right now - let's discuss if we want to add something in metadata that signal to the client the accepted freshness of an attestation. There might be additional reasons to require a fresher client attestation for specific clients (additional risk signals), so I am not sure having a general value is always a good idea.",
       "createdAt": "2025-09-07T21:37:03Z",
-      "updatedAt": "2025-09-07T22:20:04Z",
+      "updatedAt": "2025-09-09T06:31:25Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
@@ -11224,7 +11318,21 @@
           "updatedAt": "2025-09-07T22:14:18Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6-tZbH",
+          "commit": {
+            "abbreviatedOid": "93e6e09"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-09T06:31:25Z",
+          "updatedAt": "2025-09-09T06:31:25Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 148,
@@ -11278,19 +11386,40 @@
       "labels": [],
       "body": "Fixes #114\r\n\r\nLooking for feedback on the approach here @panva.\r\n\r\nI've opted to not require this behaviour via RECOMMENDED over a MUST this also makes it forward compatible with future OAuth2 extensions that might define new protocol artefacts.",
       "createdAt": "2025-09-09T00:12:15Z",
-      "updatedAt": "2025-09-09T00:12:16Z",
+      "updatedAt": "2025-09-09T06:36:55Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/issue-114",
-      "headRefOid": "72e35226fe7a01a0e4e73c16b718a04b042af0a3",
+      "headRefOid": "3992d291ea56575807a646bfe965686bf6dc4cc9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM6-tfN8",
+          "commit": {
+            "abbreviatedOid": "12d5819"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T06:36:44Z",
+          "updatedAt": "2025-09-09T06:36:44Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\r\nHow this binding is established and then proven is specific to the protocol artefact. For example establishing binding to an authorization_code involves the client instance using client attestation in the authorization request, and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint using an authorization code grant.\r\n```",
+              "createdAt": "2025-09-09T06:36:44Z",
+              "updatedAt": "2025-09-09T06:36:44Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
