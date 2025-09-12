@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Informational                                P. Bastian
-Expires: 7 March 2026                                    Bundesdruckerei
+Expires: 16 March 2026                                   Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                        3 September 2025
+                                                       12 September 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 March 2026.
+   This Internet-Draft will expire on 16 March 2026.
 
 Copyright Notice
 
@@ -320,9 +320,10 @@ Table of Contents
    1.  The JWT MAY contain other claims.  All claims that are not
        understood by implementations MUST be ignored.
 
-   2.  The JWT MUST be digitally signed using an asymmetric
-       cryptographic algorithm.  The authorization server MUST reject
-       JWTs with an invalid signature.
+   2.  The JWT MUST be digitally signed or integrity protected with a
+       Message Authentication Code (MAC).  The authorization server MUST
+       reject JWTs if signature or integrity protection validation
+       fails.
 
    3.  The authorization server MUST reject a JWT that is not valid in
        all other respects per "JSON Web Token (JWT)" [RFC7519].
