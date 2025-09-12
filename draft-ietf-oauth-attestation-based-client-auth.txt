@@ -320,11 +320,10 @@ Table of Contents
    1.  The JWT MAY contain other claims.  All claims that are not
        understood by implementations MUST be ignored.
 
-   2.  The JWT MUST be digitally signed using an asymmetric
-       cryptographic algorithm.  The authorization server MUST reject
-       the JWT if it is using a Message Authentication Code (MAC) based
-       algorithm.  The authorization server MUST reject JWTs with an
-       invalid signature.
+   2.  The JWT MUST be digitally signed or integrity protected with a
+       Message Authentication Code (MAC).  The authorization server MUST
+       reject JWTs if signature or integrity protection validation
+       fails.
 
    3.  The authorization server MUST reject a JWT that is not valid in
        all other respects per "JSON Web Token (JWT)" [RFC7519].
@@ -400,9 +399,7 @@ Table of Contents
 
    2.  The JWT MUST be digitally signed using an asymmetric
        cryptographic algorithm.  The authorization server MUST reject
-       the JWT if it is using a Message Authentication Code (MAC) based
-       algorithm.  The authorization server MUST reject JWTs with an
-       invalid signature.
+       JWTs with an invalid signature.
 
    3.  The public key used to verify the JWT MUST be the key located in
        the "cnf" claim of the corresponding Client Attestation JWT.
@@ -774,8 +771,8 @@ Table of Contents
 
    4.   The alg JOSE Header Parameter for both JWTs indicates a
         registered asymmetric digital signature algorithm
-        [IANA.JOSE.ALGS], is not none, is not MAC based, is supported by
-        the application, and is acceptable per local policy.
+        [IANA.JOSE.ALGS], is not none, is supported by the application,
+        and is acceptable per local policy.
 
    5.   The signature of the Client Attestation JWT verifies with the
         public key of a known and trusted Attester.
@@ -1172,6 +1169,8 @@ Table of Contents
 Appendix A.  Document History
 
    -07
+
+   *  remove restrictions to not allow MAC-based algorithms
 
    *  require iat in Client Attestation PoP JWT
 

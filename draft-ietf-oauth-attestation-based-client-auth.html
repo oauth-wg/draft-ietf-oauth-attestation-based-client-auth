@@ -1460,7 +1460,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.1-7.1.1">The JWT <span class="bcp14">MAY</span> contain other claims. All claims that are not understood by implementations <span class="bcp14">MUST</span> be ignored.<a href="#section-5.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.1-7.2">
-            <p id="section-5.1-7.2.1">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-5.1-7.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-7.2.1">The JWT <span class="bcp14">MUST</span> be digitally signed or integrity protected with a Message Authentication Code (MAC). The authorization server <span class="bcp14">MUST</span> reject JWTs if signature or integrity protection validation fails.<a href="#section-5.1-7.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.1-7.3">
             <p id="section-5.1-7.3.1">The authorization server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-5.1-7.3.1" class="pilcrow">¶</a></p>
@@ -1533,7 +1533,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.2-7.1.1">The JWT <span class="bcp14">MAY</span> contain other claims. All claims that are not understood by implementations <span class="bcp14">MUST</span> be ignored.<a href="#section-5.2-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.2-7.2">
-            <p id="section-5.2-7.2.1">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject the JWT if it is using a Message Authentication Code (MAC) based algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-5.2-7.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-7.2.1">The JWT <span class="bcp14">MUST</span> be digitally signed using an asymmetric cryptographic algorithm. The authorization server <span class="bcp14">MUST</span> reject JWTs with an invalid signature.<a href="#section-5.2-7.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.2-7.3">
             <p id="section-5.2-7.3.1">The public key used to verify the JWT <span class="bcp14">MUST</span> be the key located in the "cnf" claim of the corresponding Client Attestation JWT.<a href="#section-5.2-7.3.1" class="pilcrow">¶</a></p>
@@ -1885,7 +1885,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <p id="section-9-2.3.1">The Client Attestation PoP JWT contains all claims and header parameters as per <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.2</a>.<a href="#section-9-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.4">
-          <p id="section-9-2.4.1">The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm <span>[<a href="#IANA.JOSE.ALGS" class="cite xref">IANA.JOSE.ALGS</a>]</span>, is not none, is not MAC based, is supported by the application, and is acceptable per local policy.<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-9-2.4.1">The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm <span>[<a href="#IANA.JOSE.ALGS" class="cite xref">IANA.JOSE.ALGS</a>]</span>, is not none, is supported by the application, and is acceptable per local policy.<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.5">
           <p id="section-9-2.5.1">The signature of the Client Attestation JWT verifies with the public key of a known and trusted Attester.<a href="#section-9-2.5.1" class="pilcrow">¶</a></p>
@@ -2296,22 +2296,25 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="appendix-A-1">-07<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">require <code>iat</code> in Client Attestation PoP JWT<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">remove restrictions to not allow MAC-based algorithms<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">clarify <code>use_attestation_challenge</code> and add <code>invalid_client_attestation</code><a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">require <code>iat</code> in Client Attestation PoP JWT<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">clarify refresh token binding<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">clarify <code>use_attestation_challenge</code> and add <code>invalid_client_attestation</code><a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">check client_id at PAR endpoint<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">clarify refresh token binding<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">added <code>use_fresh_attestation</code> as an error to signal that the attestation was not deemed fresh enough by the server<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">check client_id at PAR endpoint<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">mandate the defined header fields if the attestation and pop are transferred via header fields<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">added <code>use_fresh_attestation</code> as an error to signal that the attestation was not deemed fresh enough by the server<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.7">
+          <p id="appendix-A-2.7.1">mandate the defined header fields if the attestation and pop are transferred via header fields<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-06<a href="#appendix-A-3" class="pilcrow">¶</a></p>
