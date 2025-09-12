@@ -188,7 +188,7 @@ The following additional rules apply:
 
 1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.
 
-2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject JWTs with an invalid signature.
+2. The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The authorization server MUST reject JWTs if signature or integrity protection validation fails.
 
 3. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
