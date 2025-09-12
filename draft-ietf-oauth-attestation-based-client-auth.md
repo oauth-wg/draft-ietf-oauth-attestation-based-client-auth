@@ -271,7 +271,7 @@ The following section defines how a Client Attestation can be provided in an HTT
 
 ## Client Attestation HTTP Headers {#headers}
 
-A Client Attestation JWT and Client Attestation PoP JWT can be included in an HTTP request using the following request header fields.
+When using headers to transfer the Client Attestation JWT and Client Attestation PoP JWT to an Authorization Server, they MUST be provided in an HTTP request using the following HTTP headers.
 
 OAuth-Client-Attestation:
 : A JWT that conforms to the structure and syntax as defined in [](#client-attestation-jwt)
@@ -650,6 +650,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * clarify refresh token binding
 * check client_id at PAR endpoint
 * added `use_fresh_attestation` as an error to signal that the attestation was not deemed fresh enough by the server
+* mandate the defined header fields if the attestation and pop are transferred via header fields
 
 -06
 
