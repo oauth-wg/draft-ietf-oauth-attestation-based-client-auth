@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 11 March 2026                                   Bundesdruckerei
+Expires: 16 March 2026                                   Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                        7 September 2025
+                                                       12 September 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 March 2026.
+   This Internet-Draft will expire on 16 March 2026.
 
 Copyright Notice
 
@@ -437,9 +437,9 @@ Table of Contents
 
 6.1.  Client Attestation HTTP Headers
 
-   A Client Attestation JWT and Client Attestation PoP JWT can be
-   included in an HTTP request using the following request header
-   fields.
+   When using headers to transfer the Client Attestation JWT and Client
+   Attestation PoP JWT to an Authorization Server, they MUST be provided
+   in an HTTP request using the following HTTP headers.
 
    OAuth-Client-Attestation:  A JWT that conforms to the structure and
       syntax as defined in Section 5.1
@@ -1184,6 +1184,9 @@ Appendix A.  Document History
 
    *  added use_fresh_attestation as an error to signal that the
       attestation was not deemed fresh enough by the server
+
+   *  mandate the defined header fields if the attestation and pop are
+      transferred via header fields
 
    -06
 
