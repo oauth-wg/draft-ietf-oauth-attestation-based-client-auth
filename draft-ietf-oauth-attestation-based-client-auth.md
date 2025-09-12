@@ -329,6 +329,7 @@ To validate an HTTP request which contains the client attestation headers, the r
 When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in Section 5.2 of {{RFC6749}}) or Resource Server error responses (as defined in Section 3 of {{RFC6750}}).
 
 - `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-header)).
+- `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
 - `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified.
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions of when to return suitable Error Responses.
@@ -600,6 +601,12 @@ This specification requests registration of the following values in the IANA "OA
 * Change Controller: IETF
 * Reference: this specification
 
+* Name: use_fresh_attestation
+* Usage Location: token error response, resource access error response
+* Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
+* Change Controller: IETF
+* Reference: this specification
+
 * Name: invalid_client_attestation
 * Usage Location: token error response, resource access error response
 * Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
@@ -642,6 +649,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * clarify `use_attestation_challenge` and add `invalid_client_attestation`
 * clarify refresh token binding
 * check client_id at PAR endpoint
+* added `use_fresh_attestation` as an error to signal that the attestation was not deemed fresh enough by the server
 * mandate the defined header fields if the attestation and pop are transferred via header fields
 
 -06
