@@ -1652,7 +1652,10 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
             <p id="section-6.2-4.1.1"><code>use_attestation_challenge</code> <span class="bcp14">MUST</span> be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code <span class="bcp14">MUST</span> be accompanied by the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field parameter (as described in <a href="#challenge-header" class="auto internal xref">Section 8.1</a>).<a href="#section-6.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-4.2">
-            <p id="section-6.2-4.2.1"><code>invalid_client_attestation</code> <span class="bcp14">MAY</span> be used in addition to the more general <code>invalid_client</code> error code as defined in <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> if the attestation or its proof of possession could not be successfully verified.<a href="#section-6.2-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-4.2.1"><code>use_fresh_attestation</code> <span class="bcp14">MUST</span> be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.<a href="#section-6.2-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-4.3">
+            <p id="section-6.2-4.3.1"><code>invalid_client_attestation</code> <span class="bcp14">MAY</span> be used in addition to the more general <code>invalid_client</code> error code as defined in <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> if the attestation or its proof of possession could not be successfully verified.<a href="#section-6.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-6.2-5">In the event of errors due to situations not described above, Authorization and Resource Servers <span class="bcp14">MUST</span> follow the guidance of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> and <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span> or their respective extensions of when to return suitable Error Responses.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
@@ -2084,7 +2087,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-13.2-2.5.1">Reference: this specification<a href="#section-13.2-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.2-2.6">
-            <p id="section-13.2-2.6.1">Name: invalid_client_attestation<a href="#section-13.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-13.2-2.6.1">Name: use_fresh_attestation<a href="#section-13.2-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.2-2.7">
             <p id="section-13.2-2.7.1">Usage Location: token error response, resource access error response<a href="#section-13.2-2.7.1" class="pilcrow">¶</a></p>
@@ -2097,6 +2100,21 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 </li>
           <li class="normal" id="section-13.2-2.10">
             <p id="section-13.2-2.10.1">Reference: this specification<a href="#section-13.2-2.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.11">
+            <p id="section-13.2-2.11.1">Name: invalid_client_attestation<a href="#section-13.2-2.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.12">
+            <p id="section-13.2-2.12.1">Usage Location: token error response, resource access error response<a href="#section-13.2-2.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.13">
+            <p id="section-13.2-2.13.1">Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication<a href="#section-13.2-2.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.14">
+            <p id="section-13.2-2.14.1">Change Controller: IETF<a href="#section-13.2-2.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.15">
+            <p id="section-13.2-2.15.1">Reference: this specification<a href="#section-13.2-2.15.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2290,7 +2308,10 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <p id="appendix-A-2.4.1">check client_id at PAR endpoint<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">mandate the defined header fields if the attestation and pop are transferred via header fields<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">added <code>use_fresh_attestation</code> as an error to signal that the attestation was not deemed fresh enough by the server<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.6">
+          <p id="appendix-A-2.6.1">mandate the defined header fields if the attestation and pop are transferred via header fields<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-06<a href="#appendix-A-3" class="pilcrow">¶</a></p>

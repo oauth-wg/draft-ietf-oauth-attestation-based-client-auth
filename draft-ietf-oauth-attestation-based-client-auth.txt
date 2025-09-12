@@ -517,6 +517,9 @@ Table of Contents
       Attestation-Challenge HTTP header field parameter (as described in
       Section 8.1).
 
+   *  use_fresh_attestation MUST be used when the Client Attestation JWT
+      is deemed to be not fresh enough to be acceptable by the server.
+
    *  invalid_client_attestation MAY be used in addition to the more
       general invalid_client error code as defined in [RFC6749] if the
       attestation or its proof of possession could not be successfully
@@ -999,6 +1002,18 @@ Table of Contents
 
    *  Reference: this specification
 
+   *  Name: use_fresh_attestation
+
+   *  Usage Location: token error response, resource access error
+      response
+
+   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+      Authentication
+
+   *  Change Controller: IETF
+
+   *  Reference: this specification
+
    *  Name: invalid_client_attestation
 
    *  Usage Location: token error response, resource access error
@@ -1166,6 +1181,9 @@ Appendix A.  Document History
    *  clarify refresh token binding
 
    *  check client_id at PAR endpoint
+
+   *  added use_fresh_attestation as an error to signal that the
+      attestation was not deemed fresh enough by the server
 
    *  mandate the defined header fields if the attestation and pop are
       transferred via header fields
