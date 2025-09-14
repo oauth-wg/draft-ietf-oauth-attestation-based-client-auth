@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-11T00:11:52.671381+00:00",
+  "timestamp": "2025-09-14T00:12:42.578207+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3164,7 +3164,7 @@
       "id": "I_kwDOJaEkaM6150qT",
       "title": "Add option without PoP but with ad-hoc client attetation and nonce",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/111",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3175,8 +3175,8 @@
       ],
       "body": "In discussions with European Commission, an alternative mechanism for proofing the Client Attestation emerged. Instead of having a Client Attestation containing a key and adding a PoP, we could have the AS provide a nonce and this nonce would be included in the Client Attestation within an ad-hoc issuance, thus requireing no PoP. The discussion was inspired by the mechanism of key attestation in OpenID4VCI that also includes these both options (in the form of two proof_types `jwt` and `attestation`).\n\nThe EU document suggests:\n> The WAA SHALL either be sent along with a Proof-of-Possession (PoP) OR it SHALL contain the nonce value obtained from the nonce endpoint of the Credential Issuer. The former will be referred to as a key bound WAA and the latter as an ephemeral WAA.\n\n",
       "createdAt": "2025-05-09T11:14:02Z",
-      "updatedAt": "2025-09-02T06:40:51Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-12T20:07:08Z",
+      "closedAt": "2025-09-12T20:07:07Z",
       "comments": [
         {
           "author": "tplooker",
@@ -3310,7 +3310,7 @@
       "id": "I_kwDOJaEkaM64nMXT",
       "title": "Client Attestation HTTP Headers",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/118",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [
@@ -3321,8 +3321,8 @@
       ],
       "body": "\"6.1. Client Attestation HTTP Headers \nA Client Attestation JWT and Client Attestation PoP JWT can be included in an HTTP request using the following request header fields.\"\n\nSuggest re-drafting this such that it is a normative requirement to have those headers if the two attestations are being transferred by header.\n\nperhaps:\n\n\"6.1. Client Attestation HTTP Headers \nWhen using headers to transfer the Client Attestation JWT and Client Attestation PoP JWT to an Authorization Server they MUST be provided in an HTTP request using the following HTTP headers.\"",
       "createdAt": "2025-05-28T12:58:18Z",
-      "updatedAt": "2025-08-28T11:12:13Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-12T20:04:25Z",
+      "closedAt": "2025-09-12T20:04:24Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -3476,7 +3476,7 @@
       "id": "I_kwDOJaEkaM6_MsfD",
       "title": "Allow MAC as signature algorithms?",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/130",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3485,8 +3485,8 @@
       "labels": [],
       "body": "Currently, MACs are not allowed. There is work on asymmetric-derived MACs, e.g. ECDH-KDF-MAC which would be disallowed by this constraint.",
       "createdAt": "2025-07-07T06:56:13Z",
-      "updatedAt": "2025-08-28T11:11:34Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-12T20:14:38Z",
+      "closedAt": "2025-09-12T20:14:38Z",
       "comments": []
     },
     {
@@ -10844,24 +10844,26 @@
       "id": "PR_kwDOJaEkaM6mm5QZ",
       "title": "remove restrictions to not allow MAC-based algorithms",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/141",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #130 ",
       "createdAt": "2025-09-03T09:12:40Z",
-      "updatedAt": "2025-09-09T06:49:07Z",
+      "updatedAt": "2025-09-12T20:14:37Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "130-allow-mac-as-signature-algorithms",
-      "headRefOid": "c1409f00cc45b626f478a40085e694f7452d6d9f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "ec1e9afa48a6a5bed1b3689f98f9e0eb67e68f83",
+      "closedAt": "2025-09-12T20:14:37Z",
+      "mergedAt": "2025-09-12T20:14:37Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "11f1b2ce8165267e25d82bc87015fd7eb2eaa1b2"
+      },
       "comments": [],
       "reviews": [
         {
@@ -10978,7 +10980,7 @@
       "labels": [],
       "body": "Closes #35\r\nCloses #66 \r\nCloses #70 ",
       "createdAt": "2025-09-03T14:01:22Z",
-      "updatedAt": "2025-09-09T18:22:42Z",
+      "updatedAt": "2025-09-12T20:14:27Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
@@ -10989,7 +10991,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tplooker missing your review on this one",
+          "createdAt": "2025-09-12T20:14:27Z",
+          "updatedAt": "2025-09-12T20:14:27Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJaEkaM6-5hss",
@@ -11183,7 +11193,7 @@
       "labels": [],
       "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to.\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this.\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
       "createdAt": "2025-09-05T04:36:11Z",
-      "updatedAt": "2025-09-09T06:26:45Z",
+      "updatedAt": "2025-09-12T21:30:37Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
@@ -11194,7 +11204,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "we're also missing the considerations for challenge/DPoP nonce",
+          "createdAt": "2025-09-12T21:30:37Z",
+          "updatedAt": "2025-09-12T21:30:37Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJaEkaM6-BFFy",
@@ -11255,6 +11273,44 @@
               "updatedAt": "2025-09-09T06:26:45Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6_2oEI",
+          "commit": {
+            "abbreviatedOid": "8c4349c"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2025-09-12T20:45:01Z",
+          "updatedAt": "2025-09-12T21:30:07Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "It feels a little odd to spread requirements and verification rules across multiple chapters/sections.",
+              "createdAt": "2025-09-12T20:45:01Z",
+              "updatedAt": "2025-09-12T21:30:07Z"
+            },
+            {
+              "originalPosition": 141,
+              "body": "We could also define a new token_endpoint_auth_method beside the existing one and solve it without introducing a new flag",
+              "createdAt": "2025-09-12T20:58:27Z",
+              "updatedAt": "2025-09-12T21:30:07Z"
+            },
+            {
+              "originalPosition": 60,
+              "body": "I would favor merging this with the other HTTP request section, so it's easier to compare both modes",
+              "createdAt": "2025-09-12T21:25:08Z",
+              "updatedAt": "2025-09-12T21:30:07Z"
+            },
+            {
+              "originalPosition": 69,
+              "body": "I wonder if the `iss` value in the PoP really serves an important function, or whether to remove it, to avoid this additional claim for DPoP Proof",
+              "createdAt": "2025-09-12T21:28:01Z",
+              "updatedAt": "2025-09-12T21:30:07Z"
+            }
+          ]
         }
       ]
     },
@@ -11263,24 +11319,26 @@
       "id": "PR_kwDOJaEkaM6nRa84",
       "title": "add use_fresh_attestation error type",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/147",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Closes #111 \r\n\r\nDecided to not add metadata right now - let's discuss if we want to add something in metadata that signal to the client the accepted freshness of an attestation. There might be additional reasons to require a fresher client attestation for specific clients (additional risk signals), so I am not sure having a general value is always a good idea.",
       "createdAt": "2025-09-07T21:37:03Z",
-      "updatedAt": "2025-09-09T06:31:25Z",
+      "updatedAt": "2025-09-12T20:07:07Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
+      "baseRefOid": "29202345a92693cbefd9c50c264f1e7229d6cf9e",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "111-fres-attestation",
-      "headRefOid": "93e6e09f82099d88132db249ce2d9c7f51d8c9fc",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "57f58ba67fbc19147d4bc87b13632afcd3db6fd0",
+      "closedAt": "2025-09-12T20:07:06Z",
+      "mergedAt": "2025-09-12T20:07:06Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "2a579ffcd78dee5ef45154ebc557611e033fabbb"
+      },
       "comments": [
         {
           "author": "panva",
@@ -11331,6 +11389,19 @@
           "createdAt": "2025-09-09T06:31:25Z",
           "updatedAt": "2025-09-09T06:31:25Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6_2QYn",
+          "commit": {
+            "abbreviatedOid": "93e6e09"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-12T20:05:25Z",
+          "updatedAt": "2025-09-12T20:05:25Z",
+          "comments": []
         }
       ]
     },
@@ -11339,24 +11410,26 @@
       "id": "PR_kwDOJaEkaM6nRb-v",
       "title": "mandate header fields",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/148",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Closes #118 ",
       "createdAt": "2025-09-07T21:45:53Z",
-      "updatedAt": "2025-09-08T23:13:28Z",
+      "updatedAt": "2025-09-12T20:04:24Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "118-http-headers-normative",
       "headRefOid": "4781905627709985e2bed27fa45010c8a1de52e5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-12T20:04:23Z",
+      "mergedAt": "2025-09-12T20:04:23Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "29202345a92693cbefd9c50c264f1e7229d6cf9e"
+      },
       "comments": [],
       "reviews": [
         {
@@ -11370,6 +11443,19 @@
           "body": "",
           "createdAt": "2025-09-08T23:13:28Z",
           "updatedAt": "2025-09-08T23:13:28Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM6_2Prq",
+          "commit": {
+            "abbreviatedOid": "4781905"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-12T20:04:05Z",
+          "updatedAt": "2025-09-12T20:04:05Z",
           "comments": []
         }
       ]
