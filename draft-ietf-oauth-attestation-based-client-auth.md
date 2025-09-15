@@ -529,7 +529,7 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 
 The Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize the requirement the requirement for client authentication using Attestation-Based Client Authentication if the given parameters are present.
 
-The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms.
+The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth`.
 
 ## Reuse of a Client Attestation JWT
 
@@ -614,15 +614,15 @@ This specification requests registration of the following values in the IANA "OA
 
 ## OAuth Authorization Server Metadata Registration
 
-This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of {{IANA.OAuth.Params}} established by [RFC8414].
+This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of {{IANA.OAuth.Params}} established by {{RFC8414}}.
 
 * Metadata Name: client_attestation_signing_alg_values_supported
-* Metadata Description: JSON array containing a list of algorithms supported by the authorization server for client attestation signing
+* Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation JWT.
 * Change Controller: IETF
 * Reference: [](#checking-http-requests-with-client-attestations) of this specification
 
 * Metadata Name: client_attestation_pop_signing_alg_values_supported
-* Metadata Description: JSON array containing a list of algorithms supported by the authorization server for client attestation proof of possession signing
+* Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation PoP JWT.
 * Change Controller: IETF
 * Reference: this specification
 
