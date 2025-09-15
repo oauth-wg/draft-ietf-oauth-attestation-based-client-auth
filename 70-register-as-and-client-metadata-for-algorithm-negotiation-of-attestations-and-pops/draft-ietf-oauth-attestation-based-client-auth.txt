@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 9 March 2026                                    Bundesdruckerei
+Expires: 19 March 2026                                   Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                        5 September 2025
+                                                       15 September 2025
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 March 2026.
+   This Internet-Draft will expire on 19 March 2026.
 
 Copyright Notice
 
@@ -831,7 +831,11 @@ Table of Contents
    published metadata.  This enables the client to validate that its
    client attestation is understood by the Authorization Server prior to
    authentication.  The client MAY try to get a new client attestation
-   with different algorithms.
+   with different algorithms.  The Authorization Server MUST include
+   client_attestation_signing_alg_values_supported and
+   client_attestation_pop_signing_alg_values_supported in its published
+   metadata if the token_endpoint_auth_methods_supported includes
+   attest_jwt_client_auth.
 
 10.2.  Reuse of a Client Attestation JWT
 
@@ -1041,9 +1045,9 @@ Table of Contents
 
    *  Metadata Name: client_attestation_signing_alg_values_supported
 
-   *  Metadata Description: JSON array containing a list of algorithms
-      supported by the authorization server for client attestation
-      signing
+   *  Metadata Description: JSON array containing a list of the JWS
+      signing algorithms supported by the authorization server for the
+      signature on the Client Attestation JWT.
 
    *  Change Controller: IETF
 
@@ -1051,9 +1055,9 @@ Table of Contents
 
    *  Metadata Name: client_attestation_pop_signing_alg_values_supported
 
-   *  Metadata Description: JSON array containing a list of algorithms
-      supported by the authorization server for client attestation proof
-      of possession signing
+   *  Metadata Description: JSON array containing a list of the JWS
+      signing algorithms supported by the authorization server for the
+      signature on the Client Attestation PoP JWT.
 
    *  Change Controller: IETF
 
