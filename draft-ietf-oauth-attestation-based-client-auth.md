@@ -538,7 +538,7 @@ Authorization servers issuing a refresh token in response to a token request usi
 
 ## Binding of OAuth protocol artefacts
 
-Authorization servers where possible are RECOMMENDED to bind relevant protocol artefacts to the Client Instance and its associated public key, and NOT just the client as specified in section 6 {{RFC6749}}. Examples of these artefacts include but are not limited to:
+Authorization servers using Attestation-Based Client Authentication are RECOMMENDED to bind relevant protocol artifacts to the Client Instance and its associated public key where possible, and NOT just the client as specified in section 6 {{RFC6749}}. Examples of these artifacts include but are not limited to:
 
 - The authorization_code as specified in section 4.1 {{RFC6749}}.
 - The auth_req_id as specified in section 7.3 {{CIBA}}.
