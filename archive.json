@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-14T00:12:42.578207+00:00",
+  "timestamp": "2025-09-16T00:11:33.130888+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -1336,7 +1336,7 @@
       "id": "I_kwDOJaEkaM5sN-zP",
       "title": "Should token_endpoint_auth_signing_alg be considered?",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/35",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "TakahikoKawasaki",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -1345,8 +1345,8 @@
       ],
       "body": "[OpenID Connect Dynamic Client Registration 1.0](https://openid.net/specs/openid-connect-registration-1_0.html), [Section 2. Client Metadata](https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata), defines the `token_endpoint_auth_signing_alg` client metadata as follows.\r\n\r\n>OPTIONAL. [JWS](https://openid.net/specs/openid-connect-registration-1_0.html#JWS) [JWS] `alg` algorithm [[JWA]](https://openid.net/specs/openid-connect-registration-1_0.html#JWA) that MUST be used for signing the JWT [[JWT]](https://openid.net/specs/openid-connect-registration-1_0.html#JWT) used to authenticate the Client at the Token Endpoint for the `private_key_jwt` and `client_secret_jwt` authentication methods. All Token Requests using these authentication methods from this Client MUST be rejected, if the JWT is not signed with this algorithm. Servers SHOULD support `RS256`. The value `none` MUST NOT be used. The default, if omitted, is that any algorithm supported by the OP and the RP MAY be used.\r\n\r\nShould server-side implementations of the `attest_jwt_client_auth` client authentication method take the client metadata into consideration? To be concrete, should server-side implementations reject requests when the Client Attestation PoP JWT is not signed with the algorithm specified by the client metadata if the metadata is set, or may server-side implementations ignore the client metadata when processing the `attest_jwt_client_auth` client authentication method?",
       "createdAt": "2023-07-21T10:56:23Z",
-      "updatedAt": "2025-08-12T06:52:34Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-15T09:16:06Z",
+      "closedAt": "2025-09-15T09:16:06Z",
       "comments": [
         {
           "author": "tplooker",
@@ -2178,15 +2178,15 @@
       "id": "I_kwDOJaEkaM53y6Te",
       "title": "Include guidance to use attest_jwt_client_auth",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/66",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-11-24T14:41:45Z",
-      "updatedAt": "2025-08-12T06:45:13Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-15T09:16:06Z",
+      "closedAt": "2025-09-15T09:16:06Z",
       "comments": [
         {
           "author": "c2bo",
@@ -2318,7 +2318,7 @@
       "id": "I_kwDOJaEkaM6DW1c7",
       "title": "Register AS and client metadata for algorithm negotiation of attestations and pops",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/70",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2327,8 +2327,8 @@
       "labels": [],
       "body": "We need to consider registering appropriate metadata for an AS and client to respectively indicate what signing algorithms they support for \r\n\r\n- A client attestation\r\n- A client attestation pop",
       "createdAt": "2024-03-23T09:56:57Z",
-      "updatedAt": "2025-09-03T13:21:38Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-15T09:16:07Z",
+      "closedAt": "2025-09-15T09:16:07Z",
       "comments": [
         {
           "author": "tplooker",
@@ -10973,24 +10973,26 @@
       "id": "PR_kwDOJaEkaM6mqNT7",
       "title": "70 register as and client metadata for algorithm negotiation of attestations and pops",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/142",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #35\r\nCloses #66 \r\nCloses #70 ",
       "createdAt": "2025-09-03T14:01:22Z",
-      "updatedAt": "2025-09-12T20:14:27Z",
+      "updatedAt": "2025-09-15T09:16:05Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "70-register-as-and-client-metadata-for-algorithm-negotiation-of-attestations-and-pops",
-      "headRefOid": "02add0aeb559f6b35dd0f215833b2f08b54b3528",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b9672bfb237d417845139c33b2ae5ce192463472",
+      "closedAt": "2025-09-15T09:16:05Z",
+      "mergedAt": "2025-09-15T09:16:05Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "c461599992c9f31e510811b9b33446d54626d906"
+      },
       "comments": [
         {
           "author": "paulbastian",
@@ -11012,6 +11014,239 @@
           "body": "I don't really like \"signing\" if we allow MAC, but that seems to be the same for other/older metadata that seems to convey similar information",
           "createdAt": "2025-09-09T18:17:20Z",
           "updatedAt": "2025-09-09T18:22:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHgmx",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:11:50Z",
+          "updatedAt": "2025-09-15T07:11:50Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize the requirement for client authentication using Attestation-Based Client Authentication if the given parameters are present.\r\n```",
+              "createdAt": "2025-09-15T07:11:50Z",
+              "updatedAt": "2025-09-15T07:11:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHhkz",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:13:13Z",
+          "updatedAt": "2025-09-15T07:13:13Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Actually its not clear from the metadata that its required, this metadata is just saying what the token endpoint supports for client authentication, what is required for the client is based on how that client is setup on the authorization server. I would suggest we remove the second sentence.",
+              "createdAt": "2025-09-15T07:13:13Z",
+              "updatedAt": "2025-09-15T07:13:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHhsE",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:13:24Z",
+          "updatedAt": "2025-09-15T07:13:24Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata.\r\n```",
+              "createdAt": "2025-09-15T07:13:24Z",
+              "updatedAt": "2025-09-15T07:13:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHiu7",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:14:55Z",
+          "updatedAt": "2025-09-15T07:14:55Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "For example an Authorization server could support client attestation but it not be available for a particular client depending on how that client is setup on the AS.",
+              "createdAt": "2025-09-15T07:14:55Z",
+              "updatedAt": "2025-09-15T07:14:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHkEX",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:16:55Z",
+          "updatedAt": "2025-09-15T07:16:56Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\r\nThe Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth`.\r\n```",
+              "createdAt": "2025-09-15T07:16:56Z",
+              "updatedAt": "2025-09-15T07:16:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHkhH",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:17:40Z",
+          "updatedAt": "2025-09-15T07:17:40Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Added a further normative statement that I think could be useful here which is to force its inclusion in metadata if its specified as a method of client authentication.",
+              "createdAt": "2025-09-15T07:17:40Z",
+              "updatedAt": "2025-09-15T07:17:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHlcM",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:19:03Z",
+          "updatedAt": "2025-09-15T07:19:03Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\r\nThis specification requests registration of the following values in the IANA \"OAuth Authorization Server Metadata\" registry of {{IANA.OAuth.Params}} established by {{RFC8414}}.\r\n```\r\n\r\nThink this is required to reference correctly?",
+              "createdAt": "2025-09-15T07:19:03Z",
+              "updatedAt": "2025-09-15T07:19:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHnTB",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:21:47Z",
+          "updatedAt": "2025-09-15T07:21:47Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\n* Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation JWT.\r\n```",
+              "createdAt": "2025-09-15T07:21:47Z",
+              "updatedAt": "2025-09-15T08:59:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHno2",
+          "commit": {
+            "abbreviatedOid": "02add0a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:22:20Z",
+          "updatedAt": "2025-09-15T07:22:20Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "```suggestion\r\n* Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation PoP JWT.\r\n```",
+              "createdAt": "2025-09-15T07:22:20Z",
+              "updatedAt": "2025-09-15T08:59:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AJCkf",
+          "commit": {
+            "abbreviatedOid": "c47489f"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T09:04:51Z",
+          "updatedAt": "2025-09-15T09:04:51Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "While you are generally likely right, I have some difficulties with your statement, as one of the ideas behind client attestation is to not have a prior setup with the AS?",
+              "createdAt": "2025-09-15T09:04:51Z",
+              "updatedAt": "2025-09-15T09:04:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AJIye",
+          "commit": {
+            "abbreviatedOid": "c47489f"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T09:12:25Z",
+          "updatedAt": "2025-09-15T09:12:25Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\r\nThe Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize Attestation-Based Client Authentication as a client authentication mechanism if the given parameters are present.\r\n```",
+              "createdAt": "2025-09-15T09:12:25Z",
+              "updatedAt": "2025-09-15T09:12:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AJLD1",
+          "commit": {
+            "abbreviatedOid": "c47489f"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-15T09:15:10Z",
+          "updatedAt": "2025-09-15T09:15:10Z",
           "comments": []
         }
       ]
@@ -11472,18 +11707,26 @@
       "labels": [],
       "body": "Fixes #114\r\n\r\nLooking for feedback on the approach here @panva.\r\n\r\nI've opted to not require this behaviour via RECOMMENDED over a MUST this also makes it forward compatible with future OAuth2 extensions that might define new protocol artefacts.",
       "createdAt": "2025-09-09T00:12:15Z",
-      "updatedAt": "2025-09-09T06:36:55Z",
+      "updatedAt": "2025-09-15T07:29:04Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/issue-114",
-      "headRefOid": "3992d291ea56575807a646bfe965686bf6dc4cc9",
+      "headRefOid": "f083dbf012ca364f01dc1f9e051b36b79a3613b3",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I think it would make sense to reference the refresh token description that is given above this section as an example?",
+          "createdAt": "2025-09-14T22:15:04Z",
+          "updatedAt": "2025-09-14T22:15:04Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJaEkaM6-tfN8",
@@ -11502,6 +11745,86 @@
               "body": "```suggestion\r\nHow this binding is established and then proven is specific to the protocol artefact. For example establishing binding to an authorization_code involves the client instance using client attestation in the authorization request, and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint using an authorization code grant.\r\n```",
               "createdAt": "2025-09-09T06:36:44Z",
               "updatedAt": "2025-09-09T06:36:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AEvUt",
+          "commit": {
+            "abbreviatedOid": "3992d29"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-14T21:26:59Z",
+          "updatedAt": "2025-09-14T21:26:59Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\nAuthorization servers using Attestation-Based Client Authentication are RECOMMENDED to bind relevant protocol artifacts to the Client Instance and its associated public key where possible, and NOT just the client as specified in section 6 {{RFC6749}}. Examples of these artifacts include but are not limited to:\r\n```",
+              "createdAt": "2025-09-14T21:26:59Z",
+              "updatedAt": "2025-09-14T21:26:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AEvXQ",
+          "commit": {
+            "abbreviatedOid": "3992d29"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-14T21:27:18Z",
+          "updatedAt": "2025-09-14T21:27:19Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\r\nHow this binding is established and then proven is specific to the protocol artifact. For example establishing binding to an authorization_code involves the client instance using client attestation in the authorization request, and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint using an authorization code grant.\r\n```",
+              "createdAt": "2025-09-14T21:27:18Z",
+              "updatedAt": "2025-09-14T21:27:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AExqS",
+          "commit": {
+            "abbreviatedOid": "3992d29"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-14T21:40:35Z",
+          "updatedAt": "2025-09-14T21:40:35Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "we used artefact so far in the spec (only 1 place to be fair) - we should keep things constant\r\n\r\n```suggestion\r\nAuthorization servers using Attestation-Based Client Authentication are RECOMMENDED to bind relevant protocol artefacts to the Client Instance and its associated public key where possible, and NOT just the client as specified in section 6 {{RFC6749}}. Examples of these artefacts include but are not limited to:\r\n```",
+              "createdAt": "2025-09-14T21:40:35Z",
+              "updatedAt": "2025-09-14T21:49:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7AHsLZ",
+          "commit": {
+            "abbreviatedOid": "4f5b0c4"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T07:28:44Z",
+          "updatedAt": "2025-09-15T07:28:44Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n## Binding of OAuth protocol artifacts\r\n```",
+              "createdAt": "2025-09-15T07:28:44Z",
+              "updatedAt": "2025-09-15T07:28:44Z"
             }
           ]
         }
