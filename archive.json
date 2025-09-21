@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-18T00:11:18.948201+00:00",
+  "timestamp": "2025-09-21T00:13:11.661167+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -11714,7 +11714,7 @@
       "labels": [],
       "body": "Fixes #114\r\n\r\nLooking for feedback on the approach here @panva.\r\n\r\nI've opted to not require this behaviour via RECOMMENDED over a MUST this also makes it forward compatible with future OAuth2 extensions that might define new protocol artefacts.",
       "createdAt": "2025-09-09T00:12:15Z",
-      "updatedAt": "2025-09-15T07:29:04Z",
+      "updatedAt": "2025-09-19T06:09:04Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
@@ -11832,6 +11832,26 @@
               "body": "```suggestion\r\n## Binding of OAuth protocol artifacts\r\n```",
               "createdAt": "2025-09-15T07:28:44Z",
               "updatedAt": "2025-09-15T07:28:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7BUGqI",
+          "commit": {
+            "abbreviatedOid": "f083dbf"
+          },
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-19T06:09:04Z",
+          "updatedAt": "2025-09-19T06:09:04Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "It's not sensible to pass the attestation in the authorization request right? Although we have seen people try to pass private key jwt assertions to the authorization endpoint, so I think being a bit clearer here is good. Maybe something like this:\r\n\r\n```suggestion\r\nHow this binding is established and then proven is specific to the protocol artifact. For example establishing binding to an authorization_code involves the client instance using client attestation before the user is redirected to the Authorization Endpoint (for example by using PAR, {{RFC9126}}), and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint when performing the authorization code grant.\r\n```",
+              "createdAt": "2025-09-19T06:09:04Z",
+              "updatedAt": "2025-09-19T06:09:04Z"
             }
           ]
         }
