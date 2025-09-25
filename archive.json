@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-21T00:13:11.661167+00:00",
+  "timestamp": "2025-09-25T00:12:15.373621+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3629,6 +3629,44 @@
           "body": "Todo: re-check if all of the comments were addressed",
           "createdAt": "2025-09-16T19:58:13Z",
           "updatedAt": "2025-09-16T19:58:13Z"
+        }
+      ]
+    },
+    {
+      "number": 150,
+      "id": "I_kwDOJaEkaM7NR-6M",
+      "title": "Challenges on Previous Responses. Do we need this?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/150",
+      "state": "OPEN",
+      "author": "babisRoutis",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In draft 7 there is the section [Providing Challenged on Previous Responses](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#section-8.1) with the following text\n\n> The Authorization Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named \"OAuth-Client-Attestation-Challenge\" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.\n\nThis adds to the Client the responsibility of \n- Tracking the \"last\" challenge provided by the AS\n- Possibly, repeating a call to a protected AS endpoint on `use_fresh_attestation` error\n\nI was wondering if this requirement (The Authorization Server MAY provide a fresh Challenge with any HTTP response) is absolutely needed.\nA client can always obtain a fresh `challenge` from the `challenge_endpoint`, right before assembling the Client Attestation PoP JWT. \nThis would simplify the client which won't need to track the last \"challenge\" .\n\nPS: Keeping just the `challenge_endpoint` and letting the client obtain a fresh `challenge` right at the moment it needs it, is to my understanding the behavior of `nonce_endpoint` from OpenId4VCI. Client obtains (if needed) a c_nonce just before assembling the Proof(s).\n\n\n\n ",
+      "createdAt": "2025-09-23T07:25:21Z",
+      "updatedAt": "2025-09-23T09:38:26Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "This rolling challenge mechanism allows for not having to make requests to the challenge endpoint. Clients are already doing this for DPoP's nonce and it is useful/needed (albeit not for all usecases).",
+          "createdAt": "2025-09-23T08:00:50Z",
+          "updatedAt": "2025-09-23T08:00:50Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "> This rolling challenge mechanism allows for not having to make requests to the challenge endpoint. Clients are already doing this for DPoP's nonce and it is useful/needed (albeit not for all usecases).\n\nI do understand this, yet my point is that there  used to be a similar case with `c_nonce` where a credential issuer could update with  positive and/or negative responses. Client were simplified by just visiting the nonce_endpoint when and if needed. No need to keep track of c_nonce.\n\nI have the impression that clients using challenge endpoint, even in draft 7, can always obtain challenge_endpoint and ignore the rolling challenges. If so, what's the value of those rolling challenges?\n\nPS: DPoP, if I am not mistaken, doesn't define a dpop nonce endpoint thus the only way to obtain a fresh dpop nonce  is via http headers. ",
+          "createdAt": "2025-09-23T09:25:02Z",
+          "updatedAt": "2025-09-23T09:25:02Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "Much like I said, not all use cases necessarily need to find it useful for it to be.",
+          "createdAt": "2025-09-23T09:38:25Z",
+          "updatedAt": "2025-09-23T09:38:25Z"
         }
       ]
     }
