@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-25T00:12:15.373621+00:00",
+  "timestamp": "2025-09-28T00:13:22.049159+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3669,6 +3669,22 @@
           "updatedAt": "2025-09-23T09:38:25Z"
         }
       ]
+    },
+    {
+      "number": 151,
+      "id": "I_kwDOJaEkaM7OEtAl",
+      "title": "Ambiguity concerning MAC algorithms in Client Attestation JWT",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/151",
+      "state": "OPEN",
+      "author": "dzarras",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "According to https://datatracker.ietf.org/doc/html/draft-ietf-oauth-attestation-based-client-auth-07#name-client-attestation-jwt:\n> The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The authorization server MUST reject JWTs if signature or integrity protection validation fails.\n\nOn the other hand though, as per https://datatracker.ietf.org/doc/html/draft-ietf-oauth-attestation-based-client-auth-07#name-verification-and-processing:\n>The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm [[IANA.JOSE.ALGS](https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms)], is not none, is supported by the application, and is acceptable per local policy.\n\nCould you please clarify whether MAC algorithms can indeed be used with the Client Attestation JWT or not?",
+      "createdAt": "2025-09-26T12:16:00Z",
+      "updatedAt": "2025-09-26T12:16:00Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
