@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-28T00:13:22.049159+00:00",
+  "timestamp": "2025-10-02T00:11:54.095378+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -11489,7 +11489,7 @@
       "labels": [],
       "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to.\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this.\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
       "createdAt": "2025-09-05T04:36:11Z",
-      "updatedAt": "2025-09-12T21:30:37Z",
+      "updatedAt": "2025-09-30T06:55:57Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
@@ -11507,6 +11507,13 @@
           "body": "we're also missing the considerations for challenge/DPoP nonce",
           "createdAt": "2025-09-12T21:30:37Z",
           "updatedAt": "2025-09-12T21:30:37Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "This should either\r\n\r\n- be required by AS to support when it supports both dpop and attest; or\r\n- be required when dpop and attestation is used together; or\r\n- not exist.\r\n\r\nAnything towards the end of not having any AS support optionality.\r\n\r\nI am supportive of this in theory but if its not MTI for the AS I would not bother implementing the client side for it.",
+          "createdAt": "2025-09-30T06:55:57Z",
+          "updatedAt": "2025-09-30T06:55:57Z"
         }
       ],
       "reviews": [
@@ -11605,6 +11612,46 @@
               "body": "I wonder if the `iss` value in the PoP really serves an important function, or whether to remove it, to avoid this additional claim for DPoP Proof",
               "createdAt": "2025-09-12T21:28:01Z",
               "updatedAt": "2025-09-12T21:30:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7DrEti",
+          "commit": {
+            "abbreviatedOid": "8c4349c"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-30T06:48:59Z",
+          "updatedAt": "2025-09-30T06:48:59Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "clarify: remove `iss` entirely for the PoP, even in \"normal\" mode",
+              "createdAt": "2025-09-30T06:48:59Z",
+              "updatedAt": "2025-09-30T06:49:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7DrGcx",
+          "commit": {
+            "abbreviatedOid": "8c4349c"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-30T06:51:21Z",
+          "updatedAt": "2025-09-30T06:51:21Z",
+          "comments": [
+            {
+              "originalPosition": 141,
+              "body": "applying same arguments as for fully-specified algorithms",
+              "createdAt": "2025-09-30T06:51:21Z",
+              "updatedAt": "2025-09-30T06:51:21Z"
             }
           ]
         }
