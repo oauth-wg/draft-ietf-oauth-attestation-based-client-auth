@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-02T00:11:54.095378+00:00",
+  "timestamp": "2025-10-05T00:13:26.025793+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3685,6 +3685,37 @@
       "updatedAt": "2025-09-26T12:16:00Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 152,
+      "id": "I_kwDOJaEkaM7PShmO",
+      "title": "Attestation-based authenticated Client. Public or Confidential?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/152",
+      "state": "OPEN",
+      "author": "babisRoutis",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I was wondering whether clients using ABCA are consider public, confidential or something in between?\n\nReason for this question is the following text from [RFC9449 - OAuth 2.0 Demonstrating Proof of Possession (DPoP)](https://datatracker.ietf.org/doc/html/rfc9449#name-dpop-access-token-request)\n\n> Refresh tokens issued to confidential clients (those having established authentication credentials with the authorization server) are not bound to the DPoP proof public key because they are already sender-constrained with a different existing mechanism\n\nThis means that according to RFC9449, a public client must provide a DPoP JWT while executing `refresh_token` grant, whereas a confidential client doesn't have to.\n\nSo, my actual question is the following: A client, authenticated via ABCA, to an Authorization Server supporting DPoP, should be treated as a public client or as confidential client when executing \"refresh_token\" grant. Should the client include a DPoP JWT to the relevant token request or not?\n\nThanks",
+      "createdAt": "2025-10-02T14:24:31Z",
+      "updatedAt": "2025-10-03T06:48:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "I think the client should include a DPoP JWT because the issued access token will be bound to it?\n\nWhether the server needs to bind the refresh token to the DPoP JWT is a separate but related question - https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#name-refresh-token-binding covers how to bind the refresh token.\n\nMy understanding is a client authenticating using attestation-based client authentication should be treated as a confidential client.",
+          "createdAt": "2025-10-02T14:41:30Z",
+          "updatedAt": "2025-10-02T14:41:30Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "Dear @jogu \n\nIndeed, with regards to Client Attestation JWT, it is rather clear that a client must use the same client instance key, while executing a refresh_token grant. \n\nYet, it is not clear (at least to me) whether the DPoP Key used when the refresh token was issued, has to be the same while executing a refresh_token grant, or even if a DPoP JWT is not required.\n\nPerhaps, a clarification could be added, under section 10.3, describing what is the expected behavior.\n\nI think that this would be really helpful because HAIP requires both DPoP and ABCA and refresh_token grant is very important to re-issuance or VC refresh use cases.\n\n\n\n\n\n",
+          "createdAt": "2025-10-03T06:48:27Z",
+          "updatedAt": "2025-10-03T06:48:27Z"
+        }
+      ]
     }
   ],
   "pulls": [
