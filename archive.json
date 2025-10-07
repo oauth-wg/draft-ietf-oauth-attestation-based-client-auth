@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-05T00:13:26.025793+00:00",
+  "timestamp": "2025-10-07T00:12:25.202450+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -11520,13 +11520,13 @@
       "labels": [],
       "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to.\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this.\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
       "createdAt": "2025-09-05T04:36:11Z",
-      "updatedAt": "2025-09-30T06:55:57Z",
+      "updatedAt": "2025-10-05T08:57:44Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/dpop-optimisation",
-      "headRefOid": "8c4349c439f3bbacd3a69babbda67d2bddf9648d",
+      "headRefOid": "f4fb47b550a7842c2c0803054fefc8ffe791a9d1",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -11846,13 +11846,13 @@
       "labels": [],
       "body": "Fixes #114\r\n\r\nLooking for feedback on the approach here @panva.\r\n\r\nI've opted to not require this behaviour via RECOMMENDED over a MUST this also makes it forward compatible with future OAuth2 extensions that might define new protocol artefacts.",
       "createdAt": "2025-09-09T00:12:15Z",
-      "updatedAt": "2025-09-19T06:09:04Z",
+      "updatedAt": "2025-10-05T08:59:40Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "6228a82b2944d1ba169e47d2163a15b0d534b1a2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/issue-114",
-      "headRefOid": "f083dbf012ca364f01dc1f9e051b36b79a3613b3",
+      "headRefOid": "97542261071b4582bd5da07d1b8c720e05492cac",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -11984,6 +11984,26 @@
               "body": "It's not sensible to pass the attestation in the authorization request right? Although we have seen people try to pass private key jwt assertions to the authorization endpoint, so I think being a bit clearer here is good. Maybe something like this:\r\n\r\n```suggestion\r\nHow this binding is established and then proven is specific to the protocol artifact. For example establishing binding to an authorization_code involves the client instance using client attestation before the user is redirected to the Authorization Endpoint (for example by using PAR, {{RFC9126}}), and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint when performing the authorization code grant.\r\n```",
               "createdAt": "2025-09-19T06:09:04Z",
               "updatedAt": "2025-09-19T06:09:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7E1POf",
+          "commit": {
+            "abbreviatedOid": "f083dbf"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-05T08:59:35Z",
+          "updatedAt": "2025-10-05T08:59:35Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "Yep agreed, good clarification.",
+              "createdAt": "2025-10-05T08:59:35Z",
+              "updatedAt": "2025-10-05T08:59:35Z"
             }
           ]
         }
