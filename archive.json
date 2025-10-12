@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-07T00:12:25.202450+00:00",
+  "timestamp": "2025-10-12T00:13:02.660634+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -11520,7 +11520,7 @@
       "labels": [],
       "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to.\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this.\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
       "createdAt": "2025-09-05T04:36:11Z",
-      "updatedAt": "2025-10-05T08:57:44Z",
+      "updatedAt": "2025-10-10T07:58:48Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "693d9e79e39657f783bd6594a0faada663dd810a",
@@ -11545,6 +11545,20 @@
           "body": "This should either\r\n\r\n- be required by AS to support when it supports both dpop and attest; or\r\n- be required when dpop and attestation is used together; or\r\n- not exist.\r\n\r\nAnything towards the end of not having any AS support optionality.\r\n\r\nI am supportive of this in theory but if its not MTI for the AS I would not bother implementing the client side for it.",
           "createdAt": "2025-09-30T06:55:57Z",
           "updatedAt": "2025-09-30T06:55:57Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> This should either\r\n> \r\n>     * be required by AS to support when it supports both dpop and attest; or\r\n> \r\n>     * be required when dpop and attestation is used together; or\r\n> \r\n>     * not exist.\r\n> \r\n> \r\n> Anything towards the end of not having any AS support optionality.\r\n> \r\n> I am supportive of this in theory but if its not MTI for the AS I would not bother implementing the client side for it.\r\n\r\n favorite direction would be to create two distinct token_endpoint_auth_methods, which could be independtly signaled using token_endpoint_auth_methods_supported, therefore leaving the AS the clear option to support either or both. What do you think about this option? @panva",
+          "createdAt": "2025-10-10T07:13:26Z",
+          "updatedAt": "2025-10-10T07:13:26Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "@paulbastian yes that's acceptable (I think?).",
+          "createdAt": "2025-10-10T07:58:48Z",
+          "updatedAt": "2025-10-10T07:58:48Z"
         }
       ],
       "reviews": [
