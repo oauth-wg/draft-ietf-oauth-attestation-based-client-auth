@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-26T00:13:45.163809+00:00",
+  "timestamp": "2025-10-30T00:13:05.049066+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3688,12 +3688,22 @@
       "assignees": [
         "c2bo"
       ],
-      "labels": [],
+      "labels": [
+        "pending-close"
+      ],
       "body": "> How should the Structured Types field be filled in for the new HTTP Field Names registrations (or should it be left empty)?",
       "createdAt": "2025-08-12T06:37:35Z",
-      "updatedAt": "2025-10-24T22:43:11Z",
+      "updatedAt": "2025-10-28T07:29:39Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The registry instructions that have been updated when \"Structured-Type\" suggest this field is optional so I believe we can put nothing in this registration request. See below\n\n> The \"Structured Type\" column indicates the type of the field (per RFC 9651), if any, and may be \"Dictionary\", \"List\", or \"Item\".\n\n@c2bo will leave to you to confirm this and close the issue if it is the case.",
+          "createdAt": "2025-10-28T07:29:39Z",
+          "updatedAt": "2025-10-28T07:29:39Z"
+        }
+      ]
     },
     {
       "number": 140,
@@ -3706,10 +3716,12 @@
       "assignees": [
         "c2bo"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "\nFrom https://mailarchive.ietf.org/arch/msg/oauth/ug41q9ykI3we5HKWsvlA6euvMWc/\n \n> - General: why is the document marked Informational? Looks very much like a Proposed Standard to me!\n>   1. Introduction (and even the Abstract): I think it is problematic to refer to this method as \"client authentication\". Even if a specific key is asserted, and even if the client can assert a \"sub\" value, this is not \"authentication\" unless these values are shown to correspond to a managed client identity - where each client instance has a unique identity and where some other management system can enumerate the identities of all valid clients. With the current solution each client instance may have identity X today and identity Y tomorrow.\n> - This (IMHO) misconception is repeated in text such as \"the Client instance generates a key... to prove its authenticity\".\n> - To use a term from the Privacy space: what we have here is a pseudonymous client Instance: it is NOT fully authenticated, but:\n> - If the same Instance Key is used multiple times, we know that it belongs to the same client instance (assuming no colluding client instances).\n> - One client instance may be associated with multiple instance keys.\n> - There is no mapping of an Instance Key to any predefined (\"managed\") entity.\n> - General: the document is targeted at a public deployment, where we want to minimize the information conveyed to the AS. It's not a great fit to other use cases (closed environments, Confidential Computing etc.) where we might want the AS to know what kind of attestation took place and use it in its policy. To support such use cases we might have to extend the Client Attestation JWT to include additional information. I propose it more as food for thought rather than an actionable change.\n> - 5.1: Typo: iss (subject) claim.\n> - sub and client_id: there is nothing here to require uniqueness of client_id or that it is known by the AS - going back to my comments about authentication above.\n> - And shouldn't we define a MTI signing algorithm (e.g. ES256 used here)? I know it's not a very popular thing around here, but it's required for interoperability.\n> - The examples in Sec. 5 both use https://client.example.com/ for the client ID, which is not very typical of a mobile client that usually doesn't have its own DNS address.\n> - The following rule makes the processing of the Attestation PoP non-deterministic: \"Note that the authorization server may reject JWTs with an \"iat\" claim value that is unreasonably far in the past.\" Since we don't want PoPs to be reused, why not say that they MUST be fresh?\n> - 6.1: why define the syntax as \"token68\" which is a strict superset of the real syntax (base64url plus \".\")?\n> - 6.2: in the section title, did you mean \"featuring\" instead of \"feature\"?\n> - 6.4: shouldn't we correlate the client_id value, just as in sec. 6.3?\n> - 8.1: there are two challenge mechanisms defined, but not how they interplay. The most extreme example is a \"OAuth-Client-Attestation-Challenge\" included in the response to \"POST /as/challenge\". A more sane example is a client that doesn't want to cache challenges indefinitely and prefers to use the challenge endpoint even though it had received (maybe days ago) a challenge in a header.\n> - 10.2: \"MUST bind the refresh token to the Client Instance, and NOT just the client\" - the text is not terribly clear. Maybe say \"to the Client Instance and its associated public key\".\n> - 10.4: and upon key rotation, the client must invalidate its refresh token?\n> - Both sec. 12.1 and 10.5 cover the same ground, and I suspect that sec. 10.5 can be removed.\n> - 13: remove \"Appendix A\" from the section title.\n> - 13.3: the document does not define anywhere how this works in DCR.\n",
       "createdAt": "2025-08-26T16:12:14Z",
-      "updatedAt": "2025-10-24T22:48:37Z",
+      "updatedAt": "2025-10-28T07:30:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -3739,10 +3751,12 @@
       "assignees": [
         "c2bo"
       ],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "In draft 7 there is the section [Providing Challenged on Previous Responses](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#section-8.1) with the following text\n\n> The Authorization Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named \"OAuth-Client-Attestation-Challenge\" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.\n\nThis adds to the Client the responsibility of \n- Tracking the \"last\" challenge provided by the AS\n- Possibly, repeating a call to a protected AS endpoint on `use_fresh_attestation` error\n\nI was wondering if this requirement (The Authorization Server MAY provide a fresh Challenge with any HTTP response) is absolutely needed.\nA client can always obtain a fresh `challenge` from the `challenge_endpoint`, right before assembling the Client Attestation PoP JWT. \nThis would simplify the client which won't need to track the last \"challenge\" .\n\nPS: Keeping just the `challenge_endpoint` and letting the client obtain a fresh `challenge` right at the moment it needs it, is to my understanding the behavior of `nonce_endpoint` from OpenId4VCI. Client obtains (if needed) a c_nonce just before assembling the Proof(s).\n\n\n\n ",
       "createdAt": "2025-09-23T07:25:21Z",
-      "updatedAt": "2025-10-24T22:54:08Z",
+      "updatedAt": "2025-10-28T07:30:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -3783,13 +3797,25 @@
       "state": "OPEN",
       "author": "dzarras",
       "authorAssociation": "NONE",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "paulbastian"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "According to https://datatracker.ietf.org/doc/html/draft-ietf-oauth-attestation-based-client-auth-07#name-client-attestation-jwt:\n> The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The authorization server MUST reject JWTs if signature or integrity protection validation fails.\n\nOn the other hand though, as per https://datatracker.ietf.org/doc/html/draft-ietf-oauth-attestation-based-client-auth-07#name-verification-and-processing:\n>The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm [[IANA.JOSE.ALGS](https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms)], is not none, is supported by the application, and is acceptable per local policy.\n\nCould you please clarify whether MAC algorithms can indeed be used with the Client Attestation JWT or not?",
       "createdAt": "2025-09-26T12:16:00Z",
-      "updatedAt": "2025-09-26T12:16:00Z",
+      "updatedAt": "2025-10-28T07:32:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Edtiors Call:\n- we recently added the option to allow MAC, for setups where Status Issuer and Relying Party have a shared key\n- we forgot to update the text in the verification logic, good catch!\n- we could add security consideration when to use MAC, similar to what we did with [Status List](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-status-list-13#name-status-list-token-protectio) ",
+          "createdAt": "2025-10-28T07:32:48Z",
+          "updatedAt": "2025-10-28T07:32:48Z"
+        }
+      ]
     },
     {
       "number": 152,
@@ -3800,10 +3826,12 @@
       "author": "babisRoutis",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "I was wondering whether clients using ABCA are consider public, confidential or something in between?\n\nReason for this question is the following text from [RFC9449 - OAuth 2.0 Demonstrating Proof of Possession (DPoP)](https://datatracker.ietf.org/doc/html/rfc9449#name-dpop-access-token-request)\n\n> Refresh tokens issued to confidential clients (those having established authentication credentials with the authorization server) are not bound to the DPoP proof public key because they are already sender-constrained with a different existing mechanism\n\nThis means that according to RFC9449, a public client must provide a DPoP JWT while executing `refresh_token` grant, whereas a confidential client doesn't have to.\n\nSo, my actual question is the following: A client, authenticated via ABCA, to an Authorization Server supporting DPoP, should be treated as a public client or as confidential client when executing \"refresh_token\" grant. Should the client include a DPoP JWT to the relevant token request or not?\n\nThanks",
       "createdAt": "2025-10-02T14:24:31Z",
-      "updatedAt": "2025-10-03T06:48:27Z",
+      "updatedAt": "2025-10-29T12:34:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -3819,6 +3847,41 @@
           "body": "Dear @jogu \n\nIndeed, with regards to Client Attestation JWT, it is rather clear that a client must use the same client instance key, while executing a refresh_token grant. \n\nYet, it is not clear (at least to me) whether the DPoP Key used when the refresh token was issued, has to be the same while executing a refresh_token grant, or even if a DPoP JWT is not required.\n\nPerhaps, a clarification could be added, under section 10.3, describing what is the expected behavior.\n\nI think that this would be really helpful because HAIP requires both DPoP and ABCA and refresh_token grant is very important to re-issuance or VC refresh use cases.\n\n\n\n\n\n",
           "createdAt": "2025-10-03T06:48:27Z",
           "updatedAt": "2025-10-03T06:48:27Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> My understanding is a client authenticating using attestation-based client authentication should be treated as a confidential client.\n\nThis is my POV also, we already have a section on refresh token binding already which arguably makes the refresh token sender constrained without using DPoP so this aligns with the spirit of the language from the DPoP RFC.",
+          "createdAt": "2025-10-28T07:45:18Z",
+          "updatedAt": "2025-10-28T07:45:18Z"
+        },
+        {
+          "author": "VinodAnandan",
+          "authorAssociation": "NONE",
+          "body": "@tplooker @paulbastian  I believe this clarification may simplify the specification adoption across many authorization servers, as most currently support authentication only for confidential clients.\n\nWould it be worth slightly revising the following paragraphs  to help avoid potential confusion?\n\n\"_This new method enables client instances involved in a client deployment that is traditionally viewed as a public client to utilize this key-bound attestation for authentication._\"\n\n\"_This approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important_.\"",
+          "createdAt": "2025-10-29T11:39:03Z",
+          "updatedAt": "2025-10-29T11:39:03Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, these are the sections that we intend to update.",
+          "createdAt": "2025-10-29T12:00:19Z",
+          "updatedAt": "2025-10-29T12:00:19Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "> Yes, these are the sections that we intend to update.\n\nPlease consider adding a clarification for DPoP JWT while executing `refresh_token`. \nTo my understanding, @jogu  and @tplooker  agree that DPoP JWT is not needed in this case.",
+          "createdAt": "2025-10-29T12:07:28Z",
+          "updatedAt": "2025-10-29T12:07:28Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > Yes, these are the sections that we intend to update.\n> \n> Please consider adding a clarification for DPoP JWT while executing `refresh_token`. \n> To my understanding, @jogu  and @tplooker  agree that DPoP JWT is not needed in this case.\n\nAgreed, to be honest I was not aware of this sentence in the DPoP specification and I was using DPoP together with refresh tokens and client attestation, so I need to wrap my head around what the best solution is there\n",
+          "createdAt": "2025-10-29T12:34:11Z",
+          "updatedAt": "2025-10-29T12:34:11Z"
         }
       ]
     },
@@ -3831,12 +3894,22 @@
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "The abstract states:\n\n>    This specification defines an extension to the OAuth 2 protocol as\n>    defined in [RFC6749] which enables a Client Instance to include a\n>    key-bound attestation in interactions with an Authorization Server **_or_**\n>    **_a Resource Server_**.\n\nThe Figure and the explanations only address the case of Authorization Servers. The problems for Authorization Servers and Resource Servers are different and, before answering to the question, let us consider some differences.\n\nThe document only mentions a recommendation to address the privacy concerns in section 11, and for Authorization Servers only:\n\n>    Client deployments are therefore RECOMMENDED to use different Client\n>    Attestation JWTs with different Client Instance Keys across different\n>    authorization servers.\n\nA user will usually register to half a dozen of Authorization Servers, but can contract with one or two hundred of Resource Servers. \nThe renewal rates of Client Attestation JWTs will be quite different.\n\nThe prime argument in the case of Resource Servers is the high renewal rate for Client Attestation JWTs (at least one order of magnitude difference).\n\nThe second argument is the fact that the protocol between the Holder and the Verifier can be avoided if a claim about the type of the device and the firmware/software that the device is running is added into digital credentials issued by the Issuer. This scenario is developed in the next issue.\n\nTherefore, I am NOT IN FAVOR of supporting Resource Servers.",
       "createdAt": "2025-10-16T07:31:09Z",
-      "updatedAt": "2025-10-16T07:31:09Z",
+      "updatedAt": "2025-10-28T07:51:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- as per recent discussions, we define it as a general purpose client attestation mechanism and make the draft an optional client authentication mechanism using the client attestaiton, then:\n- the client authentication part is relevant to AS\n- client attestation part is relevant to AS and RS",
+          "createdAt": "2025-10-28T07:51:55Z",
+          "updatedAt": "2025-10-28T07:51:55Z"
+        }
+      ]
     },
     {
       "number": 154,
