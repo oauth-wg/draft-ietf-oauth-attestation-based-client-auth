@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-30T00:13:05.049066+00:00",
+  "timestamp": "2025-11-02T00:13:54.437893+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3831,7 +3831,7 @@
       ],
       "body": "I was wondering whether clients using ABCA are consider public, confidential or something in between?\n\nReason for this question is the following text from [RFC9449 - OAuth 2.0 Demonstrating Proof of Possession (DPoP)](https://datatracker.ietf.org/doc/html/rfc9449#name-dpop-access-token-request)\n\n> Refresh tokens issued to confidential clients (those having established authentication credentials with the authorization server) are not bound to the DPoP proof public key because they are already sender-constrained with a different existing mechanism\n\nThis means that according to RFC9449, a public client must provide a DPoP JWT while executing `refresh_token` grant, whereas a confidential client doesn't have to.\n\nSo, my actual question is the following: A client, authenticated via ABCA, to an Authorization Server supporting DPoP, should be treated as a public client or as confidential client when executing \"refresh_token\" grant. Should the client include a DPoP JWT to the relevant token request or not?\n\nThanks",
       "createdAt": "2025-10-02T14:24:31Z",
-      "updatedAt": "2025-10-29T12:34:11Z",
+      "updatedAt": "2025-10-30T15:33:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -3882,6 +3882,13 @@
           "body": "> > Yes, these are the sections that we intend to update.\n> \n> Please consider adding a clarification for DPoP JWT while executing `refresh_token`. \n> To my understanding, @jogu  and @tplooker  agree that DPoP JWT is not needed in this case.\n\nAgreed, to be honest I was not aware of this sentence in the DPoP specification and I was using DPoP together with refresh tokens and client attestation, so I need to wrap my head around what the best solution is there\n",
           "createdAt": "2025-10-29T12:34:11Z",
           "updatedAt": "2025-10-29T12:34:11Z"
+        },
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "> > > Yes, these are the sections that we intend to update.\n> > \n> > \n> > Please consider adding a clarification for DPoP JWT while executing `refresh_token`.\n> > To my understanding, [@jogu](https://github.com/jogu)  and [@tplooker](https://github.com/tplooker)  agree that DPoP JWT is not needed in this case.\n> \n> Agreed, to be honest I was not aware of this sentence in the DPoP specification and I was using DPoP together with refresh tokens and client attestation, so I need to wrap my head around what the best solution is there\n\nI think all that is necessary in this spec is two clarifications:\n\n1. A client using this specification is considered to be a private client\n2. Because it's a private client, when doing DPoP with refresh tokens the DPoP spec says that you don't bind the refresh token to the DPoP key",
+          "createdAt": "2025-10-30T15:33:35Z",
+          "updatedAt": "2025-10-30T15:33:46Z"
         }
       ]
     },
