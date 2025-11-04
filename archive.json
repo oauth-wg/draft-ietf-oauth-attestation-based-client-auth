@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-02T00:13:54.437893+00:00",
+  "timestamp": "2025-11-04T00:12:30.924748+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4125,6 +4125,30 @@
       "updatedAt": "2025-10-24T22:57:02Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 167,
+      "id": "I_kwDOJaEkaM7VcCqp",
+      "title": "Client authentication method or not?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/167",
+      "state": "OPEN",
+      "author": "fkj",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "At IIW there was some discussion about whether this spec should really define a client authentication method.\nThe main motivation for allowing people to use the mechanism without it being a client authentication method is this line from OAuth 2 (section 2.3):\n> The client MUST NOT use more than one authentication method in each request.\n\nMy impression from the IIW discussion was that there are two use cases:\n- Use the attestation mechanism as the (only) client authentication method\n- Use the attestation mechanism to provide additional assurance on top of an existing client authentication method\n\nI think it makes sense to allow for both use cases and provide some guidance in the Implementation Considerations section. I'm happy to write a draft of this if you want to pursue this direction.\nI guess this would also be interesting to bring up at IETF this week, but unfortunately I can't attend.",
+      "createdAt": "2025-11-03T07:28:48Z",
+      "updatedAt": "2025-11-03T10:14:39Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Agreed and we are planning to bring that discussion up at the OAuth WG Meeting on Friday.",
+          "createdAt": "2025-11-03T10:14:39Z",
+          "updatedAt": "2025-11-03T10:14:39Z"
+        }
+      ]
     }
   ],
   "pulls": [
