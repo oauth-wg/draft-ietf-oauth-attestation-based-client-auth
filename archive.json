@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-09T00:14:02.475164+00:00",
+  "timestamp": "2025-11-16T00:14:06.701840+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4156,6 +4156,22 @@
           "updatedAt": "2025-11-03T10:14:39Z"
         }
       ]
+    },
+    {
+      "number": 168,
+      "id": "I_kwDOJaEkaM7Xu35V",
+      "title": "Integrity protecting HTTP requests using DPoP and Client Attestations",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/168",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Note - I'm unsure of the best place to discuss this concept but I'm starting the conversation here, due to its potential relationship to this draft.\n\nDPoP as defined in RFC9449 provides a mechanism for sender-constraining tokens issued in OAuth 2.0. By design however the mechanism for sender-constraining of tokens isn't intended to provide wider integrity guarantees over the HTTP message upon which a DPoP proof is attached to. The same problem exists for client attestations.\n\nWe've now encountered situations where DPoP (and potentially Client attestations) are (or going to be) used and integrity over the request body of the HTTP message is also desired. This leaves implementations with a couple of possible choices\n\n1. To not have integrity over the request body (beyond what TLS already provides) - This is a difficult argument to make in some of the proposed applications where TLS isn't sufficiently trusted to provide the required integrity\n2. To define a seperate mechanism to provide integrity over the request body seperate from DPoP or Client attestations\n3. To devise a mechanism whereby a DPoP proof or Client Attestation PoP could also provide integrity over the request body\n\nThe remainder of this issue focuses on discussing a proposal for option 3.\n\nHTTP defines a specific header called [Content-Digest](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Digest) which provides a hash/digest over the HTTP message content. In essence, if the value of this header were included inside a DPoP proof / Client Attestation PoP, integrity over the HTTP message content could verified.\n\nAn example of a DPoP proof\n\n```\n{\n  \"typ\":\"dpop+jwt\",\n  \"alg\":\"ES256\",\n  \"jwk\": {\n    \"kty\":\"EC\",\n    \"x\":\"l8tFrhx-34tV3hRICRDY9zCkDlpBhF42UQUfWVAWBFs\",\n    \"y\":\"9VE4jf_Ok_o64zbTTlcuNJajHmt6v9TDVrU0CdvGRDA\",\n    \"crv\":\"P-256\"\n  }\n}\n.\n{\n  \"jti\":\"-BwC3ESc6acc2lTc\",\n  \"htm\":\"POST\",\n  \"htu\":\"https://server.example.com/token\",\n  **\"htcd\": \"sha-256=:47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=:\",**\n  \"iat\":1562262616\n}\n```\n\nNote the new `htcd` JWT claim where the value is the value of the Content-Digest HTTP header.\n\nThe main advantage I can see to this proposal is that integrity is provided via DPoP without the need for an additional signature over the HTTP message content.\n\nAlternative proposals could involve\n1. Providing a seperate signature over the HTTP message using HTTP message signatures - this requires two signatures in the HTTP message\n2. Providing a seperate signature over the HTTP message using JWS on the request body - awkward if the request body isn't JSON and also suffers from two signatures in the HTTP message\n",
+      "createdAt": "2025-11-13T04:36:27Z",
+      "updatedAt": "2025-11-13T04:36:27Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
