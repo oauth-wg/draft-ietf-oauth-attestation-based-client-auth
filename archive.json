@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-16T00:14:06.701840+00:00",
+  "timestamp": "2025-11-18T00:13:11.722798+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4145,7 +4145,7 @@
       "labels": [],
       "body": "At IIW there was some discussion about whether this spec should really define a client authentication method.\nThe main motivation for allowing people to use the mechanism without it being a client authentication method is this line from OAuth 2 (section 2.3):\n> The client MUST NOT use more than one authentication method in each request.\n\nMy impression from the IIW discussion was that there are two use cases:\n- Use the attestation mechanism as the (only) client authentication method\n- Use the attestation mechanism to provide additional assurance on top of an existing client authentication method\n\nI think it makes sense to allow for both use cases and provide some guidance in the Implementation Considerations section. I'm happy to write a draft of this if you want to pursue this direction.\nI guess this would also be interesting to bring up at IETF this week, but unfortunately I can't attend.",
       "createdAt": "2025-11-03T07:28:48Z",
-      "updatedAt": "2025-11-03T10:14:39Z",
+      "updatedAt": "2025-11-17T15:26:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -4154,6 +4154,13 @@
           "body": "Agreed and we are planning to bring that discussion up at the OAuth WG Meeting on Friday.",
           "createdAt": "2025-11-03T10:14:39Z",
           "updatedAt": "2025-11-03T10:14:39Z"
+        },
+        {
+          "author": "kkoiwai",
+          "authorAssociation": "NONE",
+          "body": "One example use case of \"Use the attestation mechanism as the (only) client authentication method\" would be a smartphone native app.  Here I assume a user of the app can only login with the account of the app's service provider, i.e., the IdP and the app publisher is the same entity. The app gets an attestation from its platform and send it to the the Client Attester, typically its authorization server, to get a Client Attestation JWT. The app then uses the Client Attestation JWT and PoP JWT for accessing the PAR endpoint and token endpoint. ",
+          "createdAt": "2025-11-17T15:26:13Z",
+          "updatedAt": "2025-11-17T15:26:13Z"
         }
       ]
     },
