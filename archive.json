@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-18T00:13:11.722798+00:00",
+  "timestamp": "2025-11-20T00:13:09.160059+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4179,6 +4179,30 @@
       "updatedAt": "2025-11-13T04:36:27Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 169,
+      "id": "I_kwDOJaEkaM7Yt0rL",
+      "title": "Authorization Server metadata defined inside implementation considerations",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/169",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Caught by @jogu, I think we should move this out into its own top level section.",
+      "createdAt": "2025-11-18T03:05:14Z",
+      "updatedAt": "2025-11-18T19:26:58Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "jogu",
+          "authorAssociation": "NONE",
+          "body": "I might deserve an entry in the acknowledgments too :-)",
+          "createdAt": "2025-11-18T19:26:58Z",
+          "updatedAt": "2025-11-18T19:26:58Z"
+        }
+      ]
     }
   ],
   "pulls": [
