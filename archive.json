@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-20T00:13:09.160059+00:00",
+  "timestamp": "2025-11-27T00:12:34.204470+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4192,7 +4192,7 @@
       "labels": [],
       "body": "Caught by @jogu, I think we should move this out into its own top level section.",
       "createdAt": "2025-11-18T03:05:14Z",
-      "updatedAt": "2025-11-18T19:26:58Z",
+      "updatedAt": "2025-11-25T11:44:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -4201,8 +4201,31 @@
           "body": "I might deserve an entry in the acknowledgments too :-)",
           "createdAt": "2025-11-18T19:26:58Z",
           "updatedAt": "2025-11-18T19:26:58Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "I also agree that Authorization Server Metadata extensions deserve to be a top-level section\nThere are the entries defined in implementation considerations and the challenge endpoint.\n\nSomehow related #170 \n\n",
+          "createdAt": "2025-11-25T11:44:41Z",
+          "updatedAt": "2025-11-25T11:44:41Z"
         }
       ]
+    },
+    {
+      "number": 170,
+      "id": "I_kwDOJaEkaM7aS-y9",
+      "title": "Client metadata ?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/170",
+      "state": "OPEN",
+      "author": "babisRoutis",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
+      "createdAt": "2025-11-25T10:20:49Z",
+      "updatedAt": "2025-11-25T10:20:49Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
