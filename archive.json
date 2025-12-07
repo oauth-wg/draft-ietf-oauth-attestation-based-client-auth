@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-27T00:12:34.204470+00:00",
+  "timestamp": "2025-12-07T00:14:56.084617+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4224,6 +4224,22 @@
       "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
       "createdAt": "2025-11-25T10:20:49Z",
       "updatedAt": "2025-11-25T10:20:49Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 171,
+      "id": "I_kwDOJaEkaM7cRLcl",
+      "title": "Make iss optional in Client Attestation JWT",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/171",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See https://github.com/openid/OpenID4VC-HAIP/issues/352",
+      "createdAt": "2025-12-04T16:46:34Z",
+      "updatedAt": "2025-12-04T16:46:34Z",
       "closedAt": null,
       "comments": []
     }
