@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-18T00:11:38.002466+00:00",
+  "timestamp": "2026-01-22T00:15:15.092762+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3490,7 +3490,7 @@
       ],
       "body": "In [AT Protocol](https://atproto.com/) we've recently published a proposal that takes a similar shape and fills similar use cases to attestation-based client authentication as described in the draft being worked on here.  It can be found here: [0010-client-assertion-backend](https://github.com/bluesky-social/proposals/tree/main/0010-client-assertion-backend).  Once the proposal is finalized, it could end up being widely adopted in the AT Protocol ecosystem, as we have many folks who want to author browser-based clients that are given the security and UX affordances of a confidential client.\n\nWe wanted to share our use case and our thinking with the hopes that we may be able to converge on something compatible with the work being done here.\n\nRather than proposing a new client authentication method, we opted to layer a small mechanism on top of the private_key_jwt method from [RFC 7523](https://datatracker.ietf.org/doc/rfc7523/).  It's quite limited:\n> [If] the `client_assertion` JWT contains a `cnf` claim using the `jkt` method (JWK Thumbprint Confirmation Method) then it MUST be validated by the AS against the public key of the request\u2019s DPoP proof.\n\nThe result is DPoP-bound client assertions, which fits neatly with existing DPoP-bound authorization flows, i.e. both authorization code and access token binding as described in [RFC 9449](https://datatracker.ietf.org/doc/rfc9449/).  We considered the need for separate client keys in the client attestation vs. the authorization flow in our proposal, as has been raised in #67 and more recently #74. We do not anticipate any practical issues with using a single PoP key and mechanism, but would be interested to continue getting to the bottom of that question.\n\nOn the flip side, we certainly see many benefits to using a single PoP mechanism across these OAuth flows.  We found the following benefits aligning on DPoP and private_key_jwt client authentication:\n - overall the specification becomes much smaller:\n   - answers questions around the nonce mechanism, as actively discussed in #101 and #110.\n   - supports authorization code binding, as discussed in #56.\n   - supports binding the PoP to the attestation used to authenticate, as discussed in #47.\n   - answers to the attack surface area when used in conjunction with DPoP-bound access tokens, as discussed in #69.\n - as a result it's more straightforward for client implementers, particularly those who already implement DPoP-bound access tokens, which we believe will continue to rise in popularity. Fewer novel PoP implementations on the client side has its security benefits too.\n\nThat's where we're currently at\u2014appreciate the consideration from this group, and the work being done on this draft.",
       "createdAt": "2025-06-07T21:29:12Z",
-      "updatedAt": "2025-12-16T13:42:01Z",
+      "updatedAt": "2026-01-20T14:29:08Z",
       "closedAt": null,
       "comments": [
         {
@@ -3562,6 +3562,13 @@
           "body": "Hey, sure, we are up for discussion. You may either write here, to the mailing list, or we set up a call for discussion and post the results to the mailing list afterwards.",
           "createdAt": "2025-12-16T08:03:19Z",
           "updatedAt": "2025-12-16T08:03:19Z"
+        },
+        {
+          "author": "matthieusieben",
+          "authorAssociation": "NONE",
+          "body": "Hey @paulbastian, how can we go about setting up a call to discuss this ?",
+          "createdAt": "2026-01-20T14:29:08Z",
+          "updatedAt": "2026-01-20T14:29:08Z"
         }
       ]
     },
