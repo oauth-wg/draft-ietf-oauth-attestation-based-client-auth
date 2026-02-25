@@ -123,7 +123,7 @@ Table of Contents
 
    Traditional OAuth security concepts perform client authentication
    through a backend channel.  In ecosystems such as the Issuer-Holder-
-   Verifier model used in [SD-JWT], this model raises privacy concerns,
+   Verifier model used in [RFC9449], this model raises privacy concerns,
    as it would enable the backend to recognize which Holder (i.e.
    client) interacts with which Issuer (i.e. Authorization Server) and
    potentially furthermore see the credentials being issued.  This
@@ -632,7 +632,7 @@ Table of Contents
    <Client Attestation>~<Client Attestation PoP>
 
    This form is similar to an SD-JWT+KB according to Section 5 of
-   [SD-JWT] but does not include Disclosures, uses different typ values
+   [RFC9449] but does not include Disclosures, uses different typ values
    and does not include the sd_hash claim in the PoP.
 
    This concatenated serialization form allows a the presentation of a
@@ -1217,11 +1217,10 @@ Table of Contents
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-   [SD-JWT]   Fett, D., Yasuda, K., and B. Campbell, "Selective
-              Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-22, 29
-              May 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-22>.
+   [RFC9449]  Fett, D., Campbell, B., Bradley, J., Lodderstedt, T.,
+              Jones, M., and D. Waite, "OAuth 2.0 Demonstrating Proof of
+              Possession (DPoP)", RFC 9449, DOI 10.17487/RFC9449,
+              September 2023, <https://www.rfc-editor.org/rfc/rfc9449>.
 
 Appendix A.  Document History
 
