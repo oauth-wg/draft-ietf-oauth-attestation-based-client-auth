@@ -524,13 +524,13 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 12. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).
 13. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT and the `iss` claim of the Client Attestation PoP JWT.
 
-# Implementation Considerations
-
 ## Authorization Server Metadata
 
 The Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize Attestation-Based Client Authentication as a client authentication mechanism if the given parameters are present.
 
 The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth`.
+
+# Implementation Considerations
 
 ## Reuse of a Client Attestation JWT
 
@@ -607,11 +607,15 @@ This specification requests registration of the following values in the IANA "OA
 * Change Controller: IETF
 * Reference: [](#checking-http-requests-with-client-attestations) of this specification
 
+<br/>
+
 * Name: use_fresh_attestation
 * Usage Location: token error response, resource access error response
 * Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
 * Change Controller: IETF
 * Reference: this specification
+
+<br/>
 
 * Name: invalid_client_attestation
 * Usage Location: token error response, resource access error response
@@ -628,6 +632,8 @@ This specification requests registration of the following values in the IANA "OA
 * Change Controller: IETF
 * Reference: [](#checking-http-requests-with-client-attestations) of this specification
 
+<br/>
+
 * Metadata Name: client_attestation_pop_signing_alg_values_supported
 * Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation PoP JWT.
 * Change Controller: IETF
@@ -642,6 +648,7 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 * Specification Document(s): TBC
 
 ## HTTP Field Name Registration
+
 This section requests registration of the following scheme in the "Hypertext Transfer Protocol (HTTP) Field Name Registry" {{IANA.HTTP.Fields}} described in {{RFC9110}}:
 
 * Field Name: OAuth-Client-Attestation
@@ -655,13 +662,18 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * Reference: [](#headers) of this specification
 
 <br/>
-add implementation consideration for Authorization Server Metadata
+
 * Field Name: OAuth-Client-Attestation-Challenge
 * Status: permanent
 * Reference: [](#challenge-retrieval) of this specification
 --- back
 
 # Document History
+
+-08
+
+* moving Authorization Server metadata into it's own top level section
+* editorial fixes
 
 -07
 
