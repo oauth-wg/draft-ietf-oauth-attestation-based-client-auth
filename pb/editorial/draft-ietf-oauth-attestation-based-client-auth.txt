@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 29 August 2026                                  Bundesdruckerei
+Expires: 30 August 2026                                  Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                        25 February 2026
+                                                        26 February 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2026.
+   This Internet-Draft will expire on 30 August 2026.
 
 Copyright Notice
 
@@ -123,7 +123,7 @@ Table of Contents
 
    Traditional OAuth security concepts perform client authentication
    through a backend channel.  In ecosystems such as the Issuer-Holder-
-   Verifier model used in [RFC9449], this model raises privacy concerns,
+   Verifier model used in [RFC9901], this model raises privacy concerns,
    as it would enable the backend to recognize which Holder (i.e.
    client) interacts with which Issuer (i.e. Authorization Server) and
    potentially furthermore see the credentials being issued.  This
@@ -632,7 +632,7 @@ Table of Contents
    <Client Attestation>~<Client Attestation PoP>
 
    This form is similar to an SD-JWT+KB according to Section 5 of
-   [RFC9449] but does not include Disclosures, uses different typ values
+   [RFC9901] but does not include Disclosures, uses different typ values
    and does not include the sd_hash claim in the PoP.
 
    This concatenated serialization form allows a the presentation of a
@@ -1217,10 +1217,10 @@ Table of Contents
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-   [RFC9449]  Fett, D., Campbell, B., Bradley, J., Lodderstedt, T.,
-              Jones, M., and D. Waite, "OAuth 2.0 Demonstrating Proof of
-              Possession (DPoP)", RFC 9449, DOI 10.17487/RFC9449,
-              September 2023, <https://www.rfc-editor.org/rfc/rfc9449>.
+   [RFC9901]  Fett, D., Yasuda, K., and B. Campbell, "Selective
+              Disclosure for JSON Web Tokens", RFC 9901,
+              DOI 10.17487/RFC9901, November 2025,
+              <https://www.rfc-editor.org/rfc/rfc9901>.
 
 Appendix A.  Document History
 
