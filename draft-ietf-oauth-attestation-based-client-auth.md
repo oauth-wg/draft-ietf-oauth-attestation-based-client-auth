@@ -66,7 +66,7 @@ informative:
   RFC6749: RFC6749
   RFC9334: RFC9334
   RFC7523: RFC7523
-  RFC9449: RFC9449
+  RFC9901: RFC9901
   ARF:
   	title: "The European Digital Identity Wallet Architecture and Reference Framework"
 
@@ -78,7 +78,7 @@ This specification defines an extension to the OAuth 2 protocol as defined in {{
 
 # Introduction
 
-Traditional OAuth security concepts perform client authentication through a backend channel. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9449}}, this model raises privacy concerns, as it would enable the backend to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially furthermore see the credentials being issued. This specification establishes a mechanism for a backend-attested client authentication through a frontend channel to address these issues.
+Traditional OAuth security concepts perform client authentication through a backend channel. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this model raises privacy concerns, as it would enable the backend to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially furthermore see the credentials being issued. This specification establishes a mechanism for a backend-attested client authentication through a frontend channel to address these issues.
 
 Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, e.g. for mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.
 
@@ -416,7 +416,7 @@ This representation is created by concatenating Client Attestation and Client At
 <Client Attestation>~<Client Attestation PoP>
 ~~~
 
-This form is similar to an SD-JWT+KB according to Section 5 of {{RFC9449}} but does not include Disclosures, uses different typ values and does not include the `sd_hash` claim in the PoP.
+This form is similar to an SD-JWT+KB according to Section 5 of {{RFC9901}} but does not include Disclosures, uses different typ values and does not include the `sd_hash` claim in the PoP.
 
 This concatenated serialization form allows a the presentation of a Client Attestation and Client Attestation PoP for cases where a header-based approach is unavailable, e.g., to establish trust in a client when using a direct Browser API call.
 
