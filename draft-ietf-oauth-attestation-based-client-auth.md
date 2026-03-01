@@ -334,9 +334,13 @@ When validation errors specifically related to the use of client attestations ar
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions of when to return suitable Error Responses.
 
-## Client Attestation at the Token Endpoint {#token-endpoint}
+## Client Attestation at the Authorization Server {#authorization-server}
 
-While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage within the token request as defined by {{RFC6749}} has particular additional considerations outlined below.
+While the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, they require some additional description.
+
+### Client Attestation at the Token Endpoint {#token-endpoint}
+
+Usage within the token request as defined by {{RFC6749}} has particular additional considerations outlined below.
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.
 
@@ -368,7 +372,7 @@ grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 ~~~
 
-## Client Attestation at the PAR Endpoint {#par-endpoint}
+### Client Attestation at the PAR Endpoint {#par-endpoint}
 
 A Client Attestation can be used at the Pushed Authorization Request (PAR) endpoint defined in {{RFC9126}} instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
 
@@ -662,6 +666,10 @@ add implementation consideration for Authorization Server Metadata
 --- back
 
 # Document History
+
+-08
+
+* slight refactor of text about usage at token endpoint and PAR
 
 -07
 
