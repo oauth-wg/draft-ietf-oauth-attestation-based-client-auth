@@ -580,7 +580,7 @@ An Authorization Server SHOULD implement measures to detect replay attacks by th
   - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
   - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.
 
-Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementation to deal with proper sate handling. This can be implicit by always supporting this feature or via some metadata that allows the client to detect support for this feature.
+Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementation to deal with proper state handling. This can be implicit by always supporting this feature or via some metadata that allows the client to detect support for this feature.
 
 Because clock skews between servers and clients may be large, Authorization Servers MAY limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.
 
