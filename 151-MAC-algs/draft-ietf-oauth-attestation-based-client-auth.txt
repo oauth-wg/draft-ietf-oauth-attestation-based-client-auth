@@ -773,9 +773,10 @@ Table of Contents
         parameters as per Section 5.2.
 
    4.   The alg JOSE Header Parameter for both JWTs indicates a
-        registered asymmetric digital signature algorithm
-        [IANA.JOSE.ALGS], is not none, is supported by the application,
-        and is acceptable per local policy.
+        registered asymmetric digital signature algorithm or Message
+        Authentication Code (MAC) [IANA.JOSE.ALGS], is not none, is
+        supported by the application, and is acceptable per local
+        policy.
 
    5.   The signature of the Client Attestation JWT verifies with the
         public key of a known and trusted Attester.
