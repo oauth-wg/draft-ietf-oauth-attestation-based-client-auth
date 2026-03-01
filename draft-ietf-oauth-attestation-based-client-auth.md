@@ -513,7 +513,7 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 
 2. The Client Attestation JWT contains all claims and header parameters as per [](#client-attestation-jwt).
 3. The Client Attestation PoP JWT contains all claims and header parameters as per [](#client-attestation-pop-jwt).
-4. The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy.
+4. The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy. The alg JOSE Header Parameter for the Client Attestation JWT can also be a registered Message Authentication Code (MAC).
 5. The signature of the Client Attestation JWT verifies with the public key of a known and trusted Attester.
 6. The key contained in the `cnf` claim of the Client Attestation JWT is not a private key.
 7. The signature of the Client Attestation PoP JWT verifies with the public key contained in the `cnf` claim of the Client Attestation JWT.
