@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-26T00:16:15.115700+00:00",
+  "timestamp": "2026-03-01T00:19:35.630362+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4362,7 +4362,7 @@
       "labels": [],
       "body": "I am very glad to see that the draft is progressing and, in particular, that there is traction to make [things better for DPoP](https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/146).\n\nCould I ask you to consider the problem from the perspective of OAuth profiles already built on RFC9449 (DPoP) and RFC7523 (JWT client assertions)?\n\nWhen both are in use, the AS already processes payloads of the following shape:\n\n```\nPOST /token.oauth2 HTTP/1.1\nHost: as.example.com\nContent-Type: application/x-www-form-urlencoded\nDPoP: eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik\\\n  VDIiwieCI6Imw4dEZyaHgtMzR0VjNoUklDUkRZOXpDa0RscEJoRjQyVVFVZldWQVdCR\\\n  nMiLCJ5IjoiOVZFNGpmX09rX282NHpiVFRsY3VOSmFqSG10NnY5VERWclUwQ2R2R1JE\\\n  QSIsImNydiI6IlAtMjU2In19.eyJqdGkiOiItQndDM0VTYzZhY2MybFRjIiwiaHRtIj\\\n  oiUE9TVCIsImh0dSI6Imh0dHBzOi8vc2VydmVyLmV4YW1wbGUuY29tL3Rva2VuIiwia\\\n  WF0IjoxNTYyMjYyNjE2fQ.2-GxA6T8lP4vfrg8v-FdWP0A0zdrj8igiMLvqRMUvwnQg\\\n  4PtFLbdLXiOSsX0x7NVY-FNyJK70nfbV37xRZT3Lg\n\ngrant_type=authorization_code&\ncode=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&\nclient_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A\nclient-assertion-type%3Ajwt-bearer&\nclient_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.\\\n  eyJpc3Mi[...omitted for brevity...].\\\n  cC4hiUPo[...omitted for brevity...]\n```\n\nThese AS already implement DPoP header verification and `client_assertion` JWT validation. In that context, binding the client assertion to the DPoP key can be as simple as embedding the DPoP key thumbprint in the `cnf.jkt` claim of the client assertion. This is essentially a one-line spec change and a [minimal implementation](https://github.com/bluesky-social/atproto/pull/3889/changes#diff-e8a3cdf53808bef6d95a6f8b83c1f35a33d76c369e604f8f47e420c781ae91e0R254-R268).\n\nThe current draft introduces a new `token_endpoint_auth_method` and a new `OAuth-Client-Attestation` header with semantics that largely overlap with mechanisms already defined in RFC7523 and RFC9449. The result is an additive design that diverges from existing primitives rather than composing with them.\n\nStarting from those existing RFCs instead would, I believe:\n\n- lower the barrier to adoption, since implementations already handling DPoP and JWT client assertions require minimal changes,\n- allow simpler partial adoption (e.g. the DPoP binding alone, without a new auth method),\n- reduce the overall complexity added to the OAuth ecosystem.",
       "createdAt": "2026-02-24T14:46:16Z",
-      "updatedAt": "2026-02-25T17:33:00Z",
+      "updatedAt": "2026-02-26T11:48:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -4406,6 +4406,20 @@
           "body": "I see some issues of re-using RFC7523:\n\n- the title says that this is a JWT Bearer token, which a Client Attestation JWT is not\n- it is designed for a model, where the Issuer of the Bearer-JWT already knows the Authorization Server, that the OAuth client wants to interact with:\n\n> The JWT MUST contain an \"aud\" (audience) claim containing a\n        value that identifies the authorization server as an intended\n        audience.\n\n- this is incompatible with the design ideas of Attestation-Based Client Authentication, where the Issuer of the client attestation should not learn whom the OAuth client is interacting with.\n- so while combining this with RFC7523 makes no sense to me, we see the value of using DPoP as the proof of possession mechanism (despite a number of downsides of DPoP itself) - this is a way forward that was extensively discussed and also has a current PR (beware, the PR is rather stale, @tplooker to provide an update in the coming days)",
           "createdAt": "2026-02-25T17:33:00Z",
           "updatedAt": "2026-02-25T17:33:00Z"
+        },
+        {
+          "author": "matthieusieben",
+          "authorAssociation": "NONE",
+          "body": "Hey @paulbastian, thank you for your answer, and for your patience helping me understand how Attestation-Based Client Authentication is meant to work. This super helpful!\n\n---\n\n> the title says that this is a JWT Bearer token, which a Client Attestation JWT is not\n\nYou are right, though I don't think that that spec actually meant for those JWT to be used as `Authorization: Bearer <token>` header. In my read \"bearer\" should be interpreted as \"the client can *present* this token to prove it was issued this attestation\". Indeed, RFC7523 only talks about using those tokens as `client_assertion` or `assertion` parameter for token requests, and never in any header.\n\nIn my previous suggestion to describe:\n\n> 2. A new OAuth-Client-Attestation header for resource server requests that need a recent client attestation.\n\nThose the client attestation tokens would be used not as \"Bearer tokens\", but as simple attestation indeed. The actual `Bearer` in those requests to the resource server would be the access token anyway.\n\n\n---\n\n\n> > The JWT MUST contain an \"aud\" (audience) claim containing a value that identifies the authorization server as an intended audience.\n>\n> this is incompatible with the design ideas of Attestation-Based Client Authentication, where the Issuer of the client attestation should not learn whom the OAuth client is interacting with.\n\nI also see this extract from the draft's [intro](https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#section-1), which probably explains the motivation for omitting the \"aud\":\n\n> In ecosystems such as the Issuer-Holder-Verifier model used in [[SD-JWT](https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#SD-JWT)], this model raises privacy concerns, as it would enable the backend to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server)\n\nCould you expand on the actual privacy threat here? I would typically expect both the Client Attester and Client Instance to be part of the same deployment and be controlled by the same actor. That actor has full control over both parts of the Client.",
+          "createdAt": "2026-02-26T11:01:34Z",
+          "updatedAt": "2026-02-26T11:06:14Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "> Could you expand on the actual privacy threat here? I would typically expect both the Client Attester and Client Instance to be part of the same deployment and be controlled by the same actor. That actor has full control over both parts of the Client.\n\nWe have been influenced quite a  bit by looking at this from a smartphone perspective: You might have installed an App and require certain guarantees about state, authenticity etc. of said app / client when interacting with other parties in an ecosystem (e.g.,, an AS or RS where AS and RS are completely different parties from the App provider). In that scenario, the App provider would create such attestations for Apps, but should not be able to learn about interactions between the App and other parties.\n\nWe are using this mechanism for example in [OpenID for Verifiable Credential Issuance 1.0](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html) as a \"Wallet Attestation\" - a statement that the other party (in this case credential issuer) is interacting with a known/valid Wallet. In our case, the Issuer and Wallet Provider (provider of the app and of the client attestations) are completely separate entities and the Wallet Provider should not learn about interactions with specific issuers - the Wallet provider in general should not be able to learn how and where the Wallet is used.",
+          "createdAt": "2026-02-26T11:48:17Z",
+          "updatedAt": "2026-02-26T11:48:17Z"
         }
       ]
     }
@@ -12780,13 +12794,39 @@
       "labels": [],
       "body": "Closes #169 ",
       "createdAt": "2026-02-25T23:37:44Z",
-      "updatedAt": "2026-02-25T23:45:38Z",
+      "updatedAt": "2026-02-26T00:37:05Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "c461599992c9f31e510811b9b33446d54626d906",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/editorial",
-      "headRefOid": "9798ac78d4b3e2badadb88fdc8b77b915acd70ab",
+      "headRefOid": "cfdd0e3323e72de0f46bdd117065863d3108904d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 175,
+      "id": "PR_kwDOJaEkaM7GY8pz",
+      "title": "clarifications to confidential clients and client authentication mechanism",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/175",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #79 \r\nCloses #167 \r\nCloses #152 \r\nCloses #113 ",
+      "createdAt": "2026-02-26T00:33:49Z",
+      "updatedAt": "2026-02-26T00:43:15Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "c461599992c9f31e510811b9b33446d54626d906",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/confidential",
+      "headRefOid": "a021187a0236c7e585d06e4386880494289a888e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
