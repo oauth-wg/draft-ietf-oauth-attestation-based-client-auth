@@ -586,6 +586,11 @@ In any case the Authorization Server SHOULD ensure the freshness of the Client A
 
 The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
 
+## Client Attestation Protection
+
+This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestations JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
+These use-cases typically represent deployments where the Client Attester and Authorization Server have a trust relationship and the possibility to securely exchange keys out of band or are the same entity and no other entity needs to verify the Client Attestations. We expect most deployments to use digital signatures for the protection of Client Attestations, and implementers SHOULD default to digital signatures if they are unsure.
+
 # IANA Considerations
 
 ## OAuth Parameters Registration
@@ -662,6 +667,10 @@ add implementation consideration for Authorization Server Metadata
 --- back
 
 # Document History
+
+-08
+
+* add small security consideration sub-section for MAC-based deployments
 
 -07
 
