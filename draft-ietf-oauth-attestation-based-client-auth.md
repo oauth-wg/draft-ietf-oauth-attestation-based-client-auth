@@ -646,22 +646,29 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 * Field Name: OAuth-Client-Attestation
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#headers) of this specification
 
 <br/>
 
 * Field Name: OAuth-Client-Attestation-PoP
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#headers) of this specification
 
 <br/>
 add implementation consideration for Authorization Server Metadata
 * Field Name: OAuth-Client-Attestation-Challenge
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#challenge-retrieval) of this specification
 --- back
 
 # Document History
+
+-08
+
+* add structured-type to iana header field registration requests
 
 -07
 
