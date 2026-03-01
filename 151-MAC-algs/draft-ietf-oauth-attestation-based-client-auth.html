@@ -1895,7 +1895,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <p id="section-9-2.3.1">The Client Attestation PoP JWT contains all claims and header parameters as per <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.2</a>.<a href="#section-9-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.4">
-          <p id="section-9-2.4.1">The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm or Message Authentication Code (MAC) <span>[<a href="#IANA.JOSE.ALGS" class="cite xref">IANA.JOSE.ALGS</a>]</span>, is not none, is supported by the application, and is acceptable per local policy.<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-9-2.4.1">The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm <span>[<a href="#IANA.JOSE.ALGS" class="cite xref">IANA.JOSE.ALGS</a>]</span>, is not none, is supported by the application, and is acceptable per local policy. The alg JOSE Header Parameter for the Client Attestation JWT can also be a registered Message Authentication Code (MAC).<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.5">
           <p id="section-9-2.5.1">The signature of the Client Attestation JWT verifies with the public key of a known and trusted Attester.<a href="#section-9-2.5.1" class="pilcrow">¶</a></p>
