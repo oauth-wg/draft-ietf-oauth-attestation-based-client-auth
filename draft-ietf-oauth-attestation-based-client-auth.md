@@ -536,7 +536,7 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 
 2. The Client Attestation JWT contains all claims and header parameters as per [](#client-attestation-jwt).
 3. The Client Attestation PoP JWT contains all claims and header parameters as per [](#client-attestation-pop-jwt).
-4. The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy.
+4. The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy. The alg JOSE Header Parameter for the Client Attestation JWT can also be a registered Message Authentication Code (MAC).
 5. The signature of the Client Attestation JWT verifies with the public key of a known and trusted Attester.
 6. The key contained in the `cnf` claim of the Client Attestation JWT is not a private key.
 7. The signature of the Client Attestation PoP JWT verifies with the public key contained in the `cnf` claim of the Client Attestation JWT.
@@ -610,6 +610,11 @@ Because clock skews between servers and clients may be large, Authorization Serv
 In any case the Authorization Server SHOULD ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.
 
 The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
+
+## Client Attestation Protection
+
+This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestations JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
+These use-cases typically represent deployments where the Client Attester and Authorization Server have a trust relationship and the possibility to securely exchange keys out of band or are the same entity and no other entity needs to verify the Client Attestations. We expect most deployments to use digital signatures for the protection of Client Attestations, and implementers SHOULD default to digital signatures if they are unsure.
 
 # IANA Considerations
 
@@ -700,6 +705,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -08
 
+* add small security consideration sub-section for MAC-based deployments
 * remove public clients reference and clarify this draft targets confidential clients
 * clarify this may be a client authentication mechanism but also may be not
 * add examples for RS usage and non client authentication
