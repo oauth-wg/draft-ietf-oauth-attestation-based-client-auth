@@ -367,9 +367,6 @@ Table of Contents
 
    The following content applies to the JWT Claims Set:
 
-   *  iss: REQUIRED.  The iss (issuer) claim MUST specify client_id
-      value of the OAuth Client.
-
    *  aud: REQUIRED.  The aud (audience) claim MUST specify a value that
       identifies the authorization server as an intended audience.  The
       [RFC8414] issuer identifier URL of the authorization server MUST
@@ -418,7 +415,6 @@ Table of Contents
    }
    .
    {
-     "iss": "https://client.example.com",
      "aud": "https://as.example.com",
      "nbf":1300815780,
      "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
@@ -1269,7 +1265,8 @@ Appendix A.  Document History
 
    -08
 
-   *  remove iss from Client Attestation JWT
+   *  remove iss from Client Attestation JWT and Client Attestation PoP
+      JWT
 
    *  add small security consideration sub-section for MAC-based
       deployments
