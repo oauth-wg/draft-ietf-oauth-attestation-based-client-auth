@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 2 September 2026                                Bundesdruckerei
+Expires: 3 September 2026                                Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            1 March 2026
+                                                            2 March 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -972,10 +972,10 @@ Table of Contents
 
    Note that protocols that provide a challenge as part of a previous
    response should provide a clear indicator for clients when this
-   feature is used.  This makes it easier for client implementation to
+   feature is used.  This makes it easier for client implementations to
    deal with proper state handling.  This can be implicit by always
-   supporting this feature or via some metadata that allows the client
-   to detect support for this feature.
+   mandating support for this feature or via some metadata that allows
+   the client to detect support for this feature for a specific server.
 
    Because clock skews between servers and clients may be large,
    Authorization Servers MAY limit Client Attestation PoP lifetimes by
