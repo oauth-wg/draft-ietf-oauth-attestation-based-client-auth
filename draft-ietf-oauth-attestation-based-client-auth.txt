@@ -970,6 +970,13 @@ Table of Contents
          e.g. the authorization code.  This MUST be communicated out-of-
          band between Authorization Server and Client.
 
+   Note that protocols that provide a challenge as part of a previous
+   response should provide a clear indicator for clients when this
+   feature is used.  This makes it easier for client implementations to
+   deal with proper state handling.  This can be implicit by always
+   mandating support for this feature or via some metadata that allows
+   the client to detect support for this feature for a specific server.
+
    Because clock skews between servers and clients may be large,
    Authorization Servers MAY limit Client Attestation PoP lifetimes by
    using server-provided challenge values containing the time at the
@@ -1231,6 +1238,8 @@ Table of Contents
 Appendix A.  Document History
 
    -08
+
+   *  Add note on protocols providing a challenge on previous responses
 
    *  add structured-type to iana header field registration requests
 

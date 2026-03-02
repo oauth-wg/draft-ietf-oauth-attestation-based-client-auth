@@ -2046,9 +2046,10 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             </ul>
 </li>
         </ul>
-<p id="section-13.1-3">Because clock skews between servers and clients may be large, Authorization Servers <span class="bcp14">MAY</span> limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.<a href="#section-13.1-3" class="pilcrow">¶</a></p>
-<p id="section-13.1-4">In any case the Authorization Server <span class="bcp14">SHOULD</span> ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.<a href="#section-13.1-4" class="pilcrow">¶</a></p>
-<p id="section-13.1-5">The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The <code>jti</code> value is mandatory and hence acts as a default fallback.<a href="#section-13.1-5" class="pilcrow">¶</a></p>
+<p id="section-13.1-3">Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementations to deal with proper state handling. This can be implicit by always mandating support for this feature or via some metadata that allows the client to detect support for this feature for a specific server.<a href="#section-13.1-3" class="pilcrow">¶</a></p>
+<p id="section-13.1-4">Because clock skews between servers and clients may be large, Authorization Servers <span class="bcp14">MAY</span> limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.<a href="#section-13.1-4" class="pilcrow">¶</a></p>
+<p id="section-13.1-5">In any case the Authorization Server <span class="bcp14">SHOULD</span> ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.<a href="#section-13.1-5" class="pilcrow">¶</a></p>
+<p id="section-13.1-6">The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The <code>jti</code> value is mandatory and hence acts as a default fallback.<a href="#section-13.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2364,13 +2365,16 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="appendix-A-1">-08<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">add structured-type to iana header field registration requests<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">Add note on protocols providing a challenge on previous responses<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">add structured-type to iana header field registration requests<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">editorial fixes<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.4">
+          <p id="appendix-A-2.4.1">editorial fixes<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-07<a href="#appendix-A-3" class="pilcrow">¶</a></p>
