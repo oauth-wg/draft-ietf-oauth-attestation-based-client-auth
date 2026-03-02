@@ -72,7 +72,7 @@ informative:
 
 --- abstract
 
-This specification defines an extension to the OAuth 2 protocol as defined in {{RFC6749}} which enables a Client Instance to include a key-bound attestation in interactions with an Authorization Server or a Resource Server. This new method enables Client Instances involved in a client deployment that is traditionally viewed as a public client, to be able to utilize this key-bound attestation to authenticate.
+This specification defines an extension to the OAuth 2.0 protocol {{RFC6749}} that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0.
 
 --- middle
 
@@ -80,9 +80,11 @@ This specification defines an extension to the OAuth 2 protocol as defined in {{
 
 Traditional OAuth security concepts perform client authentication through a backend channel. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this model raises privacy concerns, as it would enable the backend to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially furthermore see the credentials being issued. This specification establishes a mechanism for a backend-attested client authentication through a frontend channel to address these issues.
 
-Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for public clients to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, e.g. for mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.
+Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for mobile native apps to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, such as mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.
 
 This primary purpose of this specification is the authentication of a client instance enabled through the client backend attesting to it. The client backend may also attest further technical properties about the hardware and software of the client instance.
+
+The client is considered a confidential OAuth 2 client type according to section 2.1 of {{RFC6749}}. The mechanism described in this document may  either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.
 
 The following diagram depicts the overall architecture and protocol flow.
 
@@ -333,11 +335,9 @@ When validation errors specifically related to the use of client attestations ar
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions of when to return suitable Error Responses.
 
-## Client Attestation at the Token Endpoint {#token-endpoint}
+## Client Attestation as an OAuth Client Authentication
 
-While usage of the the client attestation mechanism defined by this draft can be used in a variety of different HTTP requests to different endpoints, usage within the token request as defined by {{RFC6749}} has particular additional considerations outlined below.
-
-The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.
+A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in Section 2.3 of {{RFC6749}} towards an Authorization Server. In this case, the Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request or similar endpoints.
 
 If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
 
@@ -367,15 +367,11 @@ grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 ~~~
 
-## Client Attestation at the PAR Endpoint {#par-endpoint}
+## Client Attestation as an additional security signal
 
-A Client Attestation can be used at the Pushed Authorization Request (PAR) endpoint defined in {{RFC9126}} instead of alternative client authentication mechanisms like JWT client assertion-based authentication (as defined in Section 2.2 of [RFC7523]).
+A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear along existing OAuth 2 Client Authentication mechanisms.
 
-The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received PAR request which is making use of the client attestation mechanism as defined by this draft.
-
-If the pushed authorization request contains a `client_id` parameter as per {{RFC9126}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
-
-The following example demonstrates usage of the client attestation mechanism in a PAR request (with extra line breaks for display purposes only):
+The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} along side client_secret (with extra line breaks for display purposes only):
 
 ~~~
 POST /as/par HTTP/1.1
@@ -397,10 +393,38 @@ FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
 1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
 HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 
-response_type=code&state=af0ifjsldkj&client_id=s6BhdRkqt3
+response_type=code
+&state=af0ifjsldkj
+&client_id=s6BhdRkqt3
+&client_secret=7Fjfp0ZBr1KtDRbnfVdmIw
 &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
 &code_challenge=K2-ltc83acc4h0c9w6ESC_rEMTJ3bww-uCHaoeK1t8U
 &code_challenge_method=S256&scope=account-information
+~~~
+
+The following example demonstrates usage of the client attestation mechanism at the Resource Server (with extra line breaks for display purposes only):
+
+~~~
+POST /api/users/list HTTP/1.1
+Host: rs.example.com
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer mF_9.B5f-4.1JqM
+Accept: application/json
+OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
+zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
+LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
+HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
+42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
+mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
+gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
+OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
+eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
+DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
+FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
+1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
+HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 ~~~
 
 # Concatenated Serialization for Client Attestations {#alternative-representation}
@@ -676,6 +700,9 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -08
 
+* remove public clients reference and clarify this draft targets confidential clients
+* clarify this may be a client authentication mechanism but also may be not
+* add examples for RS usage and non client authentication
 * Add note on protocols providing a challenge on previous responses
 * add structured-type to iana header field registration requests
 * moving Authorization Server metadata into it's own top level section
