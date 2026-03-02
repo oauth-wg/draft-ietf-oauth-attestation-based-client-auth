@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 2 September 2026                                Bundesdruckerei
+Expires: 3 September 2026                                Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            1 March 2026
+                                                            2 March 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -20,9 +20,9 @@ Abstract
    [RFC6749] that enables a client instance to include a key-bound
    attestation when interacting with an Authorization Server or Resource
    Server.  This mechanism allows a client instance to prove its
-   authenticity verified by an client attester without revealing its
-   target audience to that attester.  It may also serve as a standalone
-   OAuth 2.0 client authentication method.
+   authenticity verified by a client attester without revealing its
+   target audience to that attester.  It may also serve as a mechanism
+   for client authentication as per OAuth 2.0.
 
 About This Document
 
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -145,11 +145,11 @@ Table of Contents
    The client backend may also attest further technical properties about
    the hardware and software of the client instance.
 
-   The client is considered a confidential Oauth 2 client type according
+   The client is considered a confidential OAuth 2 client type according
    to section 2.1 of [RFC6749].  The mechanism described in this
    document may either serve as a standalone OAuth 2 client
    authentication mechanism or as an additional, supportive security
-   mechanism beside an existing Oauth 2 client authentication mechanism.
+   mechanism beside an existing OAuth 2 client authentication mechanism.
 
    The following diagram depicts the overall architecture and protocol
    flow.
