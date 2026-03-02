@@ -183,7 +183,6 @@ The following content applies to the JWT Claims Set:
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
 * `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
-* `nbf`: OPTIONAL. The `nbf` (not before) claim MUST specify the time before which the Client Attestation MUST NOT be accepted for processing.
 
 The following additional rules apply:
 
@@ -205,7 +204,6 @@ The following example is the decoded header and payload of a JWT meeting the pro
 {
   "iss": "https://attester.example.com",
   "sub": "https://client.example.com",
-  "nbf": 1300815780,
   "exp": 1300819380,
   "cnf": {
     "jwk": {
@@ -234,7 +232,6 @@ The following content applies to the JWT Claims Set:
 * `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the `jti` value for replay attack detection, see [](#security-consideration-replay).
 * `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
 * `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.
-* `nbf`: OPTIONAL. The `nbf` (not before) claim MUST specify the time before which the Client Attestation PoP MUST NOT be accepted for processing.
 
 The following additional rules apply:
 
@@ -259,7 +256,6 @@ The following example is the decoded header and payload of a JWT meeting the pro
 {
   "iss": "https://client.example.com",
   "aud": "https://as.example.com",
-  "nbf":1300815780,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
   "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
