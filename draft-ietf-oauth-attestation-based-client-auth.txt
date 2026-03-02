@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 19 March 2026                                   Bundesdruckerei
+Expires: 3 September 2026                                Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                       15 September 2025
+                                                            2 March 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,11 +58,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 March 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1338,10 +1338,11 @@ Appendix A.  Document History
 
 Acknowledgments
 
-   We would like to thank Brian Campbell, Filip Skokan, Francesco
-   Marino, Guiseppe De Marco, Kristina Yasuda, Micha Kraus, Michael B.
-   Jones, Takahiko Kawasaki and Torsten Lodderstedt for their valuable
-   contributions to this specification.
+   We would like to thank Babis Routis, Brian Campbell, Dimitris Zarras,
+   Filip Skokan, Francesco Marino, Frederik Krogsdal Jacobsen, Guiseppe
+   De Marco, Joseph Heenan, Kristina Yasuda, Micha Kraus, Michael B.
+   Jones, Takahiko Kawasaki, Timo Glastra and Torsten Lodderstedt for
+   their valuable contributions to this specification.
 
 Authors' Addresses
 
