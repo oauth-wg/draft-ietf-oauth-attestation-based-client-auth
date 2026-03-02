@@ -228,7 +228,6 @@ The following content applies to the JWT Header:
 
 The following content applies to the JWT Claims Set:
 
-* `iss`: REQUIRED. The `iss` (issuer) claim MUST specify client_id value of the OAuth Client.
 * `aud`: REQUIRED. The `aud` (audience) claim MUST specify a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
 * `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the `jti` value for replay attack detection, see [](#security-consideration-replay).
 * `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
@@ -254,7 +253,6 @@ The following example is the decoded header and payload of a JWT meeting the pro
 }
 .
 {
-  "iss": "https://client.example.com",
   "aud": "https://as.example.com",
   "nbf":1300815780,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
@@ -700,7 +698,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -08
 
-* remove `iss` from Client Attestation JWT
+* remove `iss` from Client Attestation JWT and Client Attestation PoP JWT
 * add small security consideration sub-section for MAC-based deployments
 * remove public clients reference and clarify this draft targets confidential clients
 * clarify this may be a client authentication mechanism but also may be not
