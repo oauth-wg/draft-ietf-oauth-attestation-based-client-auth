@@ -1447,22 +1447,19 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-5.1-4">The following content applies to the JWT Claims Set:<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.1-5.1">
-            <p id="section-5.1-5.1.1"><code>iss</code>: <span class="bcp14">REQUIRED</span>. The <code>iss</code> (issuer) claim <span class="bcp14">MUST</span> contains a unique identifier for the entity that issued the JWT. In the absence of an application profile specifying otherwise, compliant applications <span class="bcp14">MUST</span> compare issuer values using the Simple String Comparison method defined in Section 6.2.1 of <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>.<a href="#section-5.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-5.1.1"><code>sub</code>: <span class="bcp14">REQUIRED</span>. The <code>sub</code> (subject) claim <span class="bcp14">MUST</span> specify client_id value of the OAuth Client.<a href="#section-5.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-5.2">
-            <p id="section-5.1-5.2.1"><code>sub</code>: <span class="bcp14">REQUIRED</span>. The <code>sub</code> (subject) claim <span class="bcp14">MUST</span> specify client_id value of the OAuth Client.<a href="#section-5.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-5.2.1"><code>exp</code>: <span class="bcp14">REQUIRED</span>. The <code>exp</code> (expiration time) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation is considered expired by its issuer. The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.<a href="#section-5.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-5.3">
-            <p id="section-5.1-5.3.1"><code>exp</code>: <span class="bcp14">REQUIRED</span>. The <code>exp</code> (expiration time) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation is considered expired by its issuer. The authorization server <span class="bcp14">MUST</span> reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.<a href="#section-5.1-5.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-5.3.1"><code>cnf</code>: <span class="bcp14">REQUIRED</span>. The <code>cnf</code> (confirmation) claim <span class="bcp14">MUST</span> specify a key conforming to <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key <span class="bcp14">MUST</span> be expressed using the "jwk" representation.<a href="#section-5.1-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-5.4">
-            <p id="section-5.1-5.4.1"><code>cnf</code>: <span class="bcp14">REQUIRED</span>. The <code>cnf</code> (confirmation) claim <span class="bcp14">MUST</span> specify a key conforming to <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span> that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key <span class="bcp14">MUST</span> be expressed using the "jwk" representation.<a href="#section-5.1-5.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-5.4.1"><code>iat</code>: <span class="bcp14">OPTIONAL</span>. The <code>iat</code> (issued at) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation was issued.<a href="#section-5.1-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-5.5">
-            <p id="section-5.1-5.5.1"><code>iat</code>: <span class="bcp14">OPTIONAL</span>. The <code>iat</code> (issued at) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation was issued.<a href="#section-5.1-5.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.1-5.6">
-            <p id="section-5.1-5.6.1"><code>nbf</code>: <span class="bcp14">OPTIONAL</span>. The <code>nbf</code> (not before) claim <span class="bcp14">MUST</span> specify the time before which the Client Attestation <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-5.1-5.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-5.5.1"><code>nbf</code>: <span class="bcp14">OPTIONAL</span>. The <code>nbf</code> (not before) claim <span class="bcp14">MUST</span> specify the time before which the Client Attestation <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-5.1-5.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.1-6">The following additional rules apply:<a href="#section-5.1-6" class="pilcrow">¶</a></p>
@@ -1487,7 +1484,6 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 }
 .
 {
-  "iss": "https://attester.example.com",
   "sub": "https://client.example.com",
   "nbf": 1300815780,
   "exp": 1300819380,
@@ -1520,22 +1516,19 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-5.2-4">The following content applies to the JWT Claims Set:<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2-5.1">
-            <p id="section-5.2-5.1.1"><code>iss</code>: <span class="bcp14">REQUIRED</span>. The <code>iss</code> (issuer) claim <span class="bcp14">MUST</span> specify client_id value of the OAuth Client.<a href="#section-5.2-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.1.1"><code>aud</code>: <span class="bcp14">REQUIRED</span>. The <code>aud</code> (audience) claim <span class="bcp14">MUST</span> specify a value that identifies the authorization server as an intended audience. The <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> issuer identifier URL of the authorization server <span class="bcp14">MUST</span> be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.<a href="#section-5.2-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.2">
-            <p id="section-5.2-5.2.1"><code>aud</code>: <span class="bcp14">REQUIRED</span>. The <code>aud</code> (audience) claim <span class="bcp14">MUST</span> specify a value that identifies the authorization server as an intended audience. The <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> issuer identifier URL of the authorization server <span class="bcp14">MUST</span> be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.<a href="#section-5.2-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.2.1"><code>jti</code>: <span class="bcp14">REQUIRED</span>. The <code>jti</code> (JWT identifier) claim <span class="bcp14">MUST</span> specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the <code>jti</code> value for replay attack detection, see <a href="#security-consideration-replay" class="auto internal xref">Section 13.1</a>.<a href="#section-5.2-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.3">
-            <p id="section-5.2-5.3.1"><code>jti</code>: <span class="bcp14">REQUIRED</span>. The <code>jti</code> (JWT identifier) claim <span class="bcp14">MUST</span> specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the <code>jti</code> value for replay attack detection, see <a href="#security-consideration-replay" class="auto internal xref">Section 13.1</a>.<a href="#section-5.2-5.3.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.3.1"><code>iat</code>: <span class="bcp14">REQUIRED</span>. The <code>iat</code> (issued at) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-5.2-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.4">
-            <p id="section-5.2-5.4.1"><code>iat</code>: <span class="bcp14">REQUIRED</span>. The <code>iat</code> (issued at) claim <span class="bcp14">MUST</span> specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.<a href="#section-5.2-5.4.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.4.1"><code>challenge</code>: <span class="bcp14">OPTIONAL</span>. The <code>challenge</code> (challenge) claim <span class="bcp14">MUST</span> specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.<a href="#section-5.2-5.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.2-5.5">
-            <p id="section-5.2-5.5.1"><code>challenge</code>: <span class="bcp14">OPTIONAL</span>. The <code>challenge</code> (challenge) claim <span class="bcp14">MUST</span> specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.<a href="#section-5.2-5.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-5.2-5.6">
-            <p id="section-5.2-5.6.1"><code>nbf</code>: <span class="bcp14">OPTIONAL</span>. The <code>nbf</code> (not before) claim <span class="bcp14">MUST</span> specify the time before which the Client Attestation PoP <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-5.2-5.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-5.5.1"><code>nbf</code>: <span class="bcp14">OPTIONAL</span>. The <code>nbf</code> (not before) claim <span class="bcp14">MUST</span> specify the time before which the Client Attestation PoP <span class="bcp14">MUST NOT</span> be accepted for processing.<a href="#section-5.2-5.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.2-6">The following additional rules apply:<a href="#section-5.2-6" class="pilcrow">¶</a></p>
@@ -1550,10 +1543,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
             <p id="section-5.2-7.3.1">The public key used to verify the JWT <span class="bcp14">MUST</span> be the key located in the "cnf" claim of the corresponding Client Attestation JWT.<a href="#section-5.2-7.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-5.2-7.4">
-            <p id="section-5.2-7.4.1">The value of the <code>iss</code> claim, representing the client_id <span class="bcp14">MUST</span> match the value of the <code>sub</code> claim in the corresponding Client Attestation JWT.<a href="#section-5.2-7.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-5.2-7.5">
-            <p id="section-5.2-7.5.1">The Authorization Server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-5.2-7.5.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-7.4.1">The Authorization Server <span class="bcp14">MUST</span> reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-5.2-7.4.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 <p id="section-5.2-8">The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.<a href="#section-5.2-8" class="pilcrow">¶</a></p>
@@ -1565,7 +1555,6 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 }
 .
 {
-  "iss": "https://client.example.com",
   "aud": "https://as.example.com",
   "nbf":1300815780,
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
@@ -1605,13 +1594,13 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <div class="alignLeft art-text artwork" id="section-6.1-4">
 <pre>
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
-zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
-LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
-HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
-42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
-mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
-gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWV
+udC5leGFtcGxlLmNvbSIsIm5iZiI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJj
+bmYiOnsiandrIjp7Imt0eSI6IkVDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4I
+joiMTh3SExlSWdXOXdWTjZWRDFUeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOi
+ItVjRkUzRVYUxNZ1BfNGZZNGo4aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-
+xmAF84afMmCCDYCZJ6t1XzJxxFAef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgp
+pnQ1G_tX1nmFw
 </pre><a href="#section-6.1-4" class="pilcrow">¶</a>
 </div>
 <p id="section-6.1-5">The following is an example of the OAuth-Client-Attestation-PoP header.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
@@ -1678,7 +1667,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 <a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-client-attestation-as-an-oa" class="section-name selfRef">Client Attestation as an OAuth Client Authentication</a>
         </h3>
 <p id="section-6.3-1">A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in Section 2.3 of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> towards an Authorization Server. In this case, the Authorization Server <span class="bcp14">MUST</span> perform all of the checks outlined in <a href="#checking-http-requests-with-client-attestations" class="auto internal xref">Section 6.2</a> for a received access token request or similar endpoints.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">If the token request contains a <code>client_id</code> parameter as per <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> the Authorization Server <span class="bcp14">MUST</span> verify that the value of this parameter is the same as the client_id value in the <code>sub</code> claim of the Client Attestation and <code>iss</code> claim of the Client Attestation PoP.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">If the token request contains a <code>client_id</code> parameter as per <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> the Authorization Server <span class="bcp14">MUST</span> verify that the value of this parameter is the same as the client_id value in the <code>sub</code> claim of the Client Attestation.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
 <p id="section-6.3-3">The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6.3-4">
 <pre>
@@ -1686,13 +1675,13 @@ POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
-zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
-LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
-HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
-42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
-mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
-gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWV
+udC5leGFtcGxlLmNvbSIsIm5iZiI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJj
+bmYiOnsiandrIjp7Imt0eSI6IkVDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4I
+joiMTh3SExlSWdXOXdWTjZWRDFUeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOi
+ItVjRkUzRVYUxNZ1BfNGZZNGo4aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-
+xmAF84afMmCCDYCZJ6t1XzJxxFAef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgp
+pnQ1G_tX1nmFw
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
 saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
 eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
@@ -1720,13 +1709,13 @@ POST /as/par HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
-zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
-LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
-HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
-42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
-mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
-gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWV
+udC5leGFtcGxlLmNvbSIsIm5iZiI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJj
+bmYiOnsiandrIjp7Imt0eSI6IkVDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4I
+joiMTh3SExlSWdXOXdWTjZWRDFUeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOi
+ItVjRkUzRVYUxNZ1BfNGZZNGo4aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-
+xmAF84afMmCCDYCZJ6t1XzJxxFAef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgp
+pnQ1G_tX1nmFw
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
 saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
 eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
@@ -1797,19 +1786,18 @@ In those cases, a concatenated serialization of the Client Attestation and Clien
 <div class="alignLeft art-text artwork" id="section-7.1-6">
 <pre>
 eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiL
-CJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGVzdGVyLmV4YW1wbGUuY29tIiwic
-3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsIm
-V4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrdHkiOiJFQyIsInVzZSI6InNpZyI
-sImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk42VkQxVHhncHF5MkxzellrTWY2
-SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzRmWTRqOGlyN2NsMVRYbEZkQWdje
-DU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySRgjj73yCEIcrz3Mv7Bgns4Bm1tC
-Q9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g~eyJhbGciOiJFUzI1NiIsInR5cCI6Im9h
-dXRoLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2Nsa
-WVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYm
-YiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi0
-0NmZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmIt
-YWU3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5j
-SSWB7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
+CJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsIm5iZ
+iI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJjbmYiOnsiandrIjp7Imt0eSI6Ik
+VDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4IjoiMTh3SExlSWdXOXdWTjZWRDF
+UeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOiItVjRkUzRVYUxNZ1BfNGZZNGo4
+aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-xmAF84afMmCCDYCZJ6t1XzJxxF
+Aef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgppnQ1G_tX1nmFw~eyJhbGciOiJF
+UzI1NiIsInR5cCI6Im9h~dXRoLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJp
+c3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZ
+XhhbXBsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIj
+oiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzF
+hOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fD
+GH1up4jV--IgDMFdb9A5jSSWB7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
 </pre><a href="#section-7.1-6" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1948,7 +1936,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <p id="section-9-2.12.1">Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see <a href="#security-consideration-replay" class="auto internal xref">Section 13.1</a> for more details).<a href="#section-9-2.12.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.13">
-          <p id="section-9-2.13.1">If a <code>client_id</code> is provided in the request containing the Client Attestation, then this <code>client_id</code> matches the <code>sub</code> claim of the Client Attestation JWT and the <code>iss</code> claim of the Client Attestation PoP JWT.<a href="#section-9-2.13.1" class="pilcrow">¶</a></p>
+          <p id="section-9-2.13.1">If a <code>client_id</code> is provided in the request containing the Client Attestation, then this <code>client_id</code> matches the <code>sub</code> claim of the Client Attestation JWT.<a href="#section-9-2.13.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
 </section>
@@ -2403,28 +2391,31 @@ These use-cases typically represent deployments where the Client Attester and Au
 <p id="appendix-A-1">-08<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">add small security consideration sub-section for MAC-based deployments<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">remove <code>iss</code> from Client Attestation JWT and Client Attestation PoP JWT<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">remove public clients reference and clarify this draft targets confidential clients<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">add small security consideration sub-section for MAC-based deployments<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">clarify this may be a client authentication mechanism but also may be not<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">remove public clients reference and clarify this draft targets confidential clients<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">add examples for RS usage and non client authentication<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">clarify this may be a client authentication mechanism but also may be not<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">Add note on protocols providing a challenge on previous responses<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">add examples for RS usage and non client authentication<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">add structured-type to iana header field registration requests<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">Add note on protocols providing a challenge on previous responses<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.7.1">add structured-type to iana header field registration requests<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.8">
-          <p id="appendix-A-2.8.1">editorial fixes<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.8.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.9">
+          <p id="appendix-A-2.9.1">editorial fixes<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-07<a href="#appendix-A-3" class="pilcrow">¶</a></p>
