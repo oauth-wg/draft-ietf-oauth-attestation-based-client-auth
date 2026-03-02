@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 2 September 2026                                Bundesdruckerei
+Expires: 3 September 2026                                Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            1 March 2026
+                                                            2 March 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -399,11 +399,7 @@ Table of Contents
    3.  The public key used to verify the JWT MUST be the key located in
        the "cnf" claim of the corresponding Client Attestation JWT.
 
-   4.  The value of the iss claim, representing the client_id MUST match
-       the value of the sub claim in the corresponding Client
-       Attestation JWT.
-
-   5.  The Authorization Server MUST reject a JWT that is not valid in
+   4.  The Authorization Server MUST reject a JWT that is not valid in
        all other respects per "JSON Web Token (JWT)" [RFC7519].
 
    The following example is the decoded header and payload of a JWT
@@ -536,7 +532,7 @@ Table of Contents
    If the token request contains a client_id parameter as per [RFC6749]
    the Authorization Server MUST verify that the value of this parameter
    is the same as the client_id value in the sub claim of the Client
-   Attestation and iss claim of the Client Attestation PoP.
+   Attestation.
 
    The following example demonstrates usage of the client attestation
    mechanism in an access token request (with extra line breaks for
@@ -800,8 +796,7 @@ Table of Contents
 
    13.  If a client_id is provided in the request containing the Client
         Attestation, then this client_id matches the sub claim of the
-        Client Attestation JWT and the iss claim of the Client
-        Attestation PoP JWT.
+        Client Attestation JWT.
 
 10.  Implementation Considerations
 
