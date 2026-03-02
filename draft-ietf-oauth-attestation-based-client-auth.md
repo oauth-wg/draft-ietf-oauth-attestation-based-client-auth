@@ -242,9 +242,7 @@ The following additional rules apply:
 
 3. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
 
-4. The value of the `iss` claim, representing the client_id MUST match the value of the `sub` claim in the corresponding Client Attestation JWT.
-
-5. The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+4. The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -338,7 +336,7 @@ While usage of the the client attestation mechanism defined by this draft can be
 
 The Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request which is making use of the client attestation mechanism as defined by this draft.
 
-If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation and `iss` claim of the Client Attestation PoP.
+If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
@@ -519,7 +517,7 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 10. The audience claim in the Client Attestation PoP JWT is the issuer identifier URL of the authorization server as described in {{RFC8414}}.
 11. The Client Attestation JWT is fresh enough for the policies of the authorization server by checking the `iat` or `exp` claims.
 12. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).
-13. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT and the `iss` claim of the Client Attestation PoP JWT.
+13. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT.
 
 # Implementation Considerations
 
