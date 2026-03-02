@@ -94,27 +94,27 @@ Table of Contents
    8.  Challenge Retrieval
      8.1.  Providing Challenges on Previous Responses
    9.  Verification and Processing
-   10. Implementation Considerations
-     10.1.  Authorization Server Metadata
-     10.2.  Reuse of a Client Attestation JWT
-     10.3.  Refresh token binding
-     10.4.  Web Server Default Maximum HTTP Header Sizes
-     10.5.  Rotation of Client Instance Key
-     10.6.  Replay Attack Detection
-   11. Privacy Considerations
-     11.1.  Client Instance Tracking Across Authorization Servers
-   12. Security Considerations
-     12.1.  Replay Attacks
-   13. IANA Considerations
-     13.1.  OAuth Parameters Registration
-     13.2.  OAuth Extensions Error Registration
-     13.3.  OAuth Authorization Server Metadata Registration
-     13.4.  Registration of attest_jwt_client_auth Token Endpoint
+   10. Authorization Server Metadata
+   11. Implementation Considerations
+     11.1.  Reuse of a Client Attestation JWT
+     11.2.  Refresh token binding
+     11.3.  Web Server Default Maximum HTTP Header Sizes
+     11.4.  Rotation of Client Instance Key
+     11.5.  Replay Attack Detection
+   12. Privacy Considerations
+     12.1.  Client Instance Tracking Across Authorization Servers
+   13. Security Considerations
+     13.1.  Replay Attacks
+   14. IANA Considerations
+     14.1.  OAuth Parameters Registration
+     14.2.  OAuth Extensions Error Registration
+     14.3.  OAuth Authorization Server Metadata Registration
+     14.4.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     13.5.  HTTP Field Name Registration
-   14. References
-     14.1.  Normative References
-     14.2.  Informative References
+     14.5.  HTTP Field Name Registration
+   15. References
+     15.1.  Normative References
+     15.2.  Informative References
    Appendix A.  Document History
    Acknowledgments
    Authors' Addresses
@@ -123,7 +123,7 @@ Table of Contents
 
    Traditional OAuth security concepts perform client authentication
    through a backend channel.  In ecosystems such as the Issuer-Holder-
-   Verifier model used in [SD-JWT], this model raises privacy concerns,
+   Verifier model used in [RFC9901], this model raises privacy concerns,
    as it would enable the backend to recognize which Holder (i.e.
    client) interacts with which Issuer (i.e. Authorization Server) and
    potentially furthermore see the credentials being issued.  This
@@ -379,7 +379,7 @@ Table of Contents
    *  jti: REQUIRED.  The jti (JWT identifier) claim MUST specify a
       unique identifier for the Client Attestation PoP.  The
       authorization server can utilize the jti value for replay attack
-      detection, see Section 12.1.
+      detection, see Section 13.1.
 
    *  iat: REQUIRED.  The iat (issued at) claim MUST specify the time at
       which the Client Attestation PoP was issued.  Note that the
@@ -632,7 +632,7 @@ Table of Contents
    <Client Attestation>~<Client Attestation PoP>
 
    This form is similar to an SD-JWT+KB according to Section 5 of
-   [SD-JWT] but does not include Disclosures, uses different typ values
+   [RFC9901] but does not include Disclosures, uses different typ values
    and does not include the sd_hash claim in the PoP.
 
    This concatenated serialization form allows a the presentation of a
@@ -803,7 +803,7 @@ Table of Contents
 
    12.  Depending on the security requirements of the deployment,
         additional checks to guarantee replay protection for the Client
-        Attestation PoP JWT might need to be applied (see Section 12.1
+        Attestation PoP JWT might need to be applied (see Section 13.1
         for more details).
 
    13.  If a client_id is provided in the request containing the Client
@@ -811,9 +811,7 @@ Table of Contents
         Client Attestation JWT and the iss claim of the Client
         Attestation PoP JWT.
 
-10.  Implementation Considerations
-
-10.1.  Authorization Server Metadata
+10.  Authorization Server Metadata
 
    The Authorization Server SHOULD communicate support and requirement
    for authentication with Attestation-Based Client Authentication by
@@ -836,7 +834,9 @@ Table of Contents
    metadata if the token_endpoint_auth_methods_supported includes
    attest_jwt_client_auth.
 
-10.2.  Reuse of a Client Attestation JWT
+11.  Implementation Considerations
+
+11.1.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -847,7 +847,7 @@ Table of Contents
    ultimately controls how long a Client Instance can re-use a single
    Client Attestation JWT.
 
-10.3.  Refresh token binding
+11.2.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
@@ -859,7 +859,7 @@ Table of Contents
    claim of the client attestation that was used when the refresh token
    was issued.
 
-10.4.  Web Server Default Maximum HTTP Header Sizes
+11.3.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -871,7 +871,7 @@ Table of Contents
    As of 2024, typical limits for modern web servers configure maximum
    HTTP headers as 8 kB or more as a default.
 
-10.5.  Rotation of Client Instance Key
+11.4.  Rotation of Client Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
@@ -879,10 +879,10 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
-10.6.  Replay Attack Detection
+11.5.  Replay Attack Detection
 
    Authorization Servers implementing measures to detect replay attacks
-   as described in Section 12.1 require efficient data structures to
+   as described in Section 13.1 require efficient data structures to
    manage large amounts of challenges for use cases with high volumes of
    transactions.  To limit the size of the data structure, the
    Authorization Server should use a sliding window, allowing Client
@@ -907,9 +907,9 @@ Table of Contents
    radix tree) is a RECOMMENDED data structures to implement such a
    mechanism.
 
-11.  Privacy Considerations
+12.  Privacy Considerations
 
-11.1.  Client Instance Tracking Across Authorization Servers
+12.1.  Client Instance Tracking Across Authorization Servers
 
    Implementers should be aware that using the same client attestation
    across multiple authorization servers could result in correlation of
@@ -919,11 +919,11 @@ Table of Contents
    Attestation JWTs with different Client Instance Keys across different
    authorization servers.
 
-12.  Security Considerations
+13.  Security Considerations
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-12.1.  Replay Attacks
+13.1.  Replay Attacks
 
    An Authorization Server SHOULD implement measures to detect replay
    attacks by the Client Instance.  In the context of this
@@ -939,7 +939,7 @@ Table of Contents
       JWT would be replayed, the Authorization Server would recognize
       the jti value in the list and respond with an authentication
       error.  Details how to implement such a data structure to maintain
-      jti values is given in Section 10.6.
+      jti values is given in Section 11.5.
 
    *  The Authorization Server provides a challenge as an OAuth-Client-
       Attestation-Challenge in the challenge endpoint to the Client
@@ -949,7 +949,7 @@ Table of Contents
       -  manage a list of witnessed challenge values, similar to the
          previously described jti approach.  Details how to implement
          such a data structure to maintain challenge values is given in
-         Section 10.6.  This guarantees stronger replay protection with
+         Section 11.5.  This guarantees stronger replay protection with
          a challenge chosen by the Authorization Server itself, at the
          potential cost of an additional round-trip.
 
@@ -988,9 +988,9 @@ Table of Contents
    to simplify mandatory implementation requirements.  The jti value is
    mandatory and hence acts as a default fallback.
 
-13.  IANA Considerations
+14.  IANA Considerations
 
-13.1.  OAuth Parameters Registration
+14.1.  OAuth Parameters Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry
@@ -1006,7 +1006,7 @@ Table of Contents
 
    *  Reference: Section 8 of this specification
 
-13.2.  OAuth Extensions Error Registration
+14.2.  OAuth Extensions Error Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Extensions Error Registry" registry of
@@ -1024,6 +1024,8 @@ Table of Contents
 
    *  Reference: Section 6.2 of this specification
 
+
+
    *  Name: use_fresh_attestation
 
    *  Usage Location: token error response, resource access error
@@ -1035,6 +1037,8 @@ Table of Contents
    *  Change Controller: IETF
 
    *  Reference: this specification
+
+
 
    *  Name: invalid_client_attestation
 
@@ -1048,7 +1052,7 @@ Table of Contents
 
    *  Reference: Section 6.2 of this specification
 
-13.3.  OAuth Authorization Server Metadata Registration
+14.3.  OAuth Authorization Server Metadata Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry of
@@ -1064,6 +1068,8 @@ Table of Contents
 
    *  Reference: Section 6.2 of this specification
 
+
+
    *  Metadata Name: client_attestation_pop_signing_alg_values_supported
 
    *  Metadata Description: JSON array containing a list of the JWS
@@ -1074,7 +1080,7 @@ Table of Contents
 
    *  Reference: this specification
 
-13.4.  Registration of attest_jwt_client_auth Token Endpoint
+14.4.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -1088,7 +1094,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-13.5.  HTTP Field Name Registration
+14.5.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -1109,13 +1115,16 @@ Table of Contents
    *  Reference: Section 6.1 of this specification
 
 
-   add implementation consideration for Authorization Server Metadata *
-   Field Name: OAuth-Client-Attestation-Challenge * Status: permanent *
-   Reference: Section 8 of this specification
 
-14.  References
+   *  Field Name: OAuth-Client-Attestation-Challenge
 
-14.1.  Normative References
+   *  Status: permanent
+
+   *  Reference: Section 8 of this specification
+
+15.  References
+
+15.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
@@ -1189,7 +1198,7 @@ Table of Contents
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
               <https://www.rfc-editor.org/rfc/rfc9126>.
 
-14.2.  Informative References
+15.2.  Informative References
 
    [ARF]      "The European Digital Identity Wallet Architecture and
               Reference Framework", n.d..
@@ -1208,13 +1217,19 @@ Table of Contents
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
 
-   [SD-JWT]   Fett, D., Yasuda, K., and B. Campbell, "Selective
-              Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-22, 29
-              May 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-22>.
+   [RFC9901]  Fett, D., Yasuda, K., and B. Campbell, "Selective
+              Disclosure for JSON Web Tokens", RFC 9901,
+              DOI 10.17487/RFC9901, November 2025,
+              <https://www.rfc-editor.org/rfc/rfc9901>.
 
 Appendix A.  Document History
+
+   -08
+
+   *  moving Authorization Server metadata into it's own top level
+      section
+
+   *  editorial fixes
 
    -07
 
