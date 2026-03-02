@@ -1254,6 +1254,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
                 <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="auto internal xref">13.1</a>.  <a href="#name-replay-attacks" class="internal xref">Replay Attacks</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2">
+                <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="auto internal xref">13.2</a>.  <a href="#name-client-attestation-protecti" class="internal xref">Client Attestation Protection</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
@@ -1918,7 +1921,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <p id="section-9-2.3.1">The Client Attestation PoP JWT contains all claims and header parameters as per <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.2</a>.<a href="#section-9-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.4">
-          <p id="section-9-2.4.1">The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm <span>[<a href="#IANA.JOSE.ALGS" class="cite xref">IANA.JOSE.ALGS</a>]</span>, is not none, is supported by the application, and is acceptable per local policy.<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-9-2.4.1">The alg JOSE Header Parameter for both JWTs indicates a registered asymmetric digital signature algorithm <span>[<a href="#IANA.JOSE.ALGS" class="cite xref">IANA.JOSE.ALGS</a>]</span>, is not none, is supported by the application, and is acceptable per local policy. The alg JOSE Header Parameter for the Client Attestation JWT can also be a registered Message Authentication Code (MAC).<a href="#section-9-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li id="section-9-2.5">
           <p id="section-9-2.5.1">The signature of the Client Attestation JWT verifies with the public key of a known and trusted Attester.<a href="#section-9-2.5.1" class="pilcrow">¶</a></p>
@@ -2076,6 +2079,15 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="section-13.1-4">Because clock skews between servers and clients may be large, Authorization Servers <span class="bcp14">MAY</span> limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.<a href="#section-13.1-4" class="pilcrow">¶</a></p>
 <p id="section-13.1-5">In any case the Authorization Server <span class="bcp14">SHOULD</span> ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.<a href="#section-13.1-5" class="pilcrow">¶</a></p>
 <p id="section-13.1-6">The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is <span class="bcp14">OPTIONAL</span> to simplify mandatory implementation requirements. The <code>jti</code> value is mandatory and hence acts as a default fallback.<a href="#section-13.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="client-attestation-protection">
+<section id="section-13.2">
+        <h3 id="name-client-attestation-protecti">
+<a href="#section-13.2" class="section-number selfRef">13.2. </a><a href="#name-client-attestation-protecti" class="section-name selfRef">Client Attestation Protection</a>
+        </h3>
+<p id="section-13.2-1">This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestations JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
+These use-cases typically represent deployments where the Client Attester and Authorization Server have a trust relationship and the possibility to securely exchange keys out of band or are the same entity and no other entity needs to verify the Client Attestations. We expect most deployments to use digital signatures for the protection of Client Attestations, and implementers <span class="bcp14">SHOULD</span> default to digital signatures if they are unsure.<a href="#section-13.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2391,25 +2403,28 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="appendix-A-1">-08<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">remove public clients reference and clarify this draft targets confidential clients<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">add small security consideration sub-section for MAC-based deployments<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">clarify this may be a client authentication mechanism but also may be not<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">remove public clients reference and clarify this draft targets confidential clients<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">add examples for RS usage and non client authentication<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">clarify this may be a client authentication mechanism but also may be not<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">Add note on protocols providing a challenge on previous responses<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">add examples for RS usage and non client authentication<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">add structured-type to iana header field registration requests<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">Add note on protocols providing a challenge on previous responses<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">add structured-type to iana header field registration requests<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1">editorial fixes<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.7.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.8">
+          <p id="appendix-A-2.8.1">editorial fixes<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-07<a href="#appendix-A-3" class="pilcrow">¶</a></p>

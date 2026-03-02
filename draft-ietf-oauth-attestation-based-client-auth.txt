@@ -105,6 +105,7 @@ Table of Contents
      12.1.  Client Instance Tracking Across Authorization Servers
    13. Security Considerations
      13.1.  Replay Attacks
+     13.2.  Client Attestation Protection
    14. IANA Considerations
      14.1.  OAuth Parameters Registration
      14.2.  OAuth Extensions Error Registration
@@ -798,7 +799,9 @@ Table of Contents
    4.   The alg JOSE Header Parameter for both JWTs indicates a
         registered asymmetric digital signature algorithm
         [IANA.JOSE.ALGS], is not none, is supported by the application,
-        and is acceptable per local policy.
+        and is acceptable per local policy.  The alg JOSE Header
+        Parameter for the Client Attestation JWT can also be a
+        registered Message Authentication Code (MAC).
 
    5.   The signature of the Client Attestation JWT verifies with the
         public key of a known and trusted Attester.
@@ -1018,6 +1021,22 @@ Table of Contents
    guarantees, however support by the Authorization Server is OPTIONAL
    to simplify mandatory implementation requirements.  The jti value is
    mandatory and hence acts as a default fallback.
+
+13.2.  Client Attestation Protection
+
+   This specification allows both, digital signatures using asymmetric
+   cryptography, and Message Authentication Codes (MAC) to be used to
+   protect Client Attestation JWTs.  Implementers should only use MACs
+   to secure the integrity of Client Attestations JWTs if they fully
+   understand the risks of MACs when compared to digital signatures and
+   especially the requirements of their use-case scenarios.  These use-
+   cases typically represent deployments where the Client Attester and
+   Authorization Server have a trust relationship and the possibility to
+   securely exchange keys out of band or are the same entity and no
+   other entity needs to verify the Client Attestations.  We expect most
+   deployments to use digital signatures for the protection of Client
+   Attestations, and implementers SHOULD default to digital signatures
+   if they are unsure.
 
 14.  IANA Considerations
 
@@ -1262,6 +1281,9 @@ Table of Contents
 Appendix A.  Document History
 
    -08
+
+   *  add small security consideration sub-section for MAC-based
+      deployments
 
    *  remove public clients reference and clarify this draft targets
       confidential clients
