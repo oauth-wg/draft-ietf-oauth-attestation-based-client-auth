@@ -88,34 +88,31 @@ Table of Contents
      6.2.  Validating HTTP requests featuring client attestations
      6.3.  Client Attestation as an OAuth Client Authentication
      6.4.  Client Attestation as an additional security signal
-   7.  Concatenated Serialization for Client Attestations
-     7.1.  Concatenated Serialization Format
-     7.2.  Validating the Concatenated Serialization
-   8.  Challenge Retrieval
-     8.1.  Providing Challenges on Previous Responses
-   9.  Verification and Processing
-   10. Authorization Server Metadata
-   11. Implementation Considerations
-     11.1.  Reuse of a Client Attestation JWT
-     11.2.  Refresh token binding
-     11.3.  Web Server Default Maximum HTTP Header Sizes
-     11.4.  Rotation of Client Instance Key
-     11.5.  Replay Attack Detection
-   12. Privacy Considerations
-     12.1.  Client Instance Tracking Across Authorization Servers
-   13. Security Considerations
-     13.1.  Replay Attacks
-     13.2.  Client Attestation Protection
-   14. IANA Considerations
-     14.1.  OAuth Parameters Registration
-     14.2.  OAuth Extensions Error Registration
-     14.3.  OAuth Authorization Server Metadata Registration
-     14.4.  Registration of attest_jwt_client_auth Token Endpoint
+   7.  Challenge Retrieval
+     7.1.  Providing Challenges on Previous Responses
+   8.  Verification and Processing
+   9.  Authorization Server Metadata
+   10. Implementation Considerations
+     10.1.  Reuse of a Client Attestation JWT
+     10.2.  Refresh token binding
+     10.3.  Web Server Default Maximum HTTP Header Sizes
+     10.4.  Rotation of Client Instance Key
+     10.5.  Replay Attack Detection
+   11. Privacy Considerations
+     11.1.  Client Instance Tracking Across Authorization Servers
+   12. Security Considerations
+     12.1.  Replay Attacks
+     12.2.  Client Attestation Protection
+   13. IANA Considerations
+     13.1.  OAuth Parameters Registration
+     13.2.  OAuth Extensions Error Registration
+     13.3.  OAuth Authorization Server Metadata Registration
+     13.4.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     14.5.  HTTP Field Name Registration
-   15. References
-     15.1.  Normative References
-     15.2.  Informative References
+     13.5.  HTTP Field Name Registration
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Appendix A.  Document History
    Acknowledgments
    Authors' Addresses
@@ -279,11 +276,10 @@ Table of Contents
    This draft introduces the concept of client attestations to the OAuth
    2 protocol, using two JWTs: a Client Attestation and a Client
    Attestation Proof of Possession (PoP).  The primary purpose of these
-   JWTs is to authenticate the Client Instance.  These JWTs can be
+   JWTs is to authenticate the Client Instance.  These JWTs are
    transmitted via HTTP headers in an HTTP request (as described in
    Section 6.1) from a Client Instance to an Authorization Server or
-   Resource Server, or via a concatenated serialization (as described in
-   Section 7) to enable usage outside of OAuth2 based interactions.
+   Resource Server.
 
 5.1.  Client Attestation JWT
 
@@ -372,7 +368,7 @@ Table of Contents
    *  jti: REQUIRED.  The jti (JWT identifier) claim MUST specify a
       unique identifier for the Client Attestation PoP.  The
       authorization server can utilize the jti value for replay attack
-      detection, see Section 13.1.
+      detection, see Section 12.1.
 
    *  iat: REQUIRED.  The iat (issued at) claim MUST specify the time at
       which the Client Attestation PoP was issued.  Note that the
@@ -496,7 +492,7 @@ Table of Contents
       PoP JWT is not using an expected server-provided challenge.  When
       used this error code MUST be accompanied by the OAuth-Client-
       Attestation-Challenge HTTP header field parameter (as described in
-      Section 8.1).
+      Section 7.1).
 
    *  use_fresh_attestation MUST be used when the Client Attestation JWT
       is deemed to be not fresh enough to be acceptable by the server.
@@ -612,65 +608,7 @@ Table of Contents
    0WkWsjNNx92gVMSp6jVpPDUvR0toYxLMyGmJMJOfm8mG2Otg0Nfm4PefOUpwBMNQtIXSd
    dW-cqJopljQaCQ
 
-7.  Concatenated Serialization for Client Attestations
-
-   A Client Attestation according to this specification MAY be presented
-   using an alternative representation for cases where the header-based
-   mechanism (as introduced in introduced in Section 6.1 does not fit
-   the underlying protocols, e.g., for direct calls to Browser APIs.  In
-   those cases, a concatenated serialization of the Client Attestation
-   and Client Attestation PoP can can be used.
-
-7.1.  Concatenated Serialization Format
-
-   This representation is created by concatenating Client Attestation
-   and Client Attestation PoP separated by a tilde ('~') character:
-
-   <Client Attestation>~<Client Attestation PoP>
-
-   This form is similar to an SD-JWT+KB according to Section 5 of
-   [RFC9901] but does not include Disclosures, uses different typ values
-   and does not include the sd_hash claim in the PoP.
-
-   This concatenated serialization form allows a the presentation of a
-   Client Attestation and Client Attestation PoP for cases where a
-   header-based approach is unavailable, e.g., to establish trust in a
-   client when using a direct Browser API call.
-
-   The following is an example of such a concatenated serialization
-   (with extra line breaks for display purposes only):
-
-   eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiL
-   CJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsIm5iZ
-   iI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJjbmYiOnsiandrIjp7Imt0eSI6Ik
-   VDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4IjoiMTh3SExlSWdXOXdWTjZWRDF
-   UeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOiItVjRkUzRVYUxNZ1BfNGZZNGo4
-   aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-xmAF84afMmCCDYCZJ6t1XzJxxF
-   Aef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgppnQ1G_tX1nmFw~eyJhbGciOiJF
-   UzI1NiIsInR5cCI6Im9h~dXRoLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJp
-   c3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZ
-   XhhbXBsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIj
-   oiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzF
-   hOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fD
-   GH1up4jV--IgDMFdb9A5jSSWB7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
-
-7.2.  Validating the Concatenated Serialization
-
-   To validate a client attestation using the concatenated serialization
-   form, the receiving server MUST ensure the following:
-
-   1.  Before the '~' character, there exists precisely a single well-
-       formed JWT conforming to the syntax outlined in Section 5.1.
-
-   2.  After the '~' character, there exists precisely a single well-
-       formed JWT conforming to the syntax outlined in Section 5.2.
-
-   3.  The signature of the Client Attestation PoP JWT obtained after
-       the '~' character verifies with the Client Instance Key contained
-       in the cnf claim of the Client Attestation JWT obtained before
-       the '~' character.
-
-8.  Challenge Retrieval
+7.  Challenge Retrieval
 
    This section defines an optional mechanism that allows a Client to
    request a fresh Challenge from the Authorization Server to be
@@ -726,7 +664,7 @@ Table of Contents
      "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
    }
 
-8.1.  Providing Challenges on Previous Responses
+7.1.  Providing Challenges on Previous Responses
 
    The Authorization Server MAY provide a fresh Challenge with any HTTP
    response using a HTTP header-based syntax.  The HTTP header field
@@ -748,7 +686,7 @@ Table of Contents
      "expires_in": 3600
    }
 
-9.  Verification and Processing
+8.  Verification and Processing
 
    Upon receiving a Client Attestation, the receiving server MUST ensure
    the following conditions and rules:
@@ -801,14 +739,14 @@ Table of Contents
 
    12.  Depending on the security requirements of the deployment,
         additional checks to guarantee replay protection for the Client
-        Attestation PoP JWT might need to be applied (see Section 13.1
+        Attestation PoP JWT might need to be applied (see Section 12.1
         for more details).
 
    13.  If a client_id is provided in the request containing the Client
         Attestation, then this client_id matches the sub claim of the
         Client Attestation JWT.
 
-10.  Authorization Server Metadata
+9.  Authorization Server Metadata
 
    The Authorization Server SHOULD communicate support and requirement
    for authentication with Attestation-Based Client Authentication by
@@ -831,9 +769,9 @@ Table of Contents
    metadata if the token_endpoint_auth_methods_supported includes
    attest_jwt_client_auth.
 
-11.  Implementation Considerations
+10.  Implementation Considerations
 
-11.1.  Reuse of a Client Attestation JWT
+10.1.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -844,7 +782,7 @@ Table of Contents
    ultimately controls how long a Client Instance can re-use a single
    Client Attestation JWT.
 
-11.2.  Refresh token binding
+10.2.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
@@ -856,7 +794,7 @@ Table of Contents
    claim of the client attestation that was used when the refresh token
    was issued.
 
-11.3.  Web Server Default Maximum HTTP Header Sizes
+10.3.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -868,7 +806,7 @@ Table of Contents
    As of 2024, typical limits for modern web servers configure maximum
    HTTP headers as 8 kB or more as a default.
 
-11.4.  Rotation of Client Instance Key
+10.4.  Rotation of Client Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
@@ -876,10 +814,10 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
-11.5.  Replay Attack Detection
+10.5.  Replay Attack Detection
 
    Authorization Servers implementing measures to detect replay attacks
-   as described in Section 13.1 require efficient data structures to
+   as described in Section 12.1 require efficient data structures to
    manage large amounts of challenges for use cases with high volumes of
    transactions.  To limit the size of the data structure, the
    Authorization Server should use a sliding window, allowing Client
@@ -904,9 +842,9 @@ Table of Contents
    radix tree) is a RECOMMENDED data structures to implement such a
    mechanism.
 
-12.  Privacy Considerations
+11.  Privacy Considerations
 
-12.1.  Client Instance Tracking Across Authorization Servers
+11.1.  Client Instance Tracking Across Authorization Servers
 
    Implementers should be aware that using the same client attestation
    across multiple authorization servers could result in correlation of
@@ -916,11 +854,11 @@ Table of Contents
    Attestation JWTs with different Client Instance Keys across different
    authorization servers.
 
-13.  Security Considerations
+12.  Security Considerations
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-13.1.  Replay Attacks
+12.1.  Replay Attacks
 
    An Authorization Server SHOULD implement measures to detect replay
    attacks by the Client Instance.  In the context of this
@@ -936,7 +874,7 @@ Table of Contents
       JWT would be replayed, the Authorization Server would recognize
       the jti value in the list and respond with an authentication
       error.  Details how to implement such a data structure to maintain
-      jti values is given in Section 11.5.
+      jti values is given in Section 10.5.
 
    *  The Authorization Server provides a challenge as an OAuth-Client-
       Attestation-Challenge in the challenge endpoint to the Client
@@ -946,7 +884,7 @@ Table of Contents
       -  manage a list of witnessed challenge values, similar to the
          previously described jti approach.  Details how to implement
          such a data structure to maintain challenge values is given in
-         Section 11.5.  This guarantees stronger replay protection with
+         Section 10.5.  This guarantees stronger replay protection with
          a challenge chosen by the Authorization Server itself, at the
          potential cost of an additional round-trip.
 
@@ -992,7 +930,7 @@ Table of Contents
    to simplify mandatory implementation requirements.  The jti value is
    mandatory and hence acts as a default fallback.
 
-13.2.  Client Attestation Protection
+12.2.  Client Attestation Protection
 
    This specification allows both, digital signatures using asymmetric
    cryptography, and Message Authentication Codes (MAC) to be used to
@@ -1008,9 +946,9 @@ Table of Contents
    Attestations, and implementers SHOULD default to digital signatures
    if they are unsure.
 
-14.  IANA Considerations
+13.  IANA Considerations
 
-14.1.  OAuth Parameters Registration
+13.1.  OAuth Parameters Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry
@@ -1024,9 +962,9 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 8 of this specification
+   *  Reference: Section 7 of this specification
 
-14.2.  OAuth Extensions Error Registration
+13.2.  OAuth Extensions Error Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Extensions Error Registry" registry of
@@ -1072,7 +1010,7 @@ Table of Contents
 
    *  Reference: Section 6.2 of this specification
 
-14.3.  OAuth Authorization Server Metadata Registration
+13.3.  OAuth Authorization Server Metadata Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry of
@@ -1100,7 +1038,7 @@ Table of Contents
 
    *  Reference: this specification
 
-14.4.  Registration of attest_jwt_client_auth Token Endpoint
+13.4.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -1114,7 +1052,7 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-14.5.  HTTP Field Name Registration
+13.5.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -1146,11 +1084,11 @@ Table of Contents
 
    *  Structured Type: Item
 
-   *  Reference: Section 8 of this specification
+   *  Reference: Section 7 of this specification
 
-15.  References
+14.  References
 
-15.1.  Normative References
+14.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
@@ -1224,7 +1162,7 @@ Table of Contents
               RFC 9126, DOI 10.17487/RFC9126, September 2021,
               <https://www.rfc-editor.org/rfc/rfc9126>.
 
-15.2.  Informative References
+14.2.  Informative References
 
    [ARF]      "The European Digital Identity Wallet Architecture and
               Reference Framework", n.d..
@@ -1251,6 +1189,8 @@ Table of Contents
 Appendix A.  Document History
 
    -08
+
+   *  remove concatenated Serialization for Client Attestations
 
    *  update all examples (removal of iss and nbf)
 
