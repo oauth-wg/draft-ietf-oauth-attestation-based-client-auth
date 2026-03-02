@@ -446,9 +446,9 @@ Table of Contents
    OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
    saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
    bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
-   2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
-   xw2jrM5J5SkMOg
+   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
+   AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
+   crEnFgCqdkNfUA
 
    Note that per [RFC9110] header field names are case-insensitive; so
    OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all
@@ -542,9 +542,9 @@ Table of Contents
    OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
    saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
    bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
-   2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
-   xw2jrM5J5SkMOg
+   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
+   AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
+   crEnFgCqdkNfUA
 
    grant_type=authorization_code&
    code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -576,9 +576,9 @@ Table of Contents
    OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
    saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
    bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
-   2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
-   xw2jrM5J5SkMOg
+   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
+   AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
+   crEnFgCqdkNfUA
 
    response_type=code
    &state=af0ifjsldkj
@@ -608,9 +608,9 @@ Table of Contents
    OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
    saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
    bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
-   2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
-   xw2jrM5J5SkMOg
+   iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
+   AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
+   crEnFgCqdkNfUA
 
 7.  Concatenated Serialization for Client Attestations
 
