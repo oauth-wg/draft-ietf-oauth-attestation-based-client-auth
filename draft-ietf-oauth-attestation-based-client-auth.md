@@ -167,7 +167,7 @@ The Remote Attestation Procedures (RATS) architecture defined by {{RFC9334}} has
 
 # Client Attestation Format
 
-This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). The primary purpose of these JWTs is to authenticate the Client Instance. These JWTs can be transmitted via HTTP headers in an HTTP request (as described in [](#headers)) from a Client Instance to an Authorization Server or Resource Server, or via a concatenated serialization (as described in [](#alternative-representation)) to enable usage outside of OAuth2 based interactions.
+This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). The primary purpose of these JWTs is to authenticate the Client Instance. These JWTs are transmitted via HTTP headers in an HTTP request (as described in [](#headers)) from a Client Instance to an Authorization Server or Resource Server.
 
 ## Client Attestation JWT {#client-attestation-jwt}
 
