@@ -167,7 +167,7 @@ The Remote Attestation Procedures (RATS) architecture defined by {{RFC9334}} has
 
 # Client Attestation Format
 
-This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). The primary purpose of these JWTs is to authenticate the Client Instance. These JWTs can be transmitted via HTTP headers in an HTTP request (as described in [](#headers)) from a Client Instance to an Authorization Server or Resource Server, or via a concatenated serialization (as described in [](#alternative-representation)) to enable usage outside of OAuth2 based interactions.
+This draft introduces the concept of client attestations to the OAuth 2 protocol, using two JWTs: a Client Attestation and a Client Attestation Proof of Possession (PoP). The primary purpose of these JWTs is to authenticate the Client Instance. These JWTs are transmitted via HTTP headers in an HTTP request (as described in [](#headers)) from a Client Instance to an Authorization Server or Resource Server.
 
 ## Client Attestation JWT {#client-attestation-jwt}
 
@@ -414,49 +414,6 @@ iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.gzk
 dW-cqJopljQaCQ
 ~~~
 
-# Concatenated Serialization for Client Attestations {#alternative-representation}
-
-A Client Attestation according to this specification MAY be presented using an alternative representation for cases where the header-based mechanism (as introduced in introduced in [](#headers) does not fit the underlying protocols, e.g., for direct calls to Browser APIs.
-In those cases, a concatenated serialization of the Client Attestation and Client Attestation PoP can can be used.
-
-## Concatenated Serialization Format {#format-alternative}
-
-This representation is created by concatenating Client Attestation and Client Attestation PoP separated by a tilde ('~') character:
-
-~~~
-<Client Attestation>~<Client Attestation PoP>
-~~~
-
-This form is similar to an SD-JWT+KB according to Section 5 of {{RFC9901}} but does not include Disclosures, uses different typ values and does not include the `sd_hash` claim in the PoP.
-
-This concatenated serialization form allows a the presentation of a Client Attestation and Client Attestation PoP for cases where a header-based approach is unavailable, e.g., to establish trust in a client when using a direct Browser API call.
-
-The following is an example of such a concatenated serialization (with extra line breaks for display purposes only):
-
-~~~
-eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiL
-CJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsIm5iZ
-iI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJjbmYiOnsiandrIjp7Imt0eSI6Ik
-VDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4IjoiMTh3SExlSWdXOXdWTjZWRDF
-UeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOiItVjRkUzRVYUxNZ1BfNGZZNGo4
-aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-xmAF84afMmCCDYCZJ6t1XzJxxF
-Aef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgppnQ1G_tX1nmFw~eyJhbGciOiJF
-UzI1NiIsInR5cCI6Im9h~dXRoLWNsaWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJp
-c3MiOiJodHRwczovL2NsaWVudC5leGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZ
-XhhbXBsZS5jb20iLCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIj
-oiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzF
-hOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fD
-GH1up4jV--IgDMFdb9A5jSSWB7UhHfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
-~~~
-
-## Validating the Concatenated Serialization {#validate-alternative}
-
-To validate a client attestation using the concatenated serialization form, the receiving server MUST ensure the following:
-
-1. Before the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-jwt).
-2. After the '~' character, there exists precisely a single well-formed JWT conforming to the syntax outlined in [](#client-attestation-pop-jwt).
-3. The signature of the Client Attestation PoP JWT obtained after the '~' character verifies with the Client Instance Key contained in the `cnf` claim of the Client Attestation JWT obtained before the '~' character.
-
 # Challenge Retrieval {#challenge-retrieval}
 
 This section defines an optional mechanism that allows a Client to request a fresh Challenge from the Authorization Server to be included in the Client Attestation PoP JWT. This construct may be similar or equivalent to a nonce, see [](#terminology). The value of the challenge is opaque to the client.
@@ -691,6 +648,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -08
 
+* remove concatenated Serialization for Client Attestations
 * update all examples (removal of iss and nbf)
 * remove `iss` from Client Attestation JWT and Client Attestation PoP JWT
 * add small security consideration sub-section for MAC-based deployments
