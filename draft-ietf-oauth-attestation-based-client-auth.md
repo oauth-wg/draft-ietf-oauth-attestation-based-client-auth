@@ -736,14 +736,19 @@ add implementation consideration for Authorization Server Metadata
 {:numbered="false"}
 
 We would like to thank
+Babis Routis,
 Brian Campbell,
+Dimitris Zarras,
 Filip Skokan,
 Francesco Marino,
+Frederik Krogsdal Jacobsen,
 Guiseppe De Marco,
+Joseph Heenan,
 Kristina Yasuda,
 Micha Kraus,
 Michael B. Jones,
-Takahiko Kawasaki
+Takahiko Kawasaki,
+Timo Glastra
 and
 Torsten Lodderstedt
 for their valuable contributions to this specification.
