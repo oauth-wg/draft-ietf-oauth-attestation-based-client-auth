@@ -1104,6 +1104,8 @@ Table of Contents
 
    *  Status: permanent
 
+   *  Structured Type: Item
+
    *  Reference: Section 6.1 of this specification
 
 
@@ -1112,6 +1114,8 @@ Table of Contents
 
    *  Status: permanent
 
+   *  Structured Type: Item
+
    *  Reference: Section 6.1 of this specification
 
 
@@ -1119,6 +1123,8 @@ Table of Contents
    *  Field Name: OAuth-Client-Attestation-Challenge
 
    *  Status: permanent
+
+   *  Structured Type: Item
 
    *  Reference: Section 8 of this specification
 
@@ -1225,6 +1231,8 @@ Table of Contents
 Appendix A.  Document History
 
    -08
+
+   *  add structured-type to iana header field registration requests
 
    *  moving Authorization Server metadata into it's own top level
       section
