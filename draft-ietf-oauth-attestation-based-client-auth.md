@@ -203,14 +203,15 @@ The following example is the decoded header and payload of a JWT meeting the pro
 .
 {
   "sub": "https://client.example.com",
-  "exp": 1300819380,
+  "iat": 1772487595,
+  "exp": 2529866394,
   "cnf": {
     "jwk": {
       "kty": "EC",
       "use": "sig",
       "crv": "P-256",
-      "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
-      "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
+      "x": "VcKVNBZ4IaBAYW3jxM4w3TJFVA7myeUGQyGt-g_yvpQ",
+      "y": "f-E-hYE3TAWKwhVv9pej9NABs9SX9XsNO80x57jFTyU"
     }
   }
 }
@@ -275,24 +276,23 @@ The following is an example of the OAuth-Client-Attestation header.
 ~~~
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
 rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWV
-udC5leGFtcGxlLmNvbSIsIm5iZiI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJj
+udC5leGFtcGxlLmNvbSIsImlhdCI6MTc3MjQ4NzU5NSwiZXhwIjoyNTI5ODY2Mzk0LCJj
 bmYiOnsiandrIjp7Imt0eSI6IkVDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4I
-joiMTh3SExlSWdXOXdWTjZWRDFUeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOi
-ItVjRkUzRVYUxNZ1BfNGZZNGo4aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-
-xmAF84afMmCCDYCZJ6t1XzJxxFAef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgp
-pnQ1G_tX1nmFw
+joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
+JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
+d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
+FORnKzsx5yu6A
 ~~~
 
 The following is an example of the OAuth-Client-Attestation-PoP header.
 
 ~~~
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
-eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
-DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
-FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
-1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
-HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
+bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
+iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
+2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
+xw2jrM5J5SkMOg
 ~~~
 
 Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
@@ -339,19 +339,18 @@ Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
 rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWV
-udC5leGFtcGxlLmNvbSIsIm5iZiI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJj
+udC5leGFtcGxlLmNvbSIsImlhdCI6MTc3MjQ4NzU5NSwiZXhwIjoyNTI5ODY2Mzk0LCJj
 bmYiOnsiandrIjp7Imt0eSI6IkVDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4I
-joiMTh3SExlSWdXOXdWTjZWRDFUeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOi
-ItVjRkUzRVYUxNZ1BfNGZZNGo4aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-
-xmAF84afMmCCDYCZJ6t1XzJxxFAef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgp
-pnQ1G_tX1nmFw
+joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
+JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
+d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
+FORnKzsx5yu6A
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
-eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
-DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
-FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
-1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
-HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
+bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
+iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
+2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
+xw2jrM5J5SkMOg
 
 grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -369,19 +368,18 @@ Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
 rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWV
-udC5leGFtcGxlLmNvbSIsIm5iZiI6MTMwMDgxNTc4MCwiZXhwIjoxMzAwODE5MzgwLCJj
+udC5leGFtcGxlLmNvbSIsImlhdCI6MTc3MjQ4NzU5NSwiZXhwIjoyNTI5ODY2Mzk0LCJj
 bmYiOnsiandrIjp7Imt0eSI6IkVDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4I
-joiMTh3SExlSWdXOXdWTjZWRDFUeGdwcXkyTHN6WWtNZjZKOG5qVkFpYnZoTSIsInkiOi
-ItVjRkUzRVYUxNZ1BfNGZZNGo4aXI3Y2wxVFhsRmRBZ2N4NTVvN1RrY1NBIn19fQ.lxP-
-xmAF84afMmCCDYCZJ6t1XzJxxFAef0zyOsYOy20ilU6IpkzGLNQa-nnRlaxsgexcKbxgp
-pnQ1G_tX1nmFw
+joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
+JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
+d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
+FORnKzsx5yu6A
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
-eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
-DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
-FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
-1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
-HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
+bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
+iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
+2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
+xw2jrM5J5SkMOg
 
 response_type=code
 &state=af0ifjsldkj
@@ -401,20 +399,19 @@ Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer mF_9.B5f-4.1JqM
 Accept: application/json
 OAuth-Client-Attestation: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRpb24
-rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJpc3MiOiJodHRwczovL2F0dGV
-zdGVyLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9jbGllbnQuZXhhbXBsZS5jb20i
-LCJuYmYiOjEzMDA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwiY25mIjp7Imp3ayI6eyJrd
-HkiOiJFQyIsInVzZSI6InNpZyIsImNydiI6IlAtMjU2IiwieCI6IjE4d0hMZUlnVzl3Vk
-42VkQxVHhncHF5MkxzellrTWY2SjhualZBaWJ2aE0iLCJ5IjoiLVY0ZFM0VWFMTWdQXzR
-mWTRqOGlyN2NsMVRYbEZkQWdjeDU1bzdUa2NTQSJ9fX0.4bCswkgmUHw06kKdiS2KEySR
-gjj73yCEIcrz3Mv7Bgns4Bm1tCQ9FAqMLtgzb5NthwJT9AhAEBogbiD5DtxV1g
+rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiIxMSJ9.eyJzdWIiOiJodHRwczovL2NsaWV
+udC5leGFtcGxlLmNvbSIsImlhdCI6MTc3MjQ4NzU5NSwiZXhwIjoyNTI5ODY2Mzk0LCJj
+bmYiOnsiandrIjp7Imt0eSI6IkVDIiwidXNlIjoic2lnIiwiY3J2IjoiUC0yNTYiLCJ4I
+joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
+JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
+d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
+FORnKzsx5yu6A
 OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJpc3MiOiJodHRwczovL2NsaWVudC5l
-eGFtcGxlLmNvbSIsImF1ZCI6Imh0dHBzOi8vYXMuZXhhbXBsZS5jb20iLCJuYmYiOjEzM
-DA4MTU3ODAsImV4cCI6MTMwMDgxOTM4MCwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLW
-FlMTktOThmNDQwZjI1MDY0Iiwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My0
-1N2MwOTU3YzA5YzQifQ.rEa-dKJgRuD-aI-4bj4fDGH1up4jV--IgDMFdb9A5jSSWB7Uh
-HfvLOVU_ZvAJfOWfO0MXyeunwzM3jGLB_TUkQ
+saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
+bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
+iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.RUc
+2nd9wQRaSkS1-dPPjhIOk41-_Rszds90Zlv2jWzsG86e13UtQuRV17YFMmtE5R5mwWuhe
+xw2jrM5J5SkMOg
 ~~~
 
 # Concatenated Serialization for Client Attestations {#alternative-representation}
@@ -694,6 +691,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -08
 
+* update all examples (removal of iss and nbf)
 * remove `iss` from Client Attestation JWT and Client Attestation PoP JWT
 * add small security consideration sub-section for MAC-based deployments
 * remove public clients reference and clarify this draft targets confidential clients

@@ -28,7 +28,7 @@ $ make
 Command line usage requires that you have the necessary software installed.  See
 [the instructions](https://github.com/martinthomson/i-d-template/blob/main/doc/SETUP.md).
 
-## Keys for examples
+## Client Attestation Key
 
 
 ```
@@ -45,3 +45,33 @@ OF/2NxApJCzGCEDdfSp6VQO30hyhRANCAAQRWz+jn65BtOMvdyHKcvjBeBSDZH2r
 1RTwjmYSi9R/zpBnuQ4EiMnCqfMPWiZqB4QdbAd0E7oH50VpuZ1P087G
 -----END PRIVATE KEY-----
 ```
+
+
+
+## PoP Key
+
+```
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEVcKVNBZ4IaBAYW3jxM4w3TJFVA7m
+yeUGQyGt+g/yvpR/4T6FgTdMBYrCFW/2l6P00AGz1Jf1ew07zTHnuMVPJQ==
+-----END PUBLIC KEY-----
+```
+
+```json
+{
+  "kty": "EC",
+  "crv": "P-256",
+  "x": "VcKVNBZ4IaBAYW3jxM4w3TJFVA7myeUGQyGt-g_yvpQ",
+  "y": "f-E-hYE3TAWKwhVv9pej9NABs9SX9XsNO80x57jFTyU"
+}
+```
+
+
+```
+-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgdMiNeF6fPL4nr2gM
+qKwPp7ua8iep0IUr7JnJvGRNST6hRANCAARVwpU0FnghoEBhbePEzjDdMkVUDubJ
+5QZDIa36D/K+lH/hPoWBN0wFisIVb/aXo/TQAbPUl/V7DTvNMee4xU8l
+-----END PRIVATE KEY-----
+```
+
