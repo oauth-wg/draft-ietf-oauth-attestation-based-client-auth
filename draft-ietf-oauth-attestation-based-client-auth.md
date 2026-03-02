@@ -66,10 +66,9 @@ informative:
   RFC6749: RFC6749
   RFC9334: RFC9334
   RFC7523: RFC7523
+  RFC9901: RFC9901
   ARF:
   	title: "The European Digital Identity Wallet Architecture and Reference Framework"
-  SD-JWT: I-D.ietf-oauth-selective-disclosure-jwt
-
 
 --- abstract
 
@@ -79,7 +78,7 @@ This specification defines an extension to the OAuth 2.0 protocol {{RFC6749}} th
 
 # Introduction
 
-Traditional OAuth security concepts perform client authentication through a backend channel. In ecosystems such as the Issuer-Holder-Verifier model used in {{SD-JWT}}, this model raises privacy concerns, as it would enable the backend to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially furthermore see the credentials being issued. This specification establishes a mechanism for a backend-attested client authentication through a frontend channel to address these issues.
+Traditional OAuth security concepts perform client authentication through a backend channel. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this model raises privacy concerns, as it would enable the backend to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially furthermore see the credentials being issued. This specification establishes a mechanism for a backend-attested client authentication through a frontend channel to address these issues.
 
 Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for mobile native apps to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, such as mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.
 
@@ -441,7 +440,7 @@ This representation is created by concatenating Client Attestation and Client At
 <Client Attestation>~<Client Attestation PoP>
 ~~~
 
-This form is similar to an SD-JWT+KB according to Section 5 of {{SD-JWT}} but does not include Disclosures, uses different typ values and does not include the `sd_hash` claim in the PoP.
+This form is similar to an SD-JWT+KB according to Section 5 of {{RFC9901}} but does not include Disclosures, uses different typ values and does not include the `sd_hash` claim in the PoP.
 
 This concatenated serialization form allows a the presentation of a Client Attestation and Client Attestation PoP for cases where a header-based approach is unavailable, e.g., to establish trust in a client when using a direct Browser API call.
 
@@ -548,13 +547,13 @@ Upon receiving a Client Attestation, the receiving server MUST ensure the follow
 12. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).
 13. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT and the `iss` claim of the Client Attestation PoP JWT.
 
-# Implementation Considerations
-
-## Authorization Server Metadata
+# Authorization Server Metadata
 
 The Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize Attestation-Based Client Authentication as a client authentication mechanism if the given parameters are present.
 
 The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth`.
+
+# Implementation Considerations
 
 ## Reuse of a Client Attestation JWT
 
@@ -604,6 +603,8 @@ An Authorization Server SHOULD implement measures to detect replay attacks by th
   - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
   - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.
 
+Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementations to deal with proper state handling. This can be implicit by always mandating support for this feature or via some metadata that allows the client to detect support for this feature for a specific server.
+
 Because clock skews between servers and clients may be large, Authorization Servers MAY limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.
 
 In any case the Authorization Server SHOULD ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.
@@ -631,11 +632,15 @@ This specification requests registration of the following values in the IANA "OA
 * Change Controller: IETF
 * Reference: [](#checking-http-requests-with-client-attestations) of this specification
 
+<br/>
+
 * Name: use_fresh_attestation
 * Usage Location: token error response, resource access error response
 * Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
 * Change Controller: IETF
 * Reference: this specification
+
+<br/>
 
 * Name: invalid_client_attestation
 * Usage Location: token error response, resource access error response
@@ -652,6 +657,8 @@ This specification requests registration of the following values in the IANA "OA
 * Change Controller: IETF
 * Reference: [](#checking-http-requests-with-client-attestations) of this specification
 
+<br/>
+
 * Metadata Name: client_attestation_pop_signing_alg_values_supported
 * Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation PoP JWT.
 * Change Controller: IETF
@@ -666,22 +673,26 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 * Specification Document(s): TBC
 
 ## HTTP Field Name Registration
+
 This section requests registration of the following scheme in the "Hypertext Transfer Protocol (HTTP) Field Name Registry" {{IANA.HTTP.Fields}} described in {{RFC9110}}:
 
 * Field Name: OAuth-Client-Attestation
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#headers) of this specification
 
 <br/>
 
 * Field Name: OAuth-Client-Attestation-PoP
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#headers) of this specification
 
 <br/>
-add implementation consideration for Authorization Server Metadata
+
 * Field Name: OAuth-Client-Attestation-Challenge
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#challenge-retrieval) of this specification
 --- back
 
@@ -692,6 +703,10 @@ add implementation consideration for Authorization Server Metadata
 * remove public clients reference and clarify this draft targets confidential clients
 * clarify this may be a client authentication mechanism but also may be not
 * add examples for RS usage and non client authentication
+* Add note on protocols providing a challenge on previous responses
+* add structured-type to iana header field registration requests
+* moving Authorization Server metadata into it's own top level section
+* editorial fixes
 
 -07
 
@@ -766,14 +781,19 @@ add implementation consideration for Authorization Server Metadata
 {:numbered="false"}
 
 We would like to thank
+Babis Routis,
 Brian Campbell,
+Dimitris Zarras,
 Filip Skokan,
 Francesco Marino,
+Frederik Krogsdal Jacobsen,
 Guiseppe De Marco,
+Joseph Heenan,
 Kristina Yasuda,
 Micha Kraus,
 Michael B. Jones,
-Takahiko Kawasaki
+Takahiko Kawasaki,
+Timo Glastra
 and
 Torsten Lodderstedt
 for their valuable contributions to this specification.
