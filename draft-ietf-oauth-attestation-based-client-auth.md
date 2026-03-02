@@ -654,18 +654,21 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 * Field Name: OAuth-Client-Attestation
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#headers) of this specification
 
 <br/>
 
 * Field Name: OAuth-Client-Attestation-PoP
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#headers) of this specification
 
 <br/>
 
 * Field Name: OAuth-Client-Attestation-Challenge
 * Status: permanent
+* Structured Type: Item
 * Reference: [](#challenge-retrieval) of this specification
 --- back
 
@@ -674,6 +677,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 -08
 
 * Add note on protocols providing a challenge on previous responses
+* add structured-type to iana header field registration requests
 * moving Authorization Server metadata into it's own top level section
 * editorial fixes
 
