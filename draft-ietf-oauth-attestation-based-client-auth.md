@@ -73,7 +73,7 @@ informative:
 
 --- abstract
 
-This specification defines an extension to the OAuth 2.0 protocol {{RFC6749}} that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by an client attester without revealing its target audience to that attester. It may also serve as a standalone OAuth 2.0 client authentication method.
+This specification defines an extension to the OAuth 2.0 protocol {{RFC6749}} that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0.
 
 --- middle
 
@@ -85,7 +85,7 @@ Additionally, this approach acknowledges the evolving landscape of OAuth 2 deplo
 
 This primary purpose of this specification is the authentication of a client instance enabled through the client backend attesting to it. The client backend may also attest further technical properties about the hardware and software of the client instance.
 
-The client is considered a confidential Oauth 2 client type according to section 2.1 of {{RFC6749}}. The mechanism described in this document may  either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing Oauth 2 client authentication mechanism.
+The client is considered a confidential OAuth 2 client type according to section 2.1 of {{RFC6749}}. The mechanism described in this document may  either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.
 
 The following diagram depicts the overall architecture and protocol flow.
 
