@@ -364,7 +364,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 }
 ~~~
 
-# Verification and Processing
+# Verification and Processing {#verification-and-processing}
 
 ## Client Attestation JWT
 
@@ -393,7 +393,7 @@ To validate a Client Attestation, the receiving server MUST ensure the following
 
 todo
 
-## Errors
+## Errors {#errors}
 
 When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in Section 5.2 of {{RFC6749}}) or Resource Server error responses (as defined in Section 3 of {{RFC6750}}).
 
@@ -405,9 +405,7 @@ In the event of errors due to situations not described above, Authorization and 
 
 ## Client Attestation as an OAuth Client Authentication
 
-A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in Section 2.3 of {{RFC6749}} towards an Authorization Server. In this case, the Authorization Server MUST perform all of the checks outlined in [](#checking-http-requests-with-client-attestations) for a received access token request or similar endpoints.
-
-If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
+A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in Section 2.3 of {{RFC6749}} towards an Authorization Server.  If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
@@ -492,7 +490,7 @@ iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.gzk
 dW-cqJopljQaCQ
 ~~~
 
-# Authorization Server Metadata
+# Authorization Server Metadata {#as-metadata}
 
 The Authorization Server SHOULD communicate support and requirement for authentication with Attestation-Based Client Authentication by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize Attestation-Based Client Authentication as a client authentication mechanism if the given parameters are present.
 
@@ -590,7 +588,7 @@ This specification requests registration of the following values in the IANA "OA
 * Usage Location: token error response, resource access error response
 * Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
 * Change Controller: IETF
-* Reference: [](#checking-http-requests-with-client-attestations) of this specification
+* Reference: [](#errors) of this specification
 
 <br/>
 
@@ -598,7 +596,7 @@ This specification requests registration of the following values in the IANA "OA
 * Usage Location: token error response, resource access error response
 * Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
 * Change Controller: IETF
-* Reference: this specification
+* Reference: [](#errors) of this specification
 
 <br/>
 
@@ -606,7 +604,7 @@ This specification requests registration of the following values in the IANA "OA
 * Usage Location: token error response, resource access error response
 * Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication
 * Change Controller: IETF
-* Reference: [](#checking-http-requests-with-client-attestations) of this specification
+* Reference: [](#errors) of this specification
 
 ## OAuth Authorization Server Metadata Registration
 
@@ -615,7 +613,7 @@ This specification requests registration of the following values in the IANA "OA
 * Metadata Name: client_attestation_signing_alg_values_supported
 * Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation JWT.
 * Change Controller: IETF
-* Reference: [](#checking-http-requests-with-client-attestations) of this specification
+* Reference: [](#as-metadata) of this specification
 
 <br/>
 
