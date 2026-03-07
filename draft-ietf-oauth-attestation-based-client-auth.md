@@ -69,7 +69,7 @@ informative:
   RFC7523: RFC7523
   RFC9901: RFC9901
   ARF:
-  	title: "The European Digital Identity Wallet Architecture and Reference Framework"
+    title: "The European Digital Identity Wallet Architecture and Reference Framework"
 
 --- abstract
 
@@ -161,7 +161,7 @@ Client Attester:
 Challenge:
 : A String that is the input to a cryptographic challenge-response pattern. This is traditionally called a nonce within OAuth.
 
-## Client Attestation JWT {#client-attestation-jwt}
+# Client Attestation JWT {#client-attestation-jwt}
 
 The Client Attestation MUST be encoded as a "JSON Web Token (JWT)" according to {{RFC7519}}.
 
@@ -364,9 +364,9 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 }
 ~~~
 
-# Verification and Processing {#verification-and-processing}
+# Verification and Processing {#verification}
 
-## Client Attestation JWT
+## Client Attestation JWT {#verification-client-attestation-jwt}
 
 To validate a Client Attestation, the receiving server MUST ensure the following conditions and rules:
 
@@ -378,7 +378,7 @@ To validate a Client Attestation, the receiving server MUST ensure the following
 1. The Client Attestation JWT is fresh enough per local policy of the Authorization Server by checking the `iat` or `exp` claims.
 1. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT.
 
-## Client Attestation PoP JWT
+## Client Attestation PoP JWT {#verification-client-attestation-pop-jwt}
 
 1. There is precisely one `OAuth-Client-Attestation-PoP` HTTP request header field containing a Client Attestation PoP JWT.
 1. The Client Attestation PoP JWT contains all required claims and header parameters as per [](#client-attestation-pop-jwt).
