@@ -639,14 +639,14 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * Field Name: OAuth-Client-Attestation
 * Status: permanent
 * Structured Type: Item
-* Reference: [](#headers) of this specification
+* Reference: [](#client-attestation-jwt) of this specification
 
 <br/>
 
 * Field Name: OAuth-Client-Attestation-PoP
 * Status: permanent
 * Structured Type: Item
-* Reference: [](#headers) of this specification
+* Reference: [](#client-attestation-pop-jwt) of this specification
 
 <br/>
 
