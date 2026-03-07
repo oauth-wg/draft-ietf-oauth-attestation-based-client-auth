@@ -46,6 +46,7 @@ normative:
   RFC9110: RFC9110
   RFC9112: RFC9112
   RFC9126: RFC9126
+  RFC9449: RFC9449
   IANA.HTTP.Fields:
     author:
       org: "IANA"
