@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-03T00:18:27.462182+00:00",
+  "timestamp": "2026-03-08T00:17:45.796538+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3498,12 +3498,10 @@
       "author": "devinivy",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [
-        "pending-close"
-      ],
+      "labels": [],
       "body": "In [AT Protocol](https://atproto.com/) we've recently published a proposal that takes a similar shape and fills similar use cases to attestation-based client authentication as described in the draft being worked on here.  It can be found here: [0010-client-assertion-backend](https://github.com/bluesky-social/proposals/tree/main/0010-client-assertion-backend).  Once the proposal is finalized, it could end up being widely adopted in the AT Protocol ecosystem, as we have many folks who want to author browser-based clients that are given the security and UX affordances of a confidential client.\n\nWe wanted to share our use case and our thinking with the hopes that we may be able to converge on something compatible with the work being done here.\n\nRather than proposing a new client authentication method, we opted to layer a small mechanism on top of the private_key_jwt method from [RFC 7523](https://datatracker.ietf.org/doc/rfc7523/).  It's quite limited:\n> [If] the `client_assertion` JWT contains a `cnf` claim using the `jkt` method (JWK Thumbprint Confirmation Method) then it MUST be validated by the AS against the public key of the request\u2019s DPoP proof.\n\nThe result is DPoP-bound client assertions, which fits neatly with existing DPoP-bound authorization flows, i.e. both authorization code and access token binding as described in [RFC 9449](https://datatracker.ietf.org/doc/rfc9449/).  We considered the need for separate client keys in the client attestation vs. the authorization flow in our proposal, as has been raised in #67 and more recently #74. We do not anticipate any practical issues with using a single PoP key and mechanism, but would be interested to continue getting to the bottom of that question.\n\nOn the flip side, we certainly see many benefits to using a single PoP mechanism across these OAuth flows.  We found the following benefits aligning on DPoP and private_key_jwt client authentication:\n - overall the specification becomes much smaller:\n   - answers questions around the nonce mechanism, as actively discussed in #101 and #110.\n   - supports authorization code binding, as discussed in #56.\n   - supports binding the PoP to the attestation used to authenticate, as discussed in #47.\n   - answers to the attack surface area when used in conjunction with DPoP-bound access tokens, as discussed in #69.\n - as a result it's more straightforward for client implementers, particularly those who already implement DPoP-bound access tokens, which we believe will continue to rise in popularity. Fewer novel PoP implementations on the client side has its security benefits too.\n\nThat's where we're currently at\u2014appreciate the consideration from this group, and the work being done on this draft.",
       "createdAt": "2025-06-07T21:29:12Z",
-      "updatedAt": "2026-01-20T14:29:08Z",
+      "updatedAt": "2026-03-05T19:04:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -4455,9 +4453,41 @@
       "labels": [],
       "body": "I think the most common use case for this spec for third-party mobile apps (at least in non-wallet cases) will be that the attester key is managed by the mobile app's backend and in that case it makes sense to say that the attestation is validated against a key in the client jwks I think.\n\n(People don't seem to instantly get this so mentioning it in the spec as a possible configuration seems worthwhile.)",
       "createdAt": "2026-03-02T11:09:51Z",
-      "updatedAt": "2026-03-02T11:09:51Z",
+      "updatedAt": "2026-03-06T11:50:44Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "related to #3 ",
+          "createdAt": "2026-03-06T11:50:44Z",
+          "updatedAt": "2026-03-06T11:50:44Z"
+        }
+      ]
+    },
+    {
+      "number": 184,
+      "id": "I_kwDOJaEkaM7wO3oN",
+      "title": "Restructuring of the draft",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/184",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As we plan to support different PoP modes, I think we should re-structure our draft. Currently we have:\n\n1.  Introduction\n2.  Conventions and Definitions\n3.  Terminology\n4.  Relation to RATS\n5.  Client Attestation Format\n    5.1.  Client Attestation JWT\n    5.2.  Client Attestation PoP JWT\n6.  Client Attestation using a Header based syntax\n    6.1.  Client Attestation HTTP Headers\n    6.2.  Validating HTTP requests featuring client attestations\n    6.3.  Client Attestation as an OAuth Client Authentication\n    6.4.  Client Attestation as an additional security signal\n7.  Challenge Retrieval\n8.  Verification and Processing\n9.  Authorization Server Metadata\n10. Implementation Considerations\n11. Security Consideration\n12. Privacy Consideration\n\nProposed structure:\n\n1.  Introduction\n2.  Conventions and Definitions\n3.  Terminology\n4. Client Attestation JWT (including Header based syntax)\n5. Proof of Possession\n    5.1.  Client Attestation PoP JWT (including Header based syntax)\n    5.2.  DPoP\n6.  Verification and Processing\n    6.1  Client Attestation as an OAuth Client Authentication\n    6.2.  Client Attestation as an additional security signal\n7.  Challenge Retrieval\n8.  Authorization Server Metadata\n9. Implementation Considerations\n10. Security Consideration\n11. Privacy Consideration\n12.  Relation to RATS",
+      "createdAt": "2026-03-05T20:28:00Z",
+      "updatedAt": "2026-03-06T09:38:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Shouldn't Verification and Processing be rather something like this?\n\n```\n6. Verification and Processing\n6.1 Client Attestation JWT\n6.2 Client Attestation with PoP JWT\n6.3. Client Attestation with DPoP\n```\nWouldn't verification at RS just use one of these patterns without any real changes?",
+          "createdAt": "2026-03-06T09:38:27Z",
+          "updatedAt": "2026-03-06T09:38:27Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -13591,6 +13621,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 185,
+      "id": "PR_kwDOJaEkaM7IxcYh",
+      "title": "restructure draft",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/185",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #184 ",
+      "createdAt": "2026-03-07T21:29:24Z",
+      "updatedAt": "2026-03-07T21:56:58Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "beb6bb829b3bdbc0c14418c16102aae2de13a40e",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/restructure",
+      "headRefOid": "cce296d4122d6bfe9d5c21b18c4af6279ad30740",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
