@@ -1,6 +1,12 @@
 LIBDIR := lib
 include $(LIBDIR)/main.mk
 
+.PHONY: generate-examples
+generate-examples:
+	@node regenerate-examples.js
+
+draft-ietf-oauth-attestation-based-client-auth.xml: generate-examples
+
 $(LIBDIR)/main.mk:
 ifneq (,$(shell grep "path *= *$(LIBDIR)" .gitmodules 2>/dev/null))
 	git submodule sync

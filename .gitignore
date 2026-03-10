@@ -21,4 +21,5 @@ archive.json
 draft-ietf-oauth-attestation-based-client-auth.xml
 package-lock.json
 report.xml
+/examples/
 !requirements.txt
