@@ -187,26 +187,9 @@ The following additional rules apply:
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
 ~~~
-{
-  "typ": "oauth-client-attestation+jwt",
-  "alg": "ES256",
-  "kid": "11"
-}
+{::include examples/client-attestation-header.md}
 .
-{
-  "sub": "https://client.example.com",
-  "iat": 1772487595,
-  "exp": 2529866394,
-  "cnf": {
-    "jwk": {
-      "kty": "EC",
-      "use": "sig",
-      "crv": "P-256",
-      "x": "VcKVNBZ4IaBAYW3jxM4w3TJFVA7myeUGQyGt-g_yvpQ",
-      "y": "f-E-hYE3TAWKwhVv9pej9NABs9SX9XsNO80x57jFTyU"
-    }
-  }
-}
+{::include examples/client-attestation-payload.md}
 ~~~
 
 When using headers to transfer the Client Attestation JWT to an Authorization Server or Resource Server, it MUST be provided in an HTTP request using the a HTTP header named `OAuth-Client-Attestation`.
@@ -270,16 +253,9 @@ The following additional rules apply:
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
 ~~~
-{
-  "typ": "oauth-client-attestation-pop+jwt",
-  "alg": "ES256"
-}
+{::include examples/client-pop-header.md}
 .
-{
-  "aud": "https://as.example.com",
-  "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
-  "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
-}
+{::include examples/client-pop-challenge-payload.md}
 ~~~
 
 When using headers to transfer the Client Attestation PoP JWT to an Authorization Server or Resource Server, it MUST be provided in an HTTP request using the a HTTP header named `OAuth-Client-Attestation-PoP`.
@@ -287,12 +263,7 @@ When using headers to transfer the Client Attestation PoP JWT to an Authorizatio
 The following is an example of the OAuth-Client-Attestation-PoP header.
 
 ~~~
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
-AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
-crEnFgCqdkNfUA
+{::include examples/client-pop-http.md}
 ~~~
 
 Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION-POP, oauth-client-attestation-pop, etc., are all valid and equivalent
