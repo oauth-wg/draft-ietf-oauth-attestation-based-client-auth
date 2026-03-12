@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-08T00:17:45.796538+00:00",
+  "timestamp": "2026-03-12T00:15:31.659885+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4187,16 +4187,24 @@
       "id": "I_kwDOJaEkaM7R23Il",
       "title": "Editorial: Remove two sentences that contain left references to nonce",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/165",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In section 3:\n\n>    Challenge:  A String that is the input to a cryptographic challenge-\n>       response pattern.  This is traditionally called a nonce within\n>       OAuth\n\nRemove the second sentence. Note that the issue #154 has already proposed this removal.\n\nIn section 8 (Challenge Retrieval)\n\n>    This section defines an optional mechanism that allows a Client to\n>    request a fresh Challenge from the Authorization Server to be\n>    included in the Client Attestation PoP JWT.  This construct may be\n>    similar or equivalent to a nonce, see Section 3.  \n\nRemove the second sentence.\n",
       "createdAt": "2025-10-16T08:16:06Z",
-      "updatedAt": "2025-10-16T08:16:06Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-03-10T07:51:03Z",
+      "closedAt": "2026-03-10T07:51:03Z",
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- nonce is an established term in OAuth and many existing specs use it\n- therefor it makes sense to make the comparison",
+          "createdAt": "2026-03-10T07:51:03Z",
+          "updatedAt": "2026-03-10T07:51:03Z"
+        }
+      ]
     },
     {
       "number": 166,
@@ -4470,15 +4478,15 @@
       "id": "I_kwDOJaEkaM7wO3oN",
       "title": "Restructuring of the draft",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/184",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "As we plan to support different PoP modes, I think we should re-structure our draft. Currently we have:\n\n1.  Introduction\n2.  Conventions and Definitions\n3.  Terminology\n4.  Relation to RATS\n5.  Client Attestation Format\n    5.1.  Client Attestation JWT\n    5.2.  Client Attestation PoP JWT\n6.  Client Attestation using a Header based syntax\n    6.1.  Client Attestation HTTP Headers\n    6.2.  Validating HTTP requests featuring client attestations\n    6.3.  Client Attestation as an OAuth Client Authentication\n    6.4.  Client Attestation as an additional security signal\n7.  Challenge Retrieval\n8.  Verification and Processing\n9.  Authorization Server Metadata\n10. Implementation Considerations\n11. Security Consideration\n12. Privacy Consideration\n\nProposed structure:\n\n1.  Introduction\n2.  Conventions and Definitions\n3.  Terminology\n4. Client Attestation JWT (including Header based syntax)\n5. Proof of Possession\n    5.1.  Client Attestation PoP JWT (including Header based syntax)\n    5.2.  DPoP\n6.  Verification and Processing\n    6.1  Client Attestation as an OAuth Client Authentication\n    6.2.  Client Attestation as an additional security signal\n7.  Challenge Retrieval\n8.  Authorization Server Metadata\n9. Implementation Considerations\n10. Security Consideration\n11. Privacy Consideration\n12.  Relation to RATS",
       "createdAt": "2026-03-05T20:28:00Z",
-      "updatedAt": "2026-03-06T09:38:27Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-10T07:31:56Z",
+      "closedAt": "2026-03-10T07:31:56Z",
       "comments": [
         {
           "author": "c2bo",
@@ -13627,20 +13635,75 @@
       "id": "PR_kwDOJaEkaM7IxcYh",
       "title": "restructure draft",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/185",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #184 ",
       "createdAt": "2026-03-07T21:29:24Z",
-      "updatedAt": "2026-03-07T21:56:58Z",
+      "updatedAt": "2026-03-10T07:31:58Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "beb6bb829b3bdbc0c14418c16102aae2de13a40e",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/restructure",
       "headRefOid": "cce296d4122d6bfe9d5c21b18c4af6279ad30740",
+      "closedAt": "2026-03-10T07:31:55Z",
+      "mergedAt": "2026-03-10T07:31:55Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM7prAAs",
+          "commit": {
+            "abbreviatedOid": "cce296d"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-10T07:30:20Z",
+          "updatedAt": "2026-03-10T07:30:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7prBKi",
+          "commit": {
+            "abbreviatedOid": "cce296d"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-10T07:31:10Z",
+          "updatedAt": "2026-03-10T07:31:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 186,
+      "id": "PR_kwDOJaEkaM7JTIIv",
+      "title": "Adds an example generation script",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/186",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Simple JS script for example generation",
+      "createdAt": "2026-03-10T07:44:37Z",
+      "updatedAt": "2026-03-10T07:58:09Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "tl/example-generation",
+      "headRefOid": "6218c3ccbc4d64d327fb43ef62418b99e94a5a50",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
