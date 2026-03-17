@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-15T00:20:55.929217+00:00",
+  "timestamp": "2026-03-17T00:19:16.322078+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4502,16 +4502,31 @@
       "id": "I_kwDOJaEkaM7y-7KZ",
       "title": "Attaching a digest to the attestation header?",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/187",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Ocramius",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "I just implemented this draft RFC for a use-case in which I have a fleet of machines communicating with each other over HTTP (**without** TLS - think industrial setup within a factory where I'll never be able to set foot).\n\nMy main use-case is verifying that within the LAN, nobody has tampered with payloads sent from one machine to the other.\n\nWhile the attestation header works in combination with TLS, in my case it is easy to perform a MITM attack by forwarding the `OAuth-Client-Attestation` attestation header, yet tampering with the entire request body.\n\nI'm wondering if this draft could include a claim that contains the **digest** of a request ? It could be the exact same as [`Content-Digest`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Digest) from [RFC9530](https://www.rfc-editor.org/rfc/rfc9530.html)",
       "createdAt": "2026-03-14T19:44:48Z",
-      "updatedAt": "2026-03-14T19:44:48Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-03-16T08:42:53Z",
+      "closedAt": "2026-03-16T08:42:53Z",
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I think this would be covered by #168?\nBut it's good to hear more people are interested in that feature!",
+          "createdAt": "2026-03-16T08:37:47Z",
+          "updatedAt": "2026-03-16T08:37:47Z"
+        },
+        {
+          "author": "Ocramius",
+          "authorAssociation": "NONE",
+          "body": "Thanks for linking them together: I hadn't found this before.\n\nClosing here: #168 indeed already covers this \ud83d\udc4d ",
+          "createdAt": "2026-03-16T08:42:48Z",
+          "updatedAt": "2026-03-16T08:42:48Z"
+        }
+      ]
     }
   ],
   "pulls": [
