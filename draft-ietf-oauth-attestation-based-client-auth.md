@@ -524,6 +524,16 @@ Authorization Servers implementing measures to detect replay attacks as describe
 
 A trie (also called prefix tree), or a patricia trie (also called radix tree) is a RECOMMENDED data structures to implement such a mechanism.
 
+## Key resolution and Trust Management
+
+Concrete mechanisms in regards to trust management and key resolution are out of scope of this specification. The following recommendations are made for specifications, profiles, or ecosystems that are planning to build on top of Attestation-Based Client Authentication:
+
+### Attestation Creation
+
+The concrete mechanism on how information about the state of a Client is collected by the Client Attester and the Attestation issued to the Client Instance is out of scope of this specification. It is important to note that the decision made by the CLient Attester can be based upon a combination of different statemetns and available information, it does not have to be a single statement, or a single flow.
+
+### 
+
 # Privacy Considerations
 
 ## Client Instance Tracking Across Authorization Servers
@@ -659,6 +669,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 -09
 
 * restructure draft
+* add section how to establish trust
 
 -08
 
