@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-19T00:19:43.793820+00:00",
+  "timestamp": "2026-03-24T00:16:52.191851+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -12396,13 +12396,13 @@
       "labels": [],
       "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to. _Update see latest comment on PR_\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this. _Update created #181 to address_\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
       "createdAt": "2025-09-05T04:36:11Z",
-      "updatedAt": "2026-03-02T03:55:28Z",
+      "updatedAt": "2026-03-23T11:34:49Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "c461599992c9f31e510811b9b33446d54626d906",
+      "baseRefOid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/dpop-optimisation",
-      "headRefOid": "61d793ecd82af8e88e24d571628fcdcb471c0715",
+      "headRefOid": "fa1e1190131aa1e369fa3abd5899c11d4d37dc3a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -12449,6 +12449,13 @@
           "body": "I've made a few changes to this PR\r\n1. Added language requiring that this mode is implemented if the AS also supports DPoP, I think this could be improved though to avoid duplication once #177 is merged.\r\n2. I reverted the changes that addressed issue #171 as #173 now resolves this and added a few suggestions to that PR instead.",
           "createdAt": "2026-03-02T03:45:31Z",
           "updatedAt": "2026-03-02T03:45:31Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Rendered: https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/tl/dpop-optimisation/draft-ietf-oauth-attestation-based-client-auth.html",
+          "createdAt": "2026-03-23T11:34:49Z",
+          "updatedAt": "2026-03-23T11:34:49Z"
         }
       ],
       "reviews": [
