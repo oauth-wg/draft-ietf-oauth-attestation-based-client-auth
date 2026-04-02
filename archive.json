@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-24T00:16:52.191851+00:00",
+  "timestamp": "2026-04-02T00:20:13.503841+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -12396,7 +12396,7 @@
       "labels": [],
       "body": "Initial draft at this proposal, things to discuss include\r\n\r\n- Whether we should consider instead of a _supported metadata flag defining another method for client authentication because otherwise an AS cannot force the optimisation in the event it would like to. _Update see latest comment on PR_\r\n- Unrelated but I noticed nbf is defined for the Client Attestation PoP when I dont think its required, suggest we remove this. _Update created #181 to address_\r\n- How should we handle challenge vs nonce in the DPoP proof, technically we could support both.\r\n\r\nFixes #69 ",
       "createdAt": "2025-09-05T04:36:11Z",
-      "updatedAt": "2026-03-23T11:34:49Z",
+      "updatedAt": "2026-03-31T17:59:55Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2",
@@ -12614,6 +12614,68 @@
               "body": "Will be resolved in #171 ",
               "createdAt": "2026-02-24T07:58:54Z",
               "updatedAt": "2026-02-24T07:58:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7wu3h6",
+          "commit": {
+            "abbreviatedOid": "fa1e119"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2026-03-31T17:10:00Z",
+          "updatedAt": "2026-03-31T17:59:55Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n(6) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is either a Client Attestation PoP JWT or a DPoP proof. The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.\n```",
+              "createdAt": "2026-03-31T17:10:00Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\nThis section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in {{RFC9449}} for sender-contrained access tokens. In this \"combined mode\" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).\n```",
+              "createdAt": "2026-03-31T17:11:52Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
+            },
+            {
+              "originalPosition": 40,
+              "body": "Let's fill these with actual examples",
+              "createdAt": "2026-03-31T17:13:06Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
+            },
+            {
+              "originalPosition": 103,
+              "body": "redundant\n```suggestion\n```\n",
+              "createdAt": "2026-03-31T17:42:06Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
+            },
+            {
+              "originalPosition": 107,
+              "body": "```suggestion\n1. The public key in the `jwk` header parameter of the DPoP proof MUST be identical to the public key in the `cnf` claim of the Client Attestation JWT.\n1. If the Client fetched a challenge in accordance with [](#challenge-retrieval) or received a challenge in accordance with [](#challenge-header), it MUST match the nonce payload claim of the DPoP proof.\n```",
+              "createdAt": "2026-03-31T17:49:21Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
+            },
+            {
+              "originalPosition": 93,
+              "body": "```suggestion\n1. If the Client fetched a challenge in accordance with [](#challenge-retrieval) or received a challenge in accordance with [](#challenge-header), it MUST match the challenge claim of the Client Attestation PoP JWT.\n1. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).\n```",
+              "createdAt": "2026-03-31T17:53:01Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
+            },
+            {
+              "originalPosition": 119,
+              "body": "Just to mention that there is proposal to simplify: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/170",
+              "createdAt": "2026-03-31T17:56:42Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
+            },
+            {
+              "originalPosition": 128,
+              "body": "```suggestion\n* It reduces implementation complexity for the Client by minimizing the number of JWTs that need to be constructed or validated in a request.\n* It reduces run-time costs for the Client by minimizing the number of cryptographic operations that need to be constructed in a request, especially if the keys are in a remote and/or hardware-backed key storage.\n```",
+              "createdAt": "2026-03-31T17:59:44Z",
+              "updatedAt": "2026-03-31T17:59:55Z"
             }
           ]
         }
