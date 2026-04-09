@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-05T00:21:54.864841+00:00",
+  "timestamp": "2026-04-09T00:18:49.411231+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -12847,7 +12847,7 @@
       "labels": [],
       "body": "Closes #56 \r\nFixes #114\r\n\r\nLooking for feedback on the approach here @panva.\r\n\r\nI've opted to not require this behaviour via RECOMMENDED over a MUST this also makes it forward compatible with future OAuth2 extensions that might define new protocol artefacts.",
       "createdAt": "2025-09-09T00:12:15Z",
-      "updatedAt": "2026-03-17T07:30:30Z",
+      "updatedAt": "2026-04-07T19:55:22Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2",
@@ -12865,6 +12865,13 @@
           "body": "I think it would make sense to reference the refresh token description that is given above this section as an example?",
           "createdAt": "2025-09-14T22:15:04Z",
           "updatedAt": "2025-09-14T22:15:04Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Should we clarify that this binding only takes place, if attestations are used as client authentication?",
+          "createdAt": "2026-04-07T19:55:22Z",
+          "updatedAt": "2026-04-07T19:55:22Z"
         }
       ],
       "reviews": [
