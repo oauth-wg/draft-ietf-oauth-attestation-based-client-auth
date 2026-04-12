@@ -653,17 +653,15 @@ Table of Contents
    To validate a request using DPoP combined mode, the receiving server
    MUST perform the following steps:
 
-   1.  Validate the Client Attestation JWT as specified in Section 7.1.
-
-   2.  There is no OAuth-Client-Attestation-PoP HTTP request header
+   1.  There is no OAuth-Client-Attestation-PoP HTTP request header
        field present in the request.
 
-   3.  There is precisely one DPoP HTTP request header field present in
+   2.  There is precisely one DPoP HTTP request header field present in
        the request.
 
-   4.  Validate the DPoP proof in accordance with [RFC9449].
+   3.  Validate the DPoP proof in accordance with [RFC9449].
 
-   5.  The public key in the jwk header parameter of the DPoP proof MUST
+   4.  The public key in the jwk header parameter of the DPoP proof MUST
        be identical to the public key in the cnf claim of the Client
        Attestation JWT.
 

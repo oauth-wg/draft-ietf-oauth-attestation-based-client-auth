@@ -1788,19 +1788,16 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="section-7.3-2">To validate a request using DPoP combined mode, the receiving server <span class="bcp14">MUST</span> perform the following steps:<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-7.3-3">
 <li id="section-7.3-3.1">
-            <p id="section-7.3-3.1.1">Validate the Client Attestation JWT as specified in <a href="#verification-client-attestation-jwt" class="auto internal xref">Section 7.1</a>.<a href="#section-7.3-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-3.1.1">There is no <code>OAuth-Client-Attestation-PoP</code> HTTP request header field present in the request.<a href="#section-7.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.3-3.2">
-            <p id="section-7.3-3.2.1">There is no <code>OAuth-Client-Attestation-PoP</code> HTTP request header field present in the request.<a href="#section-7.3-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-3.2.1">There is precisely one <code>DPoP</code> HTTP request header field present in the request.<a href="#section-7.3-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.3-3.3">
-            <p id="section-7.3-3.3.1">There is precisely one <code>DPoP</code> HTTP request header field present in the request.<a href="#section-7.3-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-3.3.1">Validate the DPoP proof in accordance with <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-7.3-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.3-3.4">
-            <p id="section-7.3-3.4.1">Validate the DPoP proof in accordance with <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-7.3-3.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.3-3.5">
-            <p id="section-7.3-3.5.1">The public key in the <code>jwk</code> header parameter of the DPoP proof <span class="bcp14">MUST</span> be identical to the public key in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-7.3-3.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-3.4.1">The public key in the <code>jwk</code> header parameter of the DPoP proof <span class="bcp14">MUST</span> be identical to the public key in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-7.3-3.4.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
