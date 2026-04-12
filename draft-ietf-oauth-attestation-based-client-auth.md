@@ -440,7 +440,6 @@ This section applies when the DPoP combined mode is used as defined in [](#dpop-
 
 To validate a request using DPoP combined mode, the receiving server MUST perform the following steps:
 
-1. Validate the Client Attestation JWT as specified in [](#verification-client-attestation-jwt).
 1. There is no `OAuth-Client-Attestation-PoP` HTTP request header field present in the request.
 1. There is precisely one `DPoP` HTTP request header field present in the request.
 1. Validate the DPoP proof in accordance with {{RFC9449}}.
