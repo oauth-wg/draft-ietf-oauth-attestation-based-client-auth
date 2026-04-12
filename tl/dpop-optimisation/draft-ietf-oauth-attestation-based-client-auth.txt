@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 24 September 2026                               Bundesdruckerei
+Expires: 14 October 2026                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           23 March 2026
+                                                           12 April 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 September 2026.
+   This Internet-Draft will expire on 14 October 2026.
 
 Copyright Notice
 
@@ -214,9 +214,9 @@ Table of Contents
    (6) The Client Instance sends the Client Attestation JWT along with
    its Proof of Possession to the Authorization Server, e.g. within a
    token request.  The Proof of Possession is either a Client
-   Attestation PoP JWT or a DPoP proof when operating in combined mode
-   (see Section 5.2).  The Authorization Server validates the Client
-   Attestation and thus authenticates the Client Instance.
+   Attestation PoP JWT or a DPoP proof.  The Authorization Server
+   validates the Client Attestation and thus authenticates the Client
+   Instance.
 
    Please note that the protocol details for steps (2) and (4),
    particularly how the Client Instance authenticates to the Client
