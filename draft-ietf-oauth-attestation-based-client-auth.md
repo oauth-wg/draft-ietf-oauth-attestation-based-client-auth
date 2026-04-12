@@ -95,29 +95,29 @@ This specification introduces the concept of client attestations to the OAuth 2 
 The following diagram depicts the overall architecture and protocol flow.
 
 ~~~ ascii-art
-                  (3)                                   
-                +-----+                                 
-                |     |                                 
-                |     v                                 
-           +-----------------+                          
-           |                 |                          
-           | Client Attester |                          
-           |   (backend)     |                          
-           |                 |                          
-           +-----------------+                          
-               ^       |                                
-           (2) |       | (4)                            
-               |       v                                
+                  (3)
+                +-----+
+                |     |
+                |     v
+           +-----------------+
+           |                 |
+           | Client Attester |
+           |   (backend)     |
+           |                 |
+           +-----------------+
+               ^       |
+           (2) |       | (4)
+               |       v
            +---------------+           +---------------+
     +----->|               |    (5)    |               |
 (1) |      |    Client     |<--------->| Authorization |
     |      |   Instance    |    (7)    |    Server     |
     +------|               |<--------->|               |
            +---------------+           +---------------+
-               ^       |                                
-               |       |                                
-               +-------+                                
-                  (6)                                   
+               ^       |
+               |       |
+               +-------+
+                  (6)
 
 ~~~
 
