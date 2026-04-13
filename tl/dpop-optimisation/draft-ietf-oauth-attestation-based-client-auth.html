@@ -1774,7 +1774,10 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-7.2-3.7.1">The audience claim in the Client Attestation PoP JWT is the issuer identifier URL of the Authorization Server as described in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>.<a href="#section-7.2-3.7.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.2-3.8">
-            <p id="section-7.2-3.8.1">Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see <a href="#security-consideration-replay" class="auto internal xref">Section 11.1</a> for more details).<a href="#section-7.2-3.8.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-3.8.1">If the Client fetched a challenge in accordance with <a href="#challenge-retrieval" class="auto internal xref">Section 6</a> or received a challenge in accordance with <a href="#challenge-header" class="auto internal xref">Section 6.1</a>, it <span class="bcp14">MUST</span> match the challenge claim of the Client Attestation PoP JWT.<a href="#section-7.2-3.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-7.2-3.9">
+            <p id="section-7.2-3.9.1">Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see <a href="#security-consideration-replay" class="auto internal xref">Section 11.1</a> for more details).<a href="#section-7.2-3.9.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>

@@ -638,7 +638,11 @@ Table of Contents
        issuer identifier URL of the Authorization Server as described in
        [RFC8414].
 
-   8.  Depending on the security requirements of the deployment,
+   8.  If the Client fetched a challenge in accordance with Section 6 or
+       received a challenge in accordance with Section 6.1, it MUST
+       match the challenge claim of the Client Attestation PoP JWT.
+
+   9.  Depending on the security requirements of the deployment,
        additional checks to guarantee replay protection for the Client
        Attestation PoP JWT might need to be applied (see Section 11.1
        for more details).
