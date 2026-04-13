@@ -445,6 +445,7 @@ To validate a request using DPoP combined mode, the receiving server MUST perfor
 1. There is precisely one `DPoP` HTTP request header field present in the request.
 1. Validate the DPoP proof in accordance with {{RFC9449}}.
 1. The public key in the `jwk` header parameter of the DPoP proof MUST be identical to the public key in the `cnf` claim of the Client Attestation JWT.
+1. If the Client fetched a challenge in accordance with [](#challenge-retrieval) or received a challenge in accordance with [](#challenge-header), it MUST match the nonce payload claim of the DPoP proof.
 
 ## Errors {#errors}
 
