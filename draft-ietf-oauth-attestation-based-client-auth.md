@@ -432,6 +432,7 @@ To validate a Client Attestation PoP, the receiving server MUST ensure the follo
 1. If the server provided a challenge value to the client, the `challenge` claim is present in the Client Attestation PoP JWT and matches the server-provided challenge value.
 1. The creation time of the Client Attestation PoP JWT as determined by either the `iat` claim or a server managed timestamp via the challenge claim, is within an acceptable window per local policy of the Authorization Server.
 1. The audience claim in the Client Attestation PoP JWT is the issuer identifier URL of the Authorization Server as described in {{RFC8414}}.
+1. If the Client fetched a challenge in accordance with [](#challenge-retrieval) or received a challenge in accordance with [](#challenge-header), it MUST match the challenge claim of the Client Attestation PoP JWT.
 1. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).
 
 ## DPoP Combined Mode {#verification-dpop-combined}
