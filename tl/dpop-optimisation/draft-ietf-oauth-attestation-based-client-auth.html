@@ -1802,6 +1802,9 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
           <li id="section-7.3-3.4">
             <p id="section-7.3-3.4.1">The public key in the <code>jwk</code> header parameter of the DPoP proof <span class="bcp14">MUST</span> be identical to the public key in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-7.3-3.4.1" class="pilcrow">¶</a></p>
 </li>
+          <li id="section-7.3-3.5">
+            <p id="section-7.3-3.5.1">If the Client fetched a challenge in accordance with <a href="#challenge-retrieval" class="auto internal xref">Section 6</a> or received a challenge in accordance with <a href="#challenge-header" class="auto internal xref">Section 6.1</a>, it <span class="bcp14">MUST</span> match the nonce payload claim of the DPoP proof.<a href="#section-7.3-3.5.1" class="pilcrow">¶</a></p>
+</li>
         </ol>
 </section>
 </div>

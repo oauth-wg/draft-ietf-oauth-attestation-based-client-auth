@@ -669,6 +669,10 @@ Table of Contents
        be identical to the public key in the cnf claim of the Client
        Attestation JWT.
 
+   5.  If the Client fetched a challenge in accordance with Section 6 or
+       received a challenge in accordance with Section 6.1, it MUST
+       match the nonce payload claim of the DPoP proof.
+
 7.4.  Errors
 
    When validation errors specifically related to the use of client
