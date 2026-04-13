@@ -555,7 +555,8 @@ The Authorization Server SHOULD communicate supported algorithms for client atte
 When using DPoP combined mode, the key used for client authentication and token binding is shared. This may be undesirable depending on the deployment considerations of the Client. Conversely, the benefits of this approach are as follows:
 
 * It authenticates (attests) the DPoP key used for sender-constraining tokens against the Client deployment.
-* It can reduce implementation complexity for the Client by reducing the number of JWTs that need to be constructed or validated in a request.
+* It reduces implementation complexity for the Client by minimizing the number of JWTs that need to be constructed or validated in a request.
+* It reduces run-time costs for the Client by minimizing the number of cryptographic operations that need to be constructed in a request, especially if the keys are in a remote and/or hardware-backed key storage.
 
 ## Reuse of a Client Attestation JWT
 
