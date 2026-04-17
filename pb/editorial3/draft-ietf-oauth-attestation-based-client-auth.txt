@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 15 October 2026                                 Bundesdruckerei
+Expires: 19 October 2026                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           13 April 2026
+                                                           17 April 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 October 2026.
+   This Internet-Draft will expire on 19 October 2026.
 
 Copyright Notice
 
@@ -82,23 +82,24 @@ Table of Contents
    4.  Client Attestation JWT
    5.  Proof of Possession
      5.1.  Client Attestation PoP JWT
-     5.2.  DPoP
+     5.2.  Using DPoP as the Proof of Possession
    6.  Challenge Retrieval
      6.1.  Providing Challenges on Previous Responses
    7.  Verification and Processing
      7.1.  Client Attestation JWT
      7.2.  Client Attestation PoP JWT
-     7.3.  DPoP
+     7.3.  DPoP Combined Mode
      7.4.  Errors
      7.5.  Client Attestation as an OAuth Client Authentication
      7.6.  Client Attestation as an additional security signal
    8.  Authorization Server Metadata
    9.  Implementation Considerations
-     9.1.  Reuse of a Client Attestation JWT
-     9.2.  Refresh token binding
-     9.3.  Web Server Default Maximum HTTP Header Sizes
-     9.4.  Rotation of Client Instance Key
-     9.5.  Replay Attack Detection
+     9.1.  DPoP Combined Mode Considerations
+     9.2.  Reuse of a Client Attestation JWT
+     9.3.  Refresh token binding
+     9.4.  Web Server Default Maximum HTTP Header Sizes
+     9.5.  Rotation of Client Instance Key
+     9.6.  Replay Attack Detection
    10. Privacy Considerations
      10.1.  Client Instance Tracking Across Authorization Servers
    11. Security Considerations
@@ -111,7 +112,9 @@ Table of Contents
      13.3.  OAuth Authorization Server Metadata Registration
      13.4.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     13.5.  HTTP Field Name Registration
+     13.5.  Registration of attest_jwt_client_auth_dpop Token Endpoint
+            Authentication Method
+     13.6.  HTTP Field Name Registration
    14. References
      14.1.  Normative References
      14.2.  Informative References
@@ -215,10 +218,12 @@ Table of Contents
    (6) The Client Instance generates a Proof of Possession (PoP) with
    the Client Instance Key.
 
-   (7) The Client Instance sends both the Client Attestation JWT and the
-   Client Attestation PoP JWT to the authorization server, e.g. within a
-   token request.  The authorization server validates the Client
-   Attestation and thus authenticates the Client Instance.
+   (7) The Client Instance sends the Client Attestation JWT along with
+   its Proof of Possession to the Authorization Server, e.g. within a
+   token request.  The Proof of Possession is either a Client
+   Attestation PoP JWT or a DPoP proof.  The Authorization Server
+   validates the Client Attestation and thus authenticates the Client
+   Instance.
 
    Please note that the protocol details for steps (2) and (4),
    particularly how the Client Instance authenticates to the Client
@@ -363,7 +368,7 @@ Table of Contents
 
    *  A Client Attestation PoP JWT, introduced by this specification
 
-   *  utilizing DPoP as defined in [RFC9449]
+   *  Utilizing DPoP as defined in [RFC9449]
 
 5.1.  Client Attestation PoP JWT
 
@@ -454,9 +459,46 @@ Table of Contents
    token68                        = 1*( ALPHA / DIGIT / "-" / "." /
                                         "_" / "~" / "+" / "/" ) *"="
 
-5.2.  DPoP
+5.2.  Using DPoP as the Proof of Possession
 
-   todo
+   This section defines an optimization that allows a single Proof of
+   Possession (PoP) JWT to satisfy the role of both (a) the Client
+   Attestation PoP defined in this specification and (b) the DPoP proof
+   defined in [RFC9449] for sender-contrained access tokens.  In this
+   "combined mode" the Client Instance Key and the DPoP Key are the same
+   asymmetric key pair, and a request using the mechanism carries only
+   one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP
+   proof and Client Attestation PoP JWT).
+
+   The following rules apply to the DPoP proof as defined in [RFC9449]:
+
+   1.  The DPoP proof MUST adhere to [RFC9449]
+
+   2.  The public key located in the DPoP proof MUST match the public
+       key located in the cnf claim of the Client Attestation JWT.
+
+   The following non-normative example shows a token request using
+   combined mode (line breaks for display only):
+
+   POST /token HTTP/1.1
+   Host: as.example.com
+   Content-Type: application/x-www-form-urlencoded
+   OAuth-Client-Attestation: <Client-Attestation-JWT>
+   DPoP: <Combined-DPoP-And-Attestation-PoP-JWT>
+
+   grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
+
+   Decoded (non-normative) DPoP (combined) proof:
+
+   Header: { "typ": "dpop+jwt", "alg": "ES256", "jwk": { "kty": "EC",
+   "crv": "P-256", "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
+   "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA" } }
+
+   Payload: { "htm": "POST", "htu": "https://as.example.com/token",
+   "iat": 1700000000, "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9" }
+
+   Note that additional claims may be present in the DPoP proof
+   depending on the context, as required by [RFC9449].
 
 6.  Challenge Retrieval
 
@@ -541,7 +583,7 @@ Table of Contents
 7.1.  Client Attestation JWT
 
    To validate a Client Attestation, the receiving server MUST ensure
-   the following conditions and rules:
+   the following conditions and rules are met:
 
    1.  There is precisely one OAuth-Client-Attestation HTTP request
        header field containing a Client Attestation JWT.
@@ -567,6 +609,14 @@ Table of Contents
        Client Attestation JWT.
 
 7.2.  Client Attestation PoP JWT
+
+   This section applies when the Client Attestation PoP JWT is used as
+   the Proof of Possession.  When operating in DPoP combined mode as
+   defined in Section 5.2, this section does not apply; instead, see
+   Section 7.3.
+
+   To validate a Client Attestation PoP, the receiving server MUST
+   ensure the following conditions and rules are met:
 
    1.  There is precisely one OAuth-Client-Attestation-PoP HTTP request
        header field containing a Client Attestation PoP JWT.
@@ -595,14 +645,40 @@ Table of Contents
        issuer identifier URL of the Authorization Server as described in
        [RFC8414].
 
-   8.  Depending on the security requirements of the deployment,
+   8.  If the Client fetched a challenge in accordance with Section 6 or
+       received a challenge in accordance with Section 6.1, it MUST
+       match the challenge claim of the Client Attestation PoP JWT.
+
+   9.  Depending on the security requirements of the deployment,
        additional checks to guarantee replay protection for the Client
        Attestation PoP JWT might need to be applied (see Section 11.1
        for more details).
 
-7.3.  DPoP
+7.3.  DPoP Combined Mode
 
-   todo
+   This section applies when the DPoP combined mode is used as defined
+   in Section 5.2.  When the Client Attestation PoP JWT is used as the
+   Proof of Possession instead, this section does not apply; see
+   Section 7.2.
+
+   To validate a request using DPoP combined mode, the receiving server
+   MUST perform the following steps:
+
+   1.  There is no OAuth-Client-Attestation-PoP HTTP request header
+       field present in the request.
+
+   2.  There is precisely one DPoP HTTP request header field present in
+       the request.
+
+   3.  Validate the DPoP proof in accordance with [RFC9449].
+
+   4.  The public key in the jwk header parameter of the DPoP proof MUST
+       be identical to the public key in the cnf claim of the Client
+       Attestation JWT.
+
+   5.  If the Client fetched a challenge in accordance with Section 6 or
+       received a challenge in accordance with Section 6.1, it MUST
+       match the nonce payload claim of the DPoP proof.
 
 7.4.  Errors
 
@@ -730,13 +806,19 @@ Table of Contents
 
 8.  Authorization Server Metadata
 
-   The Authorization Server SHOULD communicate support and requirement
-   for authentication with Attestation-Based Client Authentication by
-   using the value attest_jwt_client_auth in the
+   The Authorization Server SHOULD communicate support for
+   authentication with Attestation-Based Client Authentication using a
+   Client Attestation PoP JWT as the PoP by using the value
+   attest_jwt_client_auth in the token_endpoint_auth_methods_supported
+   within its published metadata.  The Authorization Server SHOULD
+   communicate support for authentication with Attestation-Based Client
+   Authentication using a DPoP proof as the PoP by using the value
+   attest_jwt_client_auth_dpop in the
    token_endpoint_auth_methods_supported within its published metadata.
    The client SHOULD fetch and parse the Authorization Server metadata
    and recognize Attestation-Based Client Authentication as a client
-   authentication mechanism if the given parameters are present.
+   authentication mechanism if either of the given
+   token_endpoint_auth_methods_supported values are present.
 
    The Authorization Server SHOULD communicate supported algorithms for
    client attestations by using
@@ -749,11 +831,35 @@ Table of Contents
    client_attestation_signing_alg_values_supported and
    client_attestation_pop_signing_alg_values_supported in its published
    metadata if the token_endpoint_auth_methods_supported includes
-   attest_jwt_client_auth.
+   attest_jwt_client_auth.  When token_endpoint_auth_methods_supported
+   includes attest_jwt_client_auth_dpop, the Authorization Server SHOULD
+   advertise supported DPoP signing algorithms using
+   dpop_signing_alg_values_supported as defined in [RFC9449], rather
+   than client_attestation_pop_signing_alg_values_supported, as the
+   Proof of Possession in combined mode is a DPoP proof.
 
 9.  Implementation Considerations
 
-9.1.  Reuse of a Client Attestation JWT
+9.1.  DPoP Combined Mode Considerations
+
+   When using DPoP combined mode, the key used for client authentication
+   and token binding is shared.  This may be undesirable depending on
+   the deployment considerations of the Client.  Conversely, the
+   benefits of this approach are as follows:
+
+   *  It authenticates (attests) the DPoP key used for sender-
+      constraining tokens against the Client deployment.
+
+   *  It reduces implementation complexity for the Client by minimizing
+      the number of JWTs that need to be constructed or validated in a
+      request.
+
+   *  It reduces run-time costs for the Client by minimizing the number
+      of cryptographic operations that need to be constructed in a
+      request, especially if the keys are in a remote and/or hardware-
+      backed key storage.
+
+9.2.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -764,7 +870,7 @@ Table of Contents
    ultimately controls how long a Client Instance can re-use a single
    Client Attestation JWT.
 
-9.2.  Refresh token binding
+9.3.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
@@ -776,7 +882,7 @@ Table of Contents
    claim of the client attestation that was used when the refresh token
    was issued.
 
-9.3.  Web Server Default Maximum HTTP Header Sizes
+9.4.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -788,7 +894,7 @@ Table of Contents
    As of 2024, typical limits for modern web servers configure maximum
    HTTP headers as 8 kB or more as a default.
 
-9.4.  Rotation of Client Instance Key
+9.5.  Rotation of Client Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
@@ -796,7 +902,7 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
-9.5.  Replay Attack Detection
+9.6.  Replay Attack Detection
 
    Authorization Servers implementing measures to detect replay attacks
    as described in Section 11.1 require efficient data structures to
@@ -856,7 +962,7 @@ Table of Contents
       JWT would be replayed, the Authorization Server would recognize
       the jti value in the list and respond with an authentication
       error.  Details how to implement such a data structure to maintain
-      jti values is given in Section 9.5.
+      jti values is given in Section 9.6.
 
    *  The Authorization Server provides a challenge as an OAuth-Client-
       Attestation-Challenge in the challenge endpoint to the Client
@@ -866,7 +972,7 @@ Table of Contents
       -  manage a list of witnessed challenge values, similar to the
          previously described jti approach.  Details how to implement
          such a data structure to maintain challenge values is given in
-         Section 9.5.  This guarantees stronger replay protection with a
+         Section 9.6.  This guarantees stronger replay protection with a
          challenge chosen by the Authorization Server itself, at the
          potential cost of an additional round-trip.
 
@@ -1060,7 +1166,22 @@ Table of Contents
 
    *  Specification Document(s): TBC
 
-13.5.  HTTP Field Name Registration
+13.5.  Registration of attest_jwt_client_auth_dpop Token Endpoint
+       Authentication Method
+
+   This section registers the value "attest_jwt_client_auth_dpop" in the
+   IANA "OAuth Token Endpoint Authentication Methods" registry
+   established by OAuth 2.0 Dynamic Client Registration Protocol
+   [RFC7591].
+
+   *  Token Endpoint Authentication Method Name:
+      "attest_jwt_client_auth_dpop"
+
+   *  Change Controller: IESG
+
+   *  Specification Document(s): Section 5.2 of this specification
+
+13.6.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
