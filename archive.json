@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-14T00:27:23.257171+00:00",
+  "timestamp": "2026-04-19T00:25:20.182708+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14009,13 +14009,13 @@
       "labels": [],
       "body": "Closes #157 \r\nCloses #160 \r\nCloses #161",
       "createdAt": "2026-04-12T19:06:16Z",
-      "updatedAt": "2026-04-13T06:42:35Z",
+      "updatedAt": "2026-04-17T10:16:04Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "378cbb3288f5f6085d694fed519cd767422cb98e",
+      "baseRefOid": "41dc9f1b571f26af6ad511207f6f1f4a398e3e08",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/editorial3",
-      "headRefOid": "9e88aabaefcca12b950626872e2915d7b74661d4",
+      "headRefOid": "0b03b1c29031b042dbfac2cec11b51a508eaab29",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
