@@ -79,7 +79,7 @@ This specification defines an extension to the OAuth 2.0 protocol {{RFC6749}} th
 
 # Introduction
 
-Traditional OAuth client authentication, such as `private_key_jwt` defined in {{RFC7523}}, typically rely on a direct connection between the client's backend and the Authorization Server. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this direct communication raises privacy concerns, as it would enable the client's backend (i.e. client attester) to correlate which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially observe the credentials or metadata being issued. This specification establishes a mechanism for a backend-attested client authentication through a front-channel to address these issues.
+Traditional OAuth client authentication methods, such as `private_key_jwt` defined in {{RFC7523}}, typically rely on a direct connection between the client's backend and the Authorization Server. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this direct communication raises privacy concerns, as it would enable the client's backend (i.e. client attester) to correlate which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially observe the credentials or metadata being issued. This specification establishes a mechanism for a backend-attested client authentication through a front-channel to address these issues.
 
 Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for mobile native apps to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, such as mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.
 
@@ -131,7 +131,7 @@ The following steps describe this OAuth flow:
 
 (4) The Client Attester responds to the Client Instance by sending the Client Attestation JWT.
 
-(5) The Client optionally requests a Challenge from the Authorization Server's Challenge endpoint or receives a challenge from a previous message.
+(5) The Client Instance optionally requests a Challenge from the Authorization Server's Challenge endpoint or receives a challenge from a previous message.
 
 (6) The Client Instance generates a Proof of Possession (PoP) with the Client Instance Key.
 
