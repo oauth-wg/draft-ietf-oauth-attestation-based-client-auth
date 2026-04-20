@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 19 October 2026                                 Bundesdruckerei
+Expires: 22 October 2026                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           17 April 2026
+                                                           20 April 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 October 2026.
+   This Internet-Draft will expire on 22 October 2026.
 
 Copyright Notice
 
@@ -124,17 +124,17 @@ Table of Contents
 
 1.  Introduction
 
-   Traditional OAuth client authentication, such as private_key_jwt
-   defined in [RFC7523], typically rely on a direct connection between
-   the client's backend and the Authorization Server.  In ecosystems
-   such as the Issuer-Holder-Verifier model used in [RFC9901], this
-   direct communication raises privacy concerns, as it would enable the
-   client's backend (i.e. client attester) to correlate which Holder
-   (i.e. client) interacts with which Issuer (i.e. Authorization Server)
-   and potentially observe the credentials or metadata being issued.
-   This specification establishes a mechanism for a backend-attested
-   client authentication through a front-channel to address these
-   issues.
+   Traditional OAuth client authentication methods, such as
+   private_key_jwt defined in [RFC7523], typically rely on a direct
+   connection between the client's backend and the Authorization Server.
+   In ecosystems such as the Issuer-Holder-Verifier model used in
+   [RFC9901], this direct communication raises privacy concerns, as it
+   would enable the client's backend (i.e. client attester) to correlate
+   which Holder (i.e. client) interacts with which Issuer (i.e.
+   Authorization Server) and potentially observe the credentials or
+   metadata being issued.  This specification establishes a mechanism
+   for a backend-attested client authentication through a front-channel
+   to address these issues.
 
    Additionally, this approach acknowledges the evolving landscape of
    OAuth 2 deployments, where the ability for mobile native apps to
@@ -211,9 +211,9 @@ Table of Contents
    (4) The Client Attester responds to the Client Instance by sending
    the Client Attestation JWT.
 
-   (5) The Client optionally requests a Challenge from the Authorization
-   Server's Challenge endpoint or receives a challenge from a previous
-   message.
+   (5) The Client Instance optionally requests a Challenge from the
+   Authorization Server's Challenge endpoint or receives a challenge
+   from a previous message.
 
    (6) The Client Instance generates a Proof of Possession (PoP) with
    the Client Instance Key.
