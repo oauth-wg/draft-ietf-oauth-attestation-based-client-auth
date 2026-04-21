@@ -38,6 +38,7 @@ author:
 normative:
   RFC3986: RFC3986
   RFC6750: RFC6750
+  RFC7515: RFC7515
   RFC7591: RFC7591
   RFC7519: RFC7519
   RFC7800: RFC7800
@@ -588,13 +589,22 @@ A trie (also called prefix tree), or a patricia trie (also called radix tree) is
 
 ## Key resolution and Trust Management
 
-Concrete mechanisms in regards to trust management and key resolution are out of scope of this specification. The following recommendations are made for specifications, profiles, or ecosystems that are planning to build on top of Attestation-Based Client Authentication:
+Concrete mechanisms in regards to trust management and key resolution are out of scope of this specification. The following recommendations are made for specifications, profiles, or ecosystems that are planning to build on top of Attestation-Based Client Authentication.
 
-### Attestation Creation
+### Information gathering
 
-The concrete mechanism on how information about the state of a Client is collected by the Client Attester and the Attestation issued to the Client Instance is out of scope of this specification. It is important to note that the decision made by the CLient Attester can be based upon a combination of different statemetns and available information, it does not have to be a single statement, or a single flow.
+How information about the state of a Client is collected by the Client Attester and the resulting Attestation issued to the Client Instance is out of scope of this specification. It is important to note that the decision made by the CLient Attester can be based on a combination of different statements and available information sources, it does not have to be a single statement, or a single flow.
 
-### 
+Concrete information and flows used heavily depends on the requirements of specific deployments and use-cases and cannot easily be generalized.
+
+### Key resolution mechanisms
+
+Attestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be the possibility to discover the public key for verification.
+
+The mechanisms that are expected to be used regularly in the wild are:
+
+- `x5c` header parameter as defined in {{Section 4.1.6 of RFC7515}}: Trust into the Client Attestation is provided by using X.509 certificates contained in the header of each attestation
+- `kid` header parameter combined with an `iss` URL: The `iss` claim is a URL and
 
 # Privacy Considerations
 
@@ -739,7 +749,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 -09
 
 * restructure draft
-* add section how to establish trust
+* add section how to establish trust and resolve keys
 
 -08
 
