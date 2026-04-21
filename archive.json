@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-19T00:25:20.182708+00:00",
+  "timestamp": "2026-04-21T00:26:45.236683+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4094,15 +4094,15 @@
       "id": "I_kwDOJaEkaM7R2d8Q",
       "title": "The Introduction should be reworded",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/157",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "The introduction states:\n\n>    Traditional OAuth security concepts perform client authentication\n>    through a backend channel.  In ecosystems such as the Issuer-Holder-\n>    Verifier model used in [SD-JWT], this model raises privacy concerns,\n>    as it would enable the backend to recognize which Holder (i.e.\n>    client) interacts with which Issuer (i.e. Authorization Server) and\n>    potentially furthermore see the credentials being issued.  \n\nI have a problem with the wordings \"backend channel\", \"the backend\", and \"frontend channel\". \nIs a \"client backend\" identical to a \"backend channel\" ? I don't think so.\n\nIn the document history, there is:\n\n>    -05\n> \n> (...)\n> \n>    *  rename client backend to client attester\n\nApparently, this renaming has not been fully done.\n \nIf \"the backend\" means \"Client Attester\", then the second sentence would become:\n\nIn ecosystems such as the Issuer-Holder-Verifier model used in [SD-JWT], this model raises privacy concerns, \nas it would enable the Client Attester to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) \nand potentially furthermore see the credentials being issued.\n\nHowever, it is doubtful that it is what was intended to be said.\n\nI would believe that the whole paragraph should rather be changed into:\n\nIn ecosystems such as the Issuer-Holder-Verifier model used in [SD-JWT], this model raises privacy concerns, \nas it can enable Authorization Servers to recognize which Holder (i.e. client) interacts with other Authorization Servers (i.e., Issuers).\n\nThe text continue with:\n\n>    This primary purpose of this specification is the authentication of a\n>    client instance enabled through the client backend attesting to it.\n>    The client backend may also attest further technical properties about\n>    the hardware and software of the client instance.\n\nAs already mentioned in an earlier issue (see issue #155), Remote ATtestation procedureS (RATS) Architecture RFC 9334 states in Section 11:\n\n> 11.  Privacy Considerations\n> \n> (...)\n> \n>    In many cases, the whole point of attestation procedures is to\n>    provide reliable information about the type of the device and the\n>    firmware/software that the device is running.\n\nI would believe that the whole paragraph should be changed into:\n\n>    This primary purpose of this specification is the authentication of a\n>    client instance to an Authorisation Server, through the use of a \n>    Client Attester, allowing to attest technical characteristics about the \n>    type of the device and the firmware/software on which the client \n>    instance is running.\n",
       "createdAt": "2025-10-16T07:44:51Z",
-      "updatedAt": "2026-04-12T18:25:50Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T11:47:07Z",
+      "closedAt": "2026-04-20T11:47:07Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -4175,15 +4175,15 @@
       "id": "I_kwDOJaEkaM7R2oFP",
       "title": "The Figure 1 should be redrawn",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/160",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "The stages (1) to (4) are out of the scope of the document and should be renamed (a) to (f). See issue #157.\n\nThe flow description is missing to illustrate the ability of the AS to send a challenge to the Client Instance.\n\nLet us number the exchanges between the Client and the AS starting with (1) which will be an optional flow.\n\nThis would change the description of the flows in the following way:\n\n>    (1) The Client Instance sends an optional a challenge request to the\n>        Authorisation Server.\n> \n>    (2) If a challenge request has been sent to the Authorisation Server,\n>        the Authorisation Server sends back a challenge to the Client \n>        Instance.\n> \n>    (3) The Client Instance generates a Client Attestation PoK JWT with \n>        a Client Instance Key that includes the challenge and can include \n>        the hash value of a previous message exchanged with the \n>        Authorisation Server (e.g., a set of claims that the Client \n>        Instance has requested to be included into a credential that \n>        will be issued or a token request).\n> \n>    (4) The Client Instance sends both the Client Attestation JWT and the\n>        Client Attestation PoK JWT to the authorization server. \n> \n>    (5) The Authorisation Server verifies both the Client Attestation JWT \n>        and the Client Attestation PoK JWT and verifies the technical \n>        characteristics about the type of the device and the firmware / \n>        software on which the client instance is running match with its \n>        policy to issue either a set of claims that the Client Instance \n>        has requested to be included into a credential that will be \n>        issued or a security token.\n> \n\nNote: PoK = Proof of Knowledge\n\n\n```\n             (c)\n          +-------+\n          |       |\n          |      \\ /\n   +-----------------+      +-----------------+\n   |                 |      |                 |\n   | Client Attester |  OR  | Client Attester |\n   |                 |      |                 |\n   +-----------------+      +-----------------+\n              / \\  |          |\n          (b)  |   |  (d)     | (f)\n               |  \\ /        \\ /       (1) Opt.\n             +-------------------+  chall. request   +---------------+\n             |                   |-----------------> |               |\n             |      Client       |(2) Opt. challenge | Authorization |\n      +----->|     Instance      |<----------------- |     Server    |\n  (a) |      |                   | (4) Response      |               |\n      +------|                   |------------------>|               |\n             +-------------------+                   +---------------+\n                  / \\      |                            / \\      |\n                   |       |                             |       |\n                   +-------+                             +-------+  \n                      (3)                                   (5)\n\n```",
       "createdAt": "2025-10-16T07:58:12Z",
-      "updatedAt": "2026-04-12T19:05:38Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T11:47:08Z",
+      "closedAt": "2026-04-20T11:47:08Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -4199,15 +4199,15 @@
       "id": "I_kwDOJaEkaM7R2rDf",
       "title": "The terminology in section 3 should be changed",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/161",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "The current terminology is as follows:\n\n>    Client Attestation JWT:  A JSON Web Token (JWT) generated by the\n>       Client Attester which is bound to a key managed by a Client\n>       Instance which can then be used by the instance for client\n>       authentication.\n> \n>    Client Attestation Proof of Possession (PoP) JWT:  A Proof of\n>       Possession generated by the Client Instance using the key that the\n>       Client Attestation JWT is bound to.\n> \n>    Client Instance:  A deployed instance of a piece of client software.\n> \n>    Client Instance Key:  A cryptographic asymmetric key pair that is\n>       generated by the Client Instance where the public key of the key\n>       pair is provided to the Client Attester.  This public key is then\n>       encapsulated within the Client Attestation JWT and is utilized to\n>       sign the Client Attestation Proof of Possession.\n> \n>    Client Attester:  An entity that authenticates a Client Instance and\n>       attests it by issuing a Client Attestation JWT.\n> \n>    Challenge:  A String that is the input to a cryptographic challenge-\n>       response pattern.  This is traditionally called a nonce within\n>       OAuth.\n> \n\nI propose the following rewording:\n\n>    Client Attestation JWT:  A JSON Web Token (JWT) generated by the\n>       Client Attester which is bound to a key managed by a Client\n>       Instance which can then be used by the instance to support either \n>       an authentication service or a data origin authentication service.\n> \n>    Client Attestation Proof of Knowledge (PoK) JWT:  A Proof of\n>       Knowledge of the private key of a Client Instance Key generated \n>       by the Client Instance using that private key.\n> \n>    Client Instance:  A deployed instance of a piece of client software\n>       running on a type of device.\n> \n>    Client Instance Key:  A cryptographic asymmetric key pair where the \n>       public key of the key pair is contained in a Client Attestation JWT \n>       and thus certified by the Client Attester.  \n> \n>    Client Attester:  An entity that certifies a Client Instance and\n>       attests that certification by issuing a Client Attestation JWT.\n> \n>    Challenge (Opt):  A String that is the input to a cryptographic \n>       challenge-response pattern.\n> ",
       "createdAt": "2025-10-16T08:01:26Z",
-      "updatedAt": "2026-04-12T17:39:26Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T11:47:08Z",
+      "closedAt": "2026-04-20T11:47:08Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -14002,24 +14002,26 @@
       "id": "PR_kwDOJaEkaM7Rzyv7",
       "title": "Editorial changes",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/188",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #157 \r\nCloses #160 \r\nCloses #161",
       "createdAt": "2026-04-12T19:06:16Z",
-      "updatedAt": "2026-04-17T10:16:04Z",
+      "updatedAt": "2026-04-20T11:47:06Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "41dc9f1b571f26af6ad511207f6f1f4a398e3e08",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/editorial3",
-      "headRefOid": "0b03b1c29031b042dbfac2cec11b51a508eaab29",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "35e581af26d92e6853481d6ce4dade60efcff216",
+      "closedAt": "2026-04-20T11:47:06Z",
+      "mergedAt": "2026-04-20T11:47:06Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "bbfaf8bfb133423d1797a27bdf03c873b9534609"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14052,6 +14054,79 @@
               "body": "```suggestion\n:  A JSON Web Token (JWT) generated by the Client Attester which is bound to a key managed by a Client Instance which can then be used by the Client Instance for authentication.\n```",
               "createdAt": "2026-04-13T06:42:26Z",
               "updatedAt": "2026-04-13T06:42:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM72kwYz",
+          "commit": {
+            "abbreviatedOid": "0b03b1c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-20T01:06:05Z",
+          "updatedAt": "2026-04-20T01:06:05Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nTraditional OAuth client authentication methods, such as `private_key_jwt` defined in {{RFC7523}}, typically rely on a direct connection between the client's backend and the Authorization Server. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this direct communication raises privacy concerns, as it would enable the client's backend (i.e. client attester) to correlate which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially observe the credentials or metadata being issued. This specification establishes a mechanism for a backend-attested client authentication through a front-channel to address these issues.\n```",
+              "createdAt": "2026-04-20T01:06:05Z",
+              "updatedAt": "2026-04-20T11:46:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM72kxJA",
+          "commit": {
+            "abbreviatedOid": "0b03b1c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-20T01:08:10Z",
+          "updatedAt": "2026-04-20T01:08:10Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "```suggestion\n(5) The Client Instance optionally requests a Challenge from the Authorization Server's Challenge endpoint or receives a challenge from a previous message.\n```",
+              "createdAt": "2026-04-20T01:08:10Z",
+              "updatedAt": "2026-04-20T01:08:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM72kxQX",
+          "commit": {
+            "abbreviatedOid": "0b03b1c"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Subject to minor feedback being applied.",
+          "createdAt": "2026-04-20T01:08:29Z",
+          "updatedAt": "2026-04-20T01:08:29Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM72n01e",
+          "commit": {
+            "abbreviatedOid": "0b03b1c"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-20T06:09:08Z",
+          "updatedAt": "2026-04-20T06:09:09Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "if you change it to \"methods\", then it should stay \"rely\"\r\n\r\n```suggestion\r\nTraditional OAuth client authentication methods, such as `private_key_jwt` defined in {{RFC7523}}, typically rely on a direct connection between the client's backend and the Authorization Server. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this direct communication raises privacy concerns, as it would enable the client's backend (i.e. client attester) to correlate which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially observe the credentials or metadata being issued. This specification establishes a mechanism for a backend-attested client authentication through a front-channel to address these issues.\r\n```",
+              "createdAt": "2026-04-20T06:09:08Z",
+              "updatedAt": "2026-04-20T06:09:09Z"
             }
           ]
         }
