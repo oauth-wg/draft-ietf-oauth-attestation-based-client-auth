@@ -603,10 +603,12 @@ Concrete information and flows used heavily depends on the requirements of speci
 
 Attestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be the possibility to discover the public key for verification.
 
-The mechanisms that are expected to be used regularly in the wild are:
+The mechanisms that are expected to be used regularly in deployments are:
 
-- `x5c` header parameter as defined in {{Section 4.1.6 of RFC7515}}: Trust into the Client Attestation is provided by using X.509 certificates contained in the header of each attestation
-- `kid` header parameter combined with an `iss` URL: The `iss` claim is a URL and
+- `x5c` header parameter as defined in {{Section 4.1.6 of RFC7515}}: Trust into the Client Attestation is provided by using X.509 certificates contained in the header of each Client Attestation
+- `kid` header parameter combined with Client Metadata. The Client Metadata as defined in {{RFC7591}} contains a `jwks_uri` parameter which combined with the `kid` allows the resolution of the public key to verify the signature of the Client Attestation
+
+Ecosystems need to decide which method to use. Deployments with pre-configured trust relationships will likely prefer the `x5c` based approach, while others will likely prefer the `kid` based approach. Generic implementations are RECOMMENDED to support both.
 
 # Privacy Considerations
 
