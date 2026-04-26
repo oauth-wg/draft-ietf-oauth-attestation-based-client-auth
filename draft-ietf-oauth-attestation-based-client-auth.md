@@ -80,7 +80,7 @@ This specification defines an extension to the OAuth 2.0 protocol {{RFC6749}} th
 
 # Introduction
 
-Traditional OAuth security concepts perform client authentication through a backend channel. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this model raises privacy concerns, as it would enable the backend to recognize which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially furthermore see the credentials being issued. This specification establishes a mechanism for a backend-attested client authentication through a frontend channel to address these issues.
+Traditional OAuth client authentication methods, such as `private_key_jwt` defined in {{RFC7523}}, typically rely on a direct connection between the client's backend and the Authorization Server. In ecosystems such as the Issuer-Holder-Verifier model used in {{RFC9901}}, this direct communication raises privacy concerns, as it would enable the client's backend (i.e. client attester) to correlate which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially observe the credentials or metadata being issued. This specification establishes a mechanism for a backend-attested client authentication through a front-channel to address these issues.
 
 Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for mobile native apps to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, such as mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.
 
@@ -96,29 +96,29 @@ This specification introduces the concept of client attestations to the OAuth 2 
 The following diagram depicts the overall architecture and protocol flow.
 
 ~~~ ascii-art
-                    (3)
-                 +-------+
-                 |       |
-                 |      \ /
-             +--------------------+
-             |                    |
-             |    Client Attester |
-             |      (backend)     |
-             |                    |
-             +--------------------+
-                / \      |
-            (2)  |       |  (4)
-                 |      \ /
-             +---------------+           +---------------+
-      +----->|               |           |               |
-  (1) |      |    Client     |    (6)    | Authorization |
-      |      |   Instance    |<--------->|    Server     |
-      +------|               |           |               |
-             +---------------+           +---------------+
-                / \      |
-                 |       |
-                 +-------+
-                    (5)
+                  (3)
+                +-----+
+                |     |
+                |     v
+           +-----------------+
+           |                 |
+           | Client Attester |
+           |   (backend)     |
+           |                 |
+           +-----------------+
+               ^       |
+           (2) |       | (4)
+               |       v
+           +---------------+           +---------------+
+    +----->|               |    (5)    |               |
+(1) |      |    Client     |<--------->| Authorization |
+    |      |   Instance    |    (7)    |    Server     |
+    +------|               |<--------->|               |
+           +---------------+           +---------------+
+               ^       |
+               |       |
+               +-------+
+                  (6)
 
 ~~~
 
@@ -132,9 +132,11 @@ The following steps describe this OAuth flow:
 
 (4) The Client Attester responds to the Client Instance by sending the Client Attestation JWT.
 
-(5) The Client Instance generates a Proof of Possession (PoP) with the Client Instance Key.
+(5) The Client Instance optionally requests a Challenge from the Authorization Server's Challenge endpoint or receives a challenge from a previous message.
 
-(6) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is either a Client Attestation PoP JWT or a DPoP proof. The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.
+(6) The Client Instance generates a Proof of Possession (PoP) with the Client Instance Key.
+
+(7) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is either a Client Attestation PoP JWT or a DPoP proof. The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.
 
 Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the Client Attester, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend serving as a Client Attester. In such cases, each Client Instance is responsible for performing the functions typically handled by the Client Attester on its own.
 
@@ -145,7 +147,7 @@ Please note that the protocol details for steps (2) and (4), particularly how th
 # Terminology {#terminology}
 
 Client Attestation JWT:
-:  A JSON Web Token (JWT) generated by the Client Attester which is bound to a key managed by a Client Instance which can then be used by the instance for client authentication.
+:  A JSON Web Token (JWT) generated by the Client Attester which is bound to a key managed by a Client Instance which can then be used by the Client Instance for authentication.
 
 Client Attestation Proof of Possession (PoP) JWT:
 :  A Proof of Possession generated by the Client Instance using the key that the Client Attestation JWT is bound to.
@@ -154,7 +156,7 @@ Client Instance:
 : A deployed instance of a piece of client software.
 
 Client Instance Key:
-:  A cryptographic asymmetric key pair that is generated by the Client Instance where the public key of the key pair is provided to the Client Attester. This public key is then encapsulated within the Client Attestation JWT and is utilized to sign the Client Attestation Proof of Possession.
+:  A cryptographic asymmetric key pair that is generated by the Client Instance where the public key of the key pair is provided to the Client Attester. This public key is then encapsulated within the Client Attestation JWT and is utilized to sign a proof of possession.
 
 Client Attester:
 : An entity that authenticates a Client Instance and attests it by issuing a Client Attestation JWT.
@@ -750,6 +752,8 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 * restructure draft
 * add section how to establish trust and resolve keys
+* rephrasing of introduction text
+* adding challenge request/response to graphic
 
 -08
 
