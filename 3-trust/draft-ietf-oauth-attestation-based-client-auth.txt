@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 23 October 2026                                 Bundesdruckerei
+Expires: 28 October 2026                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           21 April 2026
+                                                           26 April 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 October 2026.
+   This Internet-Draft will expire on 28 October 2026.
 
 Copyright Notice
 
@@ -127,14 +127,17 @@ Table of Contents
 
 1.  Introduction
 
-   Traditional OAuth security concepts perform client authentication
-   through a backend channel.  In ecosystems such as the Issuer-Holder-
-   Verifier model used in [RFC9901], this model raises privacy concerns,
-   as it would enable the backend to recognize which Holder (i.e.
-   client) interacts with which Issuer (i.e. Authorization Server) and
-   potentially furthermore see the credentials being issued.  This
-   specification establishes a mechanism for a backend-attested client
-   authentication through a frontend channel to address these issues.
+   Traditional OAuth client authentication methods, such as
+   private_key_jwt defined in [RFC7523], typically rely on a direct
+   connection between the client's backend and the Authorization Server.
+   In ecosystems such as the Issuer-Holder-Verifier model used in
+   [RFC9901], this direct communication raises privacy concerns, as it
+   would enable the client's backend (i.e. client attester) to correlate
+   which Holder (i.e. client) interacts with which Issuer (i.e.
+   Authorization Server) and potentially observe the credentials or
+   metadata being issued.  This specification establishes a mechanism
+   for a backend-attested client authentication through a front-channel
+   to address these issues.
 
    Additionally, this approach acknowledges the evolving landscape of
    OAuth 2 deployments, where the ability for mobile native apps to
@@ -169,29 +172,29 @@ Table of Contents
    The following diagram depicts the overall architecture and protocol
    flow.
 
-                       (3)
-                    +-------+
-                    |       |
-                    |      \ /
-                +--------------------+
-                |                    |
-                |    Client Attester |
-                |      (backend)     |
-                |                    |
-                +--------------------+
-                   / \      |
-               (2)  |       |  (4)
-                    |      \ /
-                +---------------+           +---------------+
-         +----->|               |           |               |
-     (1) |      |    Client     |    (6)    | Authorization |
-         |      |   Instance    |<--------->|    Server     |
-         +------|               |           |               |
-                +---------------+           +---------------+
-                   / \      |
-                    |       |
-                    +-------+
-                       (5)
+                     (3)
+                   +-----+
+                   |     |
+                   |     v
+              +-----------------+
+              |                 |
+              | Client Attester |
+              |   (backend)     |
+              |                 |
+              +-----------------+
+                  ^       |
+              (2) |       | (4)
+                  |       v
+              +---------------+           +---------------+
+       +----->|               |    (5)    |               |
+   (1) |      |    Client     |<--------->| Authorization |
+       |      |   Instance    |    (7)    |    Server     |
+       +------|               |<--------->|               |
+              +---------------+           +---------------+
+                  ^       |
+                  |       |
+                  +-------+
+                     (6)
 
    The following steps describe this OAuth flow:
 
@@ -211,10 +214,14 @@ Table of Contents
    (4) The Client Attester responds to the Client Instance by sending
    the Client Attestation JWT.
 
-   (5) The Client Instance generates a Proof of Possession (PoP) with
+   (5) The Client Instance optionally requests a Challenge from the
+   Authorization Server's Challenge endpoint or receives a challenge
+   from a previous message.
+
+   (6) The Client Instance generates a Proof of Possession (PoP) with
    the Client Instance Key.
 
-   (6) The Client Instance sends the Client Attestation JWT along with
+   (7) The Client Instance sends the Client Attestation JWT along with
    its Proof of Possession to the Authorization Server, e.g. within a
    token request.  The Proof of Possession is either a Client
    Attestation PoP JWT or a DPoP proof.  The Authorization Server
@@ -242,7 +249,7 @@ Table of Contents
 
    Client Attestation JWT:  A JSON Web Token (JWT) generated by the
       Client Attester which is bound to a key managed by a Client
-      Instance which can then be used by the instance for client
+      Instance which can then be used by the Client Instance for
       authentication.
 
    Client Attestation Proof of Possession (PoP) JWT:  A Proof of
@@ -255,7 +262,7 @@ Table of Contents
       generated by the Client Instance where the public key of the key
       pair is provided to the Client Attester.  This public key is then
       encapsulated within the Client Attestation JWT and is utilized to
-      sign the Client Attestation Proof of Possession.
+      sign a proof of possession.
 
    Client Attester:  An entity that authenticates a Client Instance and
       attests it by issuing a Client Attestation JWT.
@@ -954,15 +961,22 @@ Table of Contents
    signatures are used, then for most deployments there needs to be the
    possibility to discover the public key for verification.
 
-   The mechanisms that are expected to be used regularly in the wild
+   The mechanisms that are expected to be used regularly in deployments
    are:
 
    *  x5c header parameter as defined in Section 4.1.6 of [RFC7515]:
       Trust into the Client Attestation is provided by using X.509
-      certificates contained in the header of each attestation
+      certificates contained in the header of each Client Attestation
 
-   *  kid header parameter combined with an iss URL: The iss claim is a
-      URL and
+   *  kid header parameter combined with Client Metadata.  The Client
+      Metadata as defined in [RFC7591] contains a jwks_uri parameter
+      which combined with the kid allows the resolution of the public
+      key to verify the signature of the Client Attestation
+
+   Ecosystems need to decide which method to use.  Deployments with pre-
+   configured trust relationships will likely prefer the x5c based
+   approach, while others will likely prefer the kid based approach.
+   Generic implementations are RECOMMENDED to support both.
 
 10.  Privacy Considerations
 
@@ -1365,6 +1379,10 @@ Appendix A.  Document History
    *  restructure draft
 
    *  add section how to establish trust and resolve keys
+
+   *  rephrasing of introduction text
+
+   *  adding challenge request/response to graphic
 
    -08
 
