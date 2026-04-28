@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-23T00:28:59.958159+00:00",
+  "timestamp": "2026-04-28T00:30:25.938493+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14180,13 +14180,13 @@
       "labels": [],
       "body": "Closes #3, #182\r\n\r\n(wip)",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-04-21T05:18:49Z",
+      "updatedAt": "2026-04-26T19:55:17Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "3-trust",
-      "headRefOid": "cb9785a67df48dbc7471b7ef25d0e1e67eb78ca4",
+      "headRefOid": "024024833699b1402dfa64629677a5e0f51626e9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
