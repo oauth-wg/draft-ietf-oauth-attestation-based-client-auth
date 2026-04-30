@@ -2042,8 +2042,8 @@ dW-cqJopljQaCQ
           <h4 id="name-key-resolution-mechanisms">
 <a href="#section-9.7.2" class="section-number selfRef">9.7.2. </a><a href="#name-key-resolution-mechanisms" class="section-name selfRef">Key resolution mechanisms</a>
           </h4>
-<p id="section-9.7.2-1">Attestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be the possibility to discover the public key for verification.<a href="#section-9.7.2-1" class="pilcrow">¶</a></p>
-<p id="section-9.7.2-2">The mechanisms that are expected to be used regularly in deployments are:<a href="#section-9.7.2-2" class="pilcrow">¶</a></p>
+<p id="section-9.7.2-1">Attestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be either pre-configured public keys / certificates for verification or the possibility to discover the public key.<a href="#section-9.7.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.7.2-2">The mechanisms that are expected to be used regularly in deployments for dynamic key discovery are:<a href="#section-9.7.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.7.2-3.1">
               <p id="section-9.7.2-3.1.1"><code>x5c</code> header parameter as defined in <span><a href="https://rfc-editor.org/rfc/rfc7515#section-4.1.6" class="relref">Section 4.1.6</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>: Trust into the Client Attestation is provided by using X.509 certificates contained in the header of each Client Attestation<a href="#section-9.7.2-3.1.1" class="pilcrow">¶</a></p>
