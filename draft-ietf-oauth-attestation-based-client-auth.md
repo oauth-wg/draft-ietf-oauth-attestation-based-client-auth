@@ -601,9 +601,9 @@ Concrete information and flows used heavily depends on the requirements of speci
 
 ### Key resolution mechanisms
 
-Attestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be the possibility to discover the public key for verification.
+Attestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be either pre-configured public keys / certificates for verification or the possibility to discover the public key.
 
-The mechanisms that are expected to be used regularly in deployments are:
+The mechanisms that are expected to be used regularly in deployments for dynamic key discovery are:
 
 - `x5c` header parameter as defined in {{Section 4.1.6 of RFC7515}}: Trust into the Client Attestation is provided by using X.509 certificates contained in the header of each Client Attestation
 - `kid` header parameter combined with Client Metadata. The Client Metadata as defined in {{RFC7591}} contains a `jwks_uri` parameter which combined with the `kid` allows the resolution of the public key to verify the signature of the Client Attestation
