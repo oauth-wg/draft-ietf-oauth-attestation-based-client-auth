@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 28 October 2026                                 Bundesdruckerei
+Expires: 1 November 2026                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           26 April 2026
+                                                           30 April 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 October 2026.
+   This Internet-Draft will expire on 1 November 2026.
 
 Copyright Notice
 
@@ -946,7 +946,7 @@ Table of Contents
    How information about the state of a Client is collected by the
    Client Attester and the resulting Attestation issued to the Client
    Instance is out of scope of this specification.  It is important to
-   note that the decision made by the CLient Attester can be based on a
+   note that the decision made by the Client Attester can be based on a
    combination of different statements and available information
    sources, it does not have to be a single statement, or a single flow.
 
