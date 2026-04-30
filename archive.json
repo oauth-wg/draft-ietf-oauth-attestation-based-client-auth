@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-28T00:30:25.938493+00:00",
+  "timestamp": "2026-04-30T00:31:29.383497+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14180,7 +14180,7 @@
       "labels": [],
       "body": "Closes #3, #182\r\n\r\n(wip)",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-04-26T19:55:17Z",
+      "updatedAt": "2026-04-29T20:10:59Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
@@ -14192,7 +14192,48 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM76XH5Q",
+          "commit": {
+            "abbreviatedOid": "0240248"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-29T20:09:19Z",
+          "updatedAt": "2026-04-29T20:09:20Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "```suggestion\nHow information about the state of a Client is collected by the Client Attester and the resulting Attestation issued to the Client Instance is out of scope of this specification. It is important to note that the decision made by the Client Attester can be based on a combination of different statements and available information sources, it does not have to be a single statement, or a single flow.\n```",
+              "createdAt": "2026-04-29T20:09:20Z",
+              "updatedAt": "2026-04-29T20:09:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM76XKOu",
+          "commit": {
+            "abbreviatedOid": "0240248"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Couple of minor suggestions.",
+          "createdAt": "2026-04-29T20:10:37Z",
+          "updatedAt": "2026-04-29T20:10:59Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "I'm not sure we need to call out discovery here because technically it might just get loaded through an administrative process into the AS just like a symmetric key could be too when a MAC is being used.",
+              "createdAt": "2026-04-29T20:10:37Z",
+              "updatedAt": "2026-04-29T20:10:59Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
