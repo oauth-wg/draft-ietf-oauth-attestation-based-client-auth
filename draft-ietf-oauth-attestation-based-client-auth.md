@@ -595,7 +595,7 @@ Concrete mechanisms in regards to trust management and key resolution are out of
 
 ### Information gathering
 
-How information about the state of a Client is collected by the Client Attester and the resulting Attestation issued to the Client Instance is out of scope of this specification. It is important to note that the decision made by the CLient Attester can be based on a combination of different statements and available information sources, it does not have to be a single statement, or a single flow.
+How information about the state of a Client is collected by the Client Attester and the resulting Attestation issued to the Client Instance is out of scope of this specification. It is important to note that the decision made by the Client Attester can be based on a combination of different statements and available information sources, it does not have to be a single statement, or a single flow.
 
 Concrete information and flows used heavily depends on the requirements of specific deployments and use-cases and cannot easily be generalized.
 
