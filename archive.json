@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-30T00:31:29.383497+00:00",
+  "timestamp": "2026-05-03T00:30:59.202503+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14180,13 +14180,13 @@
       "labels": [],
       "body": "Closes #3, #182\r\n\r\n(wip)",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-04-29T20:10:59Z",
+      "updatedAt": "2026-04-30T08:36:39Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "3-trust",
-      "headRefOid": "024024833699b1402dfa64629677a5e0f51626e9",
+      "headRefOid": "60ee6ed5d2072699cab7ba34fb2026e86732c51b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -14230,6 +14230,46 @@
               "body": "I'm not sure we need to call out discovery here because technically it might just get loaded through an administrative process into the AS just like a symmetric key could be too when a MAC is being used.",
               "createdAt": "2026-04-29T20:10:37Z",
               "updatedAt": "2026-04-29T20:10:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM76jqs9",
+          "commit": {
+            "abbreviatedOid": "a36f1f1"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-30T08:35:52Z",
+          "updatedAt": "2026-04-30T08:35:52Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\nAttestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be either pre-configured public keys / certificates for verification or the possibility to discover the public key.\n```",
+              "createdAt": "2026-04-30T08:35:52Z",
+              "updatedAt": "2026-04-30T08:35:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM76jrC4",
+          "commit": {
+            "abbreviatedOid": "a36f1f1"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-30T08:36:06Z",
+          "updatedAt": "2026-04-30T08:36:07Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "```suggestion\nThe mechanisms that are expected to be used regularly in deployments for dynamic key discovery are:\n```",
+              "createdAt": "2026-04-30T08:36:06Z",
+              "updatedAt": "2026-04-30T08:36:07Z"
             }
           ]
         }
