@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 1 November 2026                                 Bundesdruckerei
+Expires: 5 November 2026                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           30 April 2026
+                                                              4 May 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 November 2026.
+   This Internet-Draft will expire on 5 November 2026.
 
 Copyright Notice
 
@@ -100,9 +100,7 @@ Table of Contents
      9.4.  Web Server Default Maximum HTTP Header Sizes
      9.5.  Rotation of Client Instance Key
      9.6.  Replay Attack Detection
-     9.7.  Key resolution and Trust Management
-       9.7.1.  Information gathering
-       9.7.2.  Key resolution mechanisms
+     9.7.  Trust Management and Key resolution
    10. Privacy Considerations
      10.1.  Client Instance Tracking Across Authorization Servers
    11. Security Considerations
@@ -933,51 +931,40 @@ Table of Contents
    radix tree) is a RECOMMENDED data structures to implement such a
    mechanism.
 
-9.7.  Key resolution and Trust Management
+9.7.  Trust Management and Key resolution
+
+   The main question to be answered for trust management is how the
+   Authorization Server establishes trust in the Client Attester and how
+   to validate Client Attestation JWTs.  Attestation-based Client
+   authentications can use MACs or digital signatures to protect
+   integrity of the attestations.  If digital signatures are used, then
+   for most deployments there needs to be either pre-configured public
+   keys / certificates for verification or the possibility to discover
+   the public key dynamically.
 
    Concrete mechanisms in regards to trust management and key resolution
-   are out of scope of this specification.  The following
-   recommendations are made for specifications, profiles, or ecosystems
-   that are planning to build on top of Attestation-Based Client
-   Authentication.
+   are out of scope of this specification.
 
-9.7.1.  Information gathering
+   Examples of trust management are:
 
-   How information about the state of a Client is collected by the
-   Client Attester and the resulting Attestation issued to the Client
-   Instance is out of scope of this specification.  It is important to
-   note that the decision made by the Client Attester can be based on a
-   combination of different statements and available information
-   sources, it does not have to be a single statement, or a single flow.
+   *  PKI and trust lists
 
-   Concrete information and flows used heavily depends on the
-   requirements of specific deployments and use-cases and cannot easily
-   be generalized.
+   *  Pre-shared / out-of band negotiated configurations (keys, URLs)
 
-9.7.2.  Key resolution mechanisms
-
-   Attestation-based Client authentications can use MACs or digital
-   signatures to protect integrity of the attestations.  If digital
-   signatures are used, then for most deployments there needs to be
-   either pre-configured public keys / certificates for verification or
-   the possibility to discover the public key.
-
-   The mechanisms that are expected to be used regularly in deployments
-   for dynamic key discovery are:
+   To resolve public keys used for validation of Client Attestation
+   JWTs, the following recommendations are made for specifications,
+   profiles, or ecosystems that are planning to build on top of
+   Attestation-Based Client Authentication:
 
    *  x5c header parameter as defined in Section 4.1.6 of [RFC7515]:
       Trust into the Client Attestation is provided by using X.509
       certificates contained in the header of each Client Attestation
 
-   *  kid header parameter combined with Client Metadata.  The Client
-      Metadata as defined in [RFC7591] contains a jwks_uri parameter
-      which combined with the kid allows the resolution of the public
-      key to verify the signature of the Client Attestation
-
-   Ecosystems need to decide which method to use.  Deployments with pre-
-   configured trust relationships will likely prefer the x5c based
-   approach, while others will likely prefer the kid based approach.
-   Generic implementations are RECOMMENDED to support both.
+   *  kid header parameter combined with Client Metadata / pre-shared
+      information: The Client Metadata as defined in [RFC7591] contains
+      a jwks_uri parameter which combined with the kid allows the
+      resolution of the public key to verify the signature of the Client
+      Attestation
 
 10.  Privacy Considerations
 
