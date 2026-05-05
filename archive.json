@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-03T00:30:59.202503+00:00",
+  "timestamp": "2026-05-05T00:31:02.947935+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -72,6 +72,11 @@
       "name": "do-not-merge",
       "description": "",
       "color": "B60205"
+    },
+    {
+      "name": "out-of-scope",
+      "description": null,
+      "color": "aaaaaa"
     }
   ],
   "issues": [
@@ -88,11 +93,11 @@
         "paulbastian"
       ],
       "labels": [
-        "ready-for-pr"
+        "has-pr"
       ],
       "body": "make it clear that the receiver of the attestation needs to trust the signer of the attestation and pre-obtain(?) the keys to validate it?",
       "createdAt": "2023-05-09T10:10:14Z",
-      "updatedAt": "2026-03-02T22:02:55Z",
+      "updatedAt": "2026-05-04T09:56:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -1703,7 +1708,7 @@
       "id": "I_kwDOJaEkaM5x3vhj",
       "title": "PoP attestation binding ",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/47",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "peppelinux",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -1712,8 +1717,8 @@
       ],
       "body": "Even if remote, there is the possibility that an implementation re-uses the same cryptographic keys for different scopes.\r\n\r\nthe PoP JWT could be used with the same cryptograhic key attested in more than a single attestation and therefore be replicated for different endpoints/audience\r\n\r\nWhat do you think about getting the `ath` claim inside the DPoP token as requested?\r\n\r\nIn this way, a DPoP token cannot be replicated when the key that proves possession is the same within different attestations.\r\n\r\nEven if DPoP specs defines `ath` in relation to an access token, may we consider that any kind of JWT could represent an access token, in relation of its scope, the flow where it is used and its usage in general?\r\n\r\nThen, could we provide a binding of the PoP to a specific attestation where the possession aims to be proved?",
       "createdAt": "2023-09-25T00:16:42Z",
-      "updatedAt": "2026-03-17T10:20:24Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-04T15:37:27Z",
+      "closedAt": "2026-05-04T15:37:27Z",
       "comments": [
         {
           "author": "peppelinux",
@@ -1770,6 +1775,13 @@
           "body": "> [@peppelinux](https://github.com/peppelinux) [@Sh-Amir](https://github.com/Sh-Amir) we are currently trying to solve all remaining issues for this draft, so this one just came up. We are trying to understand the proposal, but it doesn't seem to provide any substantial benefits to us, as we trust the client to protect its Client Instance Key. Is this still relevant to you?\n\nI think the general idea was to bind the client attestations to the specific client attestation proof to avoid the possibility that it could be swapped in the case that the same cryptography keys are used by the implementers. So, if we assume that developers are protecting the keys and consider the right trade-offs when it comes to reusing the same keys, then I agree it does not provide any substantial benefit. ",
           "createdAt": "2026-03-17T10:12:06Z",
           "updatedAt": "2026-03-17T10:20:24Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The intention is that the Client Instance Key is the tool to protect cloning of the client authentication, therefore I think this does not provide benefits.",
+          "createdAt": "2026-05-04T15:37:27Z",
+          "updatedAt": "2026-05-04T15:37:27Z"
         }
       ]
     },
@@ -1780,16 +1792,17 @@
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/56",
       "state": "OPEN",
       "author": "cobward",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [
         "tplooker"
       ],
       "labels": [
+        "discuss",
         "has-pr"
       ],
       "body": "Currently, section 5.2 \"Refresh token binding\"  gives requirements for how an authorization server must bind the client instance to the refresh token. Could we reuse this mechanism to bind the authorization code to the client instance in the case that client auth was performed in the authorization request?",
       "createdAt": "2023-10-24T08:59:21Z",
-      "updatedAt": "2025-12-16T07:32:49Z",
+      "updatedAt": "2026-05-04T15:38:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -1808,7 +1821,7 @@
         },
         {
           "author": "cobward",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "NONE",
           "body": "> @cobward do you mean in the event we are using something like a signed PAR request?\r\n\r\nI'm not sure that it only applies to signed PAR request. I mean just generally that if client authentication is required at the authorization endpoint then the same requirements of binding the client instance to the authorization code still apply.\r\n\r\n> If I understand you correctly, you get a similar set of assurances like with PKCE, so I'm unsure if we want to duplicate this mechanism.\r\n\r\nIf that is the case then would it make sense to add text to that effect? Something along the lines of:\r\n\r\n_The Authorization Server is not required to bind the client instance to the authorization code, as PKCE provides sufficient mitigation of security risks._\r\n",
           "createdAt": "2023-11-06T13:49:21Z",
           "updatedAt": "2023-11-06T13:49:21Z"
@@ -2060,11 +2073,12 @@
         "paulbastian"
       ],
       "labels": [
+        "discuss",
         "ready-for-pr"
       ],
       "body": "In particiuar:\r\n- this mechanism should work for other endpoints\r\n- client attestation should not \"take up\" the client authentication slot, but be separate\r\n- How does the AS get the key of the client backend/attestation service? What's the trust mechanism?\r\n\r\nRelated to #62 ",
       "createdAt": "2023-11-10T13:09:37Z",
-      "updatedAt": "2026-02-24T07:31:35Z",
+      "updatedAt": "2026-05-04T15:54:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -3122,11 +3136,12 @@
         "c2bo"
       ],
       "labels": [
+        "discuss",
         "ready-for-pr"
       ],
       "body": "I suggest that it would be useful to implementers if non-normative examples of \"client instance attestations\" were provided.  Attestations about the status of a device, key pair, or application instance may be useful pointers for implementers.  Additionally being clear that it is possible to have several attestations in a single request to the Client Attester would be very helpful to potential implementers.\n\nLine 110 of current editors .md",
       "createdAt": "2025-05-05T15:54:59Z",
-      "updatedAt": "2025-10-24T22:41:00Z",
+      "updatedAt": "2026-05-04T17:23:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -3347,11 +3362,12 @@
         "tplooker"
       ],
       "labels": [
+        "discuss",
         "has-pr"
       ],
       "body": "When attest_jwt_client_auth is used the following OAuth 2.0 extension artefacts may also be made to be bound to the individual client instance (much like Refresh Tokens are in draft 05)\n\n- PAR endpoint -> request_uri -> authorization code -> token endpoint authorization_code grant type exchange\n- CIBA Backchannel Authentication Endpoint -> auth_req_id -> token endpoint urn:openid:params:grant-type:ciba grant type exchange\n- Device Authorization Endpoint -> device_code -> token endpoint urn:ietf:params:oauth:grant-type:device_code grant type exchange",
       "createdAt": "2025-05-27T21:23:24Z",
-      "updatedAt": "2025-10-24T22:43:41Z",
+      "updatedAt": "2026-05-04T15:53:40Z",
       "closedAt": null,
       "comments": []
     },
@@ -3512,10 +3528,12 @@
       "author": "devinivy",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pending-close"
+      ],
       "body": "In [AT Protocol](https://atproto.com/) we've recently published a proposal that takes a similar shape and fills similar use cases to attestation-based client authentication as described in the draft being worked on here.  It can be found here: [0010-client-assertion-backend](https://github.com/bluesky-social/proposals/tree/main/0010-client-assertion-backend).  Once the proposal is finalized, it could end up being widely adopted in the AT Protocol ecosystem, as we have many folks who want to author browser-based clients that are given the security and UX affordances of a confidential client.\n\nWe wanted to share our use case and our thinking with the hopes that we may be able to converge on something compatible with the work being done here.\n\nRather than proposing a new client authentication method, we opted to layer a small mechanism on top of the private_key_jwt method from [RFC 7523](https://datatracker.ietf.org/doc/rfc7523/).  It's quite limited:\n> [If] the `client_assertion` JWT contains a `cnf` claim using the `jkt` method (JWK Thumbprint Confirmation Method) then it MUST be validated by the AS against the public key of the request\u2019s DPoP proof.\n\nThe result is DPoP-bound client assertions, which fits neatly with existing DPoP-bound authorization flows, i.e. both authorization code and access token binding as described in [RFC 9449](https://datatracker.ietf.org/doc/rfc9449/).  We considered the need for separate client keys in the client attestation vs. the authorization flow in our proposal, as has been raised in #67 and more recently #74. We do not anticipate any practical issues with using a single PoP key and mechanism, but would be interested to continue getting to the bottom of that question.\n\nOn the flip side, we certainly see many benefits to using a single PoP mechanism across these OAuth flows.  We found the following benefits aligning on DPoP and private_key_jwt client authentication:\n - overall the specification becomes much smaller:\n   - answers questions around the nonce mechanism, as actively discussed in #101 and #110.\n   - supports authorization code binding, as discussed in #56.\n   - supports binding the PoP to the attestation used to authenticate, as discussed in #47.\n   - answers to the attack surface area when used in conjunction with DPoP-bound access tokens, as discussed in #69.\n - as a result it's more straightforward for client implementers, particularly those who already implement DPoP-bound access tokens, which we believe will continue to rise in popularity. Fewer novel PoP implementations on the client side has its security benefits too.\n\nThat's where we're currently at\u2014appreciate the consideration from this group, and the work being done on this draft.",
       "createdAt": "2025-06-07T21:29:12Z",
-      "updatedAt": "2026-04-13T10:58:07Z",
+      "updatedAt": "2026-05-04T15:42:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -4306,13 +4324,15 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulbastian"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "Instead of challenges received from the challenge endpoint, protocols utilizing this draft could also leverage existing artefacts/ids/tokens from the session, e.g. using the authorization code or access token.",
       "createdAt": "2025-10-24T22:57:02Z",
-      "updatedAt": "2026-03-17T07:27:38Z",
+      "updatedAt": "2026-05-04T15:47:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -4369,11 +4389,11 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "discuss"
+        "out-of-scope"
       ],
       "body": "Note - I'm unsure of the best place to discuss this concept but I'm starting the conversation here, due to its potential relationship to this draft.\n\nDPoP as defined in RFC9449 provides a mechanism for sender-constraining tokens issued in OAuth 2.0. By design however the mechanism for sender-constraining of tokens isn't intended to provide wider integrity guarantees over the HTTP message upon which a DPoP proof is attached to. The same problem exists for client attestations.\n\nWe've now encountered situations where DPoP (and potentially Client attestations) are (or going to be) used and integrity over the request body of the HTTP message is also desired. This leaves implementations with a couple of possible choices\n\n1. To not have integrity over the request body (beyond what TLS already provides) - This is a difficult argument to make in some of the proposed applications where TLS isn't sufficiently trusted to provide the required integrity\n2. To define a seperate mechanism to provide integrity over the request body seperate from DPoP or Client attestations\n3. To devise a mechanism whereby a DPoP proof or Client Attestation PoP could also provide integrity over the request body\n\nThe remainder of this issue focuses on discussing a proposal for option 3.\n\nHTTP defines a specific header called [Content-Digest](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Digest) which provides a hash/digest over the HTTP message content. In essence, if the value of this header were included inside a DPoP proof / Client Attestation PoP, integrity over the HTTP message content could verified.\n\nAn example of a DPoP proof\n\n```\n{\n  \"typ\":\"dpop+jwt\",\n  \"alg\":\"ES256\",\n  \"jwk\": {\n    \"kty\":\"EC\",\n    \"x\":\"l8tFrhx-34tV3hRICRDY9zCkDlpBhF42UQUfWVAWBFs\",\n    \"y\":\"9VE4jf_Ok_o64zbTTlcuNJajHmt6v9TDVrU0CdvGRDA\",\n    \"crv\":\"P-256\"\n  }\n}\n.\n{\n  \"jti\":\"-BwC3ESc6acc2lTc\",\n  \"htm\":\"POST\",\n  \"htu\":\"https://server.example.com/token\",\n  **\"htcd\": \"sha-256=:47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=:\",**\n  \"iat\":1562262616\n}\n```\n\nNote the new `htcd` JWT claim where the value is the value of the Content-Digest HTTP header.\n\nThe main advantage I can see to this proposal is that integrity is provided via DPoP without the need for an additional signature over the HTTP message content.\n\nAlternative proposals could involve\n1. Providing a seperate signature over the HTTP message using HTTP message signatures - this requires two signatures in the HTTP message\n2. Providing a seperate signature over the HTTP message using JWS on the request body - awkward if the request body isn't JSON and also suffers from two signatures in the HTTP message\n",
       "createdAt": "2025-11-13T04:36:27Z",
-      "updatedAt": "2026-04-03T13:37:43Z",
+      "updatedAt": "2026-05-04T15:48:02Z",
       "closedAt": null,
       "comments": [
         {
@@ -4437,11 +4457,12 @@
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [
-        "discuss"
+        "discuss",
+        "ready-for-pr"
       ],
       "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
       "createdAt": "2025-11-25T10:20:49Z",
-      "updatedAt": "2026-03-17T08:16:07Z",
+      "updatedAt": "2026-05-04T15:50:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -4485,6 +4506,13 @@
           "body": "> It was meant for the AS metadata.\n\nIt would be a welcomed simplification, for the AS metadata and I guess that if client needs it, it can also use the `token_endpoint_auth_signing_alg`\n\nThat is,\n- on the AS side use `token_endpoint_auth_signing_alg_values_supported` to advertise both JWTs\n- on the Client side, use `token_endpoint_auth_signing_alg` (no need to introduce new attributes)",
           "createdAt": "2026-03-17T08:16:07Z",
           "updatedAt": "2026-03-17T08:16:07Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Do you have a usecase in mind where the client metadata is actually needed? I'm struggling to understand it's usefulness",
+          "createdAt": "2026-05-04T15:50:30Z",
+          "updatedAt": "2026-05-04T15:50:30Z"
         }
       ]
     },
@@ -4525,10 +4553,12 @@
       "author": "matthieusieben",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pending-close"
+      ],
       "body": "I am very glad to see that the draft is progressing and, in particular, that there is traction to make [things better for DPoP](https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/146).\n\nCould I ask you to consider the problem from the perspective of OAuth profiles already built on RFC9449 (DPoP) and RFC7523 (JWT client assertions)?\n\nWhen both are in use, the AS already processes payloads of the following shape:\n\n```\nPOST /token.oauth2 HTTP/1.1\nHost: as.example.com\nContent-Type: application/x-www-form-urlencoded\nDPoP: eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik\\\n  VDIiwieCI6Imw4dEZyaHgtMzR0VjNoUklDUkRZOXpDa0RscEJoRjQyVVFVZldWQVdCR\\\n  nMiLCJ5IjoiOVZFNGpmX09rX282NHpiVFRsY3VOSmFqSG10NnY5VERWclUwQ2R2R1JE\\\n  QSIsImNydiI6IlAtMjU2In19.eyJqdGkiOiItQndDM0VTYzZhY2MybFRjIiwiaHRtIj\\\n  oiUE9TVCIsImh0dSI6Imh0dHBzOi8vc2VydmVyLmV4YW1wbGUuY29tL3Rva2VuIiwia\\\n  WF0IjoxNTYyMjYyNjE2fQ.2-GxA6T8lP4vfrg8v-FdWP0A0zdrj8igiMLvqRMUvwnQg\\\n  4PtFLbdLXiOSsX0x7NVY-FNyJK70nfbV37xRZT3Lg\n\ngrant_type=authorization_code&\ncode=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4&\nclient_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3A\nclient-assertion-type%3Ajwt-bearer&\nclient_assertion=eyJhbGciOiJSUzI1NiIsImtpZCI6IjIyIn0.\\\n  eyJpc3Mi[...omitted for brevity...].\\\n  cC4hiUPo[...omitted for brevity...]\n```\n\nThese AS already implement DPoP header verification and `client_assertion` JWT validation. In that context, binding the client assertion to the DPoP key can be as simple as embedding the DPoP key thumbprint in the `cnf.jkt` claim of the client assertion. This is essentially a one-line spec change and a [minimal implementation](https://github.com/bluesky-social/atproto/pull/3889/changes#diff-e8a3cdf53808bef6d95a6f8b83c1f35a33d76c369e604f8f47e420c781ae91e0R254-R268).\n\nThe current draft introduces a new `token_endpoint_auth_method` and a new `OAuth-Client-Attestation` header with semantics that largely overlap with mechanisms already defined in RFC7523 and RFC9449. The result is an additive design that diverges from existing primitives rather than composing with them.\n\nStarting from those existing RFCs instead would, I believe:\n\n- lower the barrier to adoption, since implementations already handling DPoP and JWT client assertions require minimal changes,\n- allow simpler partial adoption (e.g. the DPoP binding alone, without a new auth method),\n- reduce the overall complexity added to the OAuth ecosystem.",
       "createdAt": "2026-02-24T14:46:16Z",
-      "updatedAt": "2026-04-13T10:57:53Z",
+      "updatedAt": "2026-05-04T15:43:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -4687,11 +4717,15 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "paulbastian"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "",
       "createdAt": "2026-04-21T06:38:14Z",
-      "updatedAt": "2026-04-21T06:38:14Z",
+      "updatedAt": "2026-05-04T15:53:01Z",
       "closedAt": null,
       "comments": []
     }
@@ -14180,13 +14214,13 @@
       "labels": [],
       "body": "Closes #3, #182\r\n\r\n(wip)",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-04-30T08:36:39Z",
+      "updatedAt": "2026-05-04T15:30:55Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "3-trust",
-      "headRefOid": "60ee6ed5d2072699cab7ba34fb2026e86732c51b",
+      "headRefOid": "a97ed0bf7bf5edd074a534af704be28d380bb298",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -14272,6 +14306,59 @@
               "updatedAt": "2026-04-30T08:36:07Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM77d9qd",
+          "commit": {
+            "abbreviatedOid": "60ee6ed"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-04T09:44:15Z",
+          "updatedAt": "2026-05-04T09:44:15Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "Title was unclear to me and it reads very generic. We already said this is out of scope, I would just skip this.",
+              "createdAt": "2026-05-04T09:44:15Z",
+              "updatedAt": "2026-05-04T09:44:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM77eAAS",
+          "commit": {
+            "abbreviatedOid": "60ee6ed"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-04T09:45:40Z",
+          "updatedAt": "2026-05-04T09:45:40Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "The text feels a little long compared to what we did in Status list: https://drafts.oauth.net/draft-ietf-oauth-status-list/draft-ietf-oauth-status-list.html#name-key-resolution-and-trust-ma",
+              "createdAt": "2026-05-04T09:45:40Z",
+              "updatedAt": "2026-05-04T09:45:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM77eAbo",
+          "commit": {
+            "abbreviatedOid": "60ee6ed"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2026-05-04T09:45:55Z",
+          "updatedAt": "2026-05-04T09:45:55Z",
+          "comments": []
         }
       ]
     }
