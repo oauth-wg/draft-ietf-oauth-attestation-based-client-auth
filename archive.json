@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-05T00:31:02.947935+00:00",
+  "timestamp": "2026-05-07T00:31:19.827717+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4462,7 +4462,7 @@
       ],
       "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
       "createdAt": "2025-11-25T10:20:49Z",
-      "updatedAt": "2026-05-04T15:50:56Z",
+      "updatedAt": "2026-05-06T13:30:44Z",
       "closedAt": null,
       "comments": [
         {
@@ -4513,6 +4513,34 @@
           "body": "Do you have a usecase in mind where the client metadata is actually needed? I'm struggling to understand it's usefulness",
           "createdAt": "2026-05-04T15:50:30Z",
           "updatedAt": "2026-05-04T15:50:30Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "> Do you have a usecase in mind where the client metadata is actually needed? I'm struggling to understand it's usefulness\n\nDear @paulbastian \n\nIn general, I could think of 3 use cases for the client metadata.\n\nIn the context of dynamic client registration, client metadata express what kind of capabilities the client has when performing a grant. Also, the authorization server replies with the client metadata with which it registered the client.\n\nOutside the above context, a client may use its metadata comparing them with the AS metadata to understand whether it can proceed with a grant. For instance, a client may not want to interact with an AS if it doesn't support PAR. \n\nThere are several OAUTH2 related specifications that already define extensions to AS and client metadata, exactly to support those use cases (at least to my understanding). \n\nReturning to ABCA, the specification defines extensions to AS metadata. \nI opened the present issue because I am missing the related extensions to the client metadata.  \n\n\n\n\n",
+          "createdAt": "2026-05-05T07:10:55Z",
+          "updatedAt": "2026-05-05T07:10:55Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "We had a discussion on this at the OAuth interim meeting on ABCA yesterday and will bring the discussion to the mailing list.\n\nMy rough understanding from the discussion at the meeting would be:\n\n- preference to re-use existing parameters (instead of introducing new ones)\n- general support to add support for client metadata - i believe Aaron also believed that would be a good idea",
+          "createdAt": "2026-05-05T14:03:23Z",
+          "updatedAt": "2026-05-05T14:03:23Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\n> Outside the above context, a client may use its metadata comparing them with the AS metadata to understand whether it can proceed with a grant. For instance, a client may not want to interact with an AS if it doesn't support PAR. \n> \n\nMy mental model in oauth ID that the client does algorithm negotiation by comparing AS metadata to it's own capabilities. But to compare metadata, we don't need to define client metadata is json. That's what I'm struggling to understand. The AS never reads this metadata in my understanding.\n",
+          "createdAt": "2026-05-05T17:21:52Z",
+          "updatedAt": "2026-05-05T17:21:52Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "\n> > Outside the above context, a client may use its metadata comparing them with the AS metadata to understand whether it can proceed with a grant. For instance, a client may not want to interact with an AS if it doesn't support PAR.\n> \n> My mental model in oauth ID that the client does algorithm negotiation by comparing AS metadata to it's own capabilities. But to compare metadata, we don't need to define client metadata is json. That's what I'm struggling to understand. \n\nHi @paulbastian \n\nObviously, my arguments are not so convincing \ud83d\ude04 \n\n> The AS never reads this metadata in my understanding.\n\nI can think two cases: \n- Dynamic Client Registration\n- OpenId4VP using Redirects channel to the JAR-like interaction between the Wallet (AS) and the Verifier (Client). \n\nYou may argue that in both cases ABCA is not applicable, of course. \n\n> My mental model in oauth ID that the client does algorithm negotiation by comparing AS metadata to it's own capabilities. But to compare metadata, we don't need to define client metadata is json. \n\nYou are right about this. There is no absolute need.\n\nBut consider for example a library - not a wallet - implementing OAUTH2/OpenID4VCI. As long as the user of the library (the wallet) can map the wallet capabilities into client metadata, the negotiation between AS/Client can be provided  in a wallet-neutral way in terms of metadata by that library. \n\nThe later is my case. Using the existing definition of client metadata (and extensions) I can negotiate already at the library level a VCI Credential Offer and related AS metadata\n\n- Comparing `grant_types` to the contents of the credential offer\n- `dpop_bound_access_tokens` to the `dpop_signing_alg_values_supported` (from AS)\n- `require_pushed_authorization_requests` to the `require_pushed_authorization_requests` (from AS)\n- `token_endpoint_auth_method` to the `token_endpoint_auth_methods_supported`\n- etc etc\n\nEspecially for ABCA, I just miss the `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` equivalent to the client metadata. \n\nIn the absence of these, I took your idea and used the `token_endpoint_auth_signing_alg`  as the closest match, assuming the client attestation and the PoP are signed by the same algorithm. ",
+          "createdAt": "2026-05-06T13:30:44Z",
+          "updatedAt": "2026-05-06T13:30:44Z"
         }
       ]
     },
