@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-07T00:31:19.827717+00:00",
+  "timestamp": "2026-05-10T00:32:39.365078+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3141,7 +3141,7 @@
       ],
       "body": "I suggest that it would be useful to implementers if non-normative examples of \"client instance attestations\" were provided.  Attestations about the status of a device, key pair, or application instance may be useful pointers for implementers.  Additionally being clear that it is possible to have several attestations in a single request to the Client Attester would be very helpful to potential implementers.\n\nLine 110 of current editors .md",
       "createdAt": "2025-05-05T15:54:59Z",
-      "updatedAt": "2026-05-04T17:23:31Z",
+      "updatedAt": "2026-05-07T07:15:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -3150,6 +3150,13 @@
           "body": "As editors we agree having some more examples is worthwhile, however we dont think it is worthwhile to elaborate on the attestations that are provided toward the client attester as this protocol is out of scope for the draft.",
           "createdAt": "2025-10-24T22:41:00Z",
           "updatedAt": "2025-10-24T22:41:00Z"
+        },
+        {
+          "author": "fkj",
+          "authorAssociation": "NONE",
+          "body": "I believe that mentioning any specific technology is unhelpful and likely to go out of date quickly and/or encourage vendor lock-in.\nOn the other hand, describing the trust assumptions of the attestations would be useful. I.e. describe the trust relationships that might make the attester trust things the client says.",
+          "createdAt": "2026-05-07T07:15:49Z",
+          "updatedAt": "2026-05-07T07:15:49Z"
         }
       ]
     },
