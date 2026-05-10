@@ -92,7 +92,7 @@ This specification introduces the concept of client attestations to the OAuth 2 
 - a Client Attestation, a signed statement by the Client Attester that authenticates the Client Instance
 - a Proof of Possession (PoP), a signed statement by the Client Instance that authenticates the Client Attestation
 
-The following diagram depicts the overall architecture and protocol flow.
+The following diagram depicts the overall architecture and protocol flow towards an Authorization Server. 
 
 ~~~ ascii-art
                   (3)
@@ -137,6 +137,8 @@ The following steps describe this OAuth flow:
 
 (7) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is either a Client Attestation PoP JWT or a DPoP proof. The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.
 
+The same flow applies when authenticating to a Resource Server, where step (7) typically occurs when accessing a protected resource.
+
 Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the Client Attester, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend serving as a Client Attester. In such cases, each Client Instance is responsible for performing the functions typically handled by the Client Attester on its own.
 
 # Conventions and Definitions
@@ -174,17 +176,17 @@ The following content applies to the JWT Header:
 The following content applies to the JWT Claims Set:
 
 * `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client.
-* `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
-* `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
+* `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The Authorization Server or Resource Server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
+* `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an Authorization Server or Resource Server. The key MUST be expressed using the "jwk" representation.
 * `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
 
 The following additional rules apply:
 
 1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.
 
-2. The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The authorization server MUST reject JWTs if signature or integrity protection validation fails.
+2. The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The Authorization Server or Resource Server MUST reject JWTs if signature or integrity protection validation fails.
 
-3. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+3. The Authorization Server or Resource Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
