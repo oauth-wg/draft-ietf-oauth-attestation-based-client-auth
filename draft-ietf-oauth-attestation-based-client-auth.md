@@ -93,7 +93,7 @@ This specification introduces the concept of client attestations to the OAuth 2 
 - a Client Attestation, a signed statement by the Client Attester that authenticates the Client Instance
 - a Proof of Possession (PoP), a signed statement by the Client Instance that authenticates the Client Attestation
 
-The following diagram depicts the overall architecture and protocol flow towards an Authorization Server. 
+The following diagram depicts the overall architecture and protocol flow towards an Authorization Server.
 
 ~~~ ascii-art
                   (3)
