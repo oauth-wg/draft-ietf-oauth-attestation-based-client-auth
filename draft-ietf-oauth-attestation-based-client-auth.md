@@ -28,7 +28,7 @@ author:
  -
     fullname: Paul Bastian
     organization: Bundesdruckerei
-    email: paul.bastian@bdr.de
+    email: paul.bastian@posteo.de
  -
     fullname: Christian Bormann
     organization: SPRIND
