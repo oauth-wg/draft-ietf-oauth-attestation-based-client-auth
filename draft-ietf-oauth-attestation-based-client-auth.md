@@ -172,7 +172,8 @@ The Client Attestation MUST be encoded as a "JSON Web Token (JWT)" according to 
 
 The following content applies to the JWT Header:
 
-* `typ`: REQUIRED. The JWT type MUST be `oauth-client-attestation+jwt`.
+* `typ`: REQUIRED. The `typ` (JWT type) header MUST be `oauth-client-attestation+jwt`.
+* `alg`: REQUIRED. The `alg` (algorithm) header MUST specify the cryptographic algorithm used to sign the Client Attestation.
 
 The following content applies to the JWT Claims Set:
 
@@ -253,7 +254,8 @@ The Client Attestation PoP MUST be encoded as a "JSON Web Token (JWT)" according
 
 The following content applies to the JWT Header:
 
-* `typ`: REQUIRED. The JWT type MUST be `oauth-client-attestation-pop+jwt`.
+* `typ`: REQUIRED. The `typ` (JWT type) header MUST be `oauth-client-attestation-pop+jwt`.
+* `alg`: REQUIRED. The `alg` (algorithm) header MUST specify the cryptographic algorithm used to sign the Client Attestation PoP
 
 The following content applies to the JWT Claims Set:
 
@@ -737,6 +739,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * rephrasing of introduction text
 * adding challenge request/response to graphic
 * add mentioning or Resource Server, where applicable
+* clarify that alg is required for Client Attestation JWT and Client Attestation PoP JWT
 
 -08
 
