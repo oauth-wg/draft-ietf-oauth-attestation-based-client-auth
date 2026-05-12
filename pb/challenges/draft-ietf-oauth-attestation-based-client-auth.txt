@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 11 November 2026                                Bundesdruckerei
+Expires: 13 November 2026                                Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                             10 May 2026
+                                                             12 May 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 November 2026.
+   This Internet-Draft will expire on 13 November 2026.
 
 Copyright Notice
 
@@ -276,7 +276,11 @@ Table of Contents
 
    The following content applies to the JWT Header:
 
-   *  typ: REQUIRED.  The JWT type MUST be oauth-client-attestation+jwt.
+   *  typ: REQUIRED.  The typ (JWT type) header MUST be oauth-client-
+      attestation+jwt.
+
+   *  alg: REQUIRED.  The alg (algorithm) header MUST specify the
+      cryptographic algorithm used to sign the Client Attestation.
 
    The following content applies to the JWT Claims Set:
 
@@ -378,8 +382,11 @@ Table of Contents
 
    The following content applies to the JWT Header:
 
-   *  typ: REQUIRED.  The JWT type MUST be oauth-client-attestation-
-      pop+jwt.
+   *  typ: REQUIRED.  The typ (JWT type) header MUST be oauth-client-
+      attestation-pop+jwt.
+
+   *  alg: REQUIRED.  The alg (algorithm) header MUST specify the
+      cryptographic algorithm used to sign the Client Attestation PoP
 
    The following content applies to the JWT Claims Set:
 
@@ -1336,6 +1343,9 @@ Appendix A.  Document History
    *  adding challenge request/response to graphic
 
    *  restructure and minor fixes to challenge section
+
+   *  clarify that alg is required for Client Attestation JWT and Client
+      Attestation PoP JWT
 
    -08
 
