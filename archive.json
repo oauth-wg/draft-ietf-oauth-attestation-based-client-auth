@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-12T00:31:38.000324+00:00",
+  "timestamp": "2026-05-14T00:36:01.836544+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4507,7 +4507,7 @@
       ],
       "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
       "createdAt": "2025-11-25T10:20:49Z",
-      "updatedAt": "2026-05-06T13:30:44Z",
+      "updatedAt": "2026-05-12T06:49:07Z",
       "closedAt": null,
       "comments": [
         {
@@ -4586,6 +4586,13 @@
           "body": "\n> > Outside the above context, a client may use its metadata comparing them with the AS metadata to understand whether it can proceed with a grant. For instance, a client may not want to interact with an AS if it doesn't support PAR.\n> \n> My mental model in oauth ID that the client does algorithm negotiation by comparing AS metadata to it's own capabilities. But to compare metadata, we don't need to define client metadata is json. That's what I'm struggling to understand. \n\nHi @paulbastian \n\nObviously, my arguments are not so convincing \ud83d\ude04 \n\n> The AS never reads this metadata in my understanding.\n\nI can think two cases: \n- Dynamic Client Registration\n- OpenId4VP using Redirects channel to the JAR-like interaction between the Wallet (AS) and the Verifier (Client). \n\nYou may argue that in both cases ABCA is not applicable, of course. \n\n> My mental model in oauth ID that the client does algorithm negotiation by comparing AS metadata to it's own capabilities. But to compare metadata, we don't need to define client metadata is json. \n\nYou are right about this. There is no absolute need.\n\nBut consider for example a library - not a wallet - implementing OAUTH2/OpenID4VCI. As long as the user of the library (the wallet) can map the wallet capabilities into client metadata, the negotiation between AS/Client can be provided  in a wallet-neutral way in terms of metadata by that library. \n\nThe later is my case. Using the existing definition of client metadata (and extensions) I can negotiate already at the library level a VCI Credential Offer and related AS metadata\n\n- Comparing `grant_types` to the contents of the credential offer\n- `dpop_bound_access_tokens` to the `dpop_signing_alg_values_supported` (from AS)\n- `require_pushed_authorization_requests` to the `require_pushed_authorization_requests` (from AS)\n- `token_endpoint_auth_method` to the `token_endpoint_auth_methods_supported`\n- etc etc\n\nEspecially for ABCA, I just miss the `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` equivalent to the client metadata. \n\nIn the absence of these, I took your idea and used the `token_endpoint_auth_signing_alg`  as the closest match, assuming the client attestation and the PoP are signed by the same algorithm. ",
           "createdAt": "2026-05-06T13:30:44Z",
           "updatedAt": "2026-05-06T13:30:44Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- waiting for Aaron's feedback after Interims call\n- current direction is to reuse token_endpoint_auth_methods_supported for AS metadata and add new client metadata\n- waiting one more week to get feedback, otherwise we go with this direction",
+          "createdAt": "2026-05-12T06:49:07Z",
+          "updatedAt": "2026-05-12T06:49:07Z"
         }
       ]
     },
@@ -4787,18 +4794,34 @@
       "id": "I_kwDOJaEkaM8AAAABAFig_Q",
       "title": "List alg as REQUIRED parameter for both Client Attestation JWT and PoP JWT",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/190",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "paulbastian"
       ],
       "labels": [
-        "ready-for-pr"
+        "has-pr"
       ],
       "body": "",
       "createdAt": "2026-04-21T06:38:14Z",
-      "updatedAt": "2026-05-04T15:53:01Z",
+      "updatedAt": "2026-05-12T06:22:30Z",
+      "closedAt": "2026-05-12T06:22:30Z",
+      "comments": []
+    },
+    {
+      "number": 195,
+      "id": "I_kwDOJaEkaM8AAAABB9uzSQ",
+      "title": "Interims Feedback: RS metadata to signal demand for client attestation",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/195",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Judith Kahrer writes:\n\n> Is there a way for the resource server (or authorization server) to challenge the client to provide additional security signals? I guess, they could return an  'invalid_client_attestation' error, if the request was missing an attestation. I think it would be good with more guidance on how to inform the client to provide the attestation as additional security signals if it is missing (in addition to e.g., the access token or client credentials). The resource server could even publish its requirements in its resource metadata document, e.g., with \"client_attestation_required: true\". ",
+      "createdAt": "2026-05-12T06:39:59Z",
+      "updatedAt": "2026-05-12T06:39:59Z",
       "closedAt": null,
       "comments": []
     }
@@ -14285,9 +14308,9 @@
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
-      "body": "Closes #3, #182\r\n\r\n(wip)",
+      "body": "Closes #3 \r\nCloses #182\r\n\r\n(wip)",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-05-04T15:30:55Z",
+      "updatedAt": "2026-05-12T06:50:09Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
@@ -14440,26 +14463,55 @@
       "id": "PR_kwDOJaEkaM7Z_PYm",
       "title": "clarify that alg is required for Client Attestation JWT and Client Attestation PoP JWT",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/191",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #190 ",
       "createdAt": "2026-05-10T11:56:33Z",
-      "updatedAt": "2026-05-10T11:56:35Z",
+      "updatedAt": "2026-05-12T06:23:48Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/alg",
       "headRefOid": "6504f69edd9b6bd2503aa29127cabe05d9d9adf3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-12T06:22:29Z",
+      "mergedAt": "2026-05-12T06:22:29Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "495cf997bef1f08d33922c63779fa87a114a01a1"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM7-e9t0",
+          "commit": {
+            "abbreviatedOid": "6504f69"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:03:13Z",
+          "updatedAt": "2026-05-12T06:03:13Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7-fQCZ",
+          "commit": {
+            "abbreviatedOid": "6504f69"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:18:22Z",
+          "updatedAt": "2026-05-12T06:18:22Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 192,
@@ -14473,45 +14525,156 @@
       "labels": [],
       "body": "Closes #166 ",
       "createdAt": "2026-05-10T12:19:14Z",
-      "updatedAt": "2026-05-10T12:19:16Z",
+      "updatedAt": "2026-05-12T06:24:44Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
+      "baseRefOid": "495cf997bef1f08d33922c63779fa87a114a01a1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/challenges",
-      "headRefOid": "986b033005a6a321ba8c368140b39a60c927644f",
+      "headRefOid": "6e099aaa52bd75f5feb10cc2a2027cfc8f86dfb7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM7-fXpF",
+          "commit": {
+            "abbreviatedOid": "986b033"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:23:17Z",
+          "updatedAt": "2026-05-12T06:23:17Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7-fZ-M",
+          "commit": {
+            "abbreviatedOid": "6e099aa"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:24:43Z",
+          "updatedAt": "2026-05-12T06:24:43Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 193,
       "id": "PR_kwDOJaEkaM7Z_x4U",
       "title": "Pb/rs nitpicking",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/193",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-05-10T13:21:25Z",
-      "updatedAt": "2026-05-10T13:45:00Z",
+      "updatedAt": "2026-05-12T06:24:53Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
+      "baseRefOid": "495cf997bef1f08d33922c63779fa87a114a01a1",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/rs_nitpicking",
-      "headRefOid": "2ee830469340454afccfdb838efe67c2c8df1573",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "80f04710f2be36a68f2d9efb4c6d661d8afe817a",
+      "closedAt": "2026-05-12T06:24:47Z",
+      "mergedAt": "2026-05-12T06:24:47Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "96de873cf56361577e4eba6184077384f2ac40c3"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM7-fTFJ",
+          "commit": {
+            "abbreviatedOid": "2ee8304"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:20:16Z",
+          "updatedAt": "2026-05-12T06:20:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7-fT-C",
+          "commit": {
+            "abbreviatedOid": "2ee8304"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:20:47Z",
+          "updatedAt": "2026-05-12T06:20:47Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 194,
+      "id": "PR_kwDOJaEkaM7ajIDW",
+      "title": "update Paul's email",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/194",
+      "state": "MERGED",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-05-12T06:28:53Z",
+      "updatedAt": "2026-05-12T06:59:19Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "96de873cf56361577e4eba6184077384f2ac40c3",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/email",
+      "headRefOid": "b6b0a8aff737c976d83a89a55fc08e87485e2d30",
+      "closedAt": "2026-05-12T06:59:19Z",
+      "mergedAt": "2026-05-12T06:59:19Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "c15927895ef21b3bb5fc4b286f20a141b847ca16"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM7-f4oa",
+          "commit": {
+            "abbreviatedOid": "b6b0a8a"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:46:47Z",
+          "updatedAt": "2026-05-12T06:46:47Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM7-f-eS",
+          "commit": {
+            "abbreviatedOid": "b6b0a8a"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-12T06:50:51Z",
+          "updatedAt": "2026-05-12T06:50:51Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
