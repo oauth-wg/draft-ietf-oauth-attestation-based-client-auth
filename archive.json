@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-14T00:36:01.836544+00:00",
+  "timestamp": "2026-05-19T00:37:27.112630+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14310,7 +14310,7 @@
       "labels": [],
       "body": "Closes #3 \r\nCloses #182\r\n\r\n(wip)",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-05-12T06:50:09Z",
+      "updatedAt": "2026-05-18T09:24:29Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
@@ -14455,6 +14455,46 @@
           "createdAt": "2026-05-04T09:45:55Z",
           "updatedAt": "2026-05-04T09:45:55Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABAMr-sw",
+          "commit": {
+            "abbreviatedOid": "a97ed0b"
+          },
+          "author": "sandhose",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T07:55:24Z",
+          "updatedAt": "2026-05-18T07:55:28Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "The `jku` header (+ `kid`) in the JWT as per [RFC7515](https://datatracker.ietf.org/doc/html/rfc7515#section-4.1.2) also works.\n\nIt would be slightly different from `jwks_uri` in the client metadata, as here the JWKS URI is advertised when the JWT is being presented instead of being pre-shared at the client registration stage. Semantically it feels cleaner, as it avoids confusion with potential other uses of the `jwks_uri`, where the entity attesting the client is not using the same keys as the client itself in other contexts.",
+              "createdAt": "2026-05-18T07:55:25Z",
+              "updatedAt": "2026-05-18T07:55:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABANRVsQ",
+          "commit": {
+            "abbreviatedOid": "a97ed0b"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-18T09:24:28Z",
+          "updatedAt": "2026-05-18T09:24:29Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Fair point! I guess this would map best to the x5c approach since it provides all necessary information for validation in the token itself (apart from the 1 call to retrieve the jwks). I'll propose some text to capture that variant as well",
+              "createdAt": "2026-05-18T09:24:29Z",
+              "updatedAt": "2026-05-18T09:24:29Z"
+            }
+          ]
         }
       ]
     },
