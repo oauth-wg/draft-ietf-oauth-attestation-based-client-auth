@@ -28,7 +28,7 @@ author:
  -
     fullname: Paul Bastian
     organization: Bundesdruckerei
-    email: paul.bastian@bdr.de
+    email: paul.bastian@posteo.de
  -
     fullname: Christian Bormann
     organization: SPRIND
@@ -47,6 +47,7 @@ normative:
   RFC9112: RFC9112
   RFC9126: RFC9126
   RFC9449: RFC9449
+  RFC9728: RFC9728
   IANA.HTTP.Fields:
     author:
       org: "IANA"
@@ -92,7 +93,7 @@ This specification introduces the concept of client attestations to the OAuth 2 
 - a Client Attestation, a signed statement by the Client Attester that authenticates the Client Instance
 - a Proof of Possession (PoP), a signed statement by the Client Instance that authenticates the Client Attestation
 
-The following diagram depicts the overall architecture and protocol flow.
+The following diagram depicts the overall architecture and protocol flow towards an Authorization Server.
 
 ~~~ ascii-art
                   (3)
@@ -137,6 +138,8 @@ The following steps describe this OAuth flow:
 
 (7) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is either a Client Attestation PoP JWT or a DPoP proof. The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.
 
+The same flow applies when authenticating to a Resource Server, where step (7) typically occurs when accessing a protected resource.
+
 Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the Client Attester, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend serving as a Client Attester. In such cases, each Client Instance is responsible for performing the functions typically handled by the Client Attester on its own.
 
 # Conventions and Definitions
@@ -175,17 +178,17 @@ The following content applies to the JWT Header:
 The following content applies to the JWT Claims Set:
 
 * `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client.
-* `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The authorization server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
-* `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an authorization server. The key MUST be expressed using the "jwk" representation.
+* `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The Authorization Server or Resource Server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
+* `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an Authorization Server or Resource Server. The key MUST be expressed using the "jwk" representation.
 * `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
 
 The following additional rules apply:
 
 1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.
 
-2. The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The authorization server MUST reject JWTs if signature or integrity protection validation fails.
+2. The JWT MUST be digitally signed or integrity protected with a Message Authentication Code (MAC). The Authorization Server or Resource Server MUST reject JWTs if signature or integrity protection validation fails.
 
-3. The authorization server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+3. The Authorization Server or Resource Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -256,20 +259,20 @@ The following content applies to the JWT Header:
 
 The following content applies to the JWT Claims Set:
 
-* `aud`: REQUIRED. The `aud` (audience) claim MUST specify a value that identifies the authorization server as an intended audience. The {{RFC8414}} issuer identifier URL of the authorization server MUST be used as a value for an "aud" element to identify the authorization server as the intended audience of the JWT.
-* `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The authorization server can utilize the `jti` value for replay attack detection, see [](#security-consideration-replay).
-* `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the authorization server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
-* `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the authorization server for the client to include in the Client Attestation PoP JWT.
+* `aud`: REQUIRED. The `aud` (audience) claim MUST specify a value that identifies the intended audience of the JWT. When the JWT is presented to an Authorization Server, the {{RFC8414}} issuer identifier URL of the Authorization Server MUST be used. When the JWT is presented to a Resource Server, the {{RFC9728}} resource identifier URL of the Resource Server MUST be used. A Client Attestation PoP JWT is intended for a single audience, Clients MUST generate JWTs for each target.
+* `jti`: REQUIRED. The `jti` (JWT identifier) claim MUST specify a unique identifier for the Client Attestation PoP. The Authorization Server or Resource Server can utilize the `jti` value for replay attack detection, see [](#security-consideration-replay).
+* `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation PoP was issued. Note that the Authorization Server or Resource Server may reject JWTs with an "iat" claim value that is unreasonably far in the past.
+* `challenge`: OPTIONAL. The `challenge` (challenge) claim MUST specify a String value that is provided by the Authorization Server or Resource Server for the client to include in the Client Attestation PoP JWT.
 
 The following additional rules apply:
 
 1. The JWT MAY contain other claims. All claims that are not understood by implementations MUST be ignored.
 
-2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The authorization server MUST reject JWTs with an invalid signature.
+2. The JWT MUST be digitally signed using an asymmetric cryptographic algorithm. The Authorization Server or Resource Server MUST reject JWTs with an invalid signature.
 
 3. The public key used to verify the JWT MUST be the key located in the "cnf" claim of the corresponding Client Attestation JWT.
 
-4. The Authorization Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
+4. The Authorization Server or Resource Server MUST reject a JWT that is not valid in all other respects per "JSON Web Token (JWT)" {{RFC7519}}.
 
 The following example is the decoded header and payload of a JWT meeting the processing rules as defined above.
 
@@ -357,11 +360,11 @@ Note that additional claims may be present in the DPoP proof depending on the co
 
 # Challenges {#challenges}
 
-This section defines optional mechanisms that allows a Client to receive a fresh Challenge from the Authorization Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see [](#terminology). The value of the challenge is opaque to the client.
+This section defines optional mechanisms that allows a Client to receive a fresh Challenge from the Authorization Server or Resource Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see [](#terminology). The value of the challenge is opaque to the client.
 
 ## Providing Challenges through the Challenge Endpoint {#challenge-endpoint}
 
-The Authorization Server MAY offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the Client Attestation PoP JWT or DPoP Proof as defined in [](#pop).
+The Authorization Server or Resource Server MAY offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the Client Attestation PoP JWT or DPoP Proof as defined in [](#pop).
 
 A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata. The following is a non-normative example of a request:
 
@@ -371,11 +374,11 @@ Host: as.example.com
 Accept: application/json
 ~~~
 
-The Authorization Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
+The Authorization Server or Resource Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
 
-* attestation_challenge: REQUIRED if the Authorization Server supports Client Attestations and server-provided challenges as described in this document. String containing a Challenge to be used in the Client Attestation PoP JWT or DPoP Proof as defined in [](#pop). The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.
+* attestation_challenge: REQUIRED if the Authorization Server or Resource Server supports Client Attestations and server-provided challenges as described in this document. String containing a Challenge to be used in the Client Attestation PoP JWT or DPoP Proof as defined in [](#pop). The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.
 
-The Authorization Server MUST make the response uncacheable by adding a `Cache-Control` header field including the value `no-store`. The Authorization Server MAY add additional challenges or data.
+The Authorization Server or Resource Server MUST make the response uncacheable by adding a `Cache-Control` header field including the value `no-store`. The Authorization Server or Resource Server MAY add additional challenges or data.
 
 The following is a non-normative example of a response:
 
@@ -392,7 +395,7 @@ Cache-Control: no-store
 
 ## Providing Challenges on Previous Responses {#challenge-in-response}
 
-The Authorization Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.
+The Authorization Server or Resource Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.
 
 The following is a non-normative example of an Authorization Response containing a fresh Challenge:
 
@@ -420,7 +423,7 @@ To validate a Client Attestation, the receiving server MUST ensure the following
 1. The alg JOSE Header Parameter contains a registered algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy.
 1. The signature of the Client Attestation JWT verifies with the public key of a known and trusted Client Attester.
 1. The key contained in the `cnf` claim of the Client Attestation JWT is not a private key.
-1. The Client Attestation JWT is fresh enough per local policy of the Authorization Server by checking the `iat` or `exp` claims.
+1. The Client Attestation JWT is fresh enough per local policy of the Authorization Server or Resource Server by checking the `iat` or `exp` claims.
 1. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT.
 
 ## Client Attestation PoP JWT {#verification-client-attestation-pop-jwt}
@@ -434,8 +437,8 @@ To validate a Client Attestation PoP, the receiving server MUST ensure the follo
 1. The alg JOSE Header Parameter contains a registered algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy.
 1. The signature of the Client Attestation PoP JWT verifies with the public key contained in the `cnf` claim of the Client Attestation JWT.
 1. If the server provided a challenge value to the client, the `challenge` claim is present in the Client Attestation PoP JWT and matches the server-provided challenge value.
-1. The creation time of the Client Attestation PoP JWT as determined by either the `iat` claim or a server managed timestamp via the challenge claim, is within an acceptable window per local policy of the Authorization Server.
-1. The audience claim in the Client Attestation PoP JWT is the issuer identifier URL of the Authorization Server as described in {{RFC8414}}.
+1. The creation time of the Client Attestation PoP JWT as determined by either the `iat` claim or a server managed timestamp via the challenge claim, is within an acceptable window per local policy of the Authorization Server or Resource Server.
+1. The audience claim in the Client Attestation PoP JWT identifies the receiving server: when validated by an Authorization Server, it MUST be the issuer identifier URL of the Authorization Server as described in {{RFC8414}}; when validated by a Resource Server, it MUST be the resource identifier URL of the Resource Server as described in {{RFC9728}}.
 1. If the Client received a challenge through the Authorization Server's challenge endpoint or within previous responses as described in [](#challenges), it MUST match the challenge claim of the Client Attestation PoP JWT.
 1. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).
 
@@ -566,7 +569,7 @@ When using DPoP combined mode, the key used for client authentication and token 
 
 ## Reuse of a Client Attestation JWT
 
-Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.
+Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server or Resource Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.
 
 ## Refresh token binding
 
@@ -582,7 +585,7 @@ This specification does not provide a mechanism to rotate the Client Instance Ke
 
 ## Replay Attack Detection {#implementation-consideration-replay}
 
-Authorization Servers implementing measures to detect replay attacks as described in [](#security-consideration-replay) require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen `challenge` or `jti` values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window MUST be rejected by the Authorization Server. The allowed window is determined by the `iat` of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server. These data structures need to:
+Authorization Server or Resource Servers implementing measures to detect replay attacks as described in [](#security-consideration-replay) require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server or Resource Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen `challenge` or `jti` values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window MUST be rejected by the Authorization Server or Resource Server. The allowed window is determined by the `iat` of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server or Resource Server. These data structures need to:
 
 - search the data structure to validate whether a challenge form a Client Attestation PoP has been previously seen
 - insert the new challenges from the Client Attestation PoP if the search returned no result
@@ -592,9 +595,9 @@ A trie (also called prefix tree), or a patricia trie (also called radix tree) is
 
 # Privacy Considerations
 
-## Client Instance Tracking Across Authorization Servers
+## Client Instance Tracking Across Authorization Servers or Resource Servers
 
-Implementers should be aware that using the same client attestation across multiple authorization servers could result in correlation of the end user using the Client Instance through claim values (including the Client Instance Key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different Client Attestation JWTs with different Client Instance Keys across different authorization servers.
+Implementers should be aware that using the same client attestation across multiple Authorization Servers or Resource Servers could result in correlation of the end user using the Client Instance through claim values (including the Client Instance Key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different Client Attestation JWTs with different Client Instance Keys across different Authorization Servers or Resource Servers.
 
 # Security Considerations
 
@@ -602,23 +605,23 @@ The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
 
 ## Replay Attacks {#security-consideration-replay}
 
-An Authorization Server SHOULD implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending the same Client Attestation PoP JWT in multiple requests. The following options are RECOMMENDED for this client authentication method:
+An Authorization/Resource Server SHOULD implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending the same Client Attestation PoP JWT in multiple requests. The following options are RECOMMENDED for this client authentication method:
 
-- The Authorization Server manages a list of witnessed `jti` values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the `iat` of the Client Attestation PoP and and the duration chosen by the Authorization Server. If any Client Attestation PoP JWT would be replayed, the Authorization Server would recognize the `jti` value in the list and respond with an authentication error. Details how to implement such a data structure to maintain `jti` values is given in [](#implementation-consideration-replay).
-- The Authorization Server provides a challenge as an `OAuth-Client-Attestation-Challenge` in the challenge endpoint to the Client Instance and the Client uses it as a `challenge` value in the Client Attestation PoP JWT. The Authorization Server may chose to:
-  - manage a list of witnessed `challenge` values, similar to the previously described `jti` approach. Details how to implement such a data structure to maintain `challenge` values is given in [](#implementation-consideration-replay). This guarantees stronger replay protection with a challenge chosen by the Authorization Server itself, at the potential cost of an additional round-trip.
-  - use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization Server.
-- The Authorization Server generates a challenge that is bound to the Client Instance's session, such that a specific `challenge` in the Client Attestation PoP JWT is expected and validated. The Authorization Server may either:
+- The Authorization/Resource Server manages a list of witnessed `jti` values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the `iat` of the Client Attestation PoP and and the duration chosen by the Authorization/Resource Server. If any Client Attestation PoP JWT would be replayed, the Authorization/Resource Server would recognize the `jti` value in the list and respond with an authentication error. Details how to implement such a data structure to maintain `jti` values is given in [](#implementation-consideration-replay).
+- The Authorization/Resource Server provides a challenge as an `OAuth-Client-Attestation-Challenge` in the challenge endpoint to the Client Instance and the Client uses it as a `challenge` value in the Client Attestation PoP JWT. The Authorization/Resource Server may chose to:
+  - manage a list of witnessed `challenge` values, similar to the previously described `jti` approach. Details how to implement such a data structure to maintain `challenge` values is given in [](#implementation-consideration-replay). This guarantees stronger replay protection with a challenge chosen by the Authorization/Resource Server itself, at the potential cost of an additional round-trip.
+  - use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization/Resource Server.
+- The Authorization/Resource Server generates a challenge that is bound to the Client Instance's session, such that a specific `challenge` in the Client Attestation PoP JWT is expected and validated. The Authorization/Resource Server may either:
   - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
-  - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization Server and Client.
+  - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization/Resource Server and Client.
 
 Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementations to deal with proper state handling. This can be implicit by always mandating support for this feature or via some metadata that allows the client to detect support for this feature for a specific server.
 
-Because clock skews between servers and clients may be large, Authorization Servers MAY limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.
+Because clock skews between servers and clients may be large, Authorization/Resource Servers MAY limit Client Attestation PoP lifetimes by using server-provided challenge values containing the time at the server rather than comparing the client-supplied iat time to the time at the server. Challenges created in this way yield the same result even in the face of arbitrarily large clock skews.
 
-In any case the Authorization Server SHOULD ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.
+In any case the Authorization/Resource Server SHOULD ensure the freshness of the Client Attestation PoP by checking either the iat claim or if present the server provided challenge, is within an acceptable time window.
 
-The approach using a challenge explicitly provided by the Authorization Server gives stronger replay attack detection guarantees, however support by the Authorization Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
+The approach using a challenge explicitly provided by the Authorization/Resource Server gives stronger replay attack detection guarantees, however support by the Authorization/Resource Server is OPTIONAL to simplify mandatory implementation requirements. The `jti` value is mandatory and hence acts as a default fallback.
 
 ## Client Attestation Protection
 
@@ -736,6 +739,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * rephrasing of introduction text
 * adding challenge request/response to graphic
 * restructure and minor fixes to challenge section
+* add mentioning or Resource Server, where applicable
 * clarify that alg is required for Client Attestation JWT and Client Attestation PoP JWT
 
 -08
