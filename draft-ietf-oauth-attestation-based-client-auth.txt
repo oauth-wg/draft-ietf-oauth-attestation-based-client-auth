@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 13 November 2026                                Bundesdruckerei
+Expires: 21 November 2026                                Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                             12 May 2026
+                                                             20 May 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 November 2026.
+   This Internet-Draft will expire on 21 November 2026.
 
 Copyright Notice
 
@@ -83,8 +83,9 @@ Table of Contents
    5.  Proof of Possession
      5.1.  Client Attestation PoP JWT
      5.2.  Using DPoP as the Proof of Possession
-   6.  Challenge Retrieval
-     6.1.  Providing Challenges on Previous Responses
+   6.  Challenges
+     6.1.  Providing Challenges through the Challenge Endpoint
+     6.2.  Providing Challenges on Previous Responses
    7.  Verification and Processing
      7.1.  Client Attestation JWT
      7.2.  Client Attestation PoP JWT
@@ -517,30 +518,31 @@ Table of Contents
    Note that additional claims may be present in the DPoP proof
    depending on the context, as required by [RFC9449].
 
-6.  Challenge Retrieval
+6.  Challenges
 
-   This section defines an optional mechanism that allows a Client to
-   request a fresh Challenge from the Authorization Server or Resource
-   Server to be included in the Client Attestation PoP JWT.  This
+   This section defines optional mechanisms that allows a Client to
+   receive a fresh Challenge from the Authorization Server or Resource
+   Server and to include the Challenge in the proof of possession.  This
    construct may be similar or equivalent to a nonce, see Section 3.
    The value of the challenge is opaque to the client.
 
-   An Authorization Server or Resource Server MAY offer a challenge
+6.1.  Providing Challenges through the Challenge Endpoint
+
+   The Authorization Server or Resource Server MAY offer a challenge
    endpoint for Clients to fetch Challenges in the context of this
    specification.  If the Authorization Server supports metadata as
    defined in [RFC8414] or the Resource Server supports metadata as
    defined in [RFC9728], it MUST signal support for the challenge
    endpoint by including the metadata entry challenge_endpoint
    containing the URL of the endpoint as its value.  If the
-   Authorization Server or Resource Server offers a challenge endpoint,
-   the Client MUST retrieve a challenge and MUST use this challenge in
-   the OAuth-Attestation-PoP as defined in Section 5.1.
+   Authorization Server offers a challenge endpoint, the Client MUST
+   retrieve a challenge and MUST use this challenge in the Client
+   Attestation PoP JWT or DPoP Proof as defined in Section 5.
 
    A request for a Challenge is made by sending an HTTP POST request to
    the URL provided in the challenge_endpoint parameter of the
-   Authorization Server or Resource Server metadata.
-
-   The following is a non-normative example of a request:
+   Authorization Server metadata.  The following is a non-normative
+   example of a request:
 
    POST /as/challenge HTTP/1.1
    Host: as.example.com
@@ -552,13 +554,13 @@ Table of Contents
    application/json media type:
 
    *  attestation_challenge: REQUIRED if the Authorization Server or
-      Resource Server supports Client Attestations and server provided
+      Resource Server supports Client Attestations and server-provided
       challenges as described in this document.  String containing a
-      Challenge to be used in the OAuth-Attestation-PoP as defined in
-      Section 5.1.  The intention of this element not being required in
-      other circumstances is to preserve the ability for the challenge
-      endpoint to be used in other applications unrelated to client
-      attestations.
+      Challenge to be used in the Client Attestation PoP JWT or DPoP
+      Proof as defined in Section 5.  The intention of this element not
+      being required in other circumstances is to preserve the ability
+      for the challenge endpoint to be used in other applications
+      unrelated to client attestations.
 
    The Authorization Server or Resource Server MUST make the response
    uncacheable by adding a Cache-Control header field including the
@@ -576,7 +578,7 @@ Table of Contents
      "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
    }
 
-6.1.  Providing Challenges on Previous Responses
+6.2.  Providing Challenges on Previous Responses
 
    The Authorization Server or Resource Server MAY provide a fresh
    Challenge with any HTTP response using a HTTP header-based syntax.
@@ -670,9 +672,10 @@ Table of Contents
        it MUST be the resource identifier URL of the Resource Server as
        described in [RFC9728].
 
-   8.  If the Client fetched a challenge in accordance with Section 6 or
-       received a challenge in accordance with Section 6.1, it MUST
-       match the challenge claim of the Client Attestation PoP JWT.
+   8.  If the Client received a challenge through the Authorization
+       Server's challenge endpoint or within previous responses as
+       described in Section 6, it MUST match the challenge claim of the
+       Client Attestation PoP JWT.
 
    9.  Depending on the security requirements of the deployment,
        additional checks to guarantee replay protection for the Client
@@ -701,9 +704,10 @@ Table of Contents
        be identical to the public key in the cnf claim of the Client
        Attestation JWT.
 
-   5.  If the Client fetched a challenge in accordance with Section 6 or
-       received a challenge in accordance with Section 6.1, it MUST
-       match the nonce payload claim of the DPoP proof.
+   5.  If the Client received a challenge through the Authorization
+       Server's challenge endpoint or within previous responses as
+       described in Section 6, it MUST match the nonce payload claim of
+       the DPoP proof.
 
 7.4.  Errors
 
@@ -717,7 +721,7 @@ Table of Contents
       PoP JWT is not using an expected server-provided challenge.  When
       used this error code MUST be accompanied by the OAuth-Client-
       Attestation-Challenge HTTP header field parameter (as described in
-      Section 6.1).
+      Section 6.2).
 
    *  use_fresh_attestation MUST be used when the Client Attestation JWT
       is deemed to be not fresh enough to be acceptable by the server.
@@ -1105,7 +1109,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 6 of this specification
+   *  Reference: Section 6.1 of this specification
 
 13.2.  OAuth Extensions Error Registration
 
@@ -1363,6 +1367,8 @@ Appendix A.  Document History
    *  rephrasing of introduction text
 
    *  adding challenge request/response to graphic
+
+   *  restructure and minor fixes to challenge section
 
    *  add mentioning or Resource Server, where applicable
 
