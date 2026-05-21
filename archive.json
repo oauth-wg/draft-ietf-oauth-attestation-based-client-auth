@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-19T00:37:27.112630+00:00",
+  "timestamp": "2026-05-21T00:38:20.842682+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4358,7 +4358,7 @@
       "id": "I_kwDOJaEkaM7Tq8mA",
       "title": "Consider challenges taken from the session",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/166",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4369,8 +4369,8 @@
       ],
       "body": "Instead of challenges received from the challenge endpoint, protocols utilizing this draft could also leverage existing artefacts/ids/tokens from the session, e.g. using the authorization code or access token.",
       "createdAt": "2025-10-24T22:57:02Z",
-      "updatedAt": "2026-05-04T15:47:00Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-20T06:13:09Z",
+      "closedAt": "2026-05-20T06:13:09Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -4812,7 +4812,7 @@
     {
       "number": 195,
       "id": "I_kwDOJaEkaM8AAAABB9uzSQ",
-      "title": "Interims Feedback: RS metadata to signal demand for client attestation",
+      "title": "Interims Feedback: AS/RS metadata to signal demand for client attestation",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/195",
       "state": "OPEN",
       "author": "paulbastian",
@@ -4821,7 +4821,23 @@
       "labels": [],
       "body": "Judith Kahrer writes:\n\n> Is there a way for the resource server (or authorization server) to challenge the client to provide additional security signals? I guess, they could return an  'invalid_client_attestation' error, if the request was missing an attestation. I think it would be good with more guidance on how to inform the client to provide the attestation as additional security signals if it is missing (in addition to e.g., the access token or client credentials). The resource server could even publish its requirements in its resource metadata document, e.g., with \"client_attestation_required: true\". ",
       "createdAt": "2026-05-12T06:39:59Z",
-      "updatedAt": "2026-05-12T06:39:59Z",
+      "updatedAt": "2026-05-20T06:22:47Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 196,
+      "id": "I_kwDOJaEkaM8AAAABC1lQYQ",
+      "title": "Interim Feedback: Add more explanation/requirements on Client Attester",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/196",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "By Judith Kahrer on the mailing list:\n\n> I agree with the conversation in the minutes. Leave the details of the attestation process out of scope. However, I suggest you list the requirements as it currently is unclear what attestation means. What do you expect an attester to validate at a bare minimum (i.e., client instance controlling the key)? What makes the key-bound JWT a client attestation? What information should/does the client attestation JWT convey? In section 6.4 you mention: \"[Sending additional security signals] may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation\". Make it clear (as part of the terminology?) that this is what you expect from an attester and client attestation. Imo, the client's authenticity and integrity are key to an attestation (without having to get into technical details...). ",
+      "createdAt": "2026-05-20T10:11:46Z",
+      "updatedAt": "2026-05-20T10:11:46Z",
       "closedAt": null,
       "comments": []
     }
@@ -14558,24 +14574,26 @@
       "id": "PR_kwDOJaEkaM7Z_YbT",
       "title": "restructure and minor fixes to challenge section",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/192",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #166 ",
       "createdAt": "2026-05-10T12:19:14Z",
-      "updatedAt": "2026-05-12T06:24:44Z",
+      "updatedAt": "2026-05-20T06:13:08Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "495cf997bef1f08d33922c63779fa87a114a01a1",
+      "baseRefOid": "c15927895ef21b3bb5fc4b286f20a141b847ca16",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/challenges",
-      "headRefOid": "6e099aaa52bd75f5feb10cc2a2027cfc8f86dfb7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "71377345adcb3a78e78caf4705af5d4fe8fa4b44",
+      "closedAt": "2026-05-20T06:13:07Z",
+      "mergedAt": "2026-05-20T06:13:07Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "eeb76521228578f42c8a3132e952311b7c97fa38"
+      },
       "comments": [],
       "reviews": [
         {
