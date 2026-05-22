@@ -589,21 +589,24 @@ Authorization Servers implementing measures to detect replay attacks as describe
 
 A trie (also called prefix tree), or a patricia trie (also called radix tree) is a RECOMMENDED data structures to implement such a mechanism.
 
-## Trust Management and Key resolution
+## Trust Management and Key Resolution
 
-The main question to be answered for trust management is how the Authorization Server establishes trust in the Client Attester and how to validate Client Attestation JWTs. Attestation-based Client authentications can use MACs or digital signatures to protect integrity of the attestations. If digital signatures are used, then for most deployments there needs to be either pre-configured public keys / certificates for verification or the possibility to discover the public key dynamically.
+The mechanisms by which the Authorization Server establishes trust in the Client Attester, and by which it obtains the public keys used to verify Client Attestation JWTs, are out of scope of this specification.
 
-Concrete mechanisms in regards to trust management and key resolution are out of scope of this specification.
+Attestation-Based Client Authentication protects the integrity of Client Attestations using either Message Authentication Codes (MACs) or digital signatures. When digital signatures are used, the Authorization Server needs to be able to obtain the corresponding public key, either through pre-configuration or through dynamic discovery.
 
-Examples of trust management are:
+Examples of trust management approaches include:
 
-- PKI and trust lists
-- Pre-shared / out-of band negotiated configurations (keys, URLs)
+- Public Key Infrastructure (PKI) and trust lists.
+- Pre-shared or out-of-band negotiated configuration (e.g., keys, URLs).
 
-To resolve public keys used for validation of Client Attestation JWTs, the following recommendations are made for specifications, profiles, or ecosystems that are planning to build on top of Attestation-Based Client Authentication:
+Specifications, profiles, and ecosystems built on top of Attestation-Based Client Authentication SHOULD adopt one of the following mechanisms to resolve the public key used to verify a Client Attestation JWT:
 
-- `x5c` header parameter as defined in {{Section 4.1.6 of RFC7515}}: Trust into the Client Attestation is provided by using X.509 certificates contained in the header of each Client Attestation
-- `kid` header parameter combined with Client Metadata / pre-shared information: The Client Metadata as defined in {{RFC7591}} contains a `jwks_uri` parameter which combined with the `kid` allows the resolution of the public key to verify the signature of the Client Attestation
+- The `x5c` header parameter, as defined in {{Section 4.1.6 of RFC7515}}, conveys an X.509 certificate chain in the JOSE header of each Client Attestation. Trust is established by validating the chain against a configured trust anchor.
+
+- The `kid` header parameter combined with the `jku` header parameter, as defined in {{Section 4.1.2 of RFC7515}} and {{Section 4.1.3 of RFC7515}}. The Authorization Server retrieves a JWK Set from the URL indicated by `jku` and selects the key identified by `kid`. This approach is self-contained but requires an additional HTTP request, and trust must be established in the `jku` URL.
+
+- The `kid` header parameter combined with Client Metadata or other pre-shared information. Client Metadata, as defined in {{RFC7591}}, includes a `jwks_uri` parameter which, together with `kid`, enables resolution of the verification key.
 
 # Privacy Considerations
 
