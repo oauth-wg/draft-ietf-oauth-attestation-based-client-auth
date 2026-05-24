@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-21T00:38:20.842682+00:00",
+  "timestamp": "2026-05-24T00:36:34.328579+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14324,20 +14324,28 @@
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
-      "body": "Closes #3 \r\nCloses #182\r\n\r\n(wip)",
+      "body": "Closes #3 \r\nCloses #182\r\n",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-05-18T09:24:29Z",
+      "updatedAt": "2026-05-23T11:01:19Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "3-trust",
-      "headRefOid": "a97ed0bf7bf5edd074a534af704be28d380bb298",
+      "headRefOid": "eea21d89ad34ef3f98a4bd99fcb94cfeb1e8dbb4",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I improved language and added jku - should be ready now from my side",
+          "createdAt": "2026-05-22T14:19:04Z",
+          "updatedAt": "2026-05-22T14:19:04Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJaEkaM76XH5Q",
@@ -14511,6 +14519,19 @@
               "updatedAt": "2026-05-18T09:24:29Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABA05zrA",
+          "commit": {
+            "abbreviatedOid": "eea21d8"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-23T11:01:19Z",
+          "updatedAt": "2026-05-23T11:01:19Z",
+          "comments": []
         }
       ]
     },
