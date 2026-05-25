@@ -603,9 +603,7 @@ Examples of trust management approaches include:
 Specifications, profiles, and ecosystems built on top of Attestation-Based Client Authentication SHOULD adopt one of the following mechanisms to resolve the public key used to verify a Client Attestation JWT:
 
 - The `x5c` header parameter, as defined in {{Section 4.1.6 of RFC7515}}, conveys an X.509 certificate chain in the JOSE header of each Client Attestation. Trust is established by validating the chain against a configured trust anchor.
-
 - The `kid` header parameter combined with the `jku` header parameter, as defined in {{Section 4.1.2 of RFC7515}} and {{Section 4.1.3 of RFC7515}}. The Authorization Server retrieves a JWK Set from the URL indicated by `jku` and selects the key identified by `kid`. This approach is self-contained but requires an additional HTTP request, and trust must be established in the `jku` URL.
-
 - The `kid` header parameter combined with Client Metadata or other pre-shared information. Client Metadata, as defined in {{RFC7591}}, includes a `jwks_uri` parameter which, together with `kid`, enables resolution of the verification key.
 
 # Privacy Considerations
