@@ -38,6 +38,7 @@ author:
 normative:
   RFC3986: RFC3986
   RFC6750: RFC6750
+  RFC7515: RFC7515
   RFC7591: RFC7591
   RFC7519: RFC7519
   RFC7800: RFC7800
@@ -593,6 +594,23 @@ Authorization Server or Resource Servers implementing measures to detect replay 
 
 A trie (also called prefix tree), or a patricia trie (also called radix tree) is a RECOMMENDED data structures to implement such a mechanism.
 
+## Trust Management and Key Resolution
+
+The mechanisms by which the Authorization Server establishes trust in the Client Attester, and by which it obtains the public keys used to verify Client Attestation JWTs, are out of scope of this specification.
+
+Attestation-Based Client Authentication protects the integrity of Client Attestations using either Message Authentication Codes (MACs) or digital signatures. When digital signatures are used, the Authorization Server needs to be able to obtain the corresponding public key, either through pre-configuration or through dynamic discovery.
+
+Examples of trust management approaches include:
+
+- Public Key Infrastructure (PKI) and trust lists.
+- Pre-shared or out-of-band negotiated configuration (e.g., keys, URLs).
+
+Specifications, profiles, and ecosystems built on top of Attestation-Based Client Authentication SHOULD adopt one of the following mechanisms to resolve the public key used to verify a Client Attestation JWT:
+
+- The `x5c` header parameter, as defined in {{Section 4.1.6 of RFC7515}}, conveys an X.509 certificate chain in the JOSE header of each Client Attestation. Trust is established by validating the chain against a configured trust anchor.
+- The `kid` header parameter combined with the `jku` header parameter, as defined in {{Section 4.1.2 of RFC7515}} and {{Section 4.1.3 of RFC7515}}. The Authorization Server retrieves a JWK Set from the URL indicated by `jku` and selects the key identified by `kid`. This approach is self-contained but requires an additional HTTP request, and trust must be established in the `jku` URL.
+- The `kid` header parameter combined with Client Metadata or other pre-shared information. Client Metadata, as defined in {{RFC7591}}, includes a `jwks_uri` parameter which, together with `kid`, enables resolution of the verification key.
+
 # Privacy Considerations
 
 ## Client Instance Tracking Across Authorization Servers or Resource Servers
@@ -736,6 +754,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 -09
 
 * restructure draft
+* add section how to establish trust and resolve keys
 * rephrasing of introduction text
 * adding challenge request/response to graphic
 * restructure and minor fixes to challenge section
