@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-24T00:36:34.328579+00:00",
+  "timestamp": "2026-05-26T00:36:14.497609+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14326,13 +14326,13 @@
       "labels": [],
       "body": "Closes #3 \r\nCloses #182\r\n",
       "createdAt": "2026-04-21T05:18:48Z",
-      "updatedAt": "2026-05-23T11:01:19Z",
+      "updatedAt": "2026-05-25T10:31:04Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "bbfaf8bfb133423d1797a27bdf03c873b9534609",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "3-trust",
-      "headRefOid": "eea21d89ad34ef3f98a4bd99fcb94cfeb1e8dbb4",
+      "headRefOid": "2db6905a0230c1d6e5956e754ad6750c36f63056",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -14344,6 +14344,13 @@
           "body": "I improved language and added jku - should be ready now from my side",
           "createdAt": "2026-05-22T14:19:04Z",
           "updatedAt": "2026-05-22T14:19:04Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tplooker ",
+          "createdAt": "2026-05-25T10:31:04Z",
+          "updatedAt": "2026-05-25T10:31:04Z"
         }
       ],
       "reviews": [
@@ -14532,6 +14539,26 @@
           "createdAt": "2026-05-23T11:01:19Z",
           "updatedAt": "2026-05-23T11:01:19Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABA6Mhkw",
+          "commit": {
+            "abbreviatedOid": "eea21d8"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-25T10:29:46Z",
+          "updatedAt": "2026-05-25T10:29:46Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "```suggestion\n- The `kid` header parameter combined with the `jku` header parameter, as defined in {{Section 4.1.2 of RFC7515}} and {{Section 4.1.3 of RFC7515}}. The Authorization Server retrieves a JWK Set from the URL indicated by `jku` and selects the key identified by `kid`. This approach is self-contained but requires an additional HTTP request, and trust must be established in the `jku` URL.\n```",
+              "createdAt": "2026-05-25T10:29:46Z",
+              "updatedAt": "2026-05-25T10:29:46Z"
+            }
+          ]
         }
       ]
     },
