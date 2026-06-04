@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-28T00:34:34.569924+00:00",
+  "timestamp": "2026-06-04T00:48:09.972606+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4893,9 +4893,17 @@
       ],
       "body": "Judith Kahrer writes:\n\n> Is there a way for the resource server (or authorization server) to challenge the client to provide additional security signals? I guess, they could return an  'invalid_client_attestation' error, if the request was missing an attestation. I think it would be good with more guidance on how to inform the client to provide the attestation as additional security signals if it is missing (in addition to e.g., the access token or client credentials). The resource server could even publish its requirements in its resource metadata document, e.g., with \"client_attestation_required: true\". ",
       "createdAt": "2026-05-12T06:39:59Z",
-      "updatedAt": "2026-05-26T06:49:52Z",
+      "updatedAt": "2026-06-02T14:10:16Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "Few of my thoughts on this:\n\nOn the **Authorization Server**, side\nWhen ABCA is used as a client authentication method (either `attest_jwt_client_auth`, or `attest_jwt_client_auth_dpop` or both), the AS can clearly communicate this, using \n- `token_endpoint_auth_methods_supported` (or similar for other confidential endpoints)\n- `client_attestation_signing_alg_values_supported` and \n- one of `dpop_signing_alg_values_supported` or `client_attestation_pop_signing_alg_values_supported`\n\nWhen ABCA is not used as a client authentication method, I think that the same set of claims can signal that the AS requires ClientAttestation and one-of the PoP JWTs, except the `token_endpoint_auth_methods_supported`.\n\nOn the **Protected Resource Server**\nIf I am not mistaken, the recently published draft doesn't provide a section for Resource Server Metadata. \nPerhaps a section can be added, extending the [RFC9728](https://datatracker.ietf.org/doc/html/rfc9728) with\n- Adding `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported`\n- `dpop_signing_alg_values_supported` is already defined \n\nIn addition, I think that it would make sense, to advertise as an optional claim the `challenge_endpoint`, as well.\n\n\n\n",
+          "createdAt": "2026-06-02T14:10:16Z",
+          "updatedAt": "2026-06-02T14:10:16Z"
+        }
+      ]
     },
     {
       "number": 196,
@@ -4910,6 +4918,38 @@
       "body": "By Judith Kahrer on the mailing list:\n\n> I agree with the conversation in the minutes. Leave the details of the attestation process out of scope. However, I suggest you list the requirements as it currently is unclear what attestation means. What do you expect an attester to validate at a bare minimum (i.e., client instance controlling the key)? What makes the key-bound JWT a client attestation? What information should/does the client attestation JWT convey? In section 6.4 you mention: \"[Sending additional security signals] may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation\". Make it clear (as part of the terminology?) that this is what you expect from an attester and client attestation. Imo, the client's authenticity and integrity are key to an attestation (without having to get into technical details...). ",
       "createdAt": "2026-05-20T10:11:46Z",
       "updatedAt": "2026-05-20T10:11:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 197,
+      "id": "I_kwDOJaEkaM8AAAABEIj9iw",
+      "title": "A Clarification on DPoP Access Token",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/197",
+      "state": "OPEN",
+      "author": "babisRoutis",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Latest couple drafts brought two major changes:\n- ABCA can be used as an additional security signal,\n- DPoP can be used instead of Client Attestation PoP \n\nBefore those changes, the were some \"simple\" rules:\n- AS had to advertise the authentication method defined by ABCA \n- DPoP was orthogonal and unrelated to ABCA.\n\nAs a result, for cases where DPoP was mandated (like for instance in HAIP v1), it was clear that\n- the Authorization Server had to issue `access_token`  with `token_type` equal to `DPoP`  (DPoP-bound Access Token)\n- the Resource Server had to support [DPoP Authentication Scheme](https://datatracker.ietf.org/doc/html/rfc9449#name-the-dpop-authentication-sch)\n\nWith draft 9,  it is not clear to me, what kind of `access_token` (Bearer or DPoP) the AS is expected to issue when using ABCA as an client authentication method of type `attest_jwt_client_auth`.\n\nIn this case, the DPoP is not applicable, so I think that access_token should be issued as bearer not `DPoP`.\n\nOn the other hand, there is not reason for not issuing a DPoP Access Token, because both DPoP and Client Attestation PoP are proof of possessing the same key\n\nCan you please clarify on this?",
+      "createdAt": "2026-06-02T14:36:13Z",
+      "updatedAt": "2026-06-03T08:37:11Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 198,
+      "id": "I_kwDOJaEkaM8AAAABEOOmIQ",
+      "title": "Draft9 - Clarification on DPoP with \"attest_jwt_client_auth\" + HAIPv1",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/198",
+      "state": "OPEN",
+      "author": "babisRoutis",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Latest draft 9, defines two distinct client authentication methods\n\n- `attest_jwt_client_auth`, requiring the Client Attestation JWT and Client Attestation PoP JWT,\n- `attest_jwt_client_auth_dpop` requiring Client Attestation JWT and DPoP signed with cnf.jwk of the fist JWT\n\nThe specification provides in detail the rules for both cases.\n\nWhat is not clear to me, is whether `attest_jwt_client_auth` authentication method can be used with DPoP (without the requirement of using the cnf.jwk)?\n\nI guess the answer to the above question should be that this not not allowed. Otherwise, it must be required that an AS must either support `attest_jwt_client_auth` or  `attest_jwt_client_auth_dpop`, but not both. \n\nI think that draft 9, remains silent on this, but I believe that it is an important use case, because of HAIPv1.\nIn HAIPv1 \n- an AS is expected to support `attest_jwt_client_auth` \n- Wallets must send three JWTs : Client Attestation, PoP and DPoP \n\n\n\n\n",
+      "createdAt": "2026-06-03T08:53:17Z",
+      "updatedAt": "2026-06-03T08:53:17Z",
       "closedAt": null,
       "comments": []
     }
