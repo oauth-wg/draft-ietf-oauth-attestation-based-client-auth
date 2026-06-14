@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-04T00:48:09.972606+00:00",
+  "timestamp": "2026-06-14T00:43:02.166674+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4556,14 +4556,16 @@
       "state": "OPEN",
       "author": "babisRoutis",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "tplooker"
+      ],
       "labels": [
         "discuss",
         "ready-for-pr"
       ],
       "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
       "createdAt": "2025-11-25T10:20:49Z",
-      "updatedAt": "2026-05-26T06:47:11Z",
+      "updatedAt": "2026-06-11T06:57:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -4887,13 +4889,15 @@
       "state": "OPEN",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulbastian"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "Judith Kahrer writes:\n\n> Is there a way for the resource server (or authorization server) to challenge the client to provide additional security signals? I guess, they could return an  'invalid_client_attestation' error, if the request was missing an attestation. I think it would be good with more guidance on how to inform the client to provide the attestation as additional security signals if it is missing (in addition to e.g., the access token or client credentials). The resource server could even publish its requirements in its resource metadata document, e.g., with \"client_attestation_required: true\". ",
       "createdAt": "2026-05-12T06:39:59Z",
-      "updatedAt": "2026-06-02T14:10:16Z",
+      "updatedAt": "2026-06-11T06:57:20Z",
       "closedAt": null,
       "comments": [
         {
@@ -4913,13 +4917,25 @@
       "state": "OPEN",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "c2bo"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "By Judith Kahrer on the mailing list:\n\n> I agree with the conversation in the minutes. Leave the details of the attestation process out of scope. However, I suggest you list the requirements as it currently is unclear what attestation means. What do you expect an attester to validate at a bare minimum (i.e., client instance controlling the key)? What makes the key-bound JWT a client attestation? What information should/does the client attestation JWT convey? In section 6.4 you mention: \"[Sending additional security signals] may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation\". Make it clear (as part of the terminology?) that this is what you expect from an attester and client attestation. Imo, the client's authenticity and integrity are key to an attestation (without having to get into technical details...). ",
       "createdAt": "2026-05-20T10:11:46Z",
-      "updatedAt": "2026-05-20T10:11:46Z",
+      "updatedAt": "2026-06-11T06:58:12Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Related to #107 ",
+          "createdAt": "2026-06-11T06:58:12Z",
+          "updatedAt": "2026-06-11T06:58:12Z"
+        }
+      ]
     },
     {
       "number": 197,
@@ -4933,9 +4949,24 @@
       "labels": [],
       "body": "Latest couple drafts brought two major changes:\n- ABCA can be used as an additional security signal,\n- DPoP can be used instead of Client Attestation PoP \n\nBefore those changes, the were some \"simple\" rules:\n- AS had to advertise the authentication method defined by ABCA \n- DPoP was orthogonal and unrelated to ABCA.\n\nAs a result, for cases where DPoP was mandated (like for instance in HAIP v1), it was clear that\n- the Authorization Server had to issue `access_token`  with `token_type` equal to `DPoP`  (DPoP-bound Access Token)\n- the Resource Server had to support [DPoP Authentication Scheme](https://datatracker.ietf.org/doc/html/rfc9449#name-the-dpop-authentication-sch)\n\nWith draft 9,  it is not clear to me, what kind of `access_token` (Bearer or DPoP) the AS is expected to issue when using ABCA as an client authentication method of type `attest_jwt_client_auth`.\n\nIn this case, the DPoP is not applicable, so I think that access_token should be issued as bearer not `DPoP`.\n\nOn the other hand, there is not reason for not issuing a DPoP Access Token, because both DPoP and Client Attestation PoP are proof of possessing the same key\n\nCan you please clarify on this?",
       "createdAt": "2026-06-02T14:36:13Z",
-      "updatedAt": "2026-06-03T08:37:11Z",
+      "updatedAt": "2026-06-11T08:00:54Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- we assume the underlying issue has been clarified in #198 , correct?",
+          "createdAt": "2026-06-11T06:54:58Z",
+          "updatedAt": "2026-06-11T06:54:58Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "> Editors Call:\n> \n>     * we assume the underlying issue has been clarified in [Draft9 - Clarification on DPoP with \"attest_jwt_client_auth\" + HAIPv1 #198](https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/198) , correct?\n\nDear Paul \n\nProbably the current issue can be closed. Indeed the underlaying problem is discussed in #198 \n\n\n- AS supports `attest_jwt_client_auth`, no `dpop` \n    - if client sends Client Attestation JWT + PoP -> Bearer access_token\n- AS supports `attest_jwt_client_auth`, with `dpop`\n  - if client sends Client Attestation JWT + PoP + DPoP -> DPoP access_token\n- AS supports `attest_jwt_client_auth_dpop`\n  - if client sends Client Attestation JWT + DPoP -> DPoP access_token\n- AS supports both `attest_jwt_client_auth` & `attest_jwt_client_auth_dpop`\n  - if client sends Client Attestation JWT + PoP -> Bearer access_token\n  - if client sends Client Attestation JWT + DPoP -> DPoP access_token\n  - if client sends 3 JWTs -> [????](https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/198#issuecomment-4678293646)  \n\n\n",
+          "createdAt": "2026-06-11T08:00:54Z",
+          "updatedAt": "2026-06-11T08:00:54Z"
+        }
+      ]
     },
     {
       "number": 198,
@@ -4946,10 +4977,73 @@
       "author": "babisRoutis",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "Latest draft 9, defines two distinct client authentication methods\n\n- `attest_jwt_client_auth`, requiring the Client Attestation JWT and Client Attestation PoP JWT,\n- `attest_jwt_client_auth_dpop` requiring Client Attestation JWT and DPoP signed with cnf.jwk of the fist JWT\n\nThe specification provides in detail the rules for both cases.\n\nWhat is not clear to me, is whether `attest_jwt_client_auth` authentication method can be used with DPoP (without the requirement of using the cnf.jwk)?\n\nI guess the answer to the above question should be that this not not allowed. Otherwise, it must be required that an AS must either support `attest_jwt_client_auth` or  `attest_jwt_client_auth_dpop`, but not both. \n\nI think that draft 9, remains silent on this, but I believe that it is an important use case, because of HAIPv1.\nIn HAIPv1 \n- an AS is expected to support `attest_jwt_client_auth` \n- Wallets must send three JWTs : Client Attestation, PoP and DPoP \n\n\n\n\n",
       "createdAt": "2026-06-03T08:53:17Z",
-      "updatedAt": "2026-06-03T08:53:17Z",
+      "updatedAt": "2026-06-11T17:28:58Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- you can use attest_jwt_client_auth with DPoP, in this case Wallets sends three JWTs : Client Attestation, PoP and DPoP \n  - we could add a small note on this in the draft\n- AS can support attest_jwt_client_auth and attest_jwt_client_auth_dpop\n- HAIP topics should be discussed in OpenID, makes sense to open an issue in HAIP Github repo",
+          "createdAt": "2026-06-11T06:51:47Z",
+          "updatedAt": "2026-06-11T06:52:21Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "Dear @paulbastian \n\nThank you so match for.\n\n> Editors Call:\n> \n>     * you can use attest_jwt_client_auth with DPoP, in this case Wallets sends three JWTs : Client Attestation, PoP and DPoP\n>       \n>       * we could add a small note on this in the draft\n\nYes, a note would be helpful. \n\n\n> \n>     * HAIP topics should be discussed in OpenID, makes sense to open an issue in HAIP Github repo\n\nFair point.\n\n\n> \n>     * AS can support attest_jwt_client_auth and attest_jwt_client_auth_dpop\n\nI think here there is potential problem, in case an AS supports at the same time both `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop`\n\nAn AS supporting `attest_jwt_client_auth` expects Client Attestation JWT and its PoP. \nIf it supports DPoP, it is clear how to interpret the DPoP JWT. \n\nAn AS supporting `attest_jwt_client_auth_dpop` is also clear. AS expects the Client Attestation JWT and an associated DPoP.\n\nBut in case an AS, supports both methods, it is not clear how to interpret the DPoP header, in case client sends all 3 JWTs.\n\nTo my understanding the 3JWT case can only be valid if AS support `attest_jwt_client_auth` and `dpop` but not `attest_jwt_client_auth_dpop`\n\n\n\n\n",
+          "createdAt": "2026-06-11T07:41:31Z",
+          "updatedAt": "2026-06-11T07:44:24Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "The AS signals that it supports both variants by having both in AS metadata. Depending on what it receives, it can then apply the correct validation logic.\n\nMy mental model is: If the client sends `OAuth-Client-Attestation-PoP` in the header, the AS will always use the `attest_jwt_client_auth` validation logic.",
+          "createdAt": "2026-06-11T15:24:26Z",
+          "updatedAt": "2026-06-11T15:24:26Z"
+        },
+        {
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "body": "> My mental model is: If the client sends `OAuth-Client-Attestation-PoP` in the header, the AS will always use the `attest_jwt_client_auth` validation logic.\n\nDear @c2bo \nThat's a pretty reasonable. Perhaps something like that should be added to section 7.2.\n\nPerhaps, some rewording is need in AS meta.\nScenario : \n- both methods supported \n- client_attestation_signing_alg_values_supported is provided\n- only dpop_signing_alg_values_supported can be provided (due to the last paragraph of section 8.\n\nClient is not aware that it can send 3 JWT\n\n(Apologies if this sounds too match)\n\n\n\n",
+          "createdAt": "2026-06-11T17:28:57Z",
+          "updatedAt": "2026-06-11T17:28:57Z"
+        }
+      ]
+    },
+    {
+      "number": 199,
+      "id": "I_kwDOJaEkaM8AAAABFMX3Cg",
+      "title": "Draft9 - Clarification on DPoP Combined Mode and `dpop_jkt`",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/199",
+      "state": "OPEN",
+      "author": "babisRoutis",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Under section 7.3 of d9, there is the following requirement\n\n> There is precisely one DPoP HTTP request header field present in the request\n\nIn case, ABCA is used as addition security signal, that's clear.\n\nYet, when ABCA is used as a client authentication method to the PAR endpoint the use of DPoP header is just one of the two methods that an Authorization Server must support, according to RFC 9449 [10.1. ](https://datatracker.ietf.org/doc/html/rfc9449#section-10.1)[DPoP with Pushed Authorization Requests](https://datatracker.ietf.org/doc/html/rfc9449#name-dpop-with-pushed-authorizat)\n\n> Both mechanisms MUST be supported by an authorization server that supports PAR and DPoP\n\nCan you please clarify this conflicting requirements:\n\n- AS MUST support both DPoP header & dpop_jkt according to RFC9449,\n- Yet ABCA supports only the DPoP header\n\n",
+      "createdAt": "2026-06-11T19:16:08Z",
+      "updatedAt": "2026-06-11T19:16:08Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 200,
+      "id": "I_kwDOJaEkaM8AAAABFRONWg",
+      "title": "Draft 9 - Relationship with rfc7521",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/200",
+      "state": "OPEN",
+      "author": "matthieusieben",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The OAuth WG already has an \"Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants\" (rfc7521).\n\nThis draft feels like naturally should either be based on that, be optionally compatible with it, or at very least clearly and explicitly state why it is not based on it.\n\nMy understanding is that the use of the a header makes it mostly incompatible, but there are deployments out there (atproto) which 1) already use rfc7521 and 2) don't necessarily care about receiving client attestation on the resource endpoint (this is covered by very short lived access tokens).\n\nIn those deployment, it feels more natural to be able to use ABCA in the context of rfc7521 instead of using a rfc7521 + \"something that is not covered by rfc7521 but essentially fulfills the same purpose as what the framework was meant to provide\", which is, in my humble opinion, a bit misleading.\n\n\n> [!NOTE]\n>\n> This is great work by the way. This nit aside, I'm super happy this landed in a state that is compatible with DPoP.",
+      "createdAt": "2026-06-12T10:47:34Z",
+      "updatedAt": "2026-06-12T10:48:47Z",
       "closedAt": null,
       "comments": []
     }
