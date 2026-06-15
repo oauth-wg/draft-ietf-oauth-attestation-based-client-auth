@@ -494,9 +494,11 @@ grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 ~~~
 
-## Client Attestation as an additional security signal
+## Client Attestation as an additional security signal {#additional-security-signal}
 
 A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear along existing OAuth 2 Client Authentication mechanisms.
+
+An Authorization Server or Resource Server MAY signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the `client_attestation_required` metadata parameter with the boolean value `true` in its published metadata, as defined in {{RFC8414}} for the Authorization Server and in {{RFC9728}} for the Resource Server. When the parameter is omitted or set to `false`, presenting a Client Attestation as an additional security signal is OPTIONAL. When a server has signalled `client_attestation_required` with the value `true`, a Client SHOULD include the Client Attestation and its Proof of Possession in its requests to that server. If a request that is required to carry a Client Attestation does not contain one, or contains one that could not be successfully verified, the server MAY refuse the request and return the `invalid_client_attestation` error as defined in [](#errors).
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} along side client_secret (with extra line breaks for display purposes only):
 
@@ -552,11 +554,13 @@ iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.gzk
 dW-cqJopljQaCQ
 ~~~
 
-# Authorization Server Metadata {#as-metadata}
+# Authorization Server and Resource Server Metadata {#as-metadata}
 
 The Authorization Server SHOULD communicate support for authentication with Attestation-Based Client Authentication using a Client Attestation PoP JWT as the PoP by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The Authorization Server SHOULD communicate support for authentication with Attestation-Based Client Authentication using a DPoP proof as the PoP by using the value `attest_jwt_client_auth_dpop` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize Attestation-Based Client Authentication as a client authentication mechanism if either of the given `token_endpoint_auth_methods_supported` values are present.
 
 The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth`. When `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth_dpop`, the Authorization Server SHOULD advertise supported DPoP signing algorithms using `dpop_signing_alg_values_supported` as defined in {{RFC9449}}, rather than `client_attestation_pop_signing_alg_values_supported`, as the Proof of Possession in combined mode is a DPoP proof.
+
+The Authorization Server or Resource Server MAY signal that it requires a Client Attestation as an additional security signal as described in [](#additional-security-signal). The Authorization Server includes the `client_attestation_required` metadata parameter with the boolean value `true` in its metadata as defined in {{RFC8414}}. The Resource Server uses the same `client_attestation_required` parameter in its metadata as defined in {{RFC9728}}.
 
 # Implementation Considerations
 
@@ -709,6 +713,22 @@ This specification requests registration of the following values in the IANA "OA
 * Change Controller: IETF
 * Reference: this specification
 
+<br/>
+
+* Metadata Name: client_attestation_required
+* Metadata Description: Boolean value indicating whether the authorization server requires Clients to present a Client Attestation and its Proof of Possession as an additional security signal. If omitted, the default value is false.
+* Change Controller: IETF
+* Reference: [](#additional-security-signal) of this specification
+
+## OAuth Protected Resource Metadata Registration
+
+This specification requests registration of the following value in the IANA "OAuth Protected Resource Metadata" registry of {{IANA.OAuth.Params}} established by {{RFC9728}}.
+
+* Metadata Name: client_attestation_required
+* Metadata Description: Boolean value indicating whether the protected resource requires Clients to present a Client Attestation and its Proof of Possession as an additional security signal. If omitted, the default value is false.
+* Change Controller: IETF
+* Reference: [](#additional-security-signal) of this specification
+
 ## Registration of attest_jwt_client_auth Token Endpoint Authentication Method
 
 This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol {{RFC7591}}.
@@ -750,6 +770,10 @@ This section requests registration of the following scheme in the "Hypertext Tra
 --- back
 
 # Document History
+
+-10
+
+* add `client_attestation_required` Authorization Server and Resource Server metadata
 
 -09
 
