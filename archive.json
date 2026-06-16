@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-14T00:43:02.166674+00:00",
+  "timestamp": "2026-06-16T00:49:31.744603+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -15002,6 +15002,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 201,
+      "id": "PR_kwDOJaEkaM7mxmtN",
+      "title": "add `client_attestation_required` to AS+RS metadata",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/201",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #195 ",
+      "createdAt": "2026-06-15T23:31:54Z",
+      "updatedAt": "2026-06-15T23:31:55Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "087d91ade16513469d36cc797b02ba91fa660767",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "195-interims-feedback-asrs-metadata-to-signal-demand-for-client-attestation",
+      "headRefOid": "d5eccaa261a8275c3d5bedec3a95afa8f0fae0cc",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
