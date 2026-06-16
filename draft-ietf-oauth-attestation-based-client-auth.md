@@ -21,34 +21,35 @@ venue:
   latest: "https://oauth-wg.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html"
 
 author:
- -
-    fullname: Tobias Looker
-    organization: MATTR
-    email: tobias.looker@mattr.global
- -
-    fullname: Paul Bastian
-    organization: Bundesdruckerei
-    email: paul.bastian@posteo.de
- -
-    fullname: Christian Bormann
-    organization: SPRIND
-    email: chris.bormann@gmx.de
+
+-
+  fullname: Tobias Looker
+  organization: MATTR
+  email: tobias.looker@mattr.global
+-
+  fullname: Paul Bastian
+  organization: Bundesdruckerei
+  email: paul.bastian@posteo.de
+-
+  fullname: Christian Bormann
+  organization: SPRIND
+  email: chris.bormann@gmx.de
 
 
 normative:
-  RFC3986: RFC3986
-  RFC6750: RFC6750
-  RFC7515: RFC7515
-  RFC7591: RFC7591
-  RFC7519: RFC7519
-  RFC7800: RFC7800
-  RFC8414: RFC8414
-  RFC8725: RFC8725
-  RFC9110: RFC9110
-  RFC9112: RFC9112
-  RFC9126: RFC9126
-  RFC9449: RFC9449
-  RFC9728: RFC9728
+  RFC3986:
+  RFC6750:
+  RFC7515:
+  RFC7591:
+  RFC7519:
+  RFC7800:
+  RFC8414:
+  RFC8725:
+  RFC9110:
+  RFC9112:
+  RFC9126:
+  RFC9449:
+  RFC9728:
   IANA.HTTP.Fields:
     author:
       org: "IANA"
@@ -66,10 +67,10 @@ normative:
     target: "https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms"
 
 informative:
-  RFC6749: RFC6749
-  RFC9334: RFC9334
-  RFC7523: RFC7523
-  RFC9901: RFC9901
+  RFC6749:
+  RFC9334:
+  RFC7523:
+  RFC9901:
   ARF:
     title: "The European Digital Identity Wallet Architecture and Reference Framework"
 
@@ -236,7 +237,7 @@ header field names. Case is significant in the header field value, however.
 
 The OAuth-Client-Attestation HTTP header field values uses the token68 syntax defined in Section 11.2 of {{RFC9110}} (repeated below for ease of reference).
 
-~~~
+~~~ abnf
 OAuth-Client-Attestation       = token68
 token68                        = 1*( ALPHA / DIGIT / "-" / "." /
                                      "_" / "~" / "+" / "/" ) *"="
@@ -308,7 +309,7 @@ header field names. Case is significant in the header field value, however.
 
 The OAuth-Client-Attestation-PoP HTTP header field values uses the token68 syntax defined in Section 11.2 of {{RFC9110}} (repeated below for ease of reference).
 
-~~~
+~~~ abnf
 OAuth-Client-Attestation-PoP   = token68
 token68                        = 1*( ALPHA / DIGIT / "-" / "." /
                                      "_" / "~" / "+" / "/" ) *"="
@@ -325,7 +326,7 @@ The following rules apply to the DPoP proof as defined in {{RFC9449}}:
 
 The following non-normative example shows a token request using combined mode (line breaks for display only):
 
-~~~
+~~~ http
 POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -335,9 +336,9 @@ DPoP: <Combined-DPoP-And-Attestation-PoP-JWT>
 grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 ~~~
 
-Decoded (non-normative) DPoP (combined) proof:
+Decoded (non-normative) DPoP (combined) proof - Header:
 
-Header:
+~~~ json
 {
   "typ": "dpop+jwt",
   "alg": "ES256",
@@ -348,14 +349,18 @@ Header:
     "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
   }
 }
+~~~
 
 Payload:
+
+~~~ json
 {
   "htm": "POST",
   "htu": "https://as.example.com/token",
   "iat": 1700000000,
   "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9"
 }
+~~~
 
 Note that additional claims may be present in the DPoP proof depending on the context, as required by {{RFC9449}}.
 
@@ -369,7 +374,7 @@ The Authorization Server or Resource Server MAY offer a challenge endpoint for C
 
 A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata. The following is a non-normative example of a request:
 
-~~~
+~~~ http
 POST /as/challenge HTTP/1.1
 Host: as.example.com
 Accept: application/json
@@ -383,7 +388,7 @@ The Authorization Server or Resource Server MUST make the response uncacheable b
 
 The following is a non-normative example of a response:
 
-~~~
+~~~ http
 HTTP/1.1 200 OK
 Host: as.example.com
 Content-Type: application/json
@@ -400,7 +405,7 @@ The Authorization Server or Resource Server MAY provide a fresh Challenge with a
 
 The following is a non-normative example of an Authorization Response containing a fresh Challenge:
 
-~~~
+~~~ http
 HTTP/1.1 200 OK
 Content-Type: application/json
 Cache-Control: no-store
@@ -471,7 +476,7 @@ A Client Attestation may be used as an OAuth 2 Client Authentication mechanism a
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
-~~~
+~~~ http
 POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -500,7 +505,7 @@ A Client Attestation may be used as a (additional) security signal towards an Au
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} along side client_secret (with extra line breaks for display purposes only):
 
-~~~
+~~~ http
 POST /as/par HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -530,7 +535,7 @@ response_type=code
 
 The following example demonstrates usage of the client attestation mechanism at the Resource Server (with extra line breaks for display purposes only):
 
-~~~
+~~~ http
 POST /api/users/list HTTP/1.1
 Host: rs.example.com
 Content-Type: application/x-www-form-urlencoded
