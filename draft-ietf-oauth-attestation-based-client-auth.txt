@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 27 November 2026                                Bundesdruckerei
+Expires: 3 January 2027                                  Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                             26 May 2026
+                                                             2 July 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 November 2026.
+   This Internet-Draft will expire on 3 January 2027.
 
 Copyright Notice
 
@@ -489,6 +489,11 @@ Table of Contents
    one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP
    proof and Client Attestation PoP JWT).
 
+   Note when authorization code binding as defined in Section 10 of
+   [RFC9449] is used, this mode only works with the DPoP Proof header
+   containing a proof of possession and not dpop_jkt.  When using
+   dpop_jkt, the normal mode has to be used.
+
    The following rules apply to the DPoP proof as defined in [RFC9449]:
 
    1.  The DPoP proof MUST adhere to [RFC9449]
@@ -507,14 +512,27 @@ Table of Contents
 
    grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 
-   Decoded (non-normative) DPoP (combined) proof:
+   Decoded (non-normative) DPoP (combined) proof - Header:
 
-   Header: { "typ": "dpop+jwt", "alg": "ES256", "jwk": { "kty": "EC",
-   "crv": "P-256", "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
-   "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA" } }
+   {
+     "typ": "dpop+jwt",
+     "alg": "ES256",
+     "jwk": {
+       "kty": "EC",
+       "crv": "P-256",
+       "x": "18wHLeIgW9wVN6VD1Txgpqy2LszYkMf6J8njVAibvhM",
+       "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
+     }
+   }
 
-   Payload: { "htm": "POST", "htu": "https://as.example.com/token",
-   "iat": 1700000000, "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9" }
+   Payload:
+
+   {
+     "htm": "POST",
+     "htu": "https://as.example.com/token",
+     "iat": 1700000000,
+     "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9"
+   }
 
    Note that additional claims may be present in the DPoP proof
    depending on the context, as required by [RFC9449].
@@ -1407,6 +1425,10 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc9901>.
 
 Appendix A.  Document History
+
+   -10
+
+   *  add short note that dpop_jkt cannot be used with the combined mode
 
    -09
 
