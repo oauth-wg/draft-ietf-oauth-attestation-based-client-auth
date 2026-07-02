@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 18 December 2026                                Bundesdruckerei
+Expires: 3 January 2027                                  Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            16 June 2026
+                                                             2 July 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 December 2026.
+   This Internet-Draft will expire on 3 January 2027.
 
 Copyright Notice
 
@@ -491,8 +491,8 @@ Table of Contents
 
    Note that this mode only works with the DPoP Proof header containing
    a proof of possession that replaces the Client Attestation PoP JWT.
-   When using the dpop_jkt authorization request parameter, the combined
-   mode cannot be used.
+   When using the dpop_jkt authorization request parameter as defined in
+   Section 10 of [RFC9449], the combined mode cannot be used.
 
    The following rules apply to the DPoP proof as defined in [RFC9449]:
 
