@@ -319,7 +319,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 
 This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in {{RFC9449}} for sender-contrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).
 
-Note that this mode only works with the DPoP Proof header containing a proof of possession that replaces the Client Attestation PoP JWT. When using the `dpop_jkt` authorization request parameter as defined in Section 10 of {{RFC9449}}, the combined mode cannot be used.
+Note when authorization code binding as defined in {{Section 10 of RFC9449}} is used, this mode only works with the DPoP Proof header containing a proof of possession and not `dpop_jkt`. When using `dpop_jkt`, the normal mode has to be used.
 
 The following rules apply to the DPoP proof as defined in {{RFC9449}}:
 
