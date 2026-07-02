@@ -88,7 +88,7 @@ Additionally, this approach acknowledges the evolving landscape of OAuth 2 deplo
 
 This primary purpose of this specification is the authentication of a client instance enabled through the client backend attesting to it. The client backend may also attest further technical properties about the hardware and software of the client instance.
 
-The client is considered a confidential OAuth 2 client type according to section 2.1 of {{RFC6749}}. The mechanism described in this document may  either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.
+The client is considered a confidential OAuth 2 client type according to {{Section 2.1 of RFC6749}}. The mechanism described in this document may  either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.
 
 This specification introduces the concept of client attestations to the OAuth 2 protocol, using two artifacts:
 
@@ -235,7 +235,7 @@ FORnKzsx5yu6A
 Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
 header field names. Case is significant in the header field value, however.
 
-The OAuth-Client-Attestation HTTP header field values uses the token68 syntax defined in Section 11.2 of {{RFC9110}} (repeated below for ease of reference).
+The OAuth-Client-Attestation HTTP header field values uses the token68 syntax defined in {{Section 11.2 of RFC9110}} (repeated below for ease of reference).
 
 ~~~ abnf
 OAuth-Client-Attestation       = token68
@@ -307,7 +307,7 @@ crEnFgCqdkNfUA
 Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION-POP, oauth-client-attestation-pop, etc., are all valid and equivalent
 header field names. Case is significant in the header field value, however.
 
-The OAuth-Client-Attestation-PoP HTTP header field values uses the token68 syntax defined in Section 11.2 of {{RFC9110}} (repeated below for ease of reference).
+The OAuth-Client-Attestation-PoP HTTP header field values uses the token68 syntax defined in {{Section 11.2 of RFC9110}} (repeated below for ease of reference).
 
 ~~~ abnf
 OAuth-Client-Attestation-PoP   = token68
@@ -464,7 +464,7 @@ To validate a request using DPoP combined mode, the receiving server MUST perfor
 
 ## Errors {#errors}
 
-When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in Section 5.2 of {{RFC6749}}) or Resource Server error responses (as defined in Section 3 of {{RFC6750}}).
+When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in {{Section 5.2 of RFC6749}}) or Resource Server error responses (as defined in {{Section 3 of RFC6750}}).
 
 - `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)).
 - `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
@@ -474,7 +474,7 @@ In the event of errors due to situations not described above, Authorization and 
 
 ## Client Attestation as an OAuth Client Authentication
 
-A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in Section 2.3 of {{RFC6749}} towards an Authorization Server.  If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
+A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in {{Section 2.3 of RFC6749}} towards an Authorization Server.  If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
@@ -581,7 +581,7 @@ Implementers should be aware that the design of this authentication mechanism de
 
 ## Refresh token binding
 
-Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
+Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
 
 ## Web Server Default Maximum HTTP Header Sizes
 
