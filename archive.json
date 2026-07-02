@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-18T00:44:41.526882+00:00",
+  "timestamp": "2026-07-02T00:39:10.607529+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5035,14 +5035,14 @@
       "author": "babisRoutis",
       "authorAssociation": "NONE",
       "assignees": [
-        "paulbastian"
+        "c2bo"
       ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "Under section 7.3 of d9, there is the following requirement\n\n> There is precisely one DPoP HTTP request header field present in the request\n\nIn case, ABCA is used as addition security signal, that's clear.\n\nYet, when ABCA is used as a client authentication method to the PAR endpoint the use of DPoP header is just one of the two methods that an Authorization Server must support, according to RFC 9449 [10.1. ](https://datatracker.ietf.org/doc/html/rfc9449#section-10.1)[DPoP with Pushed Authorization Requests](https://datatracker.ietf.org/doc/html/rfc9449#name-dpop-with-pushed-authorizat)\n\n> Both mechanisms MUST be supported by an authorization server that supports PAR and DPoP\n\nCan you please clarify this conflicting requirements:\n\n- AS MUST support both DPoP header & dpop_jkt according to RFC9449,\n- Yet ABCA supports only the DPoP header\n\n",
       "createdAt": "2026-06-11T19:16:08Z",
-      "updatedAt": "2026-06-16T07:36:27Z",
+      "updatedAt": "2026-07-01T15:32:20Z",
       "closedAt": null,
       "comments": [
         {
@@ -15146,7 +15146,7 @@
       "labels": [],
       "body": "Closes #199 \r\n\r\n- small note on dpop_jkt\r\n- otherwise mainly code block / editorial fixes with the kramdown rfc tooling",
       "createdAt": "2026-06-16T07:06:27Z",
-      "updatedAt": "2026-06-16T07:07:00Z",
+      "updatedAt": "2026-07-01T15:30:16Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "087d91ade16513469d36cc797b02ba91fa660767",
@@ -15158,7 +15158,48 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABEs8muQ",
+          "commit": {
+            "abbreviatedOid": "f3abf55"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-01T15:29:53Z",
+          "updatedAt": "2026-07-01T15:29:53Z",
+          "comments": [
+            {
+              "originalPosition": 98,
+              "body": "```suggestion\nNote that this mode only works with the DPoP Proof header containing a proof of possession that replaces the Client Attestation PoP JWT. When using the `dpop_jkt` authorization request parameter as defined in Section 10 of {{RFC9449}}, the combined mode cannot be used.\n```",
+              "createdAt": "2026-07-01T15:29:53Z",
+              "updatedAt": "2026-07-01T15:29:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABEs80xg",
+          "commit": {
+            "abbreviatedOid": "f3abf55"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-01T15:30:16Z",
+          "updatedAt": "2026-07-01T15:30:16Z",
+          "comments": [
+            {
+              "originalPosition": 98,
+              "body": "link to [10. ](https://www.rfc-editor.org/rfc/rfc9449.html#section-10)[Authorization Code Binding to a DPoP Key](https://www.rfc-editor.org/rfc/rfc9449.html#name-authorization-code-binding-)",
+              "createdAt": "2026-07-01T15:30:16Z",
+              "updatedAt": "2026-07-01T15:30:16Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
