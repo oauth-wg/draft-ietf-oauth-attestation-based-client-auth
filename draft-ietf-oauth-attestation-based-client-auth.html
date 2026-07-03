@@ -9,7 +9,7 @@
 <meta content="Paul Bastian" name="author">
 <meta content="Christian Bormann" name="author">
 <meta content="
-       This specification defines an extension to the OAuth 2.0 protocol   that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0. 
+       This specification defines an extension to the OAuth 2.0 protocol (RFC 6749) that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0. 
     " name="description">
 <meta content="xml2rfc 3.34.0" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
@@ -1088,7 +1088,7 @@ svg {
 <h1 id="title">OAuth 2.0 Attestation-Based Client Authentication</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This specification defines an extension to the OAuth 2.0 protocol <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This specification defines an extension to the OAuth 2.0 protocol (RFC 6749) that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1266,13 +1266,13 @@ svg {
             <p id="section-toc.1-1.13.1"><a href="#section-13" class="auto internal xref">13</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
-                <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="auto internal xref">13.1</a>.  <a href="#name-oauth-parameters-registrati" class="internal xref">OAuth Parameters Registration</a></p>
+                <p id="section-toc.1-1.13.2.1.1"><a href="#section-13.1" class="auto internal xref">13.1</a>.  <a href="#name-oauth-extensions-error-regi" class="internal xref">OAuth Extensions Error Registration</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2">
-                <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="auto internal xref">13.2</a>.  <a href="#name-oauth-extensions-error-regi" class="internal xref">OAuth Extensions Error Registration</a></p>
+                <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="auto internal xref">13.2</a>.  <a href="#name-oauth-authorization-server-" class="internal xref">OAuth Authorization Server Metadata Registration</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3">
-                <p id="section-toc.1-1.13.2.3.1"><a href="#section-13.3" class="auto internal xref">13.3</a>.  <a href="#name-oauth-authorization-server-" class="internal xref">OAuth Authorization Server Metadata Registration</a></p>
+                <p id="section-toc.1-1.13.2.3.1"><a href="#section-13.3" class="auto internal xref">13.3</a>.  <a href="#name-oauth-protected-resource-me" class="internal xref">OAuth Protected Resource Metadata Registration</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4">
                 <p id="section-toc.1-1.13.2.4.1"><a href="#section-13.4" class="auto internal xref">13.4</a>.  <a href="#name-registration-of-attest_jwt_" class="internal xref">Registration of attest_jwt_client_auth Token Endpoint Authentication Method</a></p>
@@ -1316,8 +1316,8 @@ svg {
       </h2>
 <p id="section-1-1">Traditional OAuth client authentication methods, such as <code>private_key_jwt</code> defined in <span>[<a href="#RFC7523" class="cite xref">RFC7523</a>]</span>, typically rely on a direct connection between the client's backend and the Authorization Server. In ecosystems such as the Issuer-Holder-Verifier model used in <span>[<a href="#RFC9901" class="cite xref">RFC9901</a>]</span>, this direct communication raises privacy concerns, as it would enable the client's backend (i.e. client attester) to correlate which Holder (i.e. client) interacts with which Issuer (i.e. Authorization Server) and potentially observe the credentials or metadata being issued. This specification establishes a mechanism for a backend-attested client authentication through a front-channel to address these issues.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for mobile native apps to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, such as mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This primary purpose of this specification is the authentication of a client instance enabled through the client backend attesting to it. The client backend may also attest further technical properties about the hardware and software of the client instance.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">The client is considered a confidential OAuth 2 client type according to section 2.1 of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. The mechanism described in this document may  either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-3">The primary purpose of this specification is the authentication of a client instance enabled through the client backend attesting to it. The client backend may also attest further technical properties about the hardware and software of the client instance.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">The client is considered a confidential OAuth 2 client type according to <span><a href="https://rfc-editor.org/rfc/rfc6749#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. The mechanism described in this document may either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">This specification introduces the concept of client attestations to the OAuth 2 protocol, using two artifacts:<a href="#section-1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-6.1">
@@ -1497,7 +1497,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 }
 </pre><a href="#section-4-9" class="pilcrow">¶</a>
 </div>
-<p id="section-4-10">When using headers to transfer the Client Attestation JWT to an Authorization Server or Resource Server, it <span class="bcp14">MUST</span> be provided in an HTTP request using the a HTTP header named <code>OAuth-Client-Attestation</code>.<a href="#section-4-10" class="pilcrow">¶</a></p>
+<p id="section-4-10">When using headers to transfer the Client Attestation JWT to an Authorization Server or Resource Server, it <span class="bcp14">MUST</span> be provided in an HTTP request using the HTTP header field <code>OAuth-Client-Attestation</code>.<a href="#section-4-10" class="pilcrow">¶</a></p>
 <p id="section-4-11">The following is an example of the OAuth-Client-Attestation header.<a href="#section-4-11" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-4-12">
 <pre>
@@ -1513,7 +1513,7 @@ FORnKzsx5yu6A
 </div>
 <p id="section-4-13">Note that per <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
 header field names. Case is significant in the header field value, however.<a href="#section-4-13" class="pilcrow">¶</a></p>
-<p id="section-4-14">The OAuth-Client-Attestation HTTP header field values uses the token68 syntax defined in Section 11.2 of <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> (repeated below for ease of reference).<a href="#section-4-14" class="pilcrow">¶</a></p>
+<p id="section-4-14">The OAuth-Client-Attestation HTTP header field value uses the token68 syntax defined in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> (repeated below for ease of reference).<a href="#section-4-14" class="pilcrow">¶</a></p>
 <div class="lang-abnf sourcecode" id="section-4-15">
 <pre>
 OAuth-Client-Attestation       = token68
@@ -1593,25 +1593,26 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 {
   "aud": "https://as.example.com",
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
+  "iat": 1772487595,
   "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
 </pre><a href="#section-5.1-9" class="pilcrow">¶</a>
 </div>
-<p id="section-5.1-10">When using headers to transfer the Client Attestation PoP JWT to an Authorization Server or Resource Server, it <span class="bcp14">MUST</span> be provided in an HTTP request using the a HTTP header named <code>OAuth-Client-Attestation-PoP</code>.<a href="#section-5.1-10" class="pilcrow">¶</a></p>
+<p id="section-5.1-10">When using headers to transfer the Client Attestation PoP JWT to an Authorization Server or Resource Server, it <span class="bcp14">MUST</span> be provided in an HTTP request using the HTTP header field <code>OAuth-Client-Attestation-PoP</code>.<a href="#section-5.1-10" class="pilcrow">¶</a></p>
 <p id="section-5.1-11">The following is an example of the OAuth-Client-Attestation-PoP header.<a href="#section-5.1-11" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-5.1-12">
 <pre>
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
-AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
-crEnFgCqdkNfUA
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.M4Uc4rWVAqaLlmDDUXQKkKPbAQKj0JrTizLgWhZndmbkv
+M3VL8y-w_QJr7Z0HZlH94E64cLa8L5fSjJItYv0jg
 </pre><a href="#section-5.1-12" class="pilcrow">¶</a>
 </div>
 <p id="section-5.1-13">Note that per <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION-POP, oauth-client-attestation-pop, etc., are all valid and equivalent
 header field names. Case is significant in the header field value, however.<a href="#section-5.1-13" class="pilcrow">¶</a></p>
-<p id="section-5.1-14">The OAuth-Client-Attestation-PoP HTTP header field values uses the token68 syntax defined in Section 11.2 of <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> (repeated below for ease of reference).<a href="#section-5.1-14" class="pilcrow">¶</a></p>
+<p id="section-5.1-14">The OAuth-Client-Attestation-PoP HTTP header field value uses the token68 syntax defined in <span><a href="https://rfc-editor.org/rfc/rfc9110#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> (repeated below for ease of reference).<a href="#section-5.1-14" class="pilcrow">¶</a></p>
 <div class="lang-abnf sourcecode" id="section-5.1-15">
 <pre>
 OAuth-Client-Attestation-PoP   = token68
@@ -1626,7 +1627,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
         <h3 id="name-using-dpop-as-the-proof-of-">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-using-dpop-as-the-proof-of-" class="section-name selfRef">Using DPoP as the Proof of Possession</a>
         </h3>
-<p id="section-5.2-1">This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> for sender-contrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> for sender-constrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">Note when authorization code binding as defined in <span><a href="https://rfc-editor.org/rfc/rfc9449#section-10" class="relref">Section 10</a> of [<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> is used, this mode only works with the DPoP Proof header containing a proof of possession and not <code>dpop_jkt</code>. When using <code>dpop_jkt</code>, the normal mode has to be used.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">The following rules apply to the DPoP proof as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>:<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.2-4">
@@ -1685,7 +1686,7 @@ grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
       <h2 id="name-challenges">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-challenges" class="section-name selfRef">Challenges</a>
       </h2>
-<p id="section-6-1">This section defines optional mechanisms that allows a Client to receive a fresh Challenge from the Authorization Server or Resource Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see <a href="#terminology" class="auto internal xref">Section 3</a>. The value of the challenge is opaque to the client.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">This section defines optional mechanisms that allow a Client to receive a fresh Challenge from the Authorization Server or Resource Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see <a href="#terminology" class="auto internal xref">Section 3</a>. The value of the challenge is opaque to the client.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <div id="challenge-endpoint">
 <section id="section-6.1">
         <h3 id="name-providing-challenges-throug">
@@ -1852,7 +1853,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
         <h3 id="name-errors">
 <a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-errors" class="section-name selfRef">Errors</a>
         </h3>
-<p id="section-7.4-1">When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in Section 5.2 of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>) or Resource Server error responses (as defined in Section 3 of <span>[<a href="#RFC6750" class="cite xref">RFC6750</a>]</span>).<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-1">When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-5.2" class="relref">Section 5.2</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>) or Resource Server error responses (as defined in <span><a href="https://rfc-editor.org/rfc/rfc6750#section-3" class="relref">Section 3</a> of [<a href="#RFC6750" class="cite xref">RFC6750</a>]</span>).<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.4-2.1">
             <p id="section-7.4-2.1.1"><code>use_attestation_challenge</code> <span class="bcp14">MUST</span> be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code <span class="bcp14">MUST</span> be accompanied by the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field parameter (as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>).<a href="#section-7.4-2.1.1" class="pilcrow">¶</a></p>
@@ -1872,7 +1873,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
         <h3 id="name-client-attestation-as-an-oa">
 <a href="#section-7.5" class="section-number selfRef">7.5. </a><a href="#name-client-attestation-as-an-oa" class="section-name selfRef">Client Attestation as an OAuth Client Authentication</a>
         </h3>
-<p id="section-7.5-1">A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in Section 2.3 of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> towards an Authorization Server.  If the token request contains a <code>client_id</code> parameter as per <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> the Authorization Server <span class="bcp14">MUST</span> verify that the value of this parameter is the same as the client_id value in the <code>sub</code> claim of the Client Attestation.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
+<p id="section-7.5-1">A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-2.3" class="relref">Section 2.3</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> towards an Authorization Server.  If the token request contains a <code>client_id</code> parameter as per <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> the Authorization Server <span class="bcp14">MUST</span> verify that the value of this parameter is the same as the client_id value in the <code>sub</code> claim of the Client Attestation.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
 <p id="section-7.5-2">The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):<a href="#section-7.5-2" class="pilcrow">¶</a></p>
 <div class="lang-http sourcecode" id="section-7.5-3">
 <pre>
@@ -1887,12 +1888,12 @@ joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
 JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
 d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
 FORnKzsx5yu6A
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
-AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
-crEnFgCqdkNfUA
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.M4Uc4rWVAqaLlmDDUXQKkKPbAQKj0JrTizLgWhZndmbkv
+M3VL8y-w_QJr7Z0HZlH94E64cLa8L5fSjJItYv0jg
 
 grant_type=authorization_code&amp;
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -1905,8 +1906,8 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
         <h3 id="name-client-attestation-as-an-ad">
 <a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-client-attestation-as-an-ad" class="section-name selfRef">Client Attestation as an additional security signal</a>
         </h3>
-<p id="section-7.6-1">A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear along existing OAuth 2 Client Authentication mechanisms.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
-<p id="section-7.6-2">The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span> along side client_secret (with extra line breaks for display purposes only):<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-1">A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear alongside existing OAuth 2 Client Authentication mechanisms.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.6-2">The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span> alongside client_secret (with extra line breaks for display purposes only):<a href="#section-7.6-2" class="pilcrow">¶</a></p>
 <div class="lang-http sourcecode" id="section-7.6-3">
 <pre>
 POST /as/par HTTP/1.1
@@ -1920,12 +1921,12 @@ joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
 JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
 d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
 FORnKzsx5yu6A
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
-AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
-crEnFgCqdkNfUA
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.M4Uc4rWVAqaLlmDDUXQKkKPbAQKj0JrTizLgWhZndmbkv
+M3VL8y-w_QJr7Z0HZlH94E64cLa8L5fSjJItYv0jg
 
 response_type=code
 &amp;state=af0ifjsldkj
@@ -1952,12 +1953,12 @@ joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
 JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
 d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
 FORnKzsx5yu6A
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL3JzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.gzk
-0WkWsjNNx92gVMSp6jVpPDUvR0toYxLMyGmJMJOfm8mG2Otg0Nfm4PefOUpwBMNQtIXSd
-dW-cqJopljQaCQ
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL3JzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.Uh-vRynTGGARZNqijGyovBMm_EsX5qu0fg0VGPVRsp1rJ
+dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 </pre><a href="#section-7.6-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2010,7 +2011,7 @@ dW-cqJopljQaCQ
         <h3 id="name-refresh-token-binding">
 <a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-refresh-token-binding" class="section-name selfRef">Refresh token binding</a>
         </h3>
-<p id="section-9.3-1">Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft <span class="bcp14">MUST</span> bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in section 6 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. To prove this binding, the Client Instance <span class="bcp14">MUST</span> use the client attestation mechanism when refreshing an access token. The client <span class="bcp14">MUST</span> also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.3-1">Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft <span class="bcp14">MUST</span> bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-6" class="relref">Section 6</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. To prove this binding, the Client Instance <span class="bcp14">MUST</span> use the client attestation mechanism when refreshing an access token. The client <span class="bcp14">MUST</span> also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="web-server-default-maximum-http-header-sizes">
@@ -2037,7 +2038,7 @@ dW-cqJopljQaCQ
 <p id="section-9.6-1">Authorization Server or Resource Servers implementing measures to detect replay attacks as described in <a href="#security-consideration-replay" class="auto internal xref">Section 11.1</a> require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server or Resource Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen <code>challenge</code> or <code>jti</code> values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window <span class="bcp14">MUST</span> be rejected by the Authorization Server or Resource Server. The allowed window is determined by the <code>iat</code> of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server or Resource Server. These data structures need to:<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.6-2.1">
-            <p id="section-9.6-2.1.1">search the data structure to validate whether a challenge form a Client Attestation PoP has been previously seen<a href="#section-9.6-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-9.6-2.1.1">search the data structure to validate whether a challenge from a Client Attestation PoP has been previously seen<a href="#section-9.6-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.6-2.2">
             <p id="section-9.6-2.2.1">insert the new challenges from the Client Attestation PoP if the search returned no result<a href="#section-9.6-2.2.1" class="pilcrow">¶</a></p>
@@ -2046,7 +2047,7 @@ dW-cqJopljQaCQ
             <p id="section-9.6-2.3.1">delete the challenges after the Client Attestation PoP has passed the sliding time window<a href="#section-9.6-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.6-3">A trie (also called prefix tree), or a patricia trie (also called radix tree) is a <span class="bcp14">RECOMMENDED</span> data structures to implement such a mechanism.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
+<p id="section-9.6-3">A trie (also called prefix tree), or a patricia trie (also called radix tree) are <span class="bcp14">RECOMMENDED</span> data structures to implement such a mechanism.<a href="#section-9.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="trust-management-and-key-resolution">
@@ -2110,10 +2111,10 @@ dW-cqJopljQaCQ
 <p id="section-11.1-1">An Authorization/Resource Server <span class="bcp14">SHOULD</span> implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending the same Client Attestation PoP JWT in multiple requests. The following options are <span class="bcp14">RECOMMENDED</span> for this client authentication method:<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.1-2.1">
-            <p id="section-11.1-2.1.1">The Authorization/Resource Server manages a list of witnessed <code>jti</code> values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the <code>iat</code> of the Client Attestation PoP and and the duration chosen by the Authorization/Resource Server. If any Client Attestation PoP JWT would be replayed, the Authorization/Resource Server would recognize the <code>jti</code> value in the list and respond with an authentication error. Details how to implement such a data structure to maintain <code>jti</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.6</a>.<a href="#section-11.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-2.1.1">The Authorization/Resource Server manages a list of witnessed <code>jti</code> values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the <code>iat</code> of the Client Attestation PoP and the duration chosen by the Authorization/Resource Server. If any Client Attestation PoP JWT would be replayed, the Authorization/Resource Server would recognize the <code>jti</code> value in the list and respond with an authentication error. Details how to implement such a data structure to maintain <code>jti</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.6</a>.<a href="#section-11.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.1-2.2">
-            <p id="section-11.1-2.2.1">The Authorization/Resource Server provides a challenge as an <code>OAuth-Client-Attestation-Challenge</code> in the challenge endpoint to the Client Instance and the Client uses it as a <code>challenge</code> value in the Client Attestation PoP JWT. The Authorization/Resource Server may chose to:<a href="#section-11.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-2.2.1">The Authorization/Resource Server provides a challenge as an <code>OAuth-Client-Attestation-Challenge</code> in the challenge endpoint to the Client Instance and the Client uses it as a <code>challenge</code> value in the Client Attestation PoP JWT. The Authorization/Resource Server may choose to:<a href="#section-11.1-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.1-2.2.2.1">
                 <p id="section-11.1-2.2.2.1.1">manage a list of witnessed <code>challenge</code> values, similar to the previously described <code>jti</code> approach. Details how to implement such a data structure to maintain <code>challenge</code> values is given in <a href="#implementation-consideration-replay" class="auto internal xref">Section 9.6</a>. This guarantees stronger replay protection with a challenge chosen by the Authorization/Resource Server itself, at the potential cost of an additional round-trip.<a href="#section-11.1-2.2.2.1.1" class="pilcrow">¶</a></p>
@@ -2130,7 +2131,7 @@ dW-cqJopljQaCQ
                 <p id="section-11.1-2.3.2.1.1">send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly<a href="#section-11.1-2.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-11.1-2.3.2.2">
-                <p id="section-11.1-2.3.2.2.1">reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This <span class="bcp14">MUST</span> be communicated out-of-band between Authorization/Resource Server and Client.<a href="#section-11.1-2.3.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-11.1-2.3.2.2.1">reuse an existing artifact of the Client Instance's session, e.g. the authorization code. This <span class="bcp14">MUST</span> be communicated out-of-band between Authorization/Resource Server and Client.<a href="#section-11.1-2.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -2146,7 +2147,7 @@ dW-cqJopljQaCQ
         <h3 id="name-client-attestation-protecti">
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-client-attestation-protecti" class="section-name selfRef">Client Attestation Protection</a>
         </h3>
-<p id="section-11.2-1">This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestations JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
+<p id="section-11.2-1">This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestation JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
 These use-cases typically represent deployments where the Client Attester and Authorization Server have a trust relationship and the possibility to securely exchange keys out of band or are the same entity and no other entity needs to verify the Client Attestations. We expect most deployments to use digital signatures for the protection of Client Attestations, and implementers <span class="bcp14">SHOULD</span> default to digital signatures if they are unsure.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2169,7 +2170,7 @@ These use-cases typically represent deployments where the Client Attester and Au
           <p id="section-12-2.3.1">a RATS "Verifier" relates to the "Client Attester" defined in this specification<a href="#section-12-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-12-2.4">
-          <p id="section-12-2.4.1">a RATS "Attestion Result" relates to the "Client Attestation JWT" defined by this specification<a href="#section-12-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-12-2.4.1">a RATS "Attestation Result" relates to the "Client Attestation JWT" defined by this specification<a href="#section-12-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-12-2.5">
           <p id="section-12-2.5.1">a RATS "Endorser", "Reference Value Provider", "Endorsement", "Evidence" and "Policies and Reference Values" are out of scope for this specification<a href="#section-12-2.5.1" class="pilcrow">¶</a></p>
@@ -2182,122 +2183,137 @@ These use-cases typically represent deployments where the Client Attester and Au
       <h2 id="name-iana-considerations">
 <a href="#section-13" class="section-number selfRef">13. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<div id="oauth-parameters-registration">
+<div id="oauth-extensions-error-registration">
 <section id="section-13.1">
-        <h3 id="name-oauth-parameters-registrati">
-<a href="#section-13.1" class="section-number selfRef">13.1. </a><a href="#name-oauth-parameters-registrati" class="section-name selfRef">OAuth Parameters Registration</a>
+        <h3 id="name-oauth-extensions-error-regi">
+<a href="#section-13.1" class="section-number selfRef">13.1. </a><a href="#name-oauth-extensions-error-regi" class="section-name selfRef">OAuth Extensions Error Registration</a>
         </h3>
-<p id="section-13.1-1">This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>.<a href="#section-13.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.1-1">This specification requests registration of the following values in the IANA "OAuth Extensions Error Registry" registry of <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-13.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.1-2.1">
-            <p id="section-13.1-2.1.1">Metadata Name: challenge_endpoint<a href="#section-13.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.1.1">Name: use_attestation_challenge<a href="#section-13.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.1-2.2">
-            <p id="section-13.1-2.2.1">Metadata Description: URL of the authorization servers challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.<a href="#section-13.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.2.1">Usage Location: token error response, resource access error response<a href="#section-13.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.1-2.3">
-            <p id="section-13.1-2.3.1">Change Controller: IETF<a href="#section-13.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.3.1">Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication<a href="#section-13.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.1-2.4">
-            <p id="section-13.1-2.4.1">Reference: <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-13.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.4.1">Change Controller: IETF<a href="#section-13.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.1-2.5">
+            <p id="section-13.1-2.5.1">Reference: <a href="#errors" class="auto internal xref">Section 7.4</a> of this specification<a href="#section-13.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-</section>
-</div>
-<div id="oauth-extensions-error-registration">
-<section id="section-13.2">
-        <h3 id="name-oauth-extensions-error-regi">
-<a href="#section-13.2" class="section-number selfRef">13.2. </a><a href="#name-oauth-extensions-error-regi" class="section-name selfRef">OAuth Extensions Error Registration</a>
-        </h3>
-<p id="section-13.2-1">This specification requests registration of the following values in the IANA "OAuth Extensions Error Registry" registry of <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-13.2-1" class="pilcrow">¶</a></p>
+<p id="section-13.1-3"><br></p>
 <ul class="normal">
-<li class="normal" id="section-13.2-2.1">
-            <p id="section-13.2-2.1.1">Name: use_attestation_challenge<a href="#section-13.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.1-4.1">
+            <p id="section-13.1-4.1.1">Name: use_fresh_attestation<a href="#section-13.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-2.2">
-            <p id="section-13.2-2.2.1">Usage Location: token error response, resource access error response<a href="#section-13.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-4.2">
+            <p id="section-13.1-4.2.1">Usage Location: token error response, resource access error response<a href="#section-13.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-2.3">
-            <p id="section-13.2-2.3.1">Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication<a href="#section-13.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-4.3">
+            <p id="section-13.1-4.3.1">Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication<a href="#section-13.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-2.4">
-            <p id="section-13.2-2.4.1">Change Controller: IETF<a href="#section-13.2-2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-4.4">
+            <p id="section-13.1-4.4.1">Change Controller: IETF<a href="#section-13.1-4.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-2.5">
-            <p id="section-13.2-2.5.1">Reference: <a href="#errors" class="auto internal xref">Section 7.4</a> of this specification<a href="#section-13.2-2.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-4.5">
+            <p id="section-13.1-4.5.1">Reference: <a href="#errors" class="auto internal xref">Section 7.4</a> of this specification<a href="#section-13.1-4.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-13.2-3"><br></p>
+<p id="section-13.1-5"><br></p>
 <ul class="normal">
-<li class="normal" id="section-13.2-4.1">
-            <p id="section-13.2-4.1.1">Name: use_fresh_attestation<a href="#section-13.2-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.1-6.1">
+            <p id="section-13.1-6.1.1">Name: invalid_client_attestation<a href="#section-13.1-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-4.2">
-            <p id="section-13.2-4.2.1">Usage Location: token error response, resource access error response<a href="#section-13.2-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-6.2">
+            <p id="section-13.1-6.2.1">Usage Location: token error response, resource access error response<a href="#section-13.1-6.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-4.3">
-            <p id="section-13.2-4.3.1">Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication<a href="#section-13.2-4.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-6.3">
+            <p id="section-13.1-6.3.1">Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication<a href="#section-13.1-6.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-4.4">
-            <p id="section-13.2-4.4.1">Change Controller: IETF<a href="#section-13.2-4.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-6.4">
+            <p id="section-13.1-6.4.1">Change Controller: IETF<a href="#section-13.1-6.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.2-4.5">
-            <p id="section-13.2-4.5.1">Reference: <a href="#errors" class="auto internal xref">Section 7.4</a> of this specification<a href="#section-13.2-4.5.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-13.2-5"><br></p>
-<ul class="normal">
-<li class="normal" id="section-13.2-6.1">
-            <p id="section-13.2-6.1.1">Name: invalid_client_attestation<a href="#section-13.2-6.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.2-6.2">
-            <p id="section-13.2-6.2.1">Usage Location: token error response, resource access error response<a href="#section-13.2-6.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.2-6.3">
-            <p id="section-13.2-6.3.1">Protocol Extension: OAuth 2.0 Attestation-Based Client Authentication<a href="#section-13.2-6.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.2-6.4">
-            <p id="section-13.2-6.4.1">Change Controller: IETF<a href="#section-13.2-6.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.2-6.5">
-            <p id="section-13.2-6.5.1">Reference: <a href="#errors" class="auto internal xref">Section 7.4</a> of this specification<a href="#section-13.2-6.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.1-6.5">
+            <p id="section-13.1-6.5.1">Reference: <a href="#errors" class="auto internal xref">Section 7.4</a> of this specification<a href="#section-13.1-6.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="oauth-authorization-server-metadata-registration">
-<section id="section-13.3">
+<section id="section-13.2">
         <h3 id="name-oauth-authorization-server-">
-<a href="#section-13.3" class="section-number selfRef">13.3. </a><a href="#name-oauth-authorization-server-" class="section-name selfRef">OAuth Authorization Server Metadata Registration</a>
+<a href="#section-13.2" class="section-number selfRef">13.2. </a><a href="#name-oauth-authorization-server-" class="section-name selfRef">OAuth Authorization Server Metadata Registration</a>
         </h3>
-<p id="section-13.3-1">This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>.<a href="#section-13.3-1" class="pilcrow">¶</a></p>
+<p id="section-13.2-1">This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>.<a href="#section-13.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-13.2-2.1">
+            <p id="section-13.2-2.1.1">Metadata Name: challenge_endpoint<a href="#section-13.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.2">
+            <p id="section-13.2-2.2.1">Metadata Description: URL of the authorization server's challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.<a href="#section-13.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.3">
+            <p id="section-13.2-2.3.1">Change Controller: IETF<a href="#section-13.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-2.4">
+            <p id="section-13.2-2.4.1">Reference: <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-13.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-13.2-3"><br></p>
+<ul class="normal">
+<li class="normal" id="section-13.2-4.1">
+            <p id="section-13.2-4.1.1">Metadata Name: client_attestation_signing_alg_values_supported<a href="#section-13.2-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-4.2">
+            <p id="section-13.2-4.2.1">Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation JWT.<a href="#section-13.2-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-4.3">
+            <p id="section-13.2-4.3.1">Change Controller: IETF<a href="#section-13.2-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-4.4">
+            <p id="section-13.2-4.4.1">Reference: <a href="#as-metadata" class="auto internal xref">Section 8</a> of this specification<a href="#section-13.2-4.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-13.2-5"><br></p>
+<ul class="normal">
+<li class="normal" id="section-13.2-6.1">
+            <p id="section-13.2-6.1.1">Metadata Name: client_attestation_pop_signing_alg_values_supported<a href="#section-13.2-6.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-6.2">
+            <p id="section-13.2-6.2.1">Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation PoP JWT.<a href="#section-13.2-6.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-6.3">
+            <p id="section-13.2-6.3.1">Change Controller: IETF<a href="#section-13.2-6.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.2-6.4">
+            <p id="section-13.2-6.4.1">Reference: <a href="#as-metadata" class="auto internal xref">Section 8</a> of this specification<a href="#section-13.2-6.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="oauth-protected-resource-metadata-registration">
+<section id="section-13.3">
+        <h3 id="name-oauth-protected-resource-me">
+<a href="#section-13.3" class="section-number selfRef">13.3. </a><a href="#name-oauth-protected-resource-me" class="section-name selfRef">OAuth Protected Resource Metadata Registration</a>
+        </h3>
+<p id="section-13.3-1">This specification requests registration of the following values in the IANA "OAuth Protected Resource Metadata" registry of <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span>.<a href="#section-13.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.3-2.1">
-            <p id="section-13.3-2.1.1">Metadata Name: client_attestation_signing_alg_values_supported<a href="#section-13.3-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-13.3-2.1.1">Metadata Name: challenge_endpoint<a href="#section-13.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.3-2.2">
-            <p id="section-13.3-2.2.1">Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation JWT.<a href="#section-13.3-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.3-2.2.1">Metadata Description: URL of the protected resource's challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.<a href="#section-13.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.3-2.3">
             <p id="section-13.3-2.3.1">Change Controller: IETF<a href="#section-13.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.3-2.4">
-            <p id="section-13.3-2.4.1">Reference: <a href="#as-metadata" class="auto internal xref">Section 8</a> of this specification<a href="#section-13.3-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-13.3-3"><br></p>
-<ul class="normal">
-<li class="normal" id="section-13.3-4.1">
-            <p id="section-13.3-4.1.1">Metadata Name: client_attestation_pop_signing_alg_values_supported<a href="#section-13.3-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.3-4.2">
-            <p id="section-13.3-4.2.1">Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation PoP JWT.<a href="#section-13.3-4.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.3-4.3">
-            <p id="section-13.3-4.3.1">Change Controller: IETF<a href="#section-13.3-4.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.3-4.4">
-            <p id="section-13.3-4.4.1">Reference: this specification<a href="#section-13.3-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-13.3-2.4.1">Reference: <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-13.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2316,7 +2332,7 @@ These use-cases typically represent deployments where the Client Attester and Au
             <p id="section-13.4-2.2.1">Change Controller: IESG<a href="#section-13.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.4-2.3">
-            <p id="section-13.4-2.3.1">Specification Document(s): TBC<a href="#section-13.4-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-13.4-2.3.1">Specification Document(s): <a href="#as-metadata" class="auto internal xref">Section 8</a> of this specification<a href="#section-13.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2415,15 +2431,15 @@ These use-cases typically represent deployments where the Client Attester and Au
 <dd class="break"></dd>
 <dt id="IANA.OAuth.Params">[IANA.OAuth.Params]</dt>
         <dd>
-<span class="refAuthor">IANA</span>, <span class="refTitle">"OAuth Authorization Server Metadata"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#authorization-server-metadata">https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#authorization-server-metadata</a>&gt;</span>. </dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"OAuth Parameters"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml">https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC3986">[RFC3986]</dt>
+<dt id="RFC6749">[RFC6749]</dt>
         <dd>
-<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
+<span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6749">https://www.rfc-editor.org/rfc/rfc6749</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6750">[RFC6750]</dt>
         <dd>
@@ -2486,14 +2502,6 @@ These use-cases typically represent deployments where the Client Attester and Au
 <a href="#section-14.2" class="section-number selfRef">14.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="ARF">[ARF]</dt>
-        <dd>
-<span class="refTitle">"The European Digital Identity Wallet Architecture and Reference Framework"</span>, <span>n.d.</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC6749">[RFC6749]</dt>
-        <dd>
-<span class="refAuthor">Hardt, D., Ed.</span>, <span class="refTitle">"The OAuth 2.0 Authorization Framework"</span>, <span class="seriesInfo">RFC 6749</span>, <span class="seriesInfo">DOI 10.17487/RFC6749</span>, <time datetime="2012-10" class="refDate">October 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6749">https://www.rfc-editor.org/rfc/rfc6749</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7523">[RFC7523]</dt>
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">C. Mortimore</span>, <span class="refTitle">"JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants"</span>, <span class="seriesInfo">RFC 7523</span>, <span class="seriesInfo">DOI 10.17487/RFC7523</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7523">https://www.rfc-editor.org/rfc/rfc7523</a>&gt;</span>. </dd>
@@ -2522,7 +2530,19 @@ These use-cases typically represent deployments where the Client Attester and Au
           <p id="appendix-A-2.1.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">add clarification on Client Attester<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">update Client Attestation PoP JWT examples to use <code>challenge</code> instead of <code>nonce</code> and include the required <code>iat</code> claim<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.3">
+          <p id="appendix-A-2.3.1">clean up references<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.4">
+          <p id="appendix-A-2.4.1">fix IANA registrations<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.5">
+          <p id="appendix-A-2.5.1">editorial fixes<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.6">
+          <p id="appendix-A-2.6.1">add clarification on Client Attester<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-09<a href="#appendix-A-3" class="pilcrow">¶</a></p>
@@ -2758,7 +2778,7 @@ Dimitris Zarras,
 Filip Skokan,
 Francesco Marino,
 Frederik Krogsdal Jacobsen,
-Guiseppe De Marco,
+Giuseppe De Marco,
 Joseph Heenan,
 Kristina Yasuda,
 Micha Kraus,
