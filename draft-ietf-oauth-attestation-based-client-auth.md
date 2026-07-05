@@ -642,7 +642,6 @@ An Authorization/Resource Server SHOULD implement measures to detect replay atta
   - use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization/Resource Server.
 - The Authorization/Resource Server generates a challenge that is bound to the Client Instance's session, such that a specific `challenge` in the Client Attestation PoP JWT is expected and validated. The Authorization/Resource Server may either:
   - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
-  - reuse an existing artifact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization/Resource Server and Client.
 
 Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementations to deal with proper state handling. This can be implicit by always mandating support for this feature or via some metadata that allows the client to detect support for this feature for a specific server.
 
@@ -777,6 +776,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * fix IANA registrations
 * editorial fixes
 * add clarification on Client Attester
+* remove replay attack consideration to reuse existing artifacts as challenge
 
 -09
 
