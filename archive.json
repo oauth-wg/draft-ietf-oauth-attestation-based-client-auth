@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-02T00:39:10.607529+00:00",
+  "timestamp": "2026-07-05T00:33:01.590942+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -3135,7 +3135,7 @@
       "id": "I_kwDOJaEkaM61NEnw",
       "title": "Further implementer guidance on Client Instance Attestations",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/107",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Macke",
       "authorAssociation": "NONE",
       "assignees": [
@@ -3147,8 +3147,8 @@
       ],
       "body": "I suggest that it would be useful to implementers if non-normative examples of \"client instance attestations\" were provided.  Attestations about the status of a device, key pair, or application instance may be useful pointers for implementers.  Additionally being clear that it is possible to have several attestations in a single request to the Client Attester would be very helpful to potential implementers.\n\nLine 110 of current editors .md",
       "createdAt": "2025-05-05T15:54:59Z",
-      "updatedAt": "2026-05-10T12:23:11Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-03T18:36:41Z",
+      "closedAt": "2026-07-03T18:36:41Z",
       "comments": [
         {
           "author": "tplooker",
@@ -4332,11 +4332,13 @@
       "state": "OPEN",
       "author": "Denisthemalice",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "paulbastian"
+      ],
       "labels": [],
       "body": "In section 12.1. (Replay Attacks), two ways are proposed to manage challenges:\n\n>    *  The Authorization Server provides a challenge as an OAuth-Client-\n>       Attestation-Challenge in the challenge endpoint to the Client\n>       Instance ...\n\nor\n\n>    *  The Authorization Server generates a challenge that is bound to\n>       the Client Instance's session, such that a specific challenge in\n>       the Client Attestation PoP JWT is expected and validated.\n\nThese two cases are indeed possible but the management of them is quite different.\n\nIn the second case, the text states:\n\n>    *  (...) The Authorization Server may either:\n> \n>       -  send the challenge as part of another previous response to the\n>          Client Instance of providing the challenge explicitly\n> \n>       -  reuse an existing artefact of the Client Instance's session,\n>          e.g. the authorization code.  This MUST be communicated out-of-\n>          band between Authorization Server and Client.\n\nIt is doubtful that the second case which is too vaguely defined can be implemented in an interoperable way (i.e., by only reading this document). Therefore, I would remove that second case.\n\nPresently, no use case allows a client, within a session, to request a challenge to the AS. This possibility should be added as it allows to split the list into small parts.\n\nAs a side effect, the following sentence in section 8 will need to be reconsidered:\n\n>    If the Authorization Server offers a challenge endpoint, the Client \n>    MUST retrieve a challenge and MUST use this challenge in the OAuth-\n>    Attestation-PoP as defined in Section 5.2.\n\nIf it becomes possible to request a challenge to the AS within a session, it should be questioned whether the ability to obtain a challenge using a challenge endpoint should be kept.\n\n",
       "createdAt": "2025-10-16T08:05:58Z",
-      "updatedAt": "2026-05-10T13:27:34Z",
+      "updatedAt": "2026-07-02T16:55:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -4914,7 +4916,7 @@
       "id": "I_kwDOJaEkaM8AAAABC1lQYQ",
       "title": "Interim Feedback: Add more explanation/requirements on Client Attester",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/196",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [
@@ -4925,8 +4927,8 @@
       ],
       "body": "By Judith Kahrer on the mailing list:\n\n> I agree with the conversation in the minutes. Leave the details of the attestation process out of scope. However, I suggest you list the requirements as it currently is unclear what attestation means. What do you expect an attester to validate at a bare minimum (i.e., client instance controlling the key)? What makes the key-bound JWT a client attestation? What information should/does the client attestation JWT convey? In section 6.4 you mention: \"[Sending additional security signals] may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation\". Make it clear (as part of the terminology?) that this is what you expect from an attester and client attestation. Imo, the client's authenticity and integrity are key to an attestation (without having to get into technical details...). ",
       "createdAt": "2026-05-20T10:11:46Z",
-      "updatedAt": "2026-06-11T06:58:12Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-03T18:36:41Z",
+      "closedAt": "2026-07-03T18:36:41Z",
       "comments": [
         {
           "author": "c2bo",
@@ -5031,7 +5033,7 @@
       "id": "I_kwDOJaEkaM8AAAABFMX3Cg",
       "title": "Draft9 - Clarification on DPoP Combined Mode and `dpop_jkt`",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/199",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "babisRoutis",
       "authorAssociation": "NONE",
       "assignees": [
@@ -5042,8 +5044,8 @@
       ],
       "body": "Under section 7.3 of d9, there is the following requirement\n\n> There is precisely one DPoP HTTP request header field present in the request\n\nIn case, ABCA is used as addition security signal, that's clear.\n\nYet, when ABCA is used as a client authentication method to the PAR endpoint the use of DPoP header is just one of the two methods that an Authorization Server must support, according to RFC 9449 [10.1. ](https://datatracker.ietf.org/doc/html/rfc9449#section-10.1)[DPoP with Pushed Authorization Requests](https://datatracker.ietf.org/doc/html/rfc9449#name-dpop-with-pushed-authorizat)\n\n> Both mechanisms MUST be supported by an authorization server that supports PAR and DPoP\n\nCan you please clarify this conflicting requirements:\n\n- AS MUST support both DPoP header & dpop_jkt according to RFC9449,\n- Yet ABCA supports only the DPoP header\n\n",
       "createdAt": "2026-06-11T19:16:08Z",
-      "updatedAt": "2026-07-01T15:32:20Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-02T16:20:48Z",
+      "closedAt": "2026-07-02T16:20:48Z",
       "comments": [
         {
           "author": "c2bo",
@@ -5073,9 +5075,17 @@
       "labels": [],
       "body": "The OAuth WG already has an \"Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants\" (rfc7521).\n\nThis draft feels like naturally should either be based on that, be optionally compatible with it, or at very least clearly and explicitly state why it is not based on it.\n\nMy understanding is that the use of the a header makes it mostly incompatible, but there are deployments out there (atproto) which 1) already use rfc7521 and 2) don't necessarily care about receiving client attestation on the resource endpoint (this is covered by very short lived access tokens).\n\nIn those deployment, it feels more natural to be able to use ABCA in the context of rfc7521 instead of using a rfc7521 + \"something that is not covered by rfc7521 but essentially fulfills the same purpose as what the framework was meant to provide\", which is, in my humble opinion, a bit misleading.\n\n\n> [!NOTE]\n>\n> This is great work by the way. This nit aside, I'm super happy this landed in a state that is compatible with DPoP.",
       "createdAt": "2026-06-12T10:47:34Z",
-      "updatedAt": "2026-06-12T10:48:47Z",
+      "updatedAt": "2026-07-02T16:45:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "Given the current header-based syntax, the only way to comply with RFC7521 would be an empty or static payload which sounds rather dangerous from a security perspective and might break existing implementations.\n\nThe alternative seems be to re-introduce a single presentation format (e.g., the concatenated form we had in the draft before) and put that into the payload which we don't believe would be easy to use or a good idea.\n\nNot sure how to best proceed on this one? We'll bring it up at IETF 126.",
+          "createdAt": "2026-07-02T16:45:28Z",
+          "updatedAt": "2026-07-02T16:45:28Z"
+        }
+      ]
     },
     {
       "number": 202,
@@ -5090,6 +5100,24 @@
       "body": "These comments on draft-ietf-oauth-attestation-based-client-auth-08 detail my observations and comments\nmade during the virtual interim meeting held last Monday on 2026-05-04 from 17:00 to 18:00 UTC.\n\nSince my comments 3 and 12 contain the acronym CBOR, I copy the Spice mailing list\nwhile this document does not contain any occurrence of that acronym.\n\n1.  The vocabulary used in this draft is still confusing\n\nIntroduction\n\n   Traditional OAuth security concepts perform client authentication\n   through a backend channel.  \n\nThe wording \"backend channel\" is not explained.\n\nThe term \"backend\" is confusing as the Figure indicates:\n\n                +--------------------+\n                |                    |\n                |    Client Attester |\n                |      (backend)     |\n                |                    |\n                +--------------------+ \n\nIn the ISO OBP, the single definition for the term \"attester\" is as follows:\n\nattester : actor (person) who certifies and records legal responsibility for a particular unit of information ISO 13606-1:2019, 3.1.1.\n\nAn Attester is someone who affirms or vouches for the correctness or truth or genuineness of something. \n\nSuch a role is endorsed by a TTP (Trusted Third Party). However, the acronym TPP does not appear anywhere in this draft.\n\nThe text continues with:\n\n   This specification establishes a mechanism for a backend-attested client\n   authentication through a frontend channel to address these issues.\n\nThe wording \"frontend channel\" is not explained and the word \"frontend\" is used nowhere else in the draft.\nHowever, using the terms \"frontend\" and \"backend\" makes sense for a Client, but these terms would need to be defined\nin section 3 (Terminology).\n\n\n2.  The draft should support \"data origin authentication\" instead of \"entity authentication\"\n\n In the Introduction, the step (6) is described as follows:\n\n   (6) The Client Instance sends both the Client Attestation JWT and\n       the Client Attestation PoP JWT to the authorization server,\n       e.g. within a token request.\n\nThis is insecure as :\n\n    the token request is left unprotected,\n    the Client Attestation JWT is left unprotected since it is not signed by the Client Instance Key.\n\nIn order to allow an AS to verify the origin of a request rather than only authenticating a client, \nthe draft should support a \"data origin authentication service\" instead of an \"authentication service\".\n\nSee also the following issue: https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/159\nthat has been raised more than six months ago on Oct 16, 2025.\n\n3.  Terminology used in Section 3: Client Attestation JWT  \n\n   Client Attestation JWT:  A JSON Web Token (JWT) generated by the\n      Client Attester which is bound to a key managed by a Client\n      Instance which can then be used by the instance for client\n      authentication.\n\nThe draft should first define a Client Attestation. A client attestation can be encoded either using JSON or CBOR. \nAt the conceptual level, the encoding of a Client Attestation is irrelevant. \n\nIn Token Status List (TSLs), TSLs can be encoded using either JSON or CBOR. Why not do the same in this document?\n\n4.  Model overview\n\n The terminology I propose is based on the following model:\n\n           +--------------+\n          |    Client    |\n          |    Backend   |\n          |    Attester  |\n          +--------------+\n            |          |\n            |          |\n          +--------------+\n          |    Client    |\n          |    Backend   |\n          +--------------+\n            |          |\n            |          |\n          +--------------+          +--------------+\n          |    Client    |          |              |\n          |    Frontend  |----------|      AS      |\n          |              |          |              |\n          +--------------+          +--------------+\n\n             FIGURE 1: Model overview\n\nA Client Backend Attester delivers Client Backend Attestations to Client Backends.\n\nA Client Backend stores, protects and manages critical cryptographic key materials. It communicates with a Client Frontend and possibly with a Client Backend Attester. \n\nA Client Frontend communicates with a Client Backend and with an AS, as well as with other entities.\n\nThe following definition is proposed:\n\n    Client Backend Attestation: data generated by a Client Backend Attester that describes some of the characteristics of the Client Backend application, \n    including those of the OS/hardware supporting it, that contains a public key which is associated with a private key stored and protected within the Client Backend. \n\n    A Client Backend Attester is a TTP that certifies and bears responsibility for the delivery of these attestations after the examination of the characteristics \n    of a Client Backend and how it is managed. \n\n    Characteristics supported by a Client Backend are described using a sequence of OIDs that can be defined under different name spaces.\n\n\n5.  Terminology used in Section 3: Client Attestation Proof of Possession (PoP) JWT\n\nThe next definition is:\n\n    Client Attestation Proof of Possession (PoP) JWT:  A Proof of Possession generated by the Client Instance\n    using the key that the Client Attestation JWT is bound to.\n\nThe goal is NOT to authenticate the Client Backend but to know that some data originates from a Client Backend.\n\nWhen a client application is interacting with an AS, there are two goals:\n\n    (1) a first goal is to demonstrate to the AS that a request sent by the Client\n    Fronted to an AS is integrity protected using a private key managed by the\n    Client Backend.\n\n    (2) a second goal is to demonstrate to the AS that some key material has be\n    generated by a Client Backend (i.e., not by the Client Frontend) that supports\n    a set of characteristics that are attested by a Client Backend Attester. \n\n    Such characteristics are intended to guaranty that the keys are correctly generated,\n    kept in a secure place and are only usable by a set of reliable applications.\n\n    If the Issuer trusts that Client Backend Attester, then it can be confident\n    that this set of characteristics is supported by that Client Backend.\n\nThe definition of a \"Client Attestation Proof of Possession (PoP)\" JWT should be removed.\n\n6.  Terminology used in Section 3: Client Instance\n\nThe next definition is:\n\n   Client Instance:  A deployed instance of a piece of client software.\n\nThis definition should be reconsidered as it does not explain its relationship with the internal structure of the client.\n\nIt should be replaced by two definitions: Client Backend and Client Frontend.\n\n    Client Backend: a part of a Client application that stores, protects and manages critical cryptographic key materials.\n    It communicates with a Client Frontend and possibly with a Client Backend Attester.\n    When a TEE (Trusted Execution Environment) is supported, a Client Backend corresponds to a TA (Trusted Application) running in the TEE.\n\n    Client Frontend: a part of a Client application that communicates with a Client Backend and with an AS, as well as with other entities.\n    When a TEE is supported, a Client Frontend corresponds to a UA (Untrusted Application) running in the REE (Rich Execution Environment).\n\n\n7.  Terminology used in Section 3: Client Instance Key\n\nThe next definition is:\n\n   Client Instance Key:  A cryptographic asymmetric key pair that is\n      generated by the Client Instance where the public key of the key\n      pair is provided to the Client Attester.  This public key is then\n      encapsulated within the Client Attestation JWT and is utilized to\n      sign the Client Attestation Proof of Possession.\n\nThis definition is not appropriate as there are different ways to install or generate such key pair.\nFor example, using an on-the-air (OTA) update of a smartphone, it is possible to download into the mobile device such a key together with its attestation.\n\nThis definition should be reconsidered.\n\n\n8.  Terminology used in Section 3: Client Attester\n\nThe next definition is:\n\n   Client Attester:  An entity that authenticates a Client Instance and\n                     attests it by issuing a Client Attestation JWT.\n\nA Client Attester does not simply \"authenticate\" a Client Instance. It attests some of its characteristics and makes sure\nthat a public key that is inserted into the client attestation corresponds to a private key that is present in a protected part\nof that client i.e, the Client Backend.\n\nThe following definition is proposed as a replacement:\n\n    Client Backend Attester:  Trusted Third Party (TTP) that delivers Client Backend Attestations to Client Backends after examination\n    of the characteristics and of the environment where a type of Client Backend will be deployed. This TTP bears responsibility\n    when delivering Client Backend Attestations.\n\n\n9.  Terminology used in Section 3: Challenge\n\nThe next definition is:\n\n   Challenge:  A String that is the input to a cryptographic challenge-\n   response pattern.  This is traditionally called a nonce within OAuth.\n\nThis definition is technically correct but can be improved as it does not state for what purpose the String will be used.\n\n   Challenge:  A String that is the input to a cryptographic challenge-\n   response pattern in order to be able to detect replay attacks.\n   Within OAuth, this is traditionally called a nonce.\n\nIMPORTANT: The use of a challenge should be mandatory.\n\n\n10.  About section 5: Relation to RATS\n\nRATS (RFC 9334) does not contain any definition for the term \"Attester\". However, it contains the following sentence:\n\n    In Remote ATtestation procedureS (RATS), one peer (the \"Attester\") produces believable information about itself (\"Evidence\")\n    to enable a remote peer (the \"Relying Party\") to decide whether or not to consider that Attester a trustworthy peer.\n\nRATS (RFC 9334) does not contain any definition for the term \"Attestation\" either. The text is only using the wording \"Attestation Results\".\n\nThe current draft states:\n\n   The Remote Attestation Procedures (RATS) architecture defined by\n   [RFC9334] has some commonalities to this document.  The flow\n   specified in this specification relates to the \"Passport Model\" in\n   RATS.\n\nIn RATS, the Passport Model is described in section 5.1:\n\n    The citizen retains control of the resulting passport document and presents it to other entities\n    when it needs to assert a citizenship or identity Claim, such as at an airport immigration desk.\n\nIt is questionable whether this model applies, as the second paragraph from section 5.1 states:\n\n    Thus, in this immigration desk analogy, the citizen is the Attester, (...)\n\nCan a citizen really be an Attester ? What about the Client ?\n\nSection 4 (i.e., Relation to RATS) should be removed.\n\n\n11.  About section 5: Client Attestation Format\n\nThe next section is : 5.  Client Attestation Format\n\nBefore diving into the encoding, it would be useful to indicate the goal of the Client Attestation and its relationship with a Client Attestation Result.\n\nBefore that section, a new section should be added with a title like : \"Goals and Architecture\".\n\nFigure 2 (below) which is different from the Figure currently present on page 4 should be used.\n\nWhen making a request to the AS, two cases can be considered:\n\n    (a) the Client Frontend wishes to send a request to the AS and to integrity protect it using a key stored and protected within the Client Backend.\n\n    (b) the Client Frontend wishes to send a request to the AS that contains, in addition, a set of cryptographic data (e.g., a set of public keys)\n        and wishes to demonstrate that this set of keys has been generated by the Client Backend.\n\nA typical example is the request of a batch of digital credentials where each issued digital credential contains one of these public keys.\nWhen the AS receives these public keys, it can know the characteristics supported by the Client Backend and then can decide whether\nthey match with one of its issuing digital credential policies.\n\nHow can this be modelled ?\n\nThe Client Frontend instructs its Client Backend what to do. This will be done by locally communicating:\n\n    - a command to the Client Backend and\n    - a set of parameters appropriate for that command.\n\nThis is usually done using an API.\n\nCommands sent to the Client Backend will have the following structure;\n\n        - a command XYZ sent to the Client Backend,\n        - a challenge that has been previously requested to the AS by the Client Frontend and\n        - a hash value of the request that the Client Frontend wishes to send to the AS.\n\nAn example of such a command XYZ sent to an AS can be:\n\n    \" generate a batch of four public keys according to the algorithm Y using the set of parameters Z and return these public keys (as authenticated data)\n      within the Attestation Result and an index for each of them in the response to the command \".\n\nIt is now possible to take a look at Figure 2 below:\n\n          +--------------+\n          |    Client    |\n          |    Backend   |\n          |    Attester  |\n          +--------------+\n            |  Out of  |\n            |   scope  |\n          +--------------+\n          |    Client    |\n          |    backend   |\n          +--------------+\n             / \\     | \n         (4)  |      |  (5)\n  command     |      |  response to the command\n     +        |      |  + Attestation Result =\n  challenge   |      |  all signed under a Client Backend private key:\n     +        |      |  (challenge + hash value of the request\n  hash value  |      |    + Client Backend Attestation\n of a request |      |    + authenticated data (optional))\n              |     \\ /\n          +---------------+                         +---------------+\n          |               |  challenge request (1)  |               |\n          |               |------------------------>|               |\n          |               |      challenge     (2)  |               |\n          |   Client      |<------------------------| Authorization |\n          |   frontend    |      request            |     Server    |\n          |     (3)       |         +               |               |\n          |               |  Attestation Result     |               |\n          |               |------------------------>|               |\n          +---------------+         (6)             +---------------+\n\n             FIGURE 2: Architecture and data flows overview\n\nOut of the scope of this document:  How the Client Backend got or generated a private key and obtained,\nfrom a Client Backend Attester, a Client Backend Attestation for the corresponding public key\nwhere that attestation includes a set of characteristics supported by the Client Backend.\n\n    (1) The Client Frontend requests a challenge to the AS\n\n    (2) The AS sends back a challenge to the Client frontend\n\n    (3) The Client Frontend locally constructs a request that will be sent later on to the AS and computes a hash of this request\n\n    (4) The Client Frontend communicates to the Client Backend and constructs a message composed of a command, the challenge and the hash of the request.\n\n    (5) the Client Backend returns to the Client Frontend a response to the command intended to be processed by the Client Frontend and an Attestation Result\n         that contains up to four data elements, all signed under a private key of the Client Backend:\n\n            (a) the challenge,\n            (b) the hash value of the request,\n            (c) a client backend Attestation and\n            (d) optionally, authenticated data generated by the Client Backend intended to be processed by the AS.\n\n    An example of \"authenticated data generated by the Client Backend\" is a set of public keys where each public key is intended to be included into soon-to-be-issued digital credentials.\n\n    (6) the Client Frontend sends to the AS both a request (e.g. a token request) and the Attestation Result.\n\n12.  About section 5 (Client Attestation Format)\n\nThe text states:\n\n   The Client Attestation MUST be encoded as a \"JSON Web Token (JWT)\" according to [RFC7519].\n\nThis is debatable. If used in a CBOR context, why should client backend attestations be only JSON encoded ?\n\n\n13. About the field \"sub\" and the unlinkability property between RSs\n\n   *  sub: REQUIRED.  The sub (subject) claim MUST specify client_id value of the OAuth Client.\n\nSince the header of the JWT shall include a \"sub (subject) claim that MUST specify client_id value of the OAuth Client\", \nif this protocol is used towards a RS, the unlinkability property between RSs cannot be supported..\n\nIf this protocol is maintained with a RS, it should be clearly advertised that the unlinkability property between RSs cannot be supported. \nIn that case, a \"Privacy Considerations\" section should be added to warn implementers.\n\nUsing a transitive trust model, it is possible to communicate to a RS a set of characteristics supported by the Client Backend\nwhile supporting the unlinkability property between RSs in the following way:\n\n    At the time a token request is received by an AS, the AS can know a set of characteristics supported by the Client Backend. \n\n    If that set of characteristics is adequate according to the issuance policy of a given type of token, then the AS can include \n    a subset of that set of characteristics into the issued token (e.g., into a digital credential) but SHALL NOT include the \"sub\" field \n    that is present in the Client Backend Attestation, as it would allow to identify a particular Client Backend. \n\nIn this way, the unlinkability property between RSs can be supported and a protocol between the AS and the RS can be avoided.\n\n14.  About the field \"exp\"\n\n   *  exp: REQUIRED.  The exp (expiration time) claim MUST specify the\n      time at which the Client Attestation is considered expired by its issuer.\n\nSince a Client Backend Attestation shall include an expiration time field, the document should include a section to deal with\nthe suspension and the revocation of Client Backend Attestations.\n\nIt should be noticed that, in the proposal, the digital signature made using a private key of the Client Backend also protects the Client Backend Attestation.\nThis is necessary because the Client Backend Attestation needs to know which one has been used. Suspension or revocation apply to a Client Backend Attestation\nand not to the public key it contains.\n\n    After the end of a suspension, it is not necessary to change the key pair.\n    After a revocation, depending about the revocation reason, it may not be necessary to change the key pair.\n\n15.  About the most important missing field and \"other claims\"\n\nThe text mentions:\n\n   The following additional rules apply:\n   1.  The JWT MAY contain other claims. \n\nA field that enumerates a set of characteristics supported by the Client Backend is missing. Such field should contain a set of OIDs.\n\nSaying \"The JWT MAY contain other claims\" is insufficient, as it would not permit any kind of interoperability and would miss one major goal of this document.\n\n\n16.  About the title\n\nThe title of this draft is: OAuth 2.0 Attestation-Based Client Authentication\n\nGiven the previous comments, it would be more appropriate to rename it:\n\n    OAuth 2.0 Attestation-Based Client Data Origin Authentication\n\n\n17. About the abstract\n\nThe wording \"or Resource Server\" should be removed from the abstract. Taking into account the previous comment, the following abstract is proposed:\n\n    This specification defines an extension to the OAuth 2.0 protocol [RFC6749] that enables a client instance to send to an Authorization Server\n    messages integrity-protected using an attestation bound to a Client Backend.\n\n18. Considering the following individual draft issued on May 5, 2026 and recently advertised on the saag mailing list\n\nPost-Session Execution Assurance (PSEA): A Security Model for Verifying Authority at the Moment of Action (draft-yossif-psea-01)\n\nI noticed the following statement in the Security considerations section:\n\n   Implementations SHOULD use platform-attested hardware-backed key\n   storage (such as Trusted Execution Environments) to bound this risk.\n\nThis observation is appropriate. A non-normative example about digital credential wallets supported by a TEE would be great.",
       "createdAt": "2026-06-16T06:53:55Z",
       "updatedAt": "2026-06-16T06:53:55Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 204,
+      "id": "I_kwDOJaEkaM8AAAABHeNIaQ",
+      "title": "Allow other PoP mechanisms to be used",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/204",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [
+        "c2bo"
+      ],
+      "labels": [],
+      "body": "We currently say\n\n> This specification enables two options for the proof of possession:\n>\n>- A Client Attestation PoP JWT, introduced by this specification\n>- Utilizing DPoP as defined in {{RFC9449}}\n\nWe should add text that allows other PoPs to be used as way (e.g., message signatures in the future)",
+      "createdAt": "2026-07-02T16:36:28Z",
+      "updatedAt": "2026-07-03T19:01:27Z",
       "closedAt": null,
       "comments": []
     }
@@ -13367,7 +13395,7 @@
       "labels": [],
       "body": "Closes #56 \r\nFixes #114\r\n\r\nLooking for feedback on the approach here @panva.\r\n\r\nI've opted to not require this behaviour via RECOMMENDED over a MUST this also makes it forward compatible with future OAuth2 extensions that might define new protocol artefacts.",
       "createdAt": "2025-09-09T00:12:15Z",
-      "updatedAt": "2026-04-21T06:12:53Z",
+      "updatedAt": "2026-07-02T18:15:26Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2",
@@ -13392,6 +13420,13 @@
           "body": "Should we clarify that this binding only takes place, if attestations are used as client authentication?",
           "createdAt": "2026-04-07T19:55:22Z",
           "updatedAt": "2026-04-07T19:55:22Z"
+        },
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "@panva @aaronpk can you provide feedback on this in the next days ? We'd like to merge this before IETF cutoff",
+          "createdAt": "2026-07-02T16:38:04Z",
+          "updatedAt": "2026-07-02T16:38:04Z"
         }
       ],
       "reviews": [
@@ -13552,6 +13587,66 @@
               "body": "\n```suggestion\nAuthorization servers using Attestation-Based Client Authentication are RECOMMENDED to bind relevant protocol artifacts to the Client Instance and its associated public key where possible, and NOT just the client as specified in section 6 {{RFC6749}}. Note that this only applies if Attestation-Based Client Authentication is used as a Client Authentication. Examples of these artifacts include but are not limited to:\n```",
               "createdAt": "2026-04-21T06:12:53Z",
               "updatedAt": "2026-04-21T06:12:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE1PAMQ",
+          "commit": {
+            "abbreviatedOid": "e8d00ef"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-02T16:02:37Z",
+          "updatedAt": "2026-07-02T16:02:38Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "I don't believe this is used anyhwere?\n```suggestion\n```",
+              "createdAt": "2026-07-02T16:02:38Z",
+              "updatedAt": "2026-07-02T16:02:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE2H9Iw",
+          "commit": {
+            "abbreviatedOid": "e8d00ef"
+          },
+          "author": "aaronpk",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-02T18:14:55Z",
+          "updatedAt": "2026-07-02T18:14:55Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "```suggestion\n- The authorization_code as specified in {{Section 4.1 of RFC6749}}.\n```",
+              "createdAt": "2026-07-02T18:14:55Z",
+              "updatedAt": "2026-07-02T18:14:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE2IJmg",
+          "commit": {
+            "abbreviatedOid": "e8d00ef"
+          },
+          "author": "aaronpk",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-02T18:15:26Z",
+          "updatedAt": "2026-07-02T18:15:26Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "> and NOT just the client as specified in section 6 {{RFC6749}}\n\nWhat are you referring to here? Section 6 is about refresh tokens.",
+              "createdAt": "2026-07-02T18:15:26Z",
+              "updatedAt": "2026-07-02T18:15:26Z"
             }
           ]
         }
@@ -14417,7 +14512,7 @@
       "labels": [],
       "body": "Simple JS script for example generation",
       "createdAt": "2026-03-10T07:44:37Z",
-      "updatedAt": "2026-03-10T07:58:09Z",
+      "updatedAt": "2026-07-04T10:53:57Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2",
@@ -14428,7 +14523,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "I believe we can close this? ",
+          "createdAt": "2026-07-04T10:53:57Z",
+          "updatedAt": "2026-07-04T10:53:57Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -15061,7 +15164,7 @@
       "labels": [],
       "body": "Closes #195 ",
       "createdAt": "2026-06-15T23:31:54Z",
-      "updatedAt": "2026-06-16T06:16:53Z",
+      "updatedAt": "2026-07-02T16:32:49Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "087d91ade16513469d36cc797b02ba91fa660767",
@@ -15131,6 +15234,59 @@
           "createdAt": "2026-06-16T06:16:18Z",
           "updatedAt": "2026-06-16T06:16:53Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABEx5Q6g",
+          "commit": {
+            "abbreviatedOid": "d5eccaa"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-02T08:24:10Z",
+          "updatedAt": "2026-07-02T08:24:10Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "\",\" is the change.. ",
+              "createdAt": "2026-07-02T08:24:10Z",
+              "updatedAt": "2026-07-02T08:24:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABEx75eQ",
+          "commit": {
+            "abbreviatedOid": "d5eccaa"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-02T08:30:56Z",
+          "updatedAt": "2026-07-02T08:30:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE1cTMQ",
+          "commit": {
+            "abbreviatedOid": "d5eccaa"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-02T16:32:48Z",
+          "updatedAt": "2026-07-02T16:32:49Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "Consider using an array instead to signal if combined mode is supported?",
+              "createdAt": "2026-07-02T16:32:48Z",
+              "updatedAt": "2026-07-02T16:32:48Z"
+            }
+          ]
         }
       ]
     },
@@ -15139,24 +15295,26 @@
       "id": "PR_kwDOJaEkaM7m4lCy",
       "title": "Editorial: code blocks & small note on dpop_jkt",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/203",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Closes #199 \r\n\r\n- small note on dpop_jkt\r\n- otherwise mainly code block / editorial fixes with the kramdown rfc tooling",
       "createdAt": "2026-06-16T07:06:27Z",
-      "updatedAt": "2026-07-01T15:30:16Z",
+      "updatedAt": "2026-07-02T16:20:47Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "087d91ade16513469d36cc797b02ba91fa660767",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "editorial-code-blocks",
-      "headRefOid": "f3abf55415ebf6118546e40d6e423e36e203f753",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b7562d80f211e528a2b7c1e7667c6c7d3e76e39f",
+      "closedAt": "2026-07-02T16:20:47Z",
+      "mergedAt": "2026-07-02T16:20:47Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "31db3342e1f138d1ea4c98c1a34554df88a8974f"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15198,6 +15356,222 @@
               "updatedAt": "2026-07-01T15:30:16Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE1TR8g",
+          "commit": {
+            "abbreviatedOid": "aad2a8f"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-02T16:12:40Z",
+          "updatedAt": "2026-07-02T16:12:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE1VXOg",
+          "commit": {
+            "abbreviatedOid": "aad2a8f"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-02T16:17:40Z",
+          "updatedAt": "2026-07-02T16:17:40Z",
+          "comments": [
+            {
+              "originalPosition": 98,
+              "body": "```suggestion\nNote when authorization code binding as defined in {{Section 10 of RFC9449}} is used, this mode only works with the DPoP Proof header containing a proof of possession and not `dpop_jkt`. When using `dpop_jkt`, the normal mode has to be used.\n```",
+              "createdAt": "2026-07-02T16:17:40Z",
+              "updatedAt": "2026-07-02T16:19:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE1WeTA",
+          "commit": {
+            "abbreviatedOid": "b7562d8"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-02T16:20:15Z",
+          "updatedAt": "2026-07-02T16:20:15Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 205,
+      "id": "PR_kwDOJaEkaM7tRout",
+      "title": "add clarification on client attester and expected validation of instance",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/205",
+      "state": "MERGED",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #107\r\nCloses #196",
+      "createdAt": "2026-07-02T18:58:01Z",
+      "updatedAt": "2026-07-03T18:36:40Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "31db3342e1f138d1ea4c98c1a34554df88a8974f",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "107-client-attester",
+      "headRefOid": "967d05b694dd2f7b7e39dcc2989adde5bddec8d0",
+      "closedAt": "2026-07-03T18:36:40Z",
+      "mergedAt": "2026-07-03T18:36:40Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "a0dadf84e769c767bc5d89a8902acf813cfce694"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE7SXcQ",
+          "commit": {
+            "abbreviatedOid": "3c3fe20"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-03T11:56:12Z",
+          "updatedAt": "2026-07-03T11:56:13Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\n(2) The Client Instance sends this data to the Client Attester in request for a Client Attestation JWT. Transmission of the evidence may result in one or multiple requests.\n```",
+              "createdAt": "2026-07-03T11:56:13Z",
+              "updatedAt": "2026-07-03T11:56:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE7SygQ",
+          "commit": {
+            "abbreviatedOid": "3c3fe20"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T11:57:37Z",
+          "updatedAt": "2026-07-03T11:57:37Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE9HL8A",
+          "commit": {
+            "abbreviatedOid": "967d05b"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T18:15:58Z",
+          "updatedAt": "2026-07-03T18:15:58Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 206,
+      "id": "PR_kwDOJaEkaM7tSTtz",
+      "title": "fixes examples, references, ...",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/206",
+      "state": "MERGED",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "fixes \r\n\r\n- section references (with correct kramdownrfc syntax)\r\n- unused references\r\n- iana registration\r\n- examples (missing iat, nonce->challenge)",
+      "createdAt": "2026-07-02T19:32:09Z",
+      "updatedAt": "2026-07-03T18:44:32Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "a0dadf84e769c767bc5d89a8902acf813cfce694",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "c2bo/editorial-references",
+      "headRefOid": "fd5e06ac0a1ab6412c6bb9e6454c92759cce4f5f",
+      "closedAt": "2026-07-03T18:44:31Z",
+      "mergedAt": "2026-07-03T18:44:31Z",
+      "mergedBy": "c2bo",
+      "mergeCommit": {
+        "oid": "62c175ebf3eeb023aca305ed06b2f773e6cc6361"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE6gkrQ",
+          "commit": {
+            "abbreviatedOid": "2fb0fbd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T09:39:25Z",
+          "updatedAt": "2026-07-03T09:39:26Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE9HZBQ",
+          "commit": {
+            "abbreviatedOid": "2fb0fbd"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T18:16:56Z",
+          "updatedAt": "2026-07-03T18:16:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 207,
+      "id": "PR_kwDOJaEkaM7ttGqw",
+      "title": "allow other PoP mechanisms in the future",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/207",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #204",
+      "createdAt": "2026-07-03T19:17:08Z",
+      "updatedAt": "2026-07-04T16:57:33Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "62c175ebf3eeb023aca305ed06b2f773e6cc6361",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "204-other-pops",
+      "headRefOid": "9f4b2ce11a2637a51248a8c4b1f8dd0ff3a66efa",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABE_ec_A",
+          "commit": {
+            "abbreviatedOid": "9f4b2ce"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-04T16:57:33Z",
+          "updatedAt": "2026-07-04T16:57:33Z",
+          "comments": []
         }
       ]
     }
