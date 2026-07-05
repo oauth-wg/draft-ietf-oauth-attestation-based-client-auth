@@ -597,13 +597,13 @@ This specification does not provide a mechanism to rotate the Client Instance Ke
 
 ## Replay Attack Detection {#implementation-consideration-replay}
 
-Authorization Server or Resource Servers implementing measures to detect replay attacks as described in [](#security-consideration-replay) require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server or Resource Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen `challenge` or `jti` values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window MUST be rejected by the Authorization Server or Resource Server. The allowed window is determined by the `iat` of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server or Resource Server. These data structures need to:
+Authorization Server or Resource Servers implementing measures to detect replay attacks as described in [](#security-consideration-replay) require efficient data structures to manage large amounts of `challenge` or `jti` values for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server or Resource Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen `challenge` or `jti` values are stored, but discarded afterwards. The allowed window is determined by the `iat` of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server or Resource Server. To ensure security, the Authorization Server or Resource Server MUST first evaluate the `iat` of the Client Attestation PoP and reject any Client Attestation PoP whose `iat` falls outside this time window. Using such a data structure, the Authorization Server or Resource Server performs the following operations:
 
-- search the data structure to validate whether a challenge from a Client Attestation PoP has been previously seen
-- insert the new challenges from the Client Attestation PoP if the search returned no result
-- delete the challenges after the Client Attestation PoP has passed the sliding time window
+- search for the `challenge` or `jti` value of the Client Attestation PoP to validate whether it has been previously seen, and reject the Client Attestation PoP if it has
+- insert the `challenge` or `jti` value of the Client Attestation PoP once it has passed all other checks
+- delete `challenge` or `jti` values after they have passed the sliding time window
 
-A trie (also called prefix tree), or a patricia trie (also called radix tree) are RECOMMENDED data structures to implement such a mechanism.
+A trie (also called prefix tree), or a patricia trie (also called radix tree) are RECOMMENDED data structures to implement such a mechanism. Note that this seen-values mechanism is only needed when replay detection relies on a `jti` value or on a `challenge` obtained from the challenge endpoint. When the Authorization Server or Resource Server issues a challenge bound to a specific Client Instance session (see [](#security-consideration-replay)), it can instead validate the Client Attestation PoP against the single challenge value expected for that session, without maintaining a seen-values data structure.
 
 ## Trust Management and Key Resolution
 
@@ -640,8 +640,7 @@ An Authorization/Resource Server SHOULD implement measures to detect replay atta
 - The Authorization/Resource Server provides a challenge as an `OAuth-Client-Attestation-Challenge` in the challenge endpoint to the Client Instance and the Client uses it as a `challenge` value in the Client Attestation PoP JWT. The Authorization/Resource Server may choose to:
   - manage a list of witnessed `challenge` values, similar to the previously described `jti` approach. Details how to implement such a data structure to maintain `challenge` values is given in [](#implementation-consideration-replay). This guarantees stronger replay protection with a challenge chosen by the Authorization/Resource Server itself, at the potential cost of an additional round-trip.
   - use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization/Resource Server.
-- The Authorization/Resource Server generates a challenge that is bound to the Client Instance's session, such that a specific `challenge` in the Client Attestation PoP JWT is expected and validated. The Authorization/Resource Server may either:
-  - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
+- The Authorization/Resource Server generates a challenge that is bound to the Client Instance's session, such that a specific `challenge` in the Client Attestation PoP JWT is expected and validated. The Authorization/Resource Server sends the challenge as part of another previous response to the Client Instance
 
 Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementations to deal with proper state handling. This can be implicit by always mandating support for this feature or via some metadata that allows the client to detect support for this feature for a specific server.
 
@@ -777,6 +776,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * editorial fixes
 * add clarification on Client Attester
 * remove replay attack consideration to reuse existing artifacts as challenge
+* clarifications around implementation consideration for replay attack detection
 
 -09
 
