@@ -169,7 +169,7 @@ Client Attester:
 : An entity that authenticates a Client Instance and attests it by issuing a Client Attestation JWT.
 
 Challenge:
-: A String that is the input to a cryptographic challenge-response pattern. This is traditionally called a nonce within OAuth.
+: A String that is the input to a cryptographic challenge-response pattern, used to detect replay attacks. Within OAuth, this is traditionally called a nonce.
 
 # Client Attestation JWT {#client-attestation-jwt}
 
