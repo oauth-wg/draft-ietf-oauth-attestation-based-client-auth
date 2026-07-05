@@ -2387,19 +2387,19 @@ These use-cases typically represent deployments where the Client Attester and Au
 <a href="#section-13.5" class="section-number selfRef">13.5. </a><a href="#name-oauth-client-attestation-pr" class="section-name selfRef">OAuth Client Attestation Proof-of-Possession Mechanisms Registry</a>
         </h3>
 <p id="section-13.5-1">This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Mechanisms" registry. This registry lists the Proof of Possession mechanisms that a Client may use to demonstrate possession of the Client Instance Key, referenced by the <code>client_attestation_required</code> metadata parameter defined in <a href="#additional-security-signal" class="auto internal xref">Section 7.6</a>.<a href="#section-13.5-1" class="pilcrow">¶</a></p>
-<p id="section-13.5-2">Client Attestation Proof-of-Possession Mechanisms are registered by Specification Required [RFC8126] after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.<a href="#section-13.5-2" class="pilcrow">¶</a></p>
+<p id="section-13.5-2">Client Attestation Proof-of-Possession Mechanisms are registered by Specification Required <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span> after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.<a href="#section-13.5-2" class="pilcrow">¶</a></p>
 <p id="section-13.5-3">Registration requests sent to the mailing list for review should use an appropriate subject (e.g., "Request to register Client Attestation PoP: example").<a href="#section-13.5-3" class="pilcrow">¶</a></p>
 <p id="section-13.5-4">Within the review period, the designated experts will either approve or deny the registration request, communicating this decision to the review list and IANA. Denials should include an explanation and, if applicable, suggestions as to how to make the request successful. If the designated experts are not responsive, the registration requesters should contact IANA to escalate the process.<a href="#section-13.5-4" class="pilcrow">¶</a></p>
 <p id="section-13.5-5">Designated experts should apply at least the following criteria when reviewing proposed registrations:<a href="#section-13.5-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.5-6.1">
-            <p id="section-13.5-6.1.1">they should not duplicate existing functionality<a href="#section-13.5-6.1.1" class="pilcrow">¶</a></p>
+            <p id="section-13.5-6.1.1">the mechanism should not duplicate existing functionality<a href="#section-13.5-6.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.5-6.2">
-            <p id="section-13.5-6.2.1">they are likely generally applicable, as opposed to being used for a single application<a href="#section-13.5-6.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.5-6.2.1">the mechanism is likely generally applicable, as opposed to being used for a single application<a href="#section-13.5-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.5-6.3">
-            <p id="section-13.5-6.3.1">the proof of possession mechanism is sufficiently described how to work in combination with a client attestation<a href="#section-13.5-6.3.1" class="pilcrow">¶</a></p>
+            <p id="section-13.5-6.3.1">the specification sufficiently describes how the Proof of Possession mechanism works in combination with a Client Attestation<a href="#section-13.5-6.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-13.5-7">IANA must only accept registry updates from the designated experts and should direct all requests for registration to the review mailing list.<a href="#section-13.5-7" class="pilcrow">¶</a></p>
@@ -2606,6 +2606,10 @@ These use-cases typically represent deployments where the Client Attester and Au
 <dt id="RFC7800">[RFC7800]</dt>
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for JSON Web Tokens (JWTs)"</span>, <span class="seriesInfo">RFC 7800</span>, <span class="seriesInfo">DOI 10.17487/RFC7800</span>, <time datetime="2016-04" class="refDate">April 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7800">https://www.rfc-editor.org/rfc/rfc7800</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>

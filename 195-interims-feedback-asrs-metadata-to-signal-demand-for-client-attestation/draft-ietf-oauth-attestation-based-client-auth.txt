@@ -1403,13 +1403,14 @@ Table of Contents
    Designated experts should apply at least the following criteria when
    reviewing proposed registrations:
 
-   *  they should not duplicate existing functionality
+   *  the mechanism should not duplicate existing functionality
 
-   *  they are likely generally applicable, as opposed to being used for
-      a single application
+   *  the mechanism is likely generally applicable, as opposed to being
+      used for a single application
 
-   *  the proof of possession mechanism is sufficiently described how to
-      work in combination with a client attestation
+   *  the specification sufficiently describes how the Proof of
+      Possession mechanism works in combination with a Client
+      Attestation
 
    IANA must only accept registry updates from the designated experts
    and should direct all requests for registration to the review mailing
@@ -1579,6 +1580,11 @@ Table of Contents
               Possession Key Semantics for JSON Web Tokens (JWTs)",
               RFC 7800, DOI 10.17487/RFC7800, April 2016,
               <https://www.rfc-editor.org/rfc/rfc7800>.
+
+   [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
+              Writing an IANA Considerations Section in RFCs", BCP 26,
+              RFC 8126, DOI 10.17487/RFC8126, June 2017,
+              <https://www.rfc-editor.org/rfc/rfc8126>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
