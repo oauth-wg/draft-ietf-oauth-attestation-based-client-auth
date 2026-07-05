@@ -21,34 +21,35 @@ venue:
   latest: "https://oauth-wg.github.io/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html"
 
 author:
- -
-    fullname: Tobias Looker
-    organization: MATTR
-    email: tobias.looker@mattr.global
- -
-    fullname: Paul Bastian
-    organization: Bundesdruckerei
-    email: paul.bastian@posteo.de
- -
-    fullname: Christian Bormann
-    organization: SPRIND
-    email: chris.bormann@gmx.de
+
+-
+  fullname: Tobias Looker
+  organization: MATTR
+  email: tobias.looker@mattr.global
+-
+  fullname: Paul Bastian
+  organization: Bundesdruckerei
+  email: paul.bastian@posteo.de
+-
+  fullname: Christian Bormann
+  organization: SPRIND
+  email: chris.bormann@gmx.de
 
 
 normative:
-  RFC3986: RFC3986
-  RFC6750: RFC6750
-  RFC7515: RFC7515
-  RFC7591: RFC7591
-  RFC7519: RFC7519
-  RFC7800: RFC7800
-  RFC8414: RFC8414
-  RFC8725: RFC8725
-  RFC9110: RFC9110
-  RFC9112: RFC9112
-  RFC9126: RFC9126
-  RFC9449: RFC9449
-  RFC9728: RFC9728
+  RFC6749:
+  RFC6750:
+  RFC7515:
+  RFC7591:
+  RFC7519:
+  RFC7800:
+  RFC8414:
+  RFC8725:
+  RFC9110:
+  RFC9112:
+  RFC9126:
+  RFC9449:
+  RFC9728:
   IANA.HTTP.Fields:
     author:
       org: "IANA"
@@ -57,8 +58,8 @@ normative:
   IANA.OAuth.Params:
     author:
       org: "IANA"
-    title: "OAuth Authorization Server Metadata"
-    target: "https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#authorization-server-metadata"
+    title: "OAuth Parameters"
+    target: "https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml"
   IANA.JOSE.ALGS:
     author:
       org: "IANA"
@@ -66,16 +67,13 @@ normative:
     target: "https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms"
 
 informative:
-  RFC6749: RFC6749
-  RFC9334: RFC9334
-  RFC7523: RFC7523
-  RFC9901: RFC9901
-  ARF:
-    title: "The European Digital Identity Wallet Architecture and Reference Framework"
+  RFC9334:
+  RFC7523:
+  RFC9901:
 
 --- abstract
 
-This specification defines an extension to the OAuth 2.0 protocol {{RFC6749}} that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0.
+This specification defines an extension to the OAuth 2.0 protocol (RFC 6749) that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0.
 
 --- middle
 
@@ -85,9 +83,9 @@ Traditional OAuth client authentication methods, such as `private_key_jwt` defin
 
 Additionally, this approach acknowledges the evolving landscape of OAuth 2 deployments, where the ability for mobile native apps to authenticate securely and reliably has become increasingly important. Leveraging platform mechanisms to validate a client instance, such as mobile native apps, enables secure authentication that would otherwise be difficult with traditional OAuth client authentication methods. Transforming these platform-specific mechanisms into a common format as described in this specification abstracts this complexity to minimize the efforts for the Authorization Server.
 
-This primary purpose of this specification is the authentication of a client instance enabled through the client backend attesting to it. The client backend may also attest further technical properties about the hardware and software of the client instance.
+The primary purpose of this specification is the authentication of a client instance enabled through the client backend attesting to it. The client backend may also attest further technical properties about the hardware and software of the client instance.
 
-The client is considered a confidential OAuth 2 client type according to section 2.1 of {{RFC6749}}. The mechanism described in this document may  either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.
+The client is considered a confidential OAuth 2 client type according to {{Section 2.1 of RFC6749}}. The mechanism described in this document may either serve as a standalone OAuth 2 client authentication mechanism or as an additional, supportive security mechanism beside an existing OAuth 2 client authentication mechanism.
 
 This specification introduces the concept of client attestations to the OAuth 2 protocol, using two artifacts:
 
@@ -125,11 +123,11 @@ The following diagram depicts the overall architecture and protocol flow towards
 
 The following steps describe this OAuth flow:
 
-(1) The Client Instance generates a key (Client Instance Key) and optional further attestations (that are out of scope) to prove its authenticity to the Client Attester.
+(1) The Client Instance generates a key (Client Instance Key) and gathers optional evidence to prove its authenticity to the Client Attester. This could be evidence about the software running on the client, statements about the integrity of the operating system, or hardware the Client Instance is running on. A Client Instance can provide several such statements or attestations to the Client Attester within a single request, but their content, how they are collected, and how they are transmitted are out of scope of this specification.
 
-(2) The Client Instance sends this data to the Client Attester in request for a Client Attestation JWT.
+(2) The Client Instance sends this data to the Client Attester in request for a Client Attestation JWT. Transmission of the evidence may result in one or multiple requests.
 
-(3) The Client Attester validates the Client Instance Key and optional further data. It generates a signed Client Attestation JWT that is cryptographically bound to the Client Instance Key generated by the Client. Therefore, the attestation is bound to this particular Client Instance.
+(3) The Client Attester authenticates the Client Instance, validates that the Client Instance is in control of the private key of the Client Instance Key, and evaluates any further provided evidence according to its policy. It then generates a signed Client Attestation JWT that is cryptographically bound to the Client Instance Key generated by the Client. Therefore, the attestation is bound to this particular Client Instance.
 
 (4) The Client Attester responds to the Client Instance by sending the Client Attestation JWT.
 
@@ -143,6 +141,12 @@ The same flow applies when authenticating to a Resource Server, where step (7) t
 
 Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the Client Attester, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend serving as a Client Attester. In such cases, each Client Instance is responsible for performing the functions typically handled by the Client Attester on its own.
 
+While the concrete evidence about the Client Instance collected and transmitted in (1) and (2) is out of scope, a Client Attestation JWT is generally understood to convey that the Client Attester has verified
+
+- the authenticity and integrity of the Client Instance (this might encompass statements about its software and hardware environment)
+- that the Client Instance controls the private key of the Client Instance Key
+- optionally, properties of that key (e.g., that it was securely generated or resides in hardware-backed storage)
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
@@ -150,7 +154,7 @@ Please note that the protocol details for steps (2) and (4), particularly how th
 # Terminology {#terminology}
 
 Client Attestation JWT:
-:  A JSON Web Token (JWT) generated by the Client Attester which is bound to a key managed by a Client Instance which can then be used by the Client Instance for authentication.
+:  A JSON Web Token (JWT) generated by the Client Attester that attests to the authenticity of a Client Instance and is cryptographically bound to a key managed by that Client Instance. A Client Attestation JWT may additionally convey information about the integrity or state of the Client Instance.
 
 Client Attestation Proof of Possession (PoP) JWT:
 :  A Proof of Possession generated by the Client Instance using the key that the Client Attestation JWT is bound to.
@@ -216,7 +220,7 @@ The following example is the decoded header and payload of a JWT meeting the pro
 }
 ~~~
 
-When using headers to transfer the Client Attestation JWT to an Authorization Server or Resource Server, it MUST be provided in an HTTP request using the a HTTP header named `OAuth-Client-Attestation`.
+When using headers to transfer the Client Attestation JWT to an Authorization Server or Resource Server, it MUST be provided in an HTTP request using the HTTP header field `OAuth-Client-Attestation`.
 
 The following is an example of the OAuth-Client-Attestation header.
 
@@ -234,9 +238,9 @@ FORnKzsx5yu6A
 Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION, oauth-client-attestation, etc., are all valid and equivalent
 header field names. Case is significant in the header field value, however.
 
-The OAuth-Client-Attestation HTTP header field values uses the token68 syntax defined in Section 11.2 of {{RFC9110}} (repeated below for ease of reference).
+The OAuth-Client-Attestation HTTP header field value uses the token68 syntax defined in {{Section 11.2 of RFC9110}} (repeated below for ease of reference).
 
-~~~
+~~~ abnf
 OAuth-Client-Attestation       = token68
 token68                        = 1*( ALPHA / DIGIT / "-" / "." /
                                      "_" / "~" / "+" / "/" ) *"="
@@ -286,29 +290,30 @@ The following example is the decoded header and payload of a JWT meeting the pro
 {
   "aud": "https://as.example.com",
   "jti": "d25d00ab-552b-46fc-ae19-98f440f25064",
+  "iat": 1772487595,
   "challenge": "5c1a9e10-29ff-4c2b-ae73-57c0957c09c4"
 }
 ~~~
 
-When using headers to transfer the Client Attestation PoP JWT to an Authorization Server or Resource Server, it MUST be provided in an HTTP request using the a HTTP header named `OAuth-Client-Attestation-PoP`.
+When using headers to transfer the Client Attestation PoP JWT to an Authorization Server or Resource Server, it MUST be provided in an HTTP request using the HTTP header field `OAuth-Client-Attestation-PoP`.
 
 The following is an example of the OAuth-Client-Attestation-PoP header.
 
 ~~~
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
-AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
-crEnFgCqdkNfUA
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.M4Uc4rWVAqaLlmDDUXQKkKPbAQKj0JrTizLgWhZndmbkv
+M3VL8y-w_QJr7Z0HZlH94E64cLa8L5fSjJItYv0jg
 ~~~
 
 Note that per {{RFC9110}} header field names are case-insensitive; so OAUTH-CLIENT-ATTESTATION-POP, oauth-client-attestation-pop, etc., are all valid and equivalent
 header field names. Case is significant in the header field value, however.
 
-The OAuth-Client-Attestation-PoP HTTP header field values uses the token68 syntax defined in Section 11.2 of {{RFC9110}} (repeated below for ease of reference).
+The OAuth-Client-Attestation-PoP HTTP header field value uses the token68 syntax defined in {{Section 11.2 of RFC9110}} (repeated below for ease of reference).
 
-~~~
+~~~ abnf
 OAuth-Client-Attestation-PoP   = token68
 token68                        = 1*( ALPHA / DIGIT / "-" / "." /
                                      "_" / "~" / "+" / "/" ) *"="
@@ -316,7 +321,9 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 
 ## Using DPoP as the Proof of Possession {#dpop-combined-mode}
 
-This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in {{RFC9449}} for sender-contrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).
+This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in {{RFC9449}} for sender-constrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).
+
+Note when authorization code binding as defined in {{Section 10 of RFC9449}} is used, this mode only works with the DPoP Proof header containing a proof of possession and not `dpop_jkt`. When using `dpop_jkt`, the normal mode has to be used.
 
 The following rules apply to the DPoP proof as defined in {{RFC9449}}:
 
@@ -325,7 +332,7 @@ The following rules apply to the DPoP proof as defined in {{RFC9449}}:
 
 The following non-normative example shows a token request using combined mode (line breaks for display only):
 
-~~~
+~~~ http
 POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -335,9 +342,9 @@ DPoP: <Combined-DPoP-And-Attestation-PoP-JWT>
 grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 ~~~
 
-Decoded (non-normative) DPoP (combined) proof:
+Decoded (non-normative) DPoP (combined) proof - Header:
 
-Header:
+~~~ json
 {
   "typ": "dpop+jwt",
   "alg": "ES256",
@@ -348,20 +355,24 @@ Header:
     "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
   }
 }
+~~~
 
 Payload:
+
+~~~ json
 {
   "htm": "POST",
   "htu": "https://as.example.com/token",
   "iat": 1700000000,
   "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9"
 }
+~~~
 
 Note that additional claims may be present in the DPoP proof depending on the context, as required by {{RFC9449}}.
 
 # Challenges {#challenges}
 
-This section defines optional mechanisms that allows a Client to receive a fresh Challenge from the Authorization Server or Resource Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see [](#terminology). The value of the challenge is opaque to the client.
+This section defines optional mechanisms that allow a Client to receive a fresh Challenge from the Authorization Server or Resource Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see [](#terminology). The value of the challenge is opaque to the client.
 
 ## Providing Challenges through the Challenge Endpoint {#challenge-endpoint}
 
@@ -369,7 +380,7 @@ The Authorization Server or Resource Server MAY offer a challenge endpoint for C
 
 A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata. The following is a non-normative example of a request:
 
-~~~
+~~~ http
 POST /as/challenge HTTP/1.1
 Host: as.example.com
 Accept: application/json
@@ -383,7 +394,7 @@ The Authorization Server or Resource Server MUST make the response uncacheable b
 
 The following is a non-normative example of a response:
 
-~~~
+~~~ http
 HTTP/1.1 200 OK
 Host: as.example.com
 Content-Type: application/json
@@ -400,7 +411,7 @@ The Authorization Server or Resource Server MAY provide a fresh Challenge with a
 
 The following is a non-normative example of an Authorization Response containing a fresh Challenge:
 
-~~~
+~~~ http
 HTTP/1.1 200 OK
 Content-Type: application/json
 Cache-Control: no-store
@@ -457,7 +468,7 @@ To validate a request using DPoP combined mode, the receiving server MUST perfor
 
 ## Errors {#errors}
 
-When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in Section 5.2 of {{RFC6749}}) or Resource Server error responses (as defined in Section 3 of {{RFC6750}}).
+When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in {{Section 5.2 of RFC6749}}) or Resource Server error responses (as defined in {{Section 3 of RFC6750}}).
 
 - `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)).
 - `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
@@ -467,11 +478,11 @@ In the event of errors due to situations not described above, Authorization and 
 
 ## Client Attestation as an OAuth Client Authentication
 
-A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in Section 2.3 of {{RFC6749}} towards an Authorization Server.  If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
+A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in {{Section 2.3 of RFC6749}} towards an Authorization Server.  If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
-~~~
+~~~ http
 POST /token HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -483,12 +494,12 @@ joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
 JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
 d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
 FORnKzsx5yu6A
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
-AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
-crEnFgCqdkNfUA
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.M4Uc4rWVAqaLlmDDUXQKkKPbAQKj0JrTizLgWhZndmbkv
+M3VL8y-w_QJr7Z0HZlH94E64cLa8L5fSjJItYv0jg
 
 grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
@@ -496,13 +507,13 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
 ## Client Attestation as an additional security signal {#additional-security-signal}
 
-A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear along existing OAuth 2 Client Authentication mechanisms.
+A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear alongside existing OAuth 2 Client Authentication mechanisms.
 
 An Authorization Server or Resource Server MAY signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the `client_attestation_required` metadata parameter with the boolean value `true` in its published metadata, as defined in {{RFC8414}} for the Authorization Server and in {{RFC9728}} for the Resource Server. When the parameter is omitted or set to `false`, presenting a Client Attestation as an additional security signal is OPTIONAL. When a server has signalled `client_attestation_required` with the value `true`, a Client SHOULD include the Client Attestation and its Proof of Possession in its requests to that server. If a request that is required to carry a Client Attestation does not contain one, or contains one that could not be successfully verified, the server MAY refuse the request and return the `invalid_client_attestation` error as defined in [](#errors).
 
-The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} along side client_secret (with extra line breaks for display purposes only):
+The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} alongside client_secret (with extra line breaks for display purposes only):
 
-~~~
+~~~ http
 POST /as/par HTTP/1.1
 Host: as.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -514,12 +525,12 @@ joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
 JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
 d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
 FORnKzsx5yu6A
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.U0u
-AUL60MXSf2qB3uWoo1tQanBMLa7OJ-pk_GsA_o1rfJfRkUOyWpqeSbNH90ykVad-m6x5M
-crEnFgCqdkNfUA
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL2FzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.M4Uc4rWVAqaLlmDDUXQKkKPbAQKj0JrTizLgWhZndmbkv
+M3VL8y-w_QJr7Z0HZlH94E64cLa8L5fSjJItYv0jg
 
 response_type=code
 &state=af0ifjsldkj
@@ -532,7 +543,7 @@ response_type=code
 
 The following example demonstrates usage of the client attestation mechanism at the Resource Server (with extra line breaks for display purposes only):
 
-~~~
+~~~ http
 POST /api/users/list HTTP/1.1
 Host: rs.example.com
 Content-Type: application/x-www-form-urlencoded
@@ -546,12 +557,12 @@ joiVmNLVk5CWjRJYUJBWVczanhNNHczVEpGVkE3bXllVUdReUd0LWdfeXZwUSIsInkiOi
 JmLUUtaFlFM1RBV0t3aFZ2OXBlajlOQUJzOVNYOVhzTk84MHg1N2pGVHlVIn19fQ._TS4
 d-LAnRlwdN97wiVnl4z7C9gvm45IWr-BvGTzeZaHtZtgNZ88gvzroU3LElUPbgF4kWi_D
 FORnKzsx5yu6A
-OAuth-Client-Attestation-PoP: eyJhbGciOiJFUzI1NiIsInR5cCI6Im9hdXRoLWN
-saWVudC1hdHRlc3RhdGlvbi1wb3Arand0In0.eyJhdWQiOiJodHRwczovL3JzLmV4YW1w
-bGUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0I
-iwibm9uY2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU3My01N2MwOTU3YzA5YzQifQ.gzk
-0WkWsjNNx92gVMSp6jVpPDUvR0toYxLMyGmJMJOfm8mG2Otg0Nfm4PefOUpwBMNQtIXSd
-dW-cqJopljQaCQ
+OAuth-Client-Attestation-PoP: eyJ0eXAiOiJvYXV0aC1jbGllbnQtYXR0ZXN0YXRp
+b24tcG9wK2p3dCIsImFsZyI6IkVTMjU2In0.eyJhdWQiOiJodHRwczovL3JzLmV4YW1wb
+GUuY29tIiwianRpIjoiZDI1ZDAwYWItNTUyYi00NmZjLWFlMTktOThmNDQwZjI1MDY0Ii
+wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
+3My01N2MwOTU3YzA5YzQifQ.Uh-vRynTGGARZNqijGyovBMm_EsX5qu0fg0VGPVRsp1rJ
+dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 ~~~
 
 # Authorization Server and Resource Server Metadata {#as-metadata}
@@ -578,7 +589,7 @@ Implementers should be aware that the design of this authentication mechanism de
 
 ## Refresh token binding
 
-Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in section 6 {{RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
+Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
 
 ## Web Server Default Maximum HTTP Header Sizes
 
@@ -592,11 +603,11 @@ This specification does not provide a mechanism to rotate the Client Instance Ke
 
 Authorization Server or Resource Servers implementing measures to detect replay attacks as described in [](#security-consideration-replay) require efficient data structures to manage large amounts of challenges for use cases with high volumes of transactions. To limit the size of the data structure, the Authorization Server or Resource Server should use a sliding window, allowing Client Attestation PoPs within a certain time window, in which the seen `challenge` or `jti` values are stored, but discarded afterwards. To ensure security, Client Attestation PoPs outside this time window MUST be rejected by the Authorization Server or Resource Server. The allowed window is determined by the `iat` of the Client Attestation PoP and the sliding window time duration chosen by the Authorization Server or Resource Server. These data structures need to:
 
-- search the data structure to validate whether a challenge form a Client Attestation PoP has been previously seen
+- search the data structure to validate whether a challenge from a Client Attestation PoP has been previously seen
 - insert the new challenges from the Client Attestation PoP if the search returned no result
 - delete the challenges after the Client Attestation PoP has passed the sliding time window
 
-A trie (also called prefix tree), or a patricia trie (also called radix tree) is a RECOMMENDED data structures to implement such a mechanism.
+A trie (also called prefix tree), or a patricia trie (also called radix tree) are RECOMMENDED data structures to implement such a mechanism.
 
 ## Trust Management and Key Resolution
 
@@ -629,13 +640,13 @@ The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
 
 An Authorization/Resource Server SHOULD implement measures to detect replay attacks by the Client Instance. In the context of this specification, this means to detect that an attacker is resending the same Client Attestation PoP JWT in multiple requests. The following options are RECOMMENDED for this client authentication method:
 
-- The Authorization/Resource Server manages a list of witnessed `jti` values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the `iat` of the Client Attestation PoP and and the duration chosen by the Authorization/Resource Server. If any Client Attestation PoP JWT would be replayed, the Authorization/Resource Server would recognize the `jti` value in the list and respond with an authentication error. Details how to implement such a data structure to maintain `jti` values is given in [](#implementation-consideration-replay).
-- The Authorization/Resource Server provides a challenge as an `OAuth-Client-Attestation-Challenge` in the challenge endpoint to the Client Instance and the Client uses it as a `challenge` value in the Client Attestation PoP JWT. The Authorization/Resource Server may chose to:
+- The Authorization/Resource Server manages a list of witnessed `jti` values of the Client Attestation PoP JWT for the time window of which the JWT would be considered valid. This sliding time window is based on the `iat` of the Client Attestation PoP and the duration chosen by the Authorization/Resource Server. If any Client Attestation PoP JWT would be replayed, the Authorization/Resource Server would recognize the `jti` value in the list and respond with an authentication error. Details how to implement such a data structure to maintain `jti` values is given in [](#implementation-consideration-replay).
+- The Authorization/Resource Server provides a challenge as an `OAuth-Client-Attestation-Challenge` in the challenge endpoint to the Client Instance and the Client uses it as a `challenge` value in the Client Attestation PoP JWT. The Authorization/Resource Server may choose to:
   - manage a list of witnessed `challenge` values, similar to the previously described `jti` approach. Details how to implement such a data structure to maintain `challenge` values is given in [](#implementation-consideration-replay). This guarantees stronger replay protection with a challenge chosen by the Authorization/Resource Server itself, at the potential cost of an additional round-trip.
   - use self-contained challenges while not storing the seen challenges. This approach scales well, while only guaranteeing freshness, but no replay protection within the limited time-window chosen by the Authorization/Resource Server.
 - The Authorization/Resource Server generates a challenge that is bound to the Client Instance's session, such that a specific `challenge` in the Client Attestation PoP JWT is expected and validated. The Authorization/Resource Server may either:
   - send the challenge as part of another previous response to the Client Instance of providing the challenge explicitly
-  - reuse an existing artefact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization/Resource Server and Client.
+  - reuse an existing artifact of the Client Instance's session, e.g. the authorization code. This MUST be communicated out-of-band between Authorization/Resource Server and Client.
 
 Note that protocols that provide a challenge as part of a previous response should provide a clear indicator for clients when this feature is used. This makes it easier for client implementations to deal with proper state handling. This can be implicit by always mandating support for this feature or via some metadata that allows the client to detect support for this feature for a specific server.
 
@@ -647,7 +658,7 @@ The approach using a challenge explicitly provided by the Authorization/Resource
 
 ## Client Attestation Protection
 
-This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestations JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
+This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestation JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
 These use-cases typically represent deployments where the Client Attester and Authorization Server have a trust relationship and the possibility to securely exchange keys out of band or are the same entity and no other entity needs to verify the Client Attestations. We expect most deployments to use digital signatures for the protection of Client Attestations, and implementers SHOULD default to digital signatures if they are unsure.
 
 # Relation to RATS
@@ -657,19 +668,10 @@ The Remote Attestation Procedures (RATS) architecture defined by {{RFC9334}} has
 - a RATS "Attester" relates to an OAuth "Client"
 - a RATS "Relying Party" relates to an OAuth "Authorization Server or Resource Server"
 - a RATS "Verifier" relates to the "Client Attester" defined in this specification
-- a RATS "Attestion Result" relates to the "Client Attestation JWT" defined by this specification
+- a RATS "Attestation Result" relates to the "Client Attestation JWT" defined by this specification
 - a RATS "Endorser", "Reference Value Provider", "Endorsement", "Evidence" and "Policies and Reference Values" are out of scope for this specification
 
 # IANA Considerations
-
-## OAuth Parameters Registration
-
-This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry {{IANA.OAuth.Params}} established by {{RFC8414}}.
-
-* Metadata Name: challenge_endpoint
-* Metadata Description: URL of the authorization servers challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.
-* Change Controller: IETF
-* Reference: [](#challenge-endpoint) of this specification
 
 ## OAuth Extensions Error Registration
 
@@ -701,6 +703,13 @@ This specification requests registration of the following values in the IANA "OA
 
 This specification requests registration of the following values in the IANA "OAuth Authorization Server Metadata" registry of {{IANA.OAuth.Params}} established by {{RFC8414}}.
 
+* Metadata Name: challenge_endpoint
+* Metadata Description: URL of the authorization server's challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.
+* Change Controller: IETF
+* Reference: [](#challenge-endpoint) of this specification
+
+<br/>
+
 * Metadata Name: client_attestation_signing_alg_values_supported
 * Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation JWT.
 * Change Controller: IETF
@@ -711,7 +720,16 @@ This specification requests registration of the following values in the IANA "OA
 * Metadata Name: client_attestation_pop_signing_alg_values_supported
 * Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the authorization server for the signature on the Client Attestation PoP JWT.
 * Change Controller: IETF
-* Reference: this specification
+* Reference: [](#as-metadata) of this specification
+
+## OAuth Protected Resource Metadata Registration
+
+This specification requests registration of the following values in the IANA "OAuth Protected Resource Metadata" registry of {{IANA.OAuth.Params}} established by {{RFC9728}}.
+
+* Metadata Name: challenge_endpoint
+* Metadata Description: URL of the protected resource's challenge endpoint which is used to obtain a fresh challenge for usage in client authentication methods such as client attestation.
+* Change Controller: IETF
+* Reference: [](#challenge-endpoint) of this specification
 
 <br/>
 
@@ -735,7 +753,7 @@ This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Tok
 
 * Token Endpoint Authentication Method Name: "attest_jwt_client_auth"
 * Change Controller: IESG
-* Specification Document(s): TBC
+* Specification Document(s): [](#as-metadata) of this specification
 
 ## Registration of attest_jwt_client_auth_dpop Token Endpoint Authentication Method
 
@@ -774,6 +792,12 @@ This section requests registration of the following scheme in the "Hypertext Tra
 -10
 
 * add `client_attestation_required` Authorization Server and Resource Server metadata
+* add short note that dpop_jkt cannot be used with the combined mode
+* update Client Attestation PoP JWT examples to use `challenge` instead of `nonce` and include the required `iat` claim
+* clean up references
+* fix IANA registrations
+* editorial fixes
+* add clarification on Client Attester
 
 -09
 
@@ -878,7 +902,7 @@ Dimitris Zarras,
 Filip Skokan,
 Francesco Marino,
 Frederik Krogsdal Jacobsen,
-Guiseppe De Marco,
+Giuseppe De Marco,
 Joseph Heenan,
 Kristina Yasuda,
 Micha Kraus,
