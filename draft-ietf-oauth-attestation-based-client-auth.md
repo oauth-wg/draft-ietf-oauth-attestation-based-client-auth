@@ -43,6 +43,7 @@ normative:
   RFC7591:
   RFC7519:
   RFC7800:
+  RFC8126:
   RFC8414:
   RFC8725:
   RFC9110:
@@ -758,7 +759,7 @@ This specification requests registration of the following value in the IANA "OAu
 
 This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Mechanisms" registry. This registry lists the Proof of Possession mechanisms that a Client may use to demonstrate possession of the Client Instance Key, referenced by the `client_attestation_required` metadata parameter defined in [](#additional-security-signal).
 
-Client Attestation Proof-of-Possession Mechanisms are registered by Specification Required [RFC8126] after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.
+Client Attestation Proof-of-Possession Mechanisms are registered by Specification Required {{RFC8126}} after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.
 
 Registration requests sent to the mailing list for review should use an appropriate subject (e.g., "Request to register Client Attestation PoP: example").
 
@@ -766,9 +767,9 @@ Within the review period, the designated experts will either approve or deny the
 
 Designated experts should apply at least the following criteria when reviewing proposed registrations:
 
-- they should not duplicate existing functionality
-- they are likely generally applicable, as opposed to being used for a single application
-- the proof of possession mechanism is sufficiently described how to work in combination with a client attestation
+- the mechanism should not duplicate existing functionality
+- the mechanism is likely generally applicable, as opposed to being used for a single application
+- the specification sufficiently describes how the Proof of Possession mechanism works in combination with a Client Attestation
 
 IANA must only accept registry updates from the designated experts and should direct all requests for registration to the review mailing list.
 
