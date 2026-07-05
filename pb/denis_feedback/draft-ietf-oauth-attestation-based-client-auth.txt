@@ -295,8 +295,8 @@ Table of Contents
       attests it by issuing a Client Attestation JWT.
 
    Challenge:  A String that is the input to a cryptographic challenge-
-      response pattern.  This is traditionally called a nonce within
-      OAuth.
+      response pattern, used to detect replay attacks.  Within OAuth,
+      this is traditionally called a nonce.
 
 4.  Client Attestation JWT
 
