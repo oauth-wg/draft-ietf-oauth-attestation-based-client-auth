@@ -435,7 +435,10 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 
 This section defines the verification and processing rules for the proof of possession mechanisms defined by this specification. Proof of possession mechanisms defined by other specifications define their own verification and processing rules.
 
-An Authorization Server MAY support both `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop`. If the request contains an `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-client-attestation-pop-jwt) and if present, a DPoP proof present in the request is validated according to {{RFC9449}} independently of this specification. If no `OAuth-Client-Attestation-PoP` HTTP request header field is present, but a DPoP proof is, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
+An Authorization Server MAY support both `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop` and distinguish them by the following rules:
+
+- If the request contains an `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-client-attestation-pop-jwt) and if present, a DPoP proof present in the request is validated according to {{RFC9449}} independently of this specification.
+- If no `OAuth-Client-Attestation-PoP` HTTP request header field is present, but a DPoP proof is, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
 
 ## Client Attestation JWT {#verification-client-attestation-jwt}
 
