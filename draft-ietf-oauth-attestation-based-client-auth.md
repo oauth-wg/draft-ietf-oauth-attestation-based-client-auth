@@ -510,11 +510,11 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 
 A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear alongside existing OAuth 2 Client Authentication mechanisms.
 
-An Authorization Server or Resource Server MAY signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the `client_attestation_required` metadata parameter in its published metadata, as defined in {{RFC8414}} for the Authorization Server and in {{RFC9728}} for the Resource Server. The value of `client_attestation_required` is a JSON array of case-sensitive strings, each identifying a Proof of Possession mechanism that the server accepts, as registered in the "OAuth Client Attestation Proof-of-Possession Mechanisms" registry established by this specification (see [](#pop-mechanisms)). A server MUST NOT include a mechanism it does not accept, and the array MUST NOT be empty when the parameter is present.
+An Authorization Server or Resource Server MAY signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the `client_attestation_pop_methods_supported` metadata parameter in its published metadata, as defined in {{RFC8414}} for the Authorization Server and in {{RFC9728}} for the Resource Server. The value of `client_attestation_pop_methods_supported` is a JSON array of case-sensitive strings, each identifying a Proof of Possession method that the server accepts, as registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)). A server MUST NOT include a method it does not accept, and the array MUST NOT be empty when the parameter is present.
 
-When the parameter is omitted, presenting a Client Attestation as an additional security signal is OPTIONAL and the Client MAY use any Proof of Possession mechanism supported by the server. When the parameter is present, a Client SHOULD include the Client Attestation and its Proof of Possession in its requests to that server, and the Client MUST use one of the listed Proof of Possession mechanisms. If a request that is required to carry a Client Attestation does not contain one, contains one that could not be successfully verified, or uses a Proof of Possession mechanism not listed in `client_attestation_required`, the server MAY refuse the request and return the `invalid_client_attestation` error as defined in [](#errors).
+When the parameter is omitted, presenting a Client Attestation as an additional security signal is OPTIONAL and the Client MAY use any Proof of Possession method supported by the server. When the parameter is present, a Client SHOULD include the Client Attestation and its Proof of Possession in its requests to that server, and the Client MUST use one of the listed Proof of Possession methods. If a request that is required to carry a Client Attestation does not contain one, contains one that could not be successfully verified, or uses a Proof of Possession method not listed in `client_attestation_pop_methods_supported`, the server MAY refuse the request and return the `invalid_client_attestation` error as defined in [](#errors).
 
-This specification registers the following two Proof of Possession mechanisms:
+This specification registers the following two Proof of Possession methods:
 
 - `attestation_pop_jwt`: The Proof of Possession is a dedicated Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt) ("normal mode").
 - `dpop`: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession as defined in [](#dpop-combined-mode) ("DPoP combined mode").
@@ -579,7 +579,7 @@ The Authorization Server SHOULD communicate support for authentication with Atte
 
 The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth`. When `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth_dpop`, the Authorization Server SHOULD advertise supported DPoP signing algorithms using `dpop_signing_alg_values_supported` as defined in {{RFC9449}}, rather than `client_attestation_pop_signing_alg_values_supported`, as the Proof of Possession in combined mode is a DPoP proof.
 
-The Authorization Server or Resource Server MAY signal that it requires a Client Attestation as an additional security signal as described in [](#additional-security-signal). The Authorization Server includes the `client_attestation_required` metadata parameter, containing a JSON array of the Proof of Possession mechanisms it accepts, in its metadata as defined in {{RFC8414}}. The Resource Server uses the same `client_attestation_required` parameter in its metadata as defined in {{RFC9728}}. The Proof of Possession mechanism values are registered in the "OAuth Client Attestation Proof-of-Possession Mechanisms" registry established by this specification (see [](#pop-mechanisms)).
+The Authorization Server or Resource Server MAY signal that it requires a Client Attestation as an additional security signal as described in [](#additional-security-signal). The Authorization Server includes the `client_attestation_pop_methods_supported` metadata parameter, containing a JSON array of the Proof of Possession methods it accepts, in its metadata as defined in {{RFC8414}}. The Resource Server uses the same `client_attestation_pop_methods_supported` parameter in its metadata as defined in {{RFC9728}}. The Proof of Possession method values are registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)).
 
 # Implementation Considerations
 
@@ -741,8 +741,8 @@ This specification requests registration of the following values in the IANA "OA
 
 <br/>
 
-* Metadata Name: client_attestation_required
-* Metadata Description: JSON array of strings, each identifying a Proof of Possession mechanism the authorization server accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.
+* Metadata Name: client_attestation_pop_methods_supported
+* Metadata Description: JSON array of strings, each identifying a Proof of Possession method the authorization server accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.
 * Change Controller: IETF
 * Reference: [](#additional-security-signal) of this specification
 
@@ -750,16 +750,16 @@ This specification requests registration of the following values in the IANA "OA
 
 This specification requests registration of the following value in the IANA "OAuth Protected Resource Metadata" registry of {{IANA.OAuth.Params}} established by {{RFC9728}}.
 
-* Metadata Name: client_attestation_required
-* Metadata Description: JSON array of strings, each identifying a Proof of Possession mechanism the protected resource accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.
+* Metadata Name: client_attestation_pop_methods_supported
+* Metadata Description: JSON array of strings, each identifying a Proof of Possession method the protected resource accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.
 * Change Controller: IETF
 * Reference: [](#additional-security-signal) of this specification
 
-## OAuth Client Attestation Proof-of-Possession Mechanisms Registry {#pop-mechanisms}
+## OAuth Client Attestation Proof-of-Possession Methods Registry {#pop-methods}
 
-This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Mechanisms" registry. This registry lists the Proof of Possession mechanisms that a Client may use to demonstrate possession of the Client Instance Key, referenced by the `client_attestation_required` metadata parameter defined in [](#additional-security-signal).
+This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Methods" registry. This registry lists the Proof of Possession methods that a Client may use to demonstrate possession of the Client Instance Key, referenced by the `client_attestation_pop_methods_supported` metadata parameter defined in [](#additional-security-signal).
 
-Client Attestation Proof-of-Possession Mechanisms are registered by Specification Required {{RFC8126}} after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.
+Client Attestation Proof-of-Possession Methods are registered by Specification Required {{RFC8126}} after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.
 
 Registration requests sent to the mailing list for review should use an appropriate subject (e.g., "Request to register Client Attestation PoP: example").
 
@@ -769,7 +769,7 @@ Designated experts should apply at least the following criteria when reviewing p
 
 - the mechanism should not duplicate existing functionality
 - the mechanism is likely generally applicable, as opposed to being used for a single application
-- the specification sufficiently describes how the Proof of Possession mechanism works in combination with a Client Attestation
+- the specification sufficiently describes how the Proof of Possession method works in combination with a Client Attestation
 
 IANA must only accept registry updates from the designated experts and should direct all requests for registration to the review mailing list.
 
@@ -779,22 +779,22 @@ The mailing list is used to enable public review of registration requests, which
 
 ### Registration Template
 
-* Mechanism Name: The name of the Proof of Possession mechanism, a case-sensitive ASCII string.
-* Mechanism Description: A brief description of the mechanism.
+* Method Name: The name of the Proof of Possession method, a case-sensitive ASCII string.
+* Method Description: A brief description of the mechanism.
 * Change Controller: For values registered by this specification, IETF.
 * Reference: A reference to the specification that defines the mechanism.
 
 ### Initial Registry Content
 
-* Mechanism Name: attestation_pop_jwt
-* Mechanism Description: The Proof of Possession is a dedicated Client Attestation PoP JWT ("normal mode").
+* Method Name: attestation_pop_jwt
+* Method Description: The Proof of Possession is a dedicated Client Attestation PoP JWT ("normal mode").
 * Change Controller: IETF
 * Reference: [](#client-attestation-pop-jwt) of this specification
 
 <br/>
 
-* Mechanism Name: dpop
-* Mechanism Description: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession ("DPoP combined mode").
+* Method Name: dpop
+* Method Description: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession ("DPoP combined mode").
 * Change Controller: IETF
 * Reference: [](#dpop-combined-mode) of this specification
 
@@ -842,8 +842,8 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -10
 
-* add `client_attestation_required` Authorization Server and Resource Server metadata
-* establish the "OAuth Client Attestation Proof-of-Possession Mechanisms" registry
+* add `client_attestation_pop_methods_supported` Authorization Server and Resource Server metadata
+* establish the "OAuth Client Attestation Proof-of-Possession Methods" registry
 * add short note that dpop_jkt cannot be used with the combined mode
 * update Client Attestation PoP JWT examples to use `challenge` instead of `nonce` and include the required `iat` claim
 * clean up references
