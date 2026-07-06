@@ -1049,7 +1049,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 4 January 2027</td>
+<td class="center">Expires 7 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-03" class="published">3 July 2026</time>
+<time datetime="2026-07-06" class="published">6 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-04">4 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1125,7 +1125,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1363,7 +1363,7 @@ svg {
 <p id="section-1-13">(4) The Client Attester responds to the Client Instance by sending the Client Attestation JWT.<a href="#section-1-13" class="pilcrow">¶</a></p>
 <p id="section-1-14">(5) The Client Instance optionally requests a Challenge from the Authorization Server's Challenge endpoint or receives a challenge from a previous message.<a href="#section-1-14" class="pilcrow">¶</a></p>
 <p id="section-1-15">(6) The Client Instance generates a Proof of Possession (PoP) with the Client Instance Key.<a href="#section-1-15" class="pilcrow">¶</a></p>
-<p id="section-1-16">(7) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is either a Client Attestation PoP JWT or a DPoP proof. The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.<a href="#section-1-16" class="pilcrow">¶</a></p>
+<p id="section-1-16">(7) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is typically a Client Attestation PoP JWT or a DPoP proof (see <a href="#pop" class="auto internal xref">Section 5</a>). The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.<a href="#section-1-16" class="pilcrow">¶</a></p>
 <p id="section-1-17">The same flow applies when authenticating to a Resource Server, where step (7) typically occurs when accessing a protected resource.<a href="#section-1-17" class="pilcrow">¶</a></p>
 <p id="section-1-18">Please note that the protocol details for steps (2) and (4), particularly how the Client Instance authenticates to the Client Attester, are beyond the scope of this specification. Furthermore, this specification is designed to be flexible and can be implemented even in scenarios where the client does not have a backend serving as a Client Attester. In such cases, each Client Instance is responsible for performing the functions typically handled by the Client Attester on its own.<a href="#section-1-18" class="pilcrow">¶</a></p>
 <p id="section-1-19">While the concrete evidence about the Client Instance collected and transmitted in (1) and (2) is out of scope, a Client Attestation JWT is generally understood to convey that the Client Attester has verified<a href="#section-1-19" class="pilcrow">¶</a></p>
@@ -1528,7 +1528,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
       <h2 id="name-proof-of-possession">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-proof-of-possession" class="section-name selfRef">Proof of Possession</a>
       </h2>
-<p id="section-5-1">This specification enables two options for the proof of possession:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">This specification defines two options for the proof of possession:<a href="#section-5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-2.1">
           <p id="section-5-2.1.1">A Client Attestation PoP JWT, introduced by this specification<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
@@ -1537,6 +1537,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
           <p id="section-5-2.2.1">Utilizing DPoP as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span><a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
+<p id="section-5-3">Other specifications or profiles may define additional proof of possession mechanisms for use with the Client Attestation. Any such mechanism <span class="bcp14">MUST</span> demonstrate possession of the private key corresponding to the key in the <code>cnf</code> claim of the Client Attestation JWT and <span class="bcp14">MUST</span> define how a Challenge (see <a href="#challenges" class="auto internal xref">Section 6</a>) is incorporated into the proof of possession. Such specifications are also expected to register their own token endpoint authentication method value, analogous to <code>attest_jwt_client_auth</code> and <code>attest_jwt_client_auth_dpop</code> (see <a href="#as-metadata" class="auto internal xref">Section 8</a>).<a href="#section-5-3" class="pilcrow">¶</a></p>
 <div id="client-attestation-pop-jwt">
 <section id="section-5.1">
         <h3 id="name-client-attestation-pop-jwt">
@@ -1753,6 +1754,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
       <h2 id="name-verification-and-processing">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-verification-and-processing" class="section-name selfRef">Verification and Processing</a>
       </h2>
+<p id="section-7-1">This section defines the verification and processing rules for the proof of possession mechanisms defined by this specification. Proof of possession mechanisms defined by other specifications define their own verification and processing rules.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <div id="verification-client-attestation-jwt">
 <section id="section-7.1">
         <h3 id="name-client-attestation-jwt-2">
@@ -2527,22 +2529,25 @@ These use-cases typically represent deployments where the Client Attester and Au
 <p id="appendix-A-1">-10<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">allow proof of possession mechanisms defined by other/future specifications<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">update Client Attestation PoP JWT examples to use <code>challenge</code> instead of <code>nonce</code> and include the required <code>iat</code> claim<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">clean up references<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">update Client Attestation PoP JWT examples to use <code>challenge</code> instead of <code>nonce</code> and include the required <code>iat</code> claim<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">fix IANA registrations<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">clean up references<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">editorial fixes<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">fix IANA registrations<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">add clarification on Client Attester<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">editorial fixes<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.7">
+          <p id="appendix-A-2.7.1">add clarification on Client Attester<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-09<a href="#appendix-A-3" class="pilcrow">¶</a></p>

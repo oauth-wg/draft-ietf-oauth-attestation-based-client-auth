@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 4 January 2027                                  Bundesdruckerei
+Expires: 7 January 2027                                  Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                             3 July 2026
+                                                             6 July 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2027.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -232,10 +232,10 @@ Table of Contents
 
    (7) The Client Instance sends the Client Attestation JWT along with
    its Proof of Possession to the Authorization Server, e.g. within a
-   token request.  The Proof of Possession is either a Client
-   Attestation PoP JWT or a DPoP proof.  The Authorization Server
-   validates the Client Attestation and thus authenticates the Client
-   Instance.
+   token request.  The Proof of Possession is typically a Client
+   Attestation PoP JWT or a DPoP proof (see Section 5).  The
+   Authorization Server validates the Client Attestation and thus
+   authenticates the Client Instance.
 
    The same flow applies when authenticating to a Resource Server, where
    step (7) typically occurs when accessing a protected resource.
@@ -399,11 +399,21 @@ Table of Contents
 
 5.  Proof of Possession
 
-   This specification enables two options for the proof of possession:
+   This specification defines two options for the proof of possession:
 
    *  A Client Attestation PoP JWT, introduced by this specification
 
    *  Utilizing DPoP as defined in [RFC9449]
+
+   Other specifications or profiles may define additional proof of
+   possession mechanisms for use with the Client Attestation.  Any such
+   mechanism MUST demonstrate possession of the private key
+   corresponding to the key in the cnf claim of the Client Attestation
+   JWT and MUST define how a Challenge (see Section 6) is incorporated
+   into the proof of possession.  Such specifications are also expected
+   to register their own token endpoint authentication method value,
+   analogous to attest_jwt_client_auth and attest_jwt_client_auth_dpop
+   (see Section 8).
 
 5.1.  Client Attestation PoP JWT
 
@@ -646,6 +656,11 @@ Table of Contents
    }
 
 7.  Verification and Processing
+
+   This section defines the verification and processing rules for the
+   proof of possession mechanisms defined by this specification.  Proof
+   of possession mechanisms defined by other specifications define their
+   own verification and processing rules.
 
 7.1.  Client Attestation JWT
 
@@ -1455,6 +1470,9 @@ Table of Contents
 Appendix A.  Document History
 
    -10
+
+   *  allow proof of possession mechanisms defined by other/future
+      specifications
 
    *  add short note that dpop_jkt cannot be used with the combined mode
 
