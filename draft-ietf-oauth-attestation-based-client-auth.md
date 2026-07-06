@@ -512,12 +512,13 @@ A Client Attestation may be used as a (additional) security signal towards an Au
 
 An Authorization Server or Resource Server MAY signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the `client_attestation_pop_methods_supported` metadata parameter in its published metadata, as defined in {{RFC8414}} for the Authorization Server and in {{RFC9728}} for the Resource Server. The value of `client_attestation_pop_methods_supported` is a JSON array of case-sensitive strings, each identifying a Proof of Possession method that the server accepts, as registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)). A server MUST NOT include a method it does not accept, and the array MUST NOT be empty when the parameter is present.
 
-When the parameter is omitted, presenting a Client Attestation as an additional security signal is OPTIONAL and the Client MAY use any Proof of Possession method supported by the server. When the parameter is present, a Client SHOULD include the Client Attestation and its Proof of Possession in its requests to that server, and the Client MUST use one of the listed Proof of Possession methods. If a request that is required to carry a Client Attestation does not contain one, contains one that could not be successfully verified, or uses a Proof of Possession method not listed in `client_attestation_pop_methods_supported`, the server MAY refuse the request and return the `invalid_client_attestation` error as defined in [](#errors).
+When the parameter is omitted, presenting a Client Attestation as an additional security signal is OPTIONAL and the Client MAY use any Proof of Possession method supported by the server. When the parameter is present with the single value `none`, the Client MAY omit the Client Attestation. Otherwise, when the parameter is present, a Client SHOULD include the Client Attestation and its Proof of Possession in its requests to that server, and the Client MUST use one of the listed Proof of Possession methods. If a request that is required to carry a Client Attestation does not contain one, contains one that could not be successfully verified, or uses a Proof of Possession method not listed in `client_attestation_pop_methods_supported`, the server MAY refuse the request and return the `invalid_client_attestation` error as defined in [](#errors).
 
-This specification registers the following two Proof of Possession methods:
+This specification registers the following Proof of Possession methods:
 
 - `attestation_pop_jwt`: The Proof of Possession is a dedicated Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt) ("normal mode").
 - `dpop`: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession as defined in [](#dpop-combined-mode) ("DPoP combined mode").
+- `none`: No Client Attestation is required. A server includes this value to signal that the Client MAY omit the Client Attestation.
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} alongside client_secret (with extra line breaks for display purposes only):
 
@@ -797,6 +798,13 @@ The mailing list is used to enable public review of registration requests, which
 * Method Description: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession ("DPoP combined mode").
 * Change Controller: IETF
 * Reference: [](#dpop-combined-mode) of this specification
+
+<br/>
+
+* Method Name: none
+* Method Description: No Client Attestation is required. When a server includes this value, the Client MAY omit the Client Attestation.
+* Change Controller: IETF
+* Reference: [](#additional-security-signal) of this specification
 
 ## Registration of attest_jwt_client_auth Token Endpoint Authentication Method
 
