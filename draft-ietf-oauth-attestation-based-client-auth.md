@@ -515,7 +515,7 @@ Authorization servers issuing a refresh token in response to a token request usi
 
 Authorization servers using Attestation-Based Client Authentication are RECOMMENDED to bind relevant protocol artifacts to the Client Instance and its associated public key where possible, and NOT just the client as specified in section 6 {{RFC6749}}. Examples of these artifacts include but are not limited to:
 
-- The authorization_code as specified in section 4.1 {{RFC6749}}.
+- The authorization_code as specified in {{Section 4.1 of RFC6749}}.
 - The auth_req_id as specified in section 7.3 {{CIBA}}.
 
 How this binding is established and then proven is specific to the protocol artifact. For example establishing binding to an authorization_code involves the client instance using client attestation before the user is redirected to the Authorization Endpoint (for example by using PAR, {{RFC9126}}), and proving binding of the authorization_code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint when performing the authorization code grant.
