@@ -517,7 +517,7 @@ When the parameter is omitted, presenting a Client Attestation as an additional 
 This specification registers the following Proof of Possession methods:
 
 - `attestation_pop_jwt`: The Proof of Possession is a dedicated Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt) ("normal mode").
-- `dpop`: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession as defined in [](#dpop-combined-mode) ("DPoP combined mode").
+- `dpop_combined`: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession as defined in [](#dpop-combined-mode) ("DPoP combined mode").
 - `none`: No Client Attestation is required. A server includes this value to signal that the Client MAY omit the Client Attestation.
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} alongside client_secret (with extra line breaks for display purposes only):
@@ -794,7 +794,7 @@ The mailing list is used to enable public review of registration requests, which
 
 <br/>
 
-* Method Name: dpop
+* Method Name: dpop_combined
 * Method Description: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession ("DPoP combined mode").
 * Change Controller: IETF
 * Reference: [](#dpop-combined-mode) of this specification
