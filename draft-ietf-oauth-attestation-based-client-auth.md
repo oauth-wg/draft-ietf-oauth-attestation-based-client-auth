@@ -135,7 +135,7 @@ The following steps describe this OAuth flow:
 
 (6) The Client Instance generates a Proof of Possession (PoP) with the Client Instance Key.
 
-(7) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is either a Client Attestation PoP JWT or a DPoP proof. The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.
+(7) The Client Instance sends the Client Attestation JWT along with its Proof of Possession to the Authorization Server, e.g. within a token request. The Proof of Possession is typically a Client Attestation PoP JWT or a DPoP proof (see [](#pop)). The Authorization Server validates the Client Attestation and thus authenticates the Client Instance.
 
 The same flow applies when authenticating to a Resource Server, where step (7) typically occurs when accessing a protected resource.
 
@@ -248,10 +248,12 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 
 # Proof of Possession {#pop}
 
-This specification enables two options for the proof of possession:
+This specification defines two options for the proof of possession:
 
 - A Client Attestation PoP JWT, introduced by this specification
 - Utilizing DPoP as defined in {{RFC9449}}
+
+Other specifications or profiles may define additional proof of possession mechanisms for use with the Client Attestation. Any such mechanism MUST demonstrate possession of the private key corresponding to the key in the `cnf` claim of the Client Attestation JWT and MUST define how a Challenge (see [](#challenges)) is incorporated into the proof of possession. Such specifications are also expected to register their own token endpoint authentication method value, analogous to `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop` (see [](#as-metadata)).
 
 ## Client Attestation PoP JWT {#client-attestation-pop-jwt}
 
@@ -425,6 +427,8 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 ~~~
 
 # Verification and Processing {#verification}
+
+This section defines the verification and processing rules for the proof of possession mechanisms defined by this specification. Proof of possession mechanisms defined by other specifications define their own verification and processing rules.
 
 ## Client Attestation JWT {#verification-client-attestation-jwt}
 
@@ -771,6 +775,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -10
 
+* allow proof of possession mechanisms defined by other/future specifications
 * add short note that dpop_jkt cannot be used with the combined mode
 * update Client Attestation PoP JWT examples to use `challenge` instead of `nonce` and include the required `iat` claim
 * clean up references
