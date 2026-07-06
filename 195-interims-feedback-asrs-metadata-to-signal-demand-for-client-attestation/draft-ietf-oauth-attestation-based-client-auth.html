@@ -1049,7 +1049,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 6 January 2027</td>
+<td class="center">Expires 7 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-05" class="published">5 July 2026</time>
+<time datetime="2026-07-06" class="published">6 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-06">6 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1125,7 +1125,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1278,7 +1278,7 @@ svg {
                 <p id="section-toc.1-1.13.2.4.1"><a href="#section-13.4" class="auto internal xref">13.4</a>.  <a href="#name-oauth-protected-resource-met" class="internal xref">OAuth Protected Resource Metadata Registration</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.5">
-                <p id="section-toc.1-1.13.2.5.1"><a href="#section-13.5" class="auto internal xref">13.5</a>.  <a href="#name-oauth-client-attestation-pr" class="internal xref">OAuth Client Attestation Proof-of-Possession Mechanisms Registry</a></p>
+                <p id="section-toc.1-1.13.2.5.1"><a href="#section-13.5" class="auto internal xref">13.5</a>.  <a href="#name-oauth-client-attestation-pr" class="internal xref">OAuth Client Attestation Proof-of-Possession Methods Registry</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.5.2.1">
                     <p id="section-toc.1-1.13.2.5.2.1.1"><a href="#section-13.5.1" class="auto internal xref">13.5.1</a>.  <a href="#name-registration-template" class="internal xref">Registration Template</a></p>
@@ -1921,15 +1921,18 @@ code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 <a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-client-attestation-as-an-ad" class="section-name selfRef">Client Attestation as an additional security signal</a>
         </h3>
 <p id="section-7.6-1">A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear alongside existing OAuth 2 Client Authentication mechanisms.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
-<p id="section-7.6-2">An Authorization Server or Resource Server <span class="bcp14">MAY</span> signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the <code>client_attestation_required</code> metadata parameter in its published metadata, as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> for the Authorization Server and in <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span> for the Resource Server. The value of <code>client_attestation_required</code> is a JSON array of case-sensitive strings, each identifying a Proof of Possession mechanism that the server accepts, as registered in the "OAuth Client Attestation Proof-of-Possession Mechanisms" registry established by this specification (see <a href="#pop-mechanisms" class="auto internal xref">Section 13.5</a>). A server <span class="bcp14">MUST NOT</span> include a mechanism it does not accept, and the array <span class="bcp14">MUST NOT</span> be empty when the parameter is present.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
-<p id="section-7.6-3">When the parameter is omitted, presenting a Client Attestation as an additional security signal is <span class="bcp14">OPTIONAL</span> and the Client <span class="bcp14">MAY</span> use any Proof of Possession mechanism supported by the server. When the parameter is present, a Client <span class="bcp14">SHOULD</span> include the Client Attestation and its Proof of Possession in its requests to that server, and the Client <span class="bcp14">MUST</span> use one of the listed Proof of Possession mechanisms. If a request that is required to carry a Client Attestation does not contain one, contains one that could not be successfully verified, or uses a Proof of Possession mechanism not listed in <code>client_attestation_required</code>, the server <span class="bcp14">MAY</span> refuse the request and return the <code>invalid_client_attestation</code> error as defined in <a href="#errors" class="auto internal xref">Section 7.4</a>.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
-<p id="section-7.6-4">This specification registers the following two Proof of Possession mechanisms:<a href="#section-7.6-4" class="pilcrow">¶</a></p>
+<p id="section-7.6-2">An Authorization Server or Resource Server <span class="bcp14">MAY</span> signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the <code>client_attestation_pop_methods_supported</code> metadata parameter in its published metadata, as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> for the Authorization Server and in <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span> for the Resource Server. The value of <code>client_attestation_pop_methods_supported</code> is a JSON array of case-sensitive strings, each identifying a Proof of Possession method that the server accepts, as registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see <a href="#pop-methods" class="auto internal xref">Section 13.5</a>). A server <span class="bcp14">MUST NOT</span> include a method it does not accept, and the array <span class="bcp14">MUST NOT</span> be empty when the parameter is present.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-3">When the parameter is omitted, presenting a Client Attestation as an additional security signal is <span class="bcp14">OPTIONAL</span> and the Client <span class="bcp14">MAY</span> use any Proof of Possession method supported by the server. When the parameter is present with the single value <code>none</code>, the Client <span class="bcp14">MAY</span> omit the Client Attestation. Otherwise, when the parameter is present, a Client <span class="bcp14">SHOULD</span> include the Client Attestation and its Proof of Possession in its requests to that server, and the Client <span class="bcp14">MUST</span> use one of the listed Proof of Possession methods. If a request that is required to carry a Client Attestation does not contain one, contains one that could not be successfully verified, or uses a Proof of Possession method not listed in <code>client_attestation_pop_methods_supported</code>, the server <span class="bcp14">MAY</span> refuse the request and return the <code>invalid_client_attestation</code> error as defined in <a href="#errors" class="auto internal xref">Section 7.4</a>.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
+<p id="section-7.6-4">This specification registers the following Proof of Possession methods:<a href="#section-7.6-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.6-5.1">
             <p id="section-7.6-5.1.1"><code>attestation_pop_jwt</code>: The Proof of Possession is a dedicated Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a> ("normal mode").<a href="#section-7.6-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-5.2">
             <p id="section-7.6-5.2.1"><code>dpop</code>: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession as defined in <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a> ("DPoP combined mode").<a href="#section-7.6-5.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.6-5.3">
+            <p id="section-7.6-5.3.1"><code>none</code>: No Client Attestation is required. A server includes this value to signal that the Client <span class="bcp14">MAY</span> omit the Client Attestation.<a href="#section-7.6-5.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.6-6">The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span> alongside client_secret (with extra line breaks for display purposes only):<a href="#section-7.6-6" class="pilcrow">¶</a></p>
@@ -1997,7 +2000,7 @@ dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
       </h2>
 <p id="section-8-1">The Authorization Server <span class="bcp14">SHOULD</span> communicate support for authentication with Attestation-Based Client Authentication using a Client Attestation PoP JWT as the PoP by using the value <code>attest_jwt_client_auth</code> in the <code>token_endpoint_auth_methods_supported</code> within its published metadata. The Authorization Server <span class="bcp14">SHOULD</span> communicate support for authentication with Attestation-Based Client Authentication using a DPoP proof as the PoP by using the value <code>attest_jwt_client_auth_dpop</code> in the <code>token_endpoint_auth_methods_supported</code> within its published metadata. The client <span class="bcp14">SHOULD</span> fetch and parse the Authorization Server metadata and recognize Attestation-Based Client Authentication as a client authentication mechanism if either of the given <code>token_endpoint_auth_methods_supported</code> values are present.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">The Authorization Server <span class="bcp14">SHOULD</span> communicate supported algorithms for client attestations by using <code>client_attestation_signing_alg_values_supported</code> and <code>client_attestation_pop_signing_alg_values_supported</code> within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client <span class="bcp14">MAY</span> try to get a new client attestation with different algorithms. The Authorization Server <span class="bcp14">MUST</span> include <code>client_attestation_signing_alg_values_supported</code> and <code>client_attestation_pop_signing_alg_values_supported</code> in its published metadata if the <code>token_endpoint_auth_methods_supported</code> includes <code>attest_jwt_client_auth</code>. When <code>token_endpoint_auth_methods_supported</code> includes <code>attest_jwt_client_auth_dpop</code>, the Authorization Server <span class="bcp14">SHOULD</span> advertise supported DPoP signing algorithms using <code>dpop_signing_alg_values_supported</code> as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>, rather than <code>client_attestation_pop_signing_alg_values_supported</code>, as the Proof of Possession in combined mode is a DPoP proof.<a href="#section-8-2" class="pilcrow">¶</a></p>
-<p id="section-8-3">The Authorization Server or Resource Server <span class="bcp14">MAY</span> signal that it requires a Client Attestation as an additional security signal as described in <a href="#additional-security-signal" class="auto internal xref">Section 7.6</a>. The Authorization Server includes the <code>client_attestation_required</code> metadata parameter, containing a JSON array of the Proof of Possession mechanisms it accepts, in its metadata as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>. The Resource Server uses the same <code>client_attestation_required</code> parameter in its metadata as defined in <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span>. The Proof of Possession mechanism values are registered in the "OAuth Client Attestation Proof-of-Possession Mechanisms" registry established by this specification (see <a href="#pop-mechanisms" class="auto internal xref">Section 13.5</a>).<a href="#section-8-3" class="pilcrow">¶</a></p>
+<p id="section-8-3">The Authorization Server or Resource Server <span class="bcp14">MAY</span> signal that it requires a Client Attestation as an additional security signal as described in <a href="#additional-security-signal" class="auto internal xref">Section 7.6</a>. The Authorization Server includes the <code>client_attestation_pop_methods_supported</code> metadata parameter, containing a JSON array of the Proof of Possession methods it accepts, in its metadata as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>. The Resource Server uses the same <code>client_attestation_pop_methods_supported</code> parameter in its metadata as defined in <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span>. The Proof of Possession method values are registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see <a href="#pop-methods" class="auto internal xref">Section 13.5</a>).<a href="#section-8-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="implementation-considerations">
@@ -2345,10 +2348,10 @@ These use-cases typically represent deployments where the Client Attester and Au
 <p id="section-13.3-3"><br></p>
 <ul class="normal">
 <li class="normal" id="section-13.3-4.1">
-            <p id="section-13.3-4.1.1">Metadata Name: client_attestation_required<a href="#section-13.3-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-13.3-4.1.1">Metadata Name: client_attestation_pop_methods_supported<a href="#section-13.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.3-4.2">
-            <p id="section-13.3-4.2.1">Metadata Description: JSON array of strings, each identifying a Proof of Possession mechanism the authorization server accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.<a href="#section-13.3-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.3-4.2.1">Metadata Description: JSON array of strings, each identifying a Proof of Possession method the authorization server accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.<a href="#section-13.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.3-4.3">
             <p id="section-13.3-4.3.1">Change Controller: IETF<a href="#section-13.3-4.3.1" class="pilcrow">¶</a></p>
@@ -2367,10 +2370,10 @@ These use-cases typically represent deployments where the Client Attester and Au
 <p id="section-13.4-1">This specification requests registration of the following value in the IANA "OAuth Protected Resource Metadata" registry of <span>[<a href="#IANA.OAuth.Params" class="cite xref">IANA.OAuth.Params</a>]</span> established by <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span>.<a href="#section-13.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.4-2.1">
-            <p id="section-13.4-2.1.1">Metadata Name: client_attestation_required<a href="#section-13.4-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-13.4-2.1.1">Metadata Name: client_attestation_pop_methods_supported<a href="#section-13.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.4-2.2">
-            <p id="section-13.4-2.2.1">Metadata Description: JSON array of strings, each identifying a Proof of Possession mechanism the protected resource accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.<a href="#section-13.4-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.4-2.2.1">Metadata Description: JSON array of strings, each identifying a Proof of Possession method the protected resource accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.<a href="#section-13.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.4-2.3">
             <p id="section-13.4-2.3.1">Change Controller: IETF<a href="#section-13.4-2.3.1" class="pilcrow">¶</a></p>
@@ -2381,13 +2384,13 @@ These use-cases typically represent deployments where the Client Attester and Au
         </ul>
 </section>
 </div>
-<div id="pop-mechanisms">
+<div id="pop-methods">
 <section id="section-13.5">
         <h3 id="name-oauth-client-attestation-pr">
-<a href="#section-13.5" class="section-number selfRef">13.5. </a><a href="#name-oauth-client-attestation-pr" class="section-name selfRef">OAuth Client Attestation Proof-of-Possession Mechanisms Registry</a>
+<a href="#section-13.5" class="section-number selfRef">13.5. </a><a href="#name-oauth-client-attestation-pr" class="section-name selfRef">OAuth Client Attestation Proof-of-Possession Methods Registry</a>
         </h3>
-<p id="section-13.5-1">This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Mechanisms" registry. This registry lists the Proof of Possession mechanisms that a Client may use to demonstrate possession of the Client Instance Key, referenced by the <code>client_attestation_required</code> metadata parameter defined in <a href="#additional-security-signal" class="auto internal xref">Section 7.6</a>.<a href="#section-13.5-1" class="pilcrow">¶</a></p>
-<p id="section-13.5-2">Client Attestation Proof-of-Possession Mechanisms are registered by Specification Required <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span> after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.<a href="#section-13.5-2" class="pilcrow">¶</a></p>
+<p id="section-13.5-1">This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Methods" registry. This registry lists the Proof of Possession methods that a Client may use to demonstrate possession of the Client Instance Key, referenced by the <code>client_attestation_pop_methods_supported</code> metadata parameter defined in <a href="#additional-security-signal" class="auto internal xref">Section 7.6</a>.<a href="#section-13.5-1" class="pilcrow">¶</a></p>
+<p id="section-13.5-2">Client Attestation Proof-of-Possession Methods are registered by Specification Required <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span> after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.<a href="#section-13.5-2" class="pilcrow">¶</a></p>
 <p id="section-13.5-3">Registration requests sent to the mailing list for review should use an appropriate subject (e.g., "Request to register Client Attestation PoP: example").<a href="#section-13.5-3" class="pilcrow">¶</a></p>
 <p id="section-13.5-4">Within the review period, the designated experts will either approve or deny the registration request, communicating this decision to the review list and IANA. Denials should include an explanation and, if applicable, suggestions as to how to make the request successful. If the designated experts are not responsive, the registration requesters should contact IANA to escalate the process.<a href="#section-13.5-4" class="pilcrow">¶</a></p>
 <p id="section-13.5-5">Designated experts should apply at least the following criteria when reviewing proposed registrations:<a href="#section-13.5-5" class="pilcrow">¶</a></p>
@@ -2399,7 +2402,7 @@ These use-cases typically represent deployments where the Client Attester and Au
             <p id="section-13.5-6.2.1">the mechanism is likely generally applicable, as opposed to being used for a single application<a href="#section-13.5-6.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.5-6.3">
-            <p id="section-13.5-6.3.1">the specification sufficiently describes how the Proof of Possession mechanism works in combination with a Client Attestation<a href="#section-13.5-6.3.1" class="pilcrow">¶</a></p>
+            <p id="section-13.5-6.3.1">the specification sufficiently describes how the Proof of Possession method works in combination with a Client Attestation<a href="#section-13.5-6.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-13.5-7">IANA must only accept registry updates from the designated experts and should direct all requests for registration to the review mailing list.<a href="#section-13.5-7" class="pilcrow">¶</a></p>
@@ -2412,10 +2415,10 @@ These use-cases typically represent deployments where the Client Attester and Au
           </h4>
 <ul class="normal">
 <li class="normal" id="section-13.5.1-1.1">
-              <p id="section-13.5.1-1.1.1">Mechanism Name: The name of the Proof of Possession mechanism, a case-sensitive ASCII string.<a href="#section-13.5.1-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-13.5.1-1.1.1">Method Name: The name of the Proof of Possession method, a case-sensitive ASCII string.<a href="#section-13.5.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.5.1-1.2">
-              <p id="section-13.5.1-1.2.1">Mechanism Description: A brief description of the mechanism.<a href="#section-13.5.1-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-13.5.1-1.2.1">Method Description: A brief description of the mechanism.<a href="#section-13.5.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.5.1-1.3">
               <p id="section-13.5.1-1.3.1">Change Controller: For values registered by this specification, IETF.<a href="#section-13.5.1-1.3.1" class="pilcrow">¶</a></p>
@@ -2433,10 +2436,10 @@ These use-cases typically represent deployments where the Client Attester and Au
           </h4>
 <ul class="normal">
 <li class="normal" id="section-13.5.2-1.1">
-              <p id="section-13.5.2-1.1.1">Mechanism Name: attestation_pop_jwt<a href="#section-13.5.2-1.1.1" class="pilcrow">¶</a></p>
+              <p id="section-13.5.2-1.1.1">Method Name: attestation_pop_jwt<a href="#section-13.5.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.5.2-1.2">
-              <p id="section-13.5.2-1.2.1">Mechanism Description: The Proof of Possession is a dedicated Client Attestation PoP JWT ("normal mode").<a href="#section-13.5.2-1.2.1" class="pilcrow">¶</a></p>
+              <p id="section-13.5.2-1.2.1">Method Description: The Proof of Possession is a dedicated Client Attestation PoP JWT ("normal mode").<a href="#section-13.5.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.5.2-1.3">
               <p id="section-13.5.2-1.3.1">Change Controller: IETF<a href="#section-13.5.2-1.3.1" class="pilcrow">¶</a></p>
@@ -2448,16 +2451,31 @@ These use-cases typically represent deployments where the Client Attester and Au
 <p id="section-13.5.2-2"><br></p>
 <ul class="normal">
 <li class="normal" id="section-13.5.2-3.1">
-              <p id="section-13.5.2-3.1.1">Mechanism Name: dpop<a href="#section-13.5.2-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-13.5.2-3.1.1">Method Name: dpop<a href="#section-13.5.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.5.2-3.2">
-              <p id="section-13.5.2-3.2.1">Mechanism Description: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession ("DPoP combined mode").<a href="#section-13.5.2-3.2.1" class="pilcrow">¶</a></p>
+              <p id="section-13.5.2-3.2.1">Method Description: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession ("DPoP combined mode").<a href="#section-13.5.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.5.2-3.3">
               <p id="section-13.5.2-3.3.1">Change Controller: IETF<a href="#section-13.5.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.5.2-3.4">
               <p id="section-13.5.2-3.4.1">Reference: <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a> of this specification<a href="#section-13.5.2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-13.5.2-4"><br></p>
+<ul class="normal">
+<li class="normal" id="section-13.5.2-5.1">
+              <p id="section-13.5.2-5.1.1">Method Name: none<a href="#section-13.5.2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-13.5.2-5.2">
+              <p id="section-13.5.2-5.2.1">Method Description: No Client Attestation is required. When a server includes this value, the Client <span class="bcp14">MAY</span> omit the Client Attestation.<a href="#section-13.5.2-5.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-13.5.2-5.3">
+              <p id="section-13.5.2-5.3.1">Change Controller: IETF<a href="#section-13.5.2-5.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-13.5.2-5.4">
+              <p id="section-13.5.2-5.4.1">Reference: <a href="#additional-security-signal" class="auto internal xref">Section 7.6</a> of this specification<a href="#section-13.5.2-5.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2677,10 +2695,10 @@ These use-cases typically represent deployments where the Client Attester and Au
 <p id="appendix-A-1">-10<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">add <code>client_attestation_required</code> Authorization Server and Resource Server metadata<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">add <code>client_attestation_pop_methods_supported</code> Authorization Server and Resource Server metadata<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">establish the "OAuth Client Attestation Proof-of-Possession Mechanisms" registry<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">establish the "OAuth Client Attestation Proof-of-Possession Methods" registry<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
           <p id="appendix-A-2.3.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
