@@ -794,7 +794,7 @@ Table of Contents
    *  invalid_client_attestation MAY be used in addition to the more
       general invalid_client error code as defined in [RFC6749] if the
       attestation or its proof of possession could not be successfully
-      verified.
+      verified, the proof of possession is not supported.
 
    In the event of errors due to situations not described above,
    Authorization and Resource Servers MUST follow the guidance of
@@ -860,25 +860,17 @@ Table of Contents
    parameter is present.
 
    When the parameter is omitted, presenting a Client Attestation as an
-   additional security signal is OPTIONAL and the Client MAY use any
-   Proof of Possession method supported by the server.  The value none
-   indicates that presenting a Client Attestation is OPTIONAL and MAY
-   appear alongside other values.  When the parameter includes none, the
-   Client MAY omit the Client Attestation.  If the Client does present
-   one, it MUST use one of the other listed Proof of Possession methods.
-   For example, for "client_attestation_pop_methods_supported":
-   ["dpop_combined", "none"], the server accepts requests without a
-   Client Attestation as well as requests carrying a Client Attestation
-   with a DPoP proof as the Proof of Possession.  When the parameter is
-   present and does not include none, a Client SHOULD include the Client
-   Attestation and its Proof of Possession in its requests to that
-   server, and the Client MUST use one of the listed Proof of Possession
-   methods.  If a request that is required to carry a Client Attestation
-   does not contain one, contains one that could not be successfully
-   verified, or uses a Proof of Possession method not listed in
-   client_attestation_pop_methods_supported, the server MAY refuse the
-   request and return the invalid_client_attestation error as defined in
-   Section 7.4.
+   additional security signal is OPTIONAL.  When the parameter includes
+   none, the Client MAY omit the Client Attestation.  If the Client
+   sends a Client Attestation, it MUST use one of the supported Proof of
+   Possession methods.  For example, for
+   "client_attestation_pop_methods_supported": ["dpop_combined",
+   "none"], the server accepts requests without a Client Attestation as
+   well as requests carrying a Client Attestation with a DPoP proof as
+   the Proof of Possession.  When the parameter is present and does not
+   include none, a Client SHOULD include the Client Attestation and its
+   Proof of Possession in its requests to that server, and the Client
+   MUST use one of the listed Proof of Possession methods.
 
    This specification registers the following Proof of Possession
    methods:
