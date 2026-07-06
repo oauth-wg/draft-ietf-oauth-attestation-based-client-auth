@@ -1219,12 +1219,6 @@ Table of Contents
               DOI 10.17487/RFC9901, November 2025,
               <https://www.rfc-editor.org/rfc/rfc9901>.
 
-   [SD-JWT]   Fett, D., Yasuda, K., and B. Campbell, "Selective
-              Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-selective-disclosure-jwt-22, 29
-              May 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-selective-disclosure-jwt-22>.
-
 Appendix A.  Document History
 
    -09
