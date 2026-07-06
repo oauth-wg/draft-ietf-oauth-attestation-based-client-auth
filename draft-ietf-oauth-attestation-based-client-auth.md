@@ -70,7 +70,6 @@ informative:
   RFC9901: RFC9901
   ARF:
   	title: "The European Digital Identity Wallet Architecture and Reference Framework"
-  SD-JWT: I-D.ietf-oauth-selective-disclosure-jwt
   CIBA:
     title: OpenID Connect Client-Initiated Backchannel Authentication Flow - Core 1.0
     target: https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html
