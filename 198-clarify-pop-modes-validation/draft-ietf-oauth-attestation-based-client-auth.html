@@ -1759,7 +1759,15 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-verification-and-processing" class="section-name selfRef">Verification and Processing</a>
       </h2>
 <p id="section-7-1">This section defines the verification and processing rules for the proof of possession mechanisms defined by this specification. Proof of possession mechanisms defined by other specifications define their own verification and processing rules.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">An Authorization Server <span class="bcp14">MAY</span> support both <code>attest_jwt_client_auth</code> and <code>attest_jwt_client_auth_dpop</code>. If the request contains an <code>OAuth-Client-Attestation-PoP</code> HTTP request header field, the receiving server <span class="bcp14">MUST</span> apply the validation rules of <a href="#verification-client-attestation-pop-jwt" class="auto internal xref">Section 7.2</a> and if present, a DPoP proof present in the request is validated according to <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> independently of this specification. If no <code>OAuth-Client-Attestation-PoP</code> HTTP request header field is present, but a DPoP proof is, the receiving server <span class="bcp14">MUST</span> apply the validation rules of <a href="#verification-dpop-combined" class="auto internal xref">Section 7.3</a>.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-2">An Authorization Server <span class="bcp14">MAY</span> support both <code>attest_jwt_client_auth</code> and <code>attest_jwt_client_auth_dpop</code> and distinguish them by the following rules:<a href="#section-7-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7-3.1">
+          <p id="section-7-3.1.1">If the request contains an <code>OAuth-Client-Attestation-PoP</code> HTTP request header field, the receiving server <span class="bcp14">MUST</span> apply the validation rules of <a href="#verification-client-attestation-pop-jwt" class="auto internal xref">Section 7.2</a> and if present, a DPoP proof present in the request is validated according to <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> independently of this specification.<a href="#section-7-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-7-3.2">
+          <p id="section-7-3.2.1">If no <code>OAuth-Client-Attestation-PoP</code> HTTP request header field is present, but a DPoP proof is, the receiving server <span class="bcp14">MUST</span> apply the validation rules of <a href="#verification-dpop-combined" class="auto internal xref">Section 7.3</a>.<a href="#section-7-3.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 <div id="verification-client-attestation-jwt">
 <section id="section-7.1">
         <h3 id="name-client-attestation-jwt-2">

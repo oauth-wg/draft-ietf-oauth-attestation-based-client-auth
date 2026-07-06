@@ -670,14 +670,18 @@ Table of Contents
    own verification and processing rules.
 
    An Authorization Server MAY support both attest_jwt_client_auth and
-   attest_jwt_client_auth_dpop.  If the request contains an OAuth-
-   Client-Attestation-PoP HTTP request header field, the receiving
-   server MUST apply the validation rules of Section 7.2 and if present,
-   a DPoP proof present in the request is validated according to
-   [RFC9449] independently of this specification.  If no OAuth-Client-
-   Attestation-PoP HTTP request header field is present, but a DPoP
-   proof is, the receiving server MUST apply the validation rules of
-   Section 7.3.
+   attest_jwt_client_auth_dpop and distinguish them by the following
+   rules:
+
+   *  If the request contains an OAuth-Client-Attestation-PoP HTTP
+      request header field, the receiving server MUST apply the
+      validation rules of Section 7.2 and if present, a DPoP proof
+      present in the request is validated according to [RFC9449]
+      independently of this specification.
+
+   *  If no OAuth-Client-Attestation-PoP HTTP request header field is
+      present, but a DPoP proof is, the receiving server MUST apply the
+      validation rules of Section 7.3.
 
 7.1.  Client Attestation JWT
 
