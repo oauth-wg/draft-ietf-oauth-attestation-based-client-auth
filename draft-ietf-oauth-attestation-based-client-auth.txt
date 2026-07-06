@@ -98,10 +98,11 @@ Table of Contents
      9.1.  DPoP Combined Mode Considerations
      9.2.  Reuse of a Client Attestation JWT
      9.3.  Refresh token binding
-     9.4.  Web Server Default Maximum HTTP Header Sizes
-     9.5.  Rotation of Client Instance Key
-     9.6.  Replay Attack Detection
-     9.7.  Trust Management and Key Resolution
+     9.4.  Binding of OAuth protocol artifacts
+     9.5.  Web Server Default Maximum HTTP Header Sizes
+     9.6.  Rotation of Client Instance Key
+     9.7.  Replay Attack Detection
+     9.8.  Trust Management and Key Resolution
    10. Privacy Considerations
      10.1.  Client Instance Tracking Across Authorization Servers or
             Resource Servers
@@ -970,7 +971,30 @@ Table of Contents
    "cnf" claim of the client attestation that was used when the refresh
    token was issued.
 
-9.4.  Web Server Default Maximum HTTP Header Sizes
+9.4.  Binding of OAuth protocol artifacts
+
+   Authorization servers using Attestation-Based Client Authentication
+   are RECOMMENDED to bind relevant protocol artifacts to the Client
+   Instance and its associated public key where possible, and NOT just
+   the client as specified in [RFC6749].  Note that this only applies if
+   Attestation-Based Client Authentication is used as Client
+   Authentication.  Examples of these artifacts include but are not
+   limited to:
+
+   *  The authorization_code as specified in Section 4.1 of [RFC6749].
+
+   *  The auth_req_id as specified in section 7.3 [CIBA].
+
+   How this binding is established and then proven is specific to the
+   protocol artifact.  For example establishing binding to an
+   authorization_code involves the client instance using client
+   attestation before the user is redirected to the Authorization
+   Endpoint (for example by using PAR, [RFC9126]), and proving binding
+   of the authorization_code to the Client Instance involves using the
+   client attestation mechanism to authenticate at the token endpoint
+   when performing the authorization code grant.
+
+9.5.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -982,7 +1006,7 @@ Table of Contents
    As of 2024, typical limits for modern web servers configure maximum
    HTTP headers as 8 kB or more as a default.
 
-9.5.  Rotation of Client Instance Key
+9.6.  Rotation of Client Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
@@ -990,7 +1014,7 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
-9.6.  Replay Attack Detection
+9.7.  Replay Attack Detection
 
    Authorization Server or Resource Servers implementing measures to
    detect replay attacks as described in Section 11.1 require efficient
@@ -1028,7 +1052,7 @@ Table of Contents
    Client Attestation PoP against the single challenge value expected
    for that session, without maintaining a seen-values data structure.
 
-9.7.  Trust Management and Key Resolution
+9.8.  Trust Management and Key Resolution
 
    The mechanisms by which the Authorization Server establishes trust in
    the Client Attester, and by which it obtains the public keys used to
@@ -1104,7 +1128,7 @@ Table of Contents
       Attestation PoP JWT would be replayed, the Authorization/Resource
       Server would recognize the jti value in the list and respond with
       an authentication error.  Details how to implement such a data
-      structure to maintain jti values is given in Section 9.6.
+      structure to maintain jti values is given in Section 9.7.
 
    *  The Authorization/Resource Server provides a challenge as an
       OAuth-Client-Attestation-Challenge in the challenge endpoint to
@@ -1115,7 +1139,7 @@ Table of Contents
       -  manage a list of witnessed challenge values, similar to the
          previously described jti approach.  Details how to implement
          such a data structure to maintain challenge values is given in
-         Section 9.6.  This guarantees stronger replay protection with a
+         Section 9.7.  This guarantees stronger replay protection with a
          challenge chosen by the Authorization/Resource Server itself,
          at the potential cost of an additional round-trip.
 
@@ -1454,6 +1478,11 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc9728>.
 
 14.2.  Informative References
+
+   [CIBA]     "OpenID Connect Client-Initiated Backchannel
+              Authentication Flow - Core 1.0", n.d.,
+              <https://openid.net/specs/openid-client-initiated-
+              backchannel-authentication-core-1_0.html>.
 
    [RFC7523]  Jones, M., Campbell, B., and C. Mortimore, "JSON Web Token
               (JWT) Profile for OAuth 2.0 Client Authentication and
