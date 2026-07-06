@@ -1633,17 +1633,18 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
         </h3>
 <p id="section-5.2-1">This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> for sender-constrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2-2">Note when authorization code binding as defined in <span><a href="https://rfc-editor.org/rfc/rfc9449#section-10" class="relref">Section 10</a> of [<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> is used, this mode only works with the DPoP Proof header containing a proof of possession and not <code>dpop_jkt</code>. When using <code>dpop_jkt</code>, the normal mode has to be used.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
-<p id="section-5.2-3">The following rules apply to the DPoP proof as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>:<a href="#section-5.2-3" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.2-4">
-<li id="section-5.2-4.1">
-            <p id="section-5.2-4.1.1">The DPoP proof <span class="bcp14">MUST</span> adhere to <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span><a href="#section-5.2-4.1.1" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">Note that DPoP <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> can also be used alongside the Client Attestation PoP JWT without this combined mode. In this case, the DPoP proof is validated according to <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> independently of this specification and its public key is not required to match the key in the <code>cnf</code> claim of the Client Attestation JWT (see <a href="#verification" class="auto internal xref">Section 7</a>).<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">The following rules apply to the DPoP proof as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>:<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.2-5">
+<li id="section-5.2-5.1">
+            <p id="section-5.2-5.1.1">The DPoP proof <span class="bcp14">MUST</span> adhere to <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span><a href="#section-5.2-5.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-5.2-4.2">
-            <p id="section-5.2-4.2.1">The public key located in the DPoP proof <span class="bcp14">MUST</span> match the public key located in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-5.2-4.2.1" class="pilcrow">¶</a></p>
+          <li id="section-5.2-5.2">
+            <p id="section-5.2-5.2.1">The public key located in the DPoP proof <span class="bcp14">MUST</span> match the public key located in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-5.2-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-5.2-5">The following non-normative example shows a token request using combined mode (line breaks for display only):<a href="#section-5.2-5" class="pilcrow">¶</a></p>
-<div class="lang-http sourcecode" id="section-5.2-6">
+<p id="section-5.2-6">The following non-normative example shows a token request using combined mode (line breaks for display only):<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<div class="lang-http sourcecode" id="section-5.2-7">
 <pre>
 POST /token HTTP/1.1
 Host: as.example.com
@@ -1652,10 +1653,10 @@ OAuth-Client-Attestation: &lt;Client-Attestation-JWT&gt;
 DPoP: &lt;Combined-DPoP-And-Attestation-PoP-JWT&gt;
 
 grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
-</pre><a href="#section-5.2-6" class="pilcrow">¶</a>
+</pre><a href="#section-5.2-7" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-7">Decoded (non-normative) DPoP (combined) proof - Header:<a href="#section-5.2-7" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-5.2-8">
+<p id="section-5.2-8">Decoded (non-normative) DPoP (combined) proof - Header:<a href="#section-5.2-8" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-5.2-9">
 <pre>
 {
   "typ": "dpop+jwt",
@@ -1667,10 +1668,10 @@ grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
     "y": "-V4dS4UaLMgP_4fY4j8ir7cl1TXlFdAgcx55o7TkcSA"
   }
 }
-</pre><a href="#section-5.2-8" class="pilcrow">¶</a>
+</pre><a href="#section-5.2-9" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-9">Payload:<a href="#section-5.2-9" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-5.2-10">
+<p id="section-5.2-10">Payload:<a href="#section-5.2-10" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-5.2-11">
 <pre>
 {
   "htm": "POST",
@@ -1678,9 +1679,9 @@ grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
   "iat": 1700000000,
   "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9"
 }
-</pre><a href="#section-5.2-10" class="pilcrow">¶</a>
+</pre><a href="#section-5.2-11" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-11">Note that additional claims may be present in the DPoP proof depending on the context, as required by <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-5.2-11" class="pilcrow">¶</a></p>
+<p id="section-5.2-12">Note that additional claims may be present in the DPoP proof depending on the context, as required by <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-5.2-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1758,6 +1759,15 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-verification-and-processing" class="section-name selfRef">Verification and Processing</a>
       </h2>
 <p id="section-7-1">This section defines the verification and processing rules for the proof of possession mechanisms defined by this specification. Proof of possession mechanisms defined by other specifications define their own verification and processing rules.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">An Authorization Server <span class="bcp14">MAY</span> support both <code>attest_jwt_client_auth</code> and <code>attest_jwt_client_auth_dpop</code> and distinguish them by the following rules:<a href="#section-7-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7-3.1">
+          <p id="section-7-3.1.1">If the request contains an <code>OAuth-Client-Attestation-PoP</code> HTTP request header field, the receiving server <span class="bcp14">MUST</span> apply the validation rules of <a href="#verification-client-attestation-pop-jwt" class="auto internal xref">Section 7.2</a> and if present, a DPoP proof present in the request is validated according to <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> independently of this specification.<a href="#section-7-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-7-3.2">
+          <p id="section-7-3.2.1">If no <code>OAuth-Client-Attestation-PoP</code> HTTP request header field is present, but a DPoP proof is, the receiving server <span class="bcp14">MUST</span> apply the validation rules of <a href="#verification-dpop-combined" class="auto internal xref">Section 7.3</a>.<a href="#section-7-3.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 <div id="verification-client-attestation-jwt">
 <section id="section-7.1">
         <h3 id="name-client-attestation-jwt-2">
@@ -2548,28 +2558,31 @@ These use-cases typically represent deployments where the Client Attester and Au
           <p id="appendix-A-2.1.1">allow proof of possession mechanisms defined by other/future specifications<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">clarify that DPoP can be used alongside <code>attest_jwt_client_auth</code> and which validation rules apply<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">update Client Attestation PoP JWT examples to use <code>challenge</code> instead of <code>nonce</code> and include the required <code>iat</code> claim<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">clean up references<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">update Client Attestation PoP JWT examples to use <code>challenge</code> instead of <code>nonce</code> and include the required <code>iat</code> claim<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">fix IANA registrations<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.5.1">clean up references<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">editorial fixes<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.6.1">fix IANA registrations<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1">add clarification on Client Attester<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.7.1">editorial fixes<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.8">
-          <p id="appendix-A-2.8.1">remove replay attack consideration to reuse existing artifacts as challenge<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.8.1">add clarification on Client Attester<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.9">
-          <p id="appendix-A-2.9.1">clarifications around implementation consideration for replay attack detection<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.9.1">remove replay attack consideration to reuse existing artifacts as challenge<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.10">
+          <p id="appendix-A-2.10.1">clarifications around implementation consideration for replay attack detection<a href="#appendix-A-2.10.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-09<a href="#appendix-A-3" class="pilcrow">¶</a></p>
