@@ -330,6 +330,8 @@ This section defines an optimization that allows a single Proof of Possession (P
 
 Note when authorization code binding as defined in {{Section 10 of RFC9449}} is used, this mode only works with the DPoP Proof header containing a proof of possession and not `dpop_jkt`. When using `dpop_jkt`, the normal mode has to be used.
 
+Note that DPoP {{RFC9449}} can also be used alongside the Client Attestation PoP JWT without this combined mode. In this case, the DPoP proof is validated according to {{RFC9449}} independently of this specification and its public key is not required to match the key in the `cnf` claim of the Client Attestation JWT (see [](#verification)).
+
 The following rules apply to the DPoP proof as defined in {{RFC9449}}:
 
 1. The DPoP proof MUST adhere to {{RFC9449}}
@@ -432,6 +434,11 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 # Verification and Processing {#verification}
 
 This section defines the verification and processing rules for the proof of possession mechanisms defined by this specification. Proof of possession mechanisms defined by other specifications define their own verification and processing rules.
+
+An Authorization Server MAY support both `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop` and distinguish them by the following rules:
+
+- If the request contains an `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-client-attestation-pop-jwt) and if present, a DPoP proof present in the request is validated according to {{RFC9449}} independently of this specification.
+- If no `OAuth-Client-Attestation-PoP` HTTP request header field is present, but a DPoP proof is, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
 
 ## Client Attestation JWT {#verification-client-attestation-jwt}
 
@@ -786,6 +793,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 -10
 
 * allow proof of possession mechanisms defined by other/future specifications
+* clarify that DPoP can be used alongside `attest_jwt_client_auth` and which validation rules apply
 * add short note that dpop_jkt cannot be used with the combined mode
 * update Client Attestation PoP JWT examples to use `challenge` instead of `nonce` and include the required `iat` claim
 * clean up references
