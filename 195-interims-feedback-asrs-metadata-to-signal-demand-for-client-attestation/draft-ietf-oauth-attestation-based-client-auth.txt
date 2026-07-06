@@ -861,15 +861,21 @@ Table of Contents
 
    When the parameter is omitted, presenting a Client Attestation as an
    additional security signal is OPTIONAL and the Client MAY use any
-   Proof of Possession method supported by the server.  When the
-   parameter is present with the single value none, the Client MAY omit
-   the Client Attestation.  Otherwise, when the parameter is present, a
-   Client SHOULD include the Client Attestation and its Proof of
-   Possession in its requests to that server, and the Client MUST use
-   one of the listed Proof of Possession methods.  If a request that is
-   required to carry a Client Attestation does not contain one, contains
-   one that could not be successfully verified, or uses a Proof of
-   Possession method not listed in
+   Proof of Possession method supported by the server.  The value none
+   indicates that presenting a Client Attestation is OPTIONAL and MAY
+   appear alongside other values.  When the parameter includes none, the
+   Client MAY omit the Client Attestation.  If the Client does present
+   one, it MUST use one of the other listed Proof of Possession methods.
+   For example, for "client_attestation_pop_methods_supported":
+   ["dpop_combined", "none"], the server accepts requests without a
+   Client Attestation as well as requests carrying a Client Attestation
+   with a DPoP proof as the Proof of Possession.  When the parameter is
+   present and does not include none, a Client SHOULD include the Client
+   Attestation and its Proof of Possession in its requests to that
+   server, and the Client MUST use one of the listed Proof of Possession
+   methods.  If a request that is required to carry a Client Attestation
+   does not contain one, contains one that could not be successfully
+   verified, or uses a Proof of Possession method not listed in
    client_attestation_pop_methods_supported, the server MAY refuse the
    request and return the invalid_client_attestation error as defined in
    Section 7.4.
