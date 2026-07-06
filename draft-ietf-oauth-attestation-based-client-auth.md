@@ -67,7 +67,6 @@ normative:
     target: "https://www.iana.org/assignments/jose/jose.xhtml#web-signature-encryption-algorithms"
 
 informative:
-  RFC6749:
   RFC9334:
   RFC7523:
   RFC9901:
