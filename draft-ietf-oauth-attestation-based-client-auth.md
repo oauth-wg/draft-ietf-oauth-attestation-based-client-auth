@@ -43,6 +43,7 @@ normative:
   RFC7591:
   RFC7519:
   RFC7800:
+  RFC8126:
   RFC8414:
   RFC8725:
   RFC9110:
@@ -486,7 +487,7 @@ When validation errors specifically related to the use of client attestations ar
 
 - `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)).
 - `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
-- `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified.
+- `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the proof of possession is not supported.
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions of when to return suitable Error Responses.
 
@@ -519,9 +520,23 @@ grant_type=authorization_code&
 code=n0esc3NRze7LTCu7iYzS6a5acc3f0ogp4
 ~~~
 
-## Client Attestation as an additional security signal
+## Client Attestation as an additional security signal {#additional-security-signal}
 
 A Client Attestation may be used as a (additional) security signal towards an Authorization Server or Resource Server. This may provide additional assurance about the client's authenticity, integrity, state or other information contained in the Client Attestation. When used at the Authorization Server, the Client Attestation may appear alongside existing OAuth 2 Client Authentication mechanisms.
+
+An Authorization Server or Resource Server MAY signal a requirement to Clients for presenting a Client Attestation and its Proof of Possession as an additional security signal alongside the regular request. A server signals this demand by including the `client_attestation_pop_methods_supported` metadata parameter in its published metadata, as defined in {{RFC8414}} for the Authorization Server and in {{RFC9728}} for the Resource Server. The value of `client_attestation_pop_methods_supported` is a JSON array of case-sensitive strings, each identifying a Proof of Possession method that the server accepts, as registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)). A server MUST NOT include a method it does not accept, and the array MUST NOT be empty when the parameter is present.
+
+When the parameter is omitted, presenting a Client Attestation as an additional security signal is OPTIONAL.
+When the parameter includes `none`, the Client MAY omit the Client Attestation.
+If the Client sends a Client Attestation, it MUST use one of the supported Proof of Possession methods.
+For example, for `"client_attestation_pop_methods_supported": ["dpop_combined", "none"]`, the server accepts requests without a Client Attestation as well as requests carrying a Client Attestation with a DPoP proof as the Proof of Possession.
+When the parameter is present and does not include `none`, a Client SHOULD include the Client Attestation and its Proof of Possession in its requests to that server, and the Client MUST use one of the listed Proof of Possession methods.
+
+This specification registers the following Proof of Possession methods:
+
+- `attestation_pop_jwt`: The Proof of Possession is a dedicated Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt) ("normal mode").
+- `dpop_combined`: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession as defined in [](#dpop-combined-mode) ("DPoP combined mode").
+- `none`: No Client Attestation is required. A server includes this value to signal that the Client MAY omit the Client Attestation.
 
 The following example demonstrates usage of the client attestation mechanism in a PAR request as defined in {{RFC9126}} alongside client_secret (with extra line breaks for display purposes only):
 
@@ -577,11 +592,13 @@ wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
 dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 ~~~
 
-# Authorization Server Metadata {#as-metadata}
+# Authorization Server and Resource Server Metadata {#as-metadata}
 
 The Authorization Server SHOULD communicate support for authentication with Attestation-Based Client Authentication using a Client Attestation PoP JWT as the PoP by using the value `attest_jwt_client_auth` in the `token_endpoint_auth_methods_supported` within its published metadata. The Authorization Server SHOULD communicate support for authentication with Attestation-Based Client Authentication using a DPoP proof as the PoP by using the value `attest_jwt_client_auth_dpop` in the `token_endpoint_auth_methods_supported` within its published metadata. The client SHOULD fetch and parse the Authorization Server metadata and recognize Attestation-Based Client Authentication as a client authentication mechanism if either of the given `token_endpoint_auth_methods_supported` values are present.
 
-The Authorization Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth`. When `token_endpoint_auth_methods_supported` includes `attest_jwt_client_auth_dpop`, the Authorization Server SHOULD advertise supported DPoP signing algorithms using `dpop_signing_alg_values_supported` as defined in {{RFC9449}}, rather than `client_attestation_pop_signing_alg_values_supported`, as the Proof of Possession in combined mode is a DPoP proof.
+The Authorization Server or Resource Server SHOULD communicate supported algorithms for client attestations by using `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` within its published metadata. This enables the client to validate that its client attestation is understood by the Authorization Server prior to authentication. The client MAY try to get a new client attestation with different algorithms. The Authorization Server or Resource Server MUST include `client_attestation_signing_alg_values_supported` and `client_attestation_pop_signing_alg_values_supported` in its published metadata if the Client Attestation PoP JWT mechanism is used. The Authorization Server or Resource Server MUST include `dpop_signing_alg_values_supported` as defined in {{RFC9449}}, if DPoP is used as the Proof of Possession in combined mode.
+
+The Authorization Server or Resource Server MAY signal that it requires a Client Attestation as an additional security signal as described in [](#additional-security-signal). The Authorization Server includes the `client_attestation_pop_methods_supported` metadata parameter, containing a JSON array of the Proof of Possession methods it accepts, in its metadata as defined in {{RFC8414}}. The Resource Server uses the same `client_attestation_pop_methods_supported` parameter in its metadata as defined in {{RFC9728}}. The Proof of Possession method values are registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)).
 
 # Implementation Considerations
 
@@ -748,6 +765,72 @@ This specification requests registration of the following values in the IANA "OA
 * Change Controller: IETF
 * Reference: [](#challenge-endpoint) of this specification
 
+<br/>
+
+* Metadata Name: client_attestation_pop_methods_supported
+* Metadata Description: JSON array of strings, each identifying a Proof of Possession method the authorization server accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.
+* Change Controller: IETF
+* Reference: [](#additional-security-signal) of this specification
+
+## OAuth Protected Resource Metadata Registration
+
+This specification requests registration of the following value in the IANA "OAuth Protected Resource Metadata" registry of {{IANA.OAuth.Params}} established by {{RFC9728}}.
+
+* Metadata Name: client_attestation_pop_methods_supported
+* Metadata Description: JSON array of strings, each identifying a Proof of Possession method the protected resource accepts when requiring Clients to present a Client Attestation as an additional security signal. If omitted, presenting a Client Attestation is not required.
+* Change Controller: IETF
+* Reference: [](#additional-security-signal) of this specification
+
+## OAuth Client Attestation Proof-of-Possession Methods Registry {#pop-methods}
+
+This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Methods" registry. This registry lists the Proof of Possession methods that a Client may use to demonstrate possession of the Client Instance Key, referenced by the `client_attestation_pop_methods_supported` metadata parameter defined in [](#additional-security-signal).
+
+Client Attestation Proof-of-Possession Methods are registered by Specification Required {{RFC8126}} after a two-week review period on the oauth-ext-review@ietf.org mailing list, on the advice of one or more Designated Experts. To allow for the allocation of values prior to publication of the final version of a specification, the designated experts may approve registration once they are satisfied that the specification will be completed and published. However, if the specification is not completed and published in a timely manner, as determined by the designated experts, the designated experts may request that IANA withdraw the registration.
+
+Registration requests sent to the mailing list for review should use an appropriate subject (e.g., "Request to register Client Attestation PoP: example").
+
+Within the review period, the designated experts will either approve or deny the registration request, communicating this decision to the review list and IANA. Denials should include an explanation and, if applicable, suggestions as to how to make the request successful. If the designated experts are not responsive, the registration requesters should contact IANA to escalate the process.
+
+Designated experts should apply at least the following criteria when reviewing proposed registrations:
+
+- the mechanism should not duplicate existing functionality
+- the mechanism is likely generally applicable, as opposed to being used for a single application
+- the specification sufficiently describes how the Proof of Possession method works in combination with a Client Attestation
+
+IANA must only accept registry updates from the designated experts and should direct all requests for registration to the review mailing list.
+
+In order to enable broadly informed review of registration decisions, there should be multiple designated experts to represent the perspectives of different applications using this specification. In cases where registration may be perceived as a conflict of interest for a particular expert, that expert should defer to the judgment of the other experts.
+
+The mailing list is used to enable public review of registration requests, which enables both designated experts and other interested parties to provide feedback on proposed registrations. Designated experts may allocate values prior to publication of the final specification. This allows authors to receive guidance from the designated experts early, so any identified issues can be fixed before the final specification is published.
+
+### Registration Template
+
+* Method Name: The name of the Proof of Possession method, a case-sensitive ASCII string.
+* Method Description: A brief description of the mechanism.
+* Change Controller: For values registered by this specification, IETF.
+* Reference: A reference to the specification that defines the mechanism.
+
+### Initial Registry Content
+
+* Method Name: attestation_pop_jwt
+* Method Description: The Proof of Possession is a dedicated Client Attestation PoP JWT ("normal mode").
+* Change Controller: IETF
+* Reference: [](#client-attestation-pop-jwt) of this specification
+
+<br/>
+
+* Method Name: dpop_combined
+* Method Description: The Proof of Possession is a DPoP proof serving as the combined Proof of Possession ("DPoP combined mode").
+* Change Controller: IETF
+* Reference: [](#dpop-combined-mode) of this specification
+
+<br/>
+
+* Method Name: none
+* Method Description: No Client Attestation is required. When a server includes this value, the Client MAY omit the Client Attestation.
+* Change Controller: IETF
+* Reference: [](#additional-security-signal) of this specification
+
 ## Registration of attest_jwt_client_auth Token Endpoint Authentication Method
 
 This section registers the value "attest_jwt_client_auth" in the IANA "OAuth Token Endpoint Authentication Methods" registry established by OAuth 2.0 Dynamic Client Registration Protocol {{RFC7591}}.
@@ -792,6 +875,8 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -10
 
+* add `client_attestation_pop_methods_supported` Authorization Server and Resource Server metadata
+* establish the "OAuth Client Attestation Proof-of-Possession Methods" registry
 * allow proof of possession mechanisms defined by other/future specifications
 * clarify that DPoP can be used alongside `attest_jwt_client_auth` and which validation rules apply
 * add short note that dpop_jkt cannot be used with the combined mode
