@@ -864,8 +864,8 @@ Table of Contents
    *  attestation_pop_jwt: The Proof of Possession is a dedicated Client
       Attestation PoP JWT as defined in Section 5.1 ("normal mode").
 
-   *  dpop: The Proof of Possession is a DPoP proof serving as the
-      combined Proof of Possession as defined in Section 5.2 ("DPoP
+   *  dpop_combined: The Proof of Possession is a DPoP proof serving as
+      the combined Proof of Possession as defined in Section 5.2 ("DPoP
       combined mode").
 
    *  none: No Client Attestation is required.  A server includes this
@@ -1462,7 +1462,7 @@ Table of Contents
 
 
 
-   *  Method Name: dpop
+   *  Method Name: dpop_combined
 
    *  Method Description: The Proof of Possession is a DPoP proof
       serving as the combined Proof of Possession ("DPoP combined
