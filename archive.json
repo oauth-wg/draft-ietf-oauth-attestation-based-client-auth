@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-07T00:33:59.423331+00:00",
+  "timestamp": "2026-07-09T00:31:27.643124+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -14643,21 +14643,21 @@
       "id": "PR_kwDOJaEkaM7JTIIv",
       "title": "Adds an example generation script",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/186",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Simple JS script for example generation",
       "createdAt": "2026-03-10T07:44:37Z",
-      "updatedAt": "2026-07-04T10:53:57Z",
+      "updatedAt": "2026-07-08T12:53:32Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "1e1fc517ace4bf318ccff1e000fcb8b0addaa6d2",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/example-generation",
       "headRefOid": "6218c3ccbc4d64d327fb43ef62418b99e94a5a50",
-      "closedAt": null,
+      "closedAt": "2026-07-08T12:53:32Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -14668,6 +14668,13 @@
           "body": "I believe we can close this? ",
           "createdAt": "2026-07-04T10:53:57Z",
           "updatedAt": "2026-07-04T10:53:57Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tplooker re-open if necessary",
+          "createdAt": "2026-07-08T12:53:32Z",
+          "updatedAt": "2026-07-08T12:53:32Z"
         }
       ],
       "reviews": []
