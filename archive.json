@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-12T00:28:32.529370+00:00",
+  "timestamp": "2026-07-14T00:25:02.411424+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5163,9 +5163,24 @@
       "labels": [],
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) do not necessarily carry the client ID in their subject and a WIT may be used to represent multiple clients at multiple authorization servers.\n\nWorkload Identifiers (which go into the `sub` claim of the WIT) are defined as:\n> A URI-based identifier assigned to a workload. A Workload Identifier MAY refer to a logical workload consisting of multiple instances, or to a specific workload instance, depending on the policy of the trust domain. [..]\n\nsee https://datatracker.ietf.org/doc/draft-ietf-wimse-identifier/03/.\n\nI would like to open discussions if the following sentence \n> The sub (subject) claim MUST specify client_id value of the OAuth Client.\n\ncan be changed to something along the lines of \"The sub (subject) claim MUST specify client_id value of the OAuth Client or adequate mapping MUST exist at the Authorization Server\"",
       "createdAt": "2026-07-10T10:13:23Z",
-      "updatedAt": "2026-07-10T10:20:10Z",
+      "updatedAt": "2026-07-13T11:06:40Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi @arndt-s thanks for filling the issue, in general it makes sense that generic Workload Identity Tokens may not convey client ID's given their applications outside of OAuth, however I'm struggling to understand how they can then operate within the context of OAuth without the AS knowing what client deployment a workload is associated to. The constraint we've imposed in our draft around requiring the client ID is really only there to respect a fundamental design decision of OAuth, which is that generally the AS needs to know what client deployment a requestor is associated too and the client ID is how that is accomplished.\n\nThat said I wonder if the language change you have requested is necessary, given OAuth does not prescribe a specific format for a client ID, could a workload identifier not actually infact be a client_id?\n\n",
+          "createdAt": "2026-07-13T08:08:19Z",
+          "updatedAt": "2026-07-13T08:08:19Z"
+        },
+        {
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "body": "Hi @tplooker ,\n\nAgreed that the AS needs to be able to associated client deployments to the workload. That's what I'm aiming for with _\"or adequate mapping MUST exist at the Authorization Server\"_. And you are correct, the workload identifier can be the client_id, however, that 1-1 binding only works if workload topology is aligned with the OAuth topology which is almost never the case.\n\nFor instance, 2 Kubernetes cluster behind a load balancer. The same workload runs on both, but they get different SPIFFE-IDs.\n`spiffe://example.com/cluster-a/my-workload`\n`spiffe://example.com/cluster-b/my-workload`\nboth act as the same client ID on the authorization server, have the same consent screen/cookie, share state and so on.\n\nAnother example where sub==client_id does not work is CIMD where the client_id is required to be `https` scheme-ed.",
+          "createdAt": "2026-07-13T11:06:40Z",
+          "updatedAt": "2026-07-13T11:06:40Z"
+        }
+      ]
     },
     {
       "number": 211,
@@ -5179,9 +5194,31 @@
       "labels": [],
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) are rotated frequently alongside their keys. Requiring refresh tokens to be bound to the same key that is used to authenticate the client limits those to the age of that key. This either makes the refresh tokens short-lived and introduces user experience downsides (re-auth at every key rotation) or requires additional work to rotate refresh tokens to new keys creating burst of rotation traffic at the authorization server at every key rotation.\n\nI would like to open discussions if the \"Refresh token binding\" section could be changed to\n- MUST bind to the client (already covered by general OAuth confidential client)\n- SHOULD be bound to the client instance (if multiple client instances share the same security boundary this may be intentional). E.g. ephemeral workload authenticates the user and retires. A new instance (& new key) comes up and wants to pick up the prior established session.\n- MAY be bound to the same key. + wording that this binds the refresh token lifetime to the lifetime of the key itself.\n\nA new section in the security considerations can highlight the impact of the various options and that stronger binding (to the instance or the key) mitigates token theft across instances.",
       "createdAt": "2026-07-10T10:30:13Z",
-      "updatedAt": "2026-07-10T10:30:13Z",
+      "updatedAt": "2026-07-13T15:48:29Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "EthanHeilman",
+          "authorAssociation": "NONE",
+          "body": "> This either makes the refresh tokens short-lived and introduces user experience downsides (re-auth at every key rotation) or requires additional work to rotate refresh tokens to new keys creating burst of rotation traffic at the authorization server at every key rotation.\n\nOne of the main selling points of bound-keys is that they can be made non-extractable, i.e. protected with HSM/TPM or other form of trusted hardware or software. The ability to use a refresh token to rotate the public key of the bound token weakens the security offered by the non-extractable keys since an attacker can simply rotate to a public key they control.\n\n> MUST bind to the client (already covered by general OAuth confidential client)\n\nBinding to the client provides better protection against simply stealing the refresh token and then rotating the public key because you must also steal the client secret. In a complex modern enterprise you often want to scope HSM access so that one client-instance can not request signatures from another client-instance, but you can't quite scope the client secret this way as it is a client wide value unlike a bound token and refresh token that are scopes to a client-instance. Allowing the client secret + refresh token to rotate a public key breaks this scoping.\n\n- If the client secret + refresh token can be used to rotate the public key of a session, an attacker that compromises the refresh token and the client secret can bypass the HSM by rotating the public key. The refresh token is a bearer token and thus can't be protected by an HSM making it far more vulnerable than a key bound token.\n- Whereas if the refresh token can not rotate the public key, then even if the client secret, refresh token and the service that can request signatures from the HSM is compromised, the HSM can not be bypassed.\n\n> Requiring refresh tokens to be bound to the same key that is used to authenticate the client limits those to the age of that key. \n\nI can see having a public key for authenticating and a public key for refreshing.\n\n> A new instance (& new key) comes up and wants to pick up the prior established session.\n\nI want to understand this case better, how to do authenticate the new instance if its keying material and secrets are no longer available?\n",
+          "createdAt": "2026-07-12T17:34:09Z",
+          "updatedAt": "2026-07-12T17:34:09Z"
+        },
+        {
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "body": "In SPIFFE a workload receives a key-bound JWT + private key in regular intervals. It is expected to drop the previous JWT+key once a new one is available. This flow may also happen due to a scheduled or on-demand signing key rotation. The key of the workload is software-backed.\n\nInteresting thought to separate the key for authentication and refresh tokens. It solves the problem but also requires additional fields to provide an additional public key (and I suppose proof of possession for that one too).\n\n",
+          "createdAt": "2026-07-13T11:20:14Z",
+          "updatedAt": "2026-07-13T11:20:14Z"
+        },
+        {
+          "author": "EthanHeilman",
+          "authorAssociation": "NONE",
+          "body": "So SPIFFE is signing these new JWTs and authenticating the key rotation for the workload? Wouldn't the these new SPIFFE issued JWT count as a new authentication/new session? If so couldn't SPIFFE issue a new refresh token along side the JWT? What's the advantage of maintaining the same refresh token?\n\n>  The key of the workload is software-backed.\n\nIs this a safe assumption long term? From where I sit it looks it like everyone is scrambling to get all key material into HSM/TPUs or software isolation, i.e. SSMs.",
+          "createdAt": "2026-07-13T15:48:29Z",
+          "updatedAt": "2026-07-13T15:48:29Z"
+        }
+      ]
     },
     {
       "number": 212,
