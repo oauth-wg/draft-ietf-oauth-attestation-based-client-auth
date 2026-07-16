@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-14T00:25:02.411424+00:00",
+  "timestamp": "2026-07-16T00:26:25.095081+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5163,7 +5163,7 @@
       "labels": [],
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) do not necessarily carry the client ID in their subject and a WIT may be used to represent multiple clients at multiple authorization servers.\n\nWorkload Identifiers (which go into the `sub` claim of the WIT) are defined as:\n> A URI-based identifier assigned to a workload. A Workload Identifier MAY refer to a logical workload consisting of multiple instances, or to a specific workload instance, depending on the policy of the trust domain. [..]\n\nsee https://datatracker.ietf.org/doc/draft-ietf-wimse-identifier/03/.\n\nI would like to open discussions if the following sentence \n> The sub (subject) claim MUST specify client_id value of the OAuth Client.\n\ncan be changed to something along the lines of \"The sub (subject) claim MUST specify client_id value of the OAuth Client or adequate mapping MUST exist at the Authorization Server\"",
       "createdAt": "2026-07-10T10:13:23Z",
-      "updatedAt": "2026-07-13T11:06:40Z",
+      "updatedAt": "2026-07-14T20:49:43Z",
       "closedAt": null,
       "comments": [
         {
@@ -5179,6 +5179,13 @@
           "body": "Hi @tplooker ,\n\nAgreed that the AS needs to be able to associated client deployments to the workload. That's what I'm aiming for with _\"or adequate mapping MUST exist at the Authorization Server\"_. And you are correct, the workload identifier can be the client_id, however, that 1-1 binding only works if workload topology is aligned with the OAuth topology which is almost never the case.\n\nFor instance, 2 Kubernetes cluster behind a load balancer. The same workload runs on both, but they get different SPIFFE-IDs.\n`spiffe://example.com/cluster-a/my-workload`\n`spiffe://example.com/cluster-b/my-workload`\nboth act as the same client ID on the authorization server, have the same consent screen/cookie, share state and so on.\n\nAnother example where sub==client_id does not work is CIMD where the client_id is required to be `https` scheme-ed.",
           "createdAt": "2026-07-13T11:06:40Z",
           "updatedAt": "2026-07-13T11:06:40Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@arndt-s thanks for the clarification so you are suggesting that the AS keeps a mapping of other ID's to underlying client_ids then? If thats the case im still struggling to understand how the AS couldn't just treat all the other ID's as distinct client_ids, for example in your example.\n\n```\nspiffe://example.com/cluster-a/my-workload\nspiffe://example.com/cluster-b/my-workload\n```\n\nWhy can't these ^ be distinct client_ids if need be?",
+          "createdAt": "2026-07-14T20:49:43Z",
+          "updatedAt": "2026-07-14T20:49:43Z"
         }
       ]
     },
@@ -5194,7 +5201,7 @@
       "labels": [],
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) are rotated frequently alongside their keys. Requiring refresh tokens to be bound to the same key that is used to authenticate the client limits those to the age of that key. This either makes the refresh tokens short-lived and introduces user experience downsides (re-auth at every key rotation) or requires additional work to rotate refresh tokens to new keys creating burst of rotation traffic at the authorization server at every key rotation.\n\nI would like to open discussions if the \"Refresh token binding\" section could be changed to\n- MUST bind to the client (already covered by general OAuth confidential client)\n- SHOULD be bound to the client instance (if multiple client instances share the same security boundary this may be intentional). E.g. ephemeral workload authenticates the user and retires. A new instance (& new key) comes up and wants to pick up the prior established session.\n- MAY be bound to the same key. + wording that this binds the refresh token lifetime to the lifetime of the key itself.\n\nA new section in the security considerations can highlight the impact of the various options and that stronger binding (to the instance or the key) mitigates token theft across instances.",
       "createdAt": "2026-07-10T10:30:13Z",
-      "updatedAt": "2026-07-13T15:48:29Z",
+      "updatedAt": "2026-07-14T19:09:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -5217,6 +5224,20 @@
           "body": "So SPIFFE is signing these new JWTs and authenticating the key rotation for the workload? Wouldn't the these new SPIFFE issued JWT count as a new authentication/new session? If so couldn't SPIFFE issue a new refresh token along side the JWT? What's the advantage of maintaining the same refresh token?\n\n>  The key of the workload is software-backed.\n\nIs this a safe assumption long term? From where I sit it looks it like everyone is scrambling to get all key material into HSM/TPUs or software isolation, i.e. SSMs.",
           "createdAt": "2026-07-13T15:48:29Z",
           "updatedAt": "2026-07-13T15:48:29Z"
+        },
+        {
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "body": "> Wouldn't the these new SPIFFE issued JWT count as a new authentication/new session? If so couldn't SPIFFE issue a new refresh token along side the JWT? What's the advantage of maintaining the same refresh token?\n\nThis assumes SPIFFE is the human AS too, but at the moment it just issues workload identity-facing credentials. The OAuth-based credentials are issued by a 3rd party existing IDP.\n\n> Is this a safe assumption long term? From where I sit it looks it like everyone is scrambling to get all key material into HSM/TPUs or software isolation, i.e. SSMs.\n\nSo far the community hasn't been much asking about it. If there would be a strong voice we'd consider it but so far the short lifetime of credential and key seems to be enough.",
+          "createdAt": "2026-07-14T05:43:40Z",
+          "updatedAt": "2026-07-14T05:43:40Z"
+        },
+        {
+          "author": "EthanHeilman",
+          "authorAssociation": "NONE",
+          "body": "I see what you are saying. You have two identities in one token, the identity of the client-instance and the identity of the human user.\n\n> Interesting thought to separate the key for authentication and refresh tokens. It solves the problem but also requires additional fields to provide an additional public key (and I suppose proof of possession for that one too).\n\nTrying to think through this. You have two keys\n\n- JWT-key: the SPIFFE issues key-bound JWT + private key \n- Refresh-key: workload generates it's own key pair bound to the refresh token (protected by an HSM or lives in software on the workload)\n\nIf SPIFFE is malicious and rotates the JWT-key to an attacker controlled key, the attacker still need the refresh-key to perform this rotation and also to refresh the JWT-key. This means if the attacker loses access to the workload, then the JWT-key will expire and the attacker won't be able to refresh it, and the attacker will be pushed out.\n\nThe refresh-key can live in an HSM connected to the workload, but even if it doesn't, once a session is setup, SPIFFE can not rotate the key without the cooperation of the workload.",
+          "createdAt": "2026-07-14T19:09:09Z",
+          "updatedAt": "2026-07-14T19:09:09Z"
         }
       ]
     },
@@ -5233,6 +5254,22 @@
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) are strongly typed `wit+jwt`. However, this draft gates the attestation-based JWT client authentication behind the `typ: oauth-client-attestation+jwt` type. This reduces the applicability of it to issuers that are purpose-build for this use-case or those where instance can influence the typing.\n\nI would like to open discussions if the following could be added to the end of section 5.1: Client Attestation PoP JWT:\n\n> Other specifications or profiles may define alternative client attestation formats. Any such format MUST carry a public key in the cnf claim and SHOULD be strongly typed. It is in the discretion of the Authorization Server to accept these alternative formats.\n\n\n",
       "createdAt": "2026-07-10T10:38:07Z",
       "updatedAt": "2026-07-10T10:38:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 213,
+      "id": "I_kwDOJaEkaM8AAAABI3WvFQ",
+      "title": "RS metadata registration is incomplete",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/213",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-07-15T06:19:52Z",
+      "updatedAt": "2026-07-15T06:19:52Z",
       "closedAt": null,
       "comments": []
     }
