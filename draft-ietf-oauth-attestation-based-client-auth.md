@@ -600,6 +600,20 @@ The Authorization Server or Resource Server SHOULD communicate supported algorit
 
 The Authorization Server or Resource Server MAY signal that it requires a Client Attestation as an additional security signal as described in [](#additional-security-signal). The Authorization Server includes the `client_attestation_pop_methods_supported` metadata parameter, containing a JSON array of the Proof of Possession methods it accepts, in its metadata as defined in {{RFC8414}}. The Resource Server uses the same `client_attestation_pop_methods_supported` parameter in its metadata as defined in {{RFC9728}}. The Proof of Possession method values are registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)).
 
+# Client Metadata {#client-metadata}
+
+This section defines client metadata parameters for use with attestation-based client authentication. As described in {{RFC7591}}, client metadata defines a general data model for Clients that is useful even when the Dynamic Client Registration Protocol is not being used. A Client MAY use these values to compare its own capabilities against the Authorization Server or Resource Server metadata defined in [](#as-metadata) to determine whether it can interoperate with a given server prior to attempting authentication.
+
+A Client that supports attestation-based client authentication as defined in this specification indicates this by using the value `attest_jwt_client_auth` or `attest_jwt_client_auth_dpop` in the `token_endpoint_auth_method` client metadata parameter defined in {{RFC7591}}.
+
+In addition, the following client metadata parameters are defined:
+
+* `client_attestation_signing_alg_values_supported`: OPTIONAL. JSON array containing a list of the JWS `alg` values (as defined in {{IANA.JOSE.ALGS}}) supported by the Client for signing the Client Attestation JWT. The values `none` and any symmetric algorithms MUST NOT be present.
+* `client_attestation_pop_signing_alg_values_supported`: OPTIONAL. JSON array containing a list of the JWS `alg` values (as defined in {{IANA.JOSE.ALGS}}) supported by the Client for signing the Client Attestation PoP JWT. The values `none` and any symmetric algorithms MUST NOT be present.
+* `client_attestation_pop_methods_supported`: OPTIONAL. JSON array of case-sensitive strings, each identifying a Proof of Possession method supported by the Client, as registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)).
+
+These client metadata values are advertisements of Client capability. The Authorization Server or Resource Server enforces its own accepted algorithm and Proof of Possession method policies independently, and is not required to consult these values when validating an incoming request.
+
 # Implementation Considerations
 
 ## DPoP Combined Mode Considerations
@@ -781,6 +795,29 @@ This specification requests registration of the following value in the IANA "OAu
 * Change Controller: IETF
 * Reference: [](#additional-security-signal) of this specification
 
+## OAuth Dynamic Client Registration Metadata Registration
+
+This specification requests registration of the following values in the IANA "OAuth Dynamic Client Registration Metadata" registry of {{IANA.OAuth.Params}} established by {{RFC7591}}.
+
+* Metadata Name: client_attestation_signing_alg_values_supported
+* Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the Client for signing the Client Attestation JWT.
+* Change Controller: IETF
+* Reference: [](#client-metadata) of this specification
+
+<br/>
+
+* Metadata Name: client_attestation_pop_signing_alg_values_supported
+* Metadata Description: JSON array containing a list of the JWS signing algorithms supported by the Client for signing the Client Attestation PoP JWT.
+* Change Controller: IETF
+* Reference: [](#client-metadata) of this specification
+
+<br/>
+
+* Metadata Name: client_attestation_pop_methods_supported
+* Metadata Description: JSON array of strings, each identifying a Proof of Possession method supported by the Client.
+* Change Controller: IETF
+* Reference: [](#client-metadata) of this specification
+
 ## OAuth Client Attestation Proof-of-Possession Methods Registry {#pop-methods}
 
 This specification establishes the IANA "OAuth Client Attestation Proof-of-Possession Methods" registry. This registry lists the Proof of Possession methods that a Client may use to demonstrate possession of the Client Instance Key, referenced by the `client_attestation_pop_methods_supported` metadata parameter defined in [](#additional-security-signal).
@@ -872,6 +909,11 @@ This section requests registration of the following scheme in the "Hypertext Tra
 --- back
 
 # Document History
+
+-11
+
+* add Client Metadata section defining `client_attestation_signing_alg_values_supported`, `client_attestation_pop_signing_alg_values_supported`, and `client_attestation_pop_methods_supported` for use by Clients (addresses #170)
+* register the new client metadata parameters in the "OAuth Dynamic Client Registration Metadata" IANA registry
 
 -10
 
