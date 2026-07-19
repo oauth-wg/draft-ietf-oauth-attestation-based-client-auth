@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-16T00:26:25.095081+00:00",
+  "timestamp": "2026-07-19T00:27:35.470054+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -16265,6 +16265,119 @@
           "body": "",
           "createdAt": "2026-07-06T20:52:55Z",
           "updatedAt": "2026-07-06T20:52:55Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 214,
+      "id": "PR_kwDOJaEkaM7yyErD",
+      "title": "feat: add client metadata",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/214",
+      "state": "OPEN",
+      "author": "tplooker",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #170",
+      "createdAt": "2026-07-17T02:15:42Z",
+      "updatedAt": "2026-07-18T19:39:27Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "tl/client-metadata",
+      "headRefOid": "8d148e9379044613d4c7c93678bc0ddb3ff35210",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGdkKBw",
+          "commit": {
+            "abbreviatedOid": "8d148e9"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-18T13:56:45Z",
+          "updatedAt": "2026-07-18T13:56:46Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "we actually allow usage of MAC\n\n```suggestion\n* `client_attestation_signing_alg_values_supported`: OPTIONAL. JSON array containing a list of the JWS `alg` values (as defined in {{IANA.JOSE.ALGS}}) supported by the Client for signing the Client Attestation JWT. The value `none` MUST NOT be present.\n```",
+              "createdAt": "2026-07-18T13:56:45Z",
+              "updatedAt": "2026-07-18T13:56:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGdktMA",
+          "commit": {
+            "abbreviatedOid": "8d148e9"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Please see the one comment",
+          "createdAt": "2026-07-18T14:03:37Z",
+          "updatedAt": "2026-07-18T14:03:37Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGdmdSA",
+          "commit": {
+            "abbreviatedOid": "8d148e9"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-18T14:25:42Z",
+          "updatedAt": "2026-07-18T14:25:42Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Stumbled over that as well since we allow MAC",
+              "createdAt": "2026-07-18T14:25:42Z",
+              "updatedAt": "2026-07-18T14:25:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGeFwdg",
+          "commit": {
+            "abbreviatedOid": "8d148e9"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-18T19:36:50Z",
+          "updatedAt": "2026-07-18T19:36:50Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Another question: Do we actually care if the Client can verify the client attestation?",
+              "createdAt": "2026-07-18T19:36:50Z",
+              "updatedAt": "2026-07-18T19:37:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGeF9lQ",
+          "commit": {
+            "abbreviatedOid": "8d148e9"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-18T19:39:27Z",
+          "updatedAt": "2026-07-18T19:39:27Z",
           "comments": []
         }
       ]
