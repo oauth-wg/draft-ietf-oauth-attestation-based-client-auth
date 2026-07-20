@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 18 January 2027                                 Bundesdruckerei
+Expires: 21 January 2027                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            17 July 2026
+                                                            20 July 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 January 2027.
+   This Internet-Draft will expire on 21 January 2027.
 
 Copyright Notice
 
@@ -1026,8 +1026,7 @@ Table of Contents
    *  client_attestation_signing_alg_values_supported: OPTIONAL.  JSON
       array containing a list of the JWS alg values (as defined in
       [IANA.JOSE.ALGS]) supported by the Client for signing the Client
-      Attestation JWT.  The values none and any symmetric algorithms
-      MUST NOT be present.
+      Attestation JWT.  The value none MUST NOT be present.
 
    *  client_attestation_pop_signing_alg_values_supported: OPTIONAL.
       JSON array containing a list of the JWS alg values (as defined in
