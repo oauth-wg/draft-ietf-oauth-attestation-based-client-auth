@@ -608,7 +608,7 @@ A Client that supports attestation-based client authentication as defined in thi
 
 In addition, the following client metadata parameters are defined:
 
-* `client_attestation_signing_alg_values_supported`: OPTIONAL. JSON array containing a list of the JWS `alg` values (as defined in {{IANA.JOSE.ALGS}}) supported by the Client for signing the Client Attestation JWT. The values `none` and any symmetric algorithms MUST NOT be present.
+* `client_attestation_signing_alg_values_supported`: OPTIONAL. JSON array containing a list of the JWS `alg` values (as defined in {{IANA.JOSE.ALGS}}) supported by the Client for signing the Client Attestation JWT. The value `none` MUST NOT be present.
 * `client_attestation_pop_signing_alg_values_supported`: OPTIONAL. JSON array containing a list of the JWS `alg` values (as defined in {{IANA.JOSE.ALGS}}) supported by the Client for signing the Client Attestation PoP JWT. The values `none` and any symmetric algorithms MUST NOT be present.
 * `client_attestation_pop_methods_supported`: OPTIONAL. JSON array of case-sensitive strings, each identifying a Proof of Possession method supported by the Client, as registered in the "OAuth Client Attestation Proof-of-Possession Methods" registry established by this specification (see [](#pop-methods)).
 
