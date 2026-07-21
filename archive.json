@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-19T00:27:35.470054+00:00",
+  "timestamp": "2026-07-21T00:28:15.702503+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4571,11 +4571,11 @@
       ],
       "labels": [
         "discuss",
-        "ready-for-pr"
+        "has-pr"
       ],
       "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
       "createdAt": "2025-11-25T10:20:49Z",
-      "updatedAt": "2026-07-06T07:08:23Z",
+      "updatedAt": "2026-07-20T04:08:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -4675,6 +4675,13 @@
           "body": "@aaronpk would you mind chiming in here with the feedback you had during the last interims call?",
           "createdAt": "2026-07-06T07:08:23Z",
           "updatedAt": "2026-07-06T07:08:23Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "#214 has been filed to address this.",
+          "createdAt": "2026-07-20T04:08:22Z",
+          "updatedAt": "2026-07-20T04:08:22Z"
         }
       ]
     },
@@ -16281,13 +16288,13 @@
       "labels": [],
       "body": "Fixes #170",
       "createdAt": "2026-07-17T02:15:42Z",
-      "updatedAt": "2026-07-18T19:39:27Z",
+      "updatedAt": "2026-07-20T04:05:47Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/client-metadata",
-      "headRefOid": "8d148e9379044613d4c7c93678bc0ddb3ff35210",
+      "headRefOid": "9e6c5902ca1081b3a3b39daaa09b9208f16db7f7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -16379,6 +16386,26 @@
           "createdAt": "2026-07-18T19:39:27Z",
           "updatedAt": "2026-07-18T19:39:27Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGg4F7w",
+          "commit": {
+            "abbreviatedOid": "8d148e9"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-20T04:05:47Z",
+          "updatedAt": "2026-07-20T04:05:47Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "I dont think the client needs to be able to validate the attestation, was that a general remark or a problem with some of the language?",
+              "createdAt": "2026-07-20T04:05:47Z",
+              "updatedAt": "2026-07-20T04:05:48Z"
+            }
+          ]
         }
       ]
     }
