@@ -440,6 +440,7 @@ An Authorization Server MAY support both `attest_jwt_client_auth` and `attest_jw
 
 - If the request contains an `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-client-attestation-pop-jwt) and if present, a DPoP proof present in the request is validated according to {{RFC9449}} independently of this specification.
 - If no `OAuth-Client-Attestation-PoP` HTTP request header field is present, but a DPoP proof is, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
+- If an Authorization server supports only `attest_jwt_client_auth` and receives a DPoP proof, but no `OAuth-Client-Attestation-PoP` header, it MUST reject the request.
 
 ## Client Attestation JWT {#verification-client-attestation-jwt}
 
@@ -478,16 +479,16 @@ To validate a request using DPoP combined mode, the receiving server MUST perfor
 1. There is no `OAuth-Client-Attestation-PoP` HTTP request header field present in the request.
 1. There is precisely one `DPoP` HTTP request header field present in the request.
 1. Validate the DPoP proof in accordance with {{RFC9449}}.
-1. The public key in the `jwk` header parameter of the DPoP proof MUST be identical to the public key in the `cnf` claim of the Client Attestation JWT.
+1. The public key in the `jwk` header parameter of the DPoP proof MUST be identical to the public key in the `cnf` claim of the Client Attestation JWT. Note that this doesn't mean the comparison of a canonical representation of the JWK, but a check via JWK thumbprint or by comparing the required members per key type (e.g., kty, curve, x, y).
 1. If the Client received a challenge through the Authorization Server's challenge endpoint or within previous responses as described in [](#challenges), it MUST match the nonce payload claim of the DPoP proof.
 
 ## Errors {#errors}
 
 When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in {{Section 5.2 of RFC6749}}) or Resource Server error responses (as defined in {{Section 3 of RFC6750}}).
 
-- `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)).
+- `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)). If the combined mode as defined in [](#dpop-combined-mode) is used, TODO
 - `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
-- `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the proof of possession is not supported.
+- `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the proof of possession is not supported. This error is also used if the combined mode as defined in [](#dpop-combined-mode) is used and the public keys of the Client Attestation JWT and DPoP don't match (see ((#verification-dpop-combined)).
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions of when to return suitable Error Responses.
 
@@ -644,6 +645,8 @@ Authorization Server or Resource Servers implementing measures to detect replay 
 - delete `challenge` or `jti` values after they have passed the sliding time window
 
 A trie (also called prefix tree), or a patricia trie (also called radix tree) are RECOMMENDED data structures to implement such a mechanism. Note that this seen-values mechanism is only needed when replay detection relies on a `jti` value or on a `challenge` obtained from the challenge endpoint. When the Authorization Server or Resource Server issues a challenge bound to a specific Client Instance session (see [](#security-consideration-replay)), it can instead validate the Client Attestation PoP against the single challenge value expected for that session, without maintaining a seen-values data structure.
+
+Note that for the combined mode, the `nonce` and `jti` claims of the DPoP proof are used instead of the `challenge` and `jti` claims of the Client Attestation PoP.
 
 ## Trust Management and Key Resolution
 
@@ -872,6 +875,10 @@ This section requests registration of the following scheme in the "Hypertext Tra
 --- back
 
 # Document History
+
+-11
+
+* add clarifications on AS combined mode handling & errors
 
 -10
 
