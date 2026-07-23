@@ -463,10 +463,9 @@ To validate a Client Attestation PoP, the receiving server MUST ensure the follo
 1. The Client Attestation PoP JWT contains all required claims and header parameters as per [](#client-attestation-pop-jwt).
 1. The alg JOSE Header Parameter contains a registered algorithm {{IANA.JOSE.ALGS}}, is not none, is supported by the application, and is acceptable per local policy.
 1. The signature of the Client Attestation PoP JWT verifies with the public key contained in the `cnf` claim of the Client Attestation JWT.
-1. If the server provided a challenge value to the client, the `challenge` claim is present in the Client Attestation PoP JWT and matches the server-provided challenge value.
+1. If the server provides challenges through the challenge endpoint or within previous responses as described in [](#challenges), the challenge claim of the Client Attestation PoP JWT MUST match a provided challenge.
 1. The creation time of the Client Attestation PoP JWT as determined by either the `iat` claim or a server managed timestamp via the challenge claim, is within an acceptable window per local policy of the Authorization Server or Resource Server.
 1. The audience claim in the Client Attestation PoP JWT identifies the receiving server: when validated by an Authorization Server, it MUST be the issuer identifier URL of the Authorization Server as described in {{RFC8414}}; when validated by a Resource Server, it MUST be the resource identifier URL of the Resource Server as described in {{RFC9728}}.
-1. If the Client received a challenge through the Authorization Server's challenge endpoint or within previous responses as described in [](#challenges), it MUST match the challenge claim of the Client Attestation PoP JWT.
 1. Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see [](#security-consideration-replay) for more details).
 
 ## DPoP Combined Mode {#verification-dpop-combined}
@@ -872,6 +871,10 @@ This section requests registration of the following scheme in the "Hypertext Tra
 --- back
 
 # Document History
+
+-11
+
+* remove duplication challenge verification in Verifivation of Client Attestation PoP JWT
 
 -10
 
