@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-21T00:28:15.702503+00:00",
+  "timestamp": "2026-07-23T00:28:17.108681+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -16288,7 +16288,7 @@
       "labels": [],
       "body": "Fixes #170",
       "createdAt": "2026-07-17T02:15:42Z",
-      "updatedAt": "2026-07-20T04:05:47Z",
+      "updatedAt": "2026-07-22T06:02:24Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
@@ -16404,6 +16404,59 @@
               "body": "I dont think the client needs to be able to validate the attestation, was that a general remark or a problem with some of the language?",
               "createdAt": "2026-07-20T04:05:47Z",
               "updatedAt": "2026-07-20T04:05:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGrth-w",
+          "commit": {
+            "abbreviatedOid": "9e6c590"
+          },
+          "author": "babisRoutis",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "@tplooker , @c2bo , @paulbastian \n\nReally thanks for this PR.",
+          "createdAt": "2026-07-21T10:08:21Z",
+          "updatedAt": "2026-07-21T10:08:21Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGzUGvw",
+          "commit": {
+            "abbreviatedOid": "9e6c590"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-22T06:02:09Z",
+          "updatedAt": "2026-07-22T06:02:10Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "```suggestion\n* add Client Metadata section defining for use by Clients\n```",
+              "createdAt": "2026-07-22T06:02:10Z",
+              "updatedAt": "2026-07-22T06:02:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABGzULDg",
+          "commit": {
+            "abbreviatedOid": "9e6c590"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-22T06:02:24Z",
+          "updatedAt": "2026-07-22T06:02:24Z",
+          "comments": [
+            {
+              "originalPosition": 58,
+              "body": "```suggestion\n* register the new client metadata parameters in the IANA registry\n```",
+              "createdAt": "2026-07-22T06:02:24Z",
+              "updatedAt": "2026-07-22T06:02:24Z"
             }
           ]
         }
