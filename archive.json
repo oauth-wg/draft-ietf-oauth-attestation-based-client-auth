@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-23T00:28:17.108681+00:00",
+  "timestamp": "2026-07-26T00:31:59.095484+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -16461,6 +16461,58 @@
           ]
         }
       ]
+    },
+    {
+      "number": 215,
+      "id": "PR_kwDOJaEkaM71cWZ3",
+      "title": "add clarifications for combined mode",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/215",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarifies combined mode implications, error handling, etc.\r\n\r\nThis didn't touch the dpop part yet @panva - will do that in another PR",
+      "createdAt": "2026-07-23T15:30:34Z",
+      "updatedAt": "2026-07-23T16:24:31Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "c2bo/fixes-for-as",
+      "headRefOid": "18bad9a34f14859582d60e3a35958e1a4c3930d5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 216,
+      "id": "PR_kwDOJaEkaM71eJX6",
+      "title": "remove duplication challenge verification in Verifivation of Client A\u2026",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/216",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026ttestation PoP JWT",
+      "createdAt": "2026-07-23T16:38:14Z",
+      "updatedAt": "2026-07-23T16:38:15Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/duplicate_verification_step",
+      "headRefOid": "d6017c1ea5dd87b4c1566af5f85d484a1514cba3",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
