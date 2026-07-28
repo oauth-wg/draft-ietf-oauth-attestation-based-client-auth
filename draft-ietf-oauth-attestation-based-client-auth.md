@@ -912,8 +912,8 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 -11
 
-* add Client Metadata section defining `client_attestation_signing_alg_values_supported`, `client_attestation_pop_signing_alg_values_supported`, and `client_attestation_pop_methods_supported` for use by Clients (addresses #170)
-* register the new client metadata parameters in the "OAuth Dynamic Client Registration Metadata" IANA registry
+* add Client Metadata section defining for use by Clients
+* register the new client metadata parameters in the IANA registry
 
 -10
 
