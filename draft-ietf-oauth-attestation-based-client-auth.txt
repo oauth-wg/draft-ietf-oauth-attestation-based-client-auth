@@ -743,9 +743,10 @@ Table of Contents
        public key contained in the cnf claim of the Client Attestation
        JWT.
 
-   5.  If the server provided a challenge value to the client, the
-       challenge claim is present in the Client Attestation PoP JWT and
-       matches the server-provided challenge value.
+   5.  If the server provides challenges through the challenge endpoint
+       or within previous responses as described in Section 6, the
+       challenge claim of the Client Attestation PoP JWT MUST match a
+       provided challenge.
 
    6.  The creation time of the Client Attestation PoP JWT as determined
        by either the iat claim or a server managed timestamp via the
@@ -759,12 +760,7 @@ Table of Contents
        it MUST be the resource identifier URL of the Resource Server as
        described in [RFC9728].
 
-   8.  If the Client received a challenge through the Authorization
-       Server's challenge endpoint or within previous responses as
-       described in Section 6, it MUST match the challenge claim of the
-       Client Attestation PoP JWT.
-
-   9.  Depending on the security requirements of the deployment,
+   8.  Depending on the security requirements of the deployment,
        additional checks to guarantee replay protection for the Client
        Attestation PoP JWT might need to be applied (see Section 12.1
        for more details).
@@ -1806,6 +1802,9 @@ Table of Contents
 Appendix A.  Document History
 
    -11
+
+   *  remove duplication challenge verification in Verifivation of
+      Client Attestation PoP JWT
 
    *  add Client Metadata section defining for use by Clients
 

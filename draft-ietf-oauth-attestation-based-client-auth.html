@@ -1840,7 +1840,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-7.2-3.4.1">The signature of the Client Attestation PoP JWT verifies with the public key contained in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-7.2-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.2-3.5">
-            <p id="section-7.2-3.5.1">If the server provided a challenge value to the client, the <code>challenge</code> claim is present in the Client Attestation PoP JWT and matches the server-provided challenge value.<a href="#section-7.2-3.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-3.5.1">If the server provides challenges through the challenge endpoint or within previous responses as described in <a href="#challenges" class="auto internal xref">Section 6</a>, the <code>challenge</code> claim of the Client Attestation PoP JWT <span class="bcp14">MUST</span> match a provided challenge.<a href="#section-7.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.2-3.6">
             <p id="section-7.2-3.6.1">The creation time of the Client Attestation PoP JWT as determined by either the <code>iat</code> claim or a server managed timestamp via the challenge claim, is within an acceptable window per local policy of the Authorization Server or Resource Server.<a href="#section-7.2-3.6.1" class="pilcrow">¶</a></p>
@@ -1849,10 +1849,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-7.2-3.7.1">The audience claim in the Client Attestation PoP JWT identifies the receiving server: when validated by an Authorization Server, it <span class="bcp14">MUST</span> be the issuer identifier URL of the Authorization Server as described in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span>; when validated by a Resource Server, it <span class="bcp14">MUST</span> be the resource identifier URL of the Resource Server as described in <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span>.<a href="#section-7.2-3.7.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.2-3.8">
-            <p id="section-7.2-3.8.1">If the Client received a challenge through the Authorization Server's challenge endpoint or within previous responses as described in <a href="#challenges" class="auto internal xref">Section 6</a>, it <span class="bcp14">MUST</span> match the challenge claim of the Client Attestation PoP JWT.<a href="#section-7.2-3.8.1" class="pilcrow">¶</a></p>
-</li>
-          <li id="section-7.2-3.9">
-            <p id="section-7.2-3.9.1">Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see <a href="#security-consideration-replay" class="auto internal xref">Section 12.1</a> for more details).<a href="#section-7.2-3.9.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-3.8.1">Depending on the security requirements of the deployment, additional checks to guarantee replay protection for the Client Attestation PoP JWT might need to be applied (see <a href="#security-consideration-replay" class="auto internal xref">Section 12.1</a> for more details).<a href="#section-7.2-3.8.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -2807,10 +2804,13 @@ These use-cases typically represent deployments where the Client Attester and Au
 <p id="appendix-A-1">-11<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">add Client Metadata section defining for use by Clients<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">remove duplication challenge verification in Verifivation of Client Attestation PoP JWT<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">register the new client metadata parameters in the IANA registry<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">add Client Metadata section defining for use by Clients<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-2.3">
+          <p id="appendix-A-2.3.1">register the new client metadata parameters in the IANA registry<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">-10<a href="#appendix-A-3" class="pilcrow">¶</a></p>
