@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 24 January 2027                                 Bundesdruckerei
+Expires: 29 January 2027                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            23 July 2026
+                                                            28 July 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 January 2027.
+   This Internet-Draft will expire on 29 January 2027.
 
 Copyright Notice
 
@@ -94,39 +94,41 @@ Table of Contents
      7.5.  Client Attestation as an OAuth Client Authentication
      7.6.  Client Attestation as an additional security signal
    8.  Authorization Server and Resource Server Metadata
-   9.  Implementation Considerations
-     9.1.  DPoP Combined Mode Considerations
-     9.2.  Reuse of a Client Attestation JWT
-     9.3.  Refresh token binding
-     9.4.  Binding of OAuth protocol artifacts
-     9.5.  Web Server Default Maximum HTTP Header Sizes
-     9.6.  Rotation of Client Instance Key
-     9.7.  Replay Attack Detection
-     9.8.  Trust Management and Key Resolution
-   10. Privacy Considerations
-     10.1.  Client Instance Tracking Across Authorization Servers or
+   9.  Client Metadata
+   10. Implementation Considerations
+     10.1.  DPoP Combined Mode Considerations
+     10.2.  Reuse of a Client Attestation JWT
+     10.3.  Refresh token binding
+     10.4.  Binding of OAuth protocol artifacts
+     10.5.  Web Server Default Maximum HTTP Header Sizes
+     10.6.  Rotation of Client Instance Key
+     10.7.  Replay Attack Detection
+     10.8.  Trust Management and Key Resolution
+   11. Privacy Considerations
+     11.1.  Client Instance Tracking Across Authorization Servers or
             Resource Servers
-   11. Security Considerations
-     11.1.  Replay Attacks
-     11.2.  Client Attestation Protection
-   12. Relation to RATS
-   13. IANA Considerations
-     13.1.  OAuth Extensions Error Registration
-     13.2.  OAuth Authorization Server Metadata Registration
-     13.3.  OAuth Protected Resource Metadata Registration
-     13.4.  OAuth Protected Resource Metadata Registration
-     13.5.  OAuth Client Attestation Proof-of-Possession Methods
+   12. Security Considerations
+     12.1.  Replay Attacks
+     12.2.  Client Attestation Protection
+   13. Relation to RATS
+   14. IANA Considerations
+     14.1.  OAuth Extensions Error Registration
+     14.2.  OAuth Authorization Server Metadata Registration
+     14.3.  OAuth Protected Resource Metadata Registration
+     14.4.  OAuth Protected Resource Metadata Registration
+     14.5.  OAuth Dynamic Client Registration Metadata Registration
+     14.6.  OAuth Client Attestation Proof-of-Possession Methods
             Registry
-       13.5.1.  Registration Template
-       13.5.2.  Initial Registry Content
-     13.6.  Registration of attest_jwt_client_auth Token Endpoint
+       14.6.1.  Registration Template
+       14.6.2.  Initial Registry Content
+     14.7.  Registration of attest_jwt_client_auth Token Endpoint
             Authentication Method
-     13.7.  Registration of attest_jwt_client_auth_dpop Token Endpoint
+     14.8.  Registration of attest_jwt_client_auth_dpop Token Endpoint
             Authentication Method
-     13.8.  HTTP Field Name Registration
-   14. References
-     14.1.  Normative References
-     14.2.  Informative References
+     14.9.  HTTP Field Name Registration
+   15. References
+     15.1.  Normative References
+     15.2.  Informative References
    Appendix A.  Document History
    Acknowledgments
    Authors' Addresses
@@ -448,7 +450,7 @@ Table of Contents
    *  jti: REQUIRED.  The jti (JWT identifier) claim MUST specify a
       unique identifier for the Client Attestation PoP.  The
       Authorization Server or Resource Server can utilize the jti value
-      for replay attack detection, see Section 11.1.
+      for replay attack detection, see Section 12.1.
 
    *  iat: REQUIRED.  The iat (issued at) claim MUST specify the time at
       which the Client Attestation PoP was issued.  Note that the
@@ -760,7 +762,7 @@ Table of Contents
 
    8.  Depending on the security requirements of the deployment,
        additional checks to guarantee replay protection for the Client
-       Attestation PoP JWT might need to be applied (see Section 11.1
+       Attestation PoP JWT might need to be applied (see Section 12.1
        for more details).
 
 7.3.  DPoP Combined Mode
@@ -871,7 +873,7 @@ Table of Contents
    sensitive strings, each identifying a Proof of Possession method that
    the server accepts, as registered in the "OAuth Client Attestation
    Proof-of-Possession Methods" registry established by this
-   specification (see Section 13.5).  A server MUST NOT include a method
+   specification (see Section 14.6).  A server MUST NOT include a method
    it does not accept, and the array MUST NOT be empty when the
    parameter is present.
 
@@ -996,11 +998,53 @@ Table of Contents
    parameter in its metadata as defined in [RFC9728].  The Proof of
    Possession method values are registered in the "OAuth Client
    Attestation Proof-of-Possession Methods" registry established by this
-   specification (see Section 13.5).
+   specification (see Section 14.6).
 
-9.  Implementation Considerations
+9.  Client Metadata
 
-9.1.  DPoP Combined Mode Considerations
+   This section defines client metadata parameters for use with
+   attestation-based client authentication.  As described in [RFC7591],
+   client metadata defines a general data model for Clients that is
+   useful even when the Dynamic Client Registration Protocol is not
+   being used.  A Client MAY use these values to compare its own
+   capabilities against the Authorization Server or Resource Server
+   metadata defined in Section 8 to determine whether it can
+   interoperate with a given server prior to attempting authentication.
+
+   A Client that supports attestation-based client authentication as
+   defined in this specification indicates this by using the value
+   attest_jwt_client_auth or attest_jwt_client_auth_dpop in the
+   token_endpoint_auth_method client metadata parameter defined in
+   [RFC7591].
+
+   In addition, the following client metadata parameters are defined:
+
+   *  client_attestation_signing_alg_values_supported: OPTIONAL.  JSON
+      array containing a list of the JWS alg values (as defined in
+      [IANA.JOSE.ALGS]) supported by the Client for signing the Client
+      Attestation JWT.  The value none MUST NOT be present.
+
+   *  client_attestation_pop_signing_alg_values_supported: OPTIONAL.
+      JSON array containing a list of the JWS alg values (as defined in
+      [IANA.JOSE.ALGS]) supported by the Client for signing the Client
+      Attestation PoP JWT.  The values none and any symmetric algorithms
+      MUST NOT be present.
+
+   *  client_attestation_pop_methods_supported: OPTIONAL.  JSON array of
+      case-sensitive strings, each identifying a Proof of Possession
+      method supported by the Client, as registered in the "OAuth Client
+      Attestation Proof-of-Possession Methods" registry established by
+      this specification (see Section 14.6).
+
+   These client metadata values are advertisements of Client capability.
+   The Authorization Server or Resource Server enforces its own accepted
+   algorithm and Proof of Possession method policies independently, and
+   is not required to consult these values when validating an incoming
+   request.
+
+10.  Implementation Considerations
+
+10.1.  DPoP Combined Mode Considerations
 
    When using DPoP combined mode, the key used for client authentication
    and token binding is shared.  This may be undesirable depending on
@@ -1019,7 +1063,7 @@ Table of Contents
       request, especially if the keys are in a remote and/or hardware-
       backed key storage.
 
-9.2.  Reuse of a Client Attestation JWT
+10.2.  Reuse of a Client Attestation JWT
 
    Implementers should be aware that the design of this authentication
    mechanism deliberately allows for a Client Instance to re-use a
@@ -1030,7 +1074,7 @@ Table of Contents
    JWTs as this ultimately controls how long a Client Instance can re-
    use a single Client Attestation JWT.
 
-9.3.  Refresh token binding
+10.3.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
@@ -1042,7 +1086,7 @@ Table of Contents
    "cnf" claim of the client attestation that was used when the refresh
    token was issued.
 
-9.4.  Binding of OAuth protocol artifacts
+10.4.  Binding of OAuth protocol artifacts
 
    Authorization servers using Attestation-Based Client Authentication
    are RECOMMENDED to bind relevant protocol artifacts to the Client
@@ -1065,7 +1109,7 @@ Table of Contents
    client attestation mechanism to authenticate at the token endpoint
    when performing the authorization code grant.
 
-9.5.  Web Server Default Maximum HTTP Header Sizes
+10.5.  Web Server Default Maximum HTTP Header Sizes
 
    Because the Client Attestation and Client Attestation PoP are
    communicated using HTTP headers, implementers should consider that
@@ -1077,7 +1121,7 @@ Table of Contents
    As of 2024, typical limits for modern web servers configure maximum
    HTTP headers as 8 kB or more as a default.
 
-9.6.  Rotation of Client Instance Key
+10.6.  Rotation of Client Instance Key
 
    This specification does not provide a mechanism to rotate the Client
    Instance Key in the Client Attestation JWT's "cnf" claim.  If the
@@ -1085,10 +1129,10 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
-9.7.  Replay Attack Detection
+10.7.  Replay Attack Detection
 
    Authorization Server or Resource Servers implementing measures to
-   detect replay attacks as described in Section 11.1 require efficient
+   detect replay attacks as described in Section 12.1 require efficient
    data structures to manage large amounts of challenge or jti values
    for use cases with high volumes of transactions.  To limit the size
    of the data structure, the Authorization Server or Resource Server
@@ -1119,11 +1163,11 @@ Table of Contents
    replay detection relies on a jti value or on a challenge obtained
    from the challenge endpoint.  When the Authorization Server or
    Resource Server issues a challenge bound to a specific Client
-   Instance session (see Section 11.1), it can instead validate the
+   Instance session (see Section 12.1), it can instead validate the
    Client Attestation PoP against the single challenge value expected
    for that session, without maintaining a seen-values data structure.
 
-9.8.  Trust Management and Key Resolution
+10.8.  Trust Management and Key Resolution
 
    The mechanisms by which the Authorization Server establishes trust in
    the Client Attester, and by which it obtains the public keys used to
@@ -1166,9 +1210,9 @@ Table of Contents
       includes a jwks_uri parameter which, together with kid, enables
       resolution of the verification key.
 
-10.  Privacy Considerations
+11.  Privacy Considerations
 
-10.1.  Client Instance Tracking Across Authorization Servers or Resource
+11.1.  Client Instance Tracking Across Authorization Servers or Resource
        Servers
 
    Implementers should be aware that using the same client attestation
@@ -1179,11 +1223,11 @@ Table of Contents
    different Client Attestation JWTs with different Client Instance Keys
    across different Authorization Servers or Resource Servers.
 
-11.  Security Considerations
+12.  Security Considerations
 
    The guidance provided by [RFC7519] and [RFC8725] applies.
 
-11.1.  Replay Attacks
+12.1.  Replay Attacks
 
    An Authorization/Resource Server SHOULD implement measures to detect
    replay attacks by the Client Instance.  In the context of this
@@ -1199,7 +1243,7 @@ Table of Contents
       Attestation PoP JWT would be replayed, the Authorization/Resource
       Server would recognize the jti value in the list and respond with
       an authentication error.  Details how to implement such a data
-      structure to maintain jti values is given in Section 9.7.
+      structure to maintain jti values is given in Section 10.7.
 
    *  The Authorization/Resource Server provides a challenge as an
       OAuth-Client-Attestation-Challenge in the challenge endpoint to
@@ -1210,8 +1254,8 @@ Table of Contents
       -  manage a list of witnessed challenge values, similar to the
          previously described jti approach.  Details how to implement
          such a data structure to maintain challenge values is given in
-         Section 9.7.  This guarantees stronger replay protection with a
-         challenge chosen by the Authorization/Resource Server itself,
+         Section 10.7.  This guarantees stronger replay protection with
+         a challenge chosen by the Authorization/Resource Server itself,
          at the potential cost of an additional round-trip.
 
       -  use self-contained challenges while not storing the seen
@@ -1250,7 +1294,7 @@ Table of Contents
    OPTIONAL to simplify mandatory implementation requirements.  The jti
    value is mandatory and hence acts as a default fallback.
 
-11.2.  Client Attestation Protection
+12.2.  Client Attestation Protection
 
    This specification allows both, digital signatures using asymmetric
    cryptography, and Message Authentication Codes (MAC) to be used to
@@ -1266,7 +1310,7 @@ Table of Contents
    Attestations, and implementers SHOULD default to digital signatures
    if they are unsure.
 
-12.  Relation to RATS
+13.  Relation to RATS
 
    The Remote Attestation Procedures (RATS) architecture defined by
    [RFC9334] has some commonalities to this document.  The flow
@@ -1292,9 +1336,9 @@ Table of Contents
       "Evidence" and "Policies and Reference Values" are out of scope
       for this specification
 
-13.  IANA Considerations
+14.  IANA Considerations
 
-13.1.  OAuth Extensions Error Registration
+14.1.  OAuth Extensions Error Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Extensions Error Registry" registry of
@@ -1340,7 +1384,7 @@ Table of Contents
 
    *  Reference: Section 7.4 of this specification
 
-13.2.  OAuth Authorization Server Metadata Registration
+14.2.  OAuth Authorization Server Metadata Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry of
@@ -1380,7 +1424,7 @@ Table of Contents
 
    *  Reference: Section 8 of this specification
 
-13.3.  OAuth Protected Resource Metadata Registration
+14.3.  OAuth Protected Resource Metadata Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Protected Resource Metadata" registry of
@@ -1410,7 +1454,7 @@ Table of Contents
 
    *  Reference: Section 7.6 of this specification
 
-13.4.  OAuth Protected Resource Metadata Registration
+14.4.  OAuth Protected Resource Metadata Registration
 
    This specification requests registration of the following value in
    the IANA "OAuth Protected Resource Metadata" registry of
@@ -1428,7 +1472,46 @@ Table of Contents
 
    *  Reference: Section 7.6 of this specification
 
-13.5.  OAuth Client Attestation Proof-of-Possession Methods Registry
+14.5.  OAuth Dynamic Client Registration Metadata Registration
+
+   This specification requests registration of the following values in
+   the IANA "OAuth Dynamic Client Registration Metadata" registry of
+   [IANA.OAuth.Params] established by [RFC7591].
+
+   *  Metadata Name: client_attestation_signing_alg_values_supported
+
+   *  Metadata Description: JSON array containing a list of the JWS
+      signing algorithms supported by the Client for signing the Client
+      Attestation JWT.
+
+   *  Change Controller: IETF
+
+   *  Reference: Section 9 of this specification
+
+
+
+   *  Metadata Name: client_attestation_pop_signing_alg_values_supported
+
+   *  Metadata Description: JSON array containing a list of the JWS
+      signing algorithms supported by the Client for signing the Client
+      Attestation PoP JWT.
+
+   *  Change Controller: IETF
+
+   *  Reference: Section 9 of this specification
+
+
+
+   *  Metadata Name: client_attestation_pop_methods_supported
+
+   *  Metadata Description: JSON array of strings, each identifying a
+      Proof of Possession method supported by the Client.
+
+   *  Change Controller: IETF
+
+   *  Reference: Section 9 of this specification
+
+14.6.  OAuth Client Attestation Proof-of-Possession Methods Registry
 
    This specification establishes the IANA "OAuth Client Attestation
    Proof-of-Possession Methods" registry.  This registry lists the Proof
@@ -1489,7 +1572,7 @@ Table of Contents
    designated experts early, so any identified issues can be fixed
    before the final specification is published.
 
-13.5.1.  Registration Template
+14.6.1.  Registration Template
 
    *  Method Name: The name of the Proof of Possession method, a case-
       sensitive ASCII string.
@@ -1502,7 +1585,7 @@ Table of Contents
    *  Reference: A reference to the specification that defines the
       mechanism.
 
-13.5.2.  Initial Registry Content
+14.6.2.  Initial Registry Content
 
    *  Method Name: attestation_pop_jwt
 
@@ -1537,7 +1620,7 @@ Table of Contents
 
    *  Reference: Section 7.6 of this specification
 
-13.6.  Registration of attest_jwt_client_auth Token Endpoint
+14.7.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -1551,7 +1634,7 @@ Table of Contents
 
    *  Specification Document(s): Section 8 of this specification
 
-13.7.  Registration of attest_jwt_client_auth_dpop Token Endpoint
+14.8.  Registration of attest_jwt_client_auth_dpop Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth_dpop" in the
@@ -1566,7 +1649,7 @@ Table of Contents
 
    *  Specification Document(s): Section 5.2 of this specification
 
-13.8.  HTTP Field Name Registration
+14.9.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -1600,9 +1683,9 @@ Table of Contents
 
    *  Reference: Section 6 of this specification
 
-14.  References
+15.  References
 
-14.1.  Normative References
+15.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
@@ -1694,7 +1777,7 @@ Table of Contents
               DOI 10.17487/RFC9728, April 2025,
               <https://www.rfc-editor.org/rfc/rfc9728>.
 
-14.2.  Informative References
+15.2.  Informative References
 
    [CIBA]     "OpenID Connect Client-Initiated Backchannel
               Authentication Flow - Core 1.0", n.d.,
@@ -1722,6 +1805,10 @@ Appendix A.  Document History
 
    *  remove duplication challenge verification in Verifivation of
       Client Attestation PoP JWT
+
+   *  add Client Metadata section defining for use by Clients
+
+   *  register the new client metadata parameters in the IANA registry
 
    -10
 
