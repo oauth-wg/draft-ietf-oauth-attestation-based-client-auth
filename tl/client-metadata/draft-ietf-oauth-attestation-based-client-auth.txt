@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 21 January 2027                                 Bundesdruckerei
+Expires: 29 January 2027                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            20 July 2026
+                                                            28 July 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 January 2027.
+   This Internet-Draft will expire on 29 January 2027.
 
 Copyright Notice
 
@@ -1807,14 +1807,9 @@ Appendix A.  Document History
 
    -11
 
-   *  add Client Metadata section defining
-      client_attestation_signing_alg_values_supported,
-      client_attestation_pop_signing_alg_values_supported, and
-      client_attestation_pop_methods_supported for use by Clients
-      (addresses #170)
+   *  add Client Metadata section defining for use by Clients
 
-   *  register the new client metadata parameters in the "OAuth Dynamic
-      Client Registration Metadata" IANA registry
+   *  register the new client metadata parameters in the IANA registry
 
    -10
 
