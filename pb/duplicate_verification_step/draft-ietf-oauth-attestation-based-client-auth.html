@@ -1840,7 +1840,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-7.2-3.4.1">The signature of the Client Attestation PoP JWT verifies with the public key contained in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-7.2-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.2-3.5">
-            <p id="section-7.2-3.5.1">If the server provides challenges through the challenge endpoint or within previous responses as described in <a href="#challenges" class="auto internal xref">Section 6</a>, the challenge claim of the Client Attestation PoP JWT <span class="bcp14">MUST</span> match a provided challenge.<a href="#section-7.2-3.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-3.5.1">If the server provides challenges through the challenge endpoint or within previous responses as described in <a href="#challenges" class="auto internal xref">Section 6</a>, the <code>challenge</code> claim of the Client Attestation PoP JWT <span class="bcp14">MUST</span> match a provided challenge.<a href="#section-7.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.2-3.6">
             <p id="section-7.2-3.6.1">The creation time of the Client Attestation PoP JWT as determined by either the <code>iat</code> claim or a server managed timestamp via the challenge claim, is within an acceptable window per local policy of the Authorization Server or Resource Server.<a href="#section-7.2-3.6.1" class="pilcrow">¶</a></p>
