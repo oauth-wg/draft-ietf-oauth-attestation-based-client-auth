@@ -181,12 +181,12 @@ The Client Attestation MUST be encoded as a "JSON Web Token (JWT)" according to 
 
 The following content applies to the JWT Header:
 
-* `typ`: REQUIRED. The `typ` (JWT type) header MUST be `oauth-client-attestation+jwt`.
+* `typ`: REQUIRED. The `typ` (JWT type) header MUST be `oauth-client-attestation+jwt` unless specified otherwise by a profile as described in [](#profiling).
 * `alg`: REQUIRED. The `alg` (algorithm) header MUST specify the cryptographic algorithm used to sign the Client Attestation.
 
 The following content applies to the JWT Claims Set:
 
-* `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client.
+* `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client unless specified otherwise by a profile as described in [](#profiling).
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The Authorization Server or Resource Server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an Authorization Server or Resource Server. The key MUST be expressed using the "jwk" representation.
 * `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
@@ -451,7 +451,7 @@ To validate a Client Attestation, the receiving server MUST ensure the following
 1. The signature of the Client Attestation JWT verifies with the public key of a known and trusted Client Attester.
 1. The key contained in the `cnf` claim of the Client Attestation JWT is not a private key.
 1. The Client Attestation JWT is fresh enough per local policy of the Authorization Server or Resource Server by checking the `iat` or `exp` claims.
-1. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT.
+1. If a `client_id` is provided in the request containing the Client Attestation, then this `client_id` matches the `sub` claim of the Client Attestation JWT, unless specified otherwise by a profile as described in [](#profiling).
 
 ## Client Attestation PoP JWT {#verification-client-attestation-pop-jwt}
 
@@ -490,9 +490,9 @@ When validation errors specifically related to the use of client attestations ar
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions of when to return suitable Error Responses.
 
-## Client Attestation as an OAuth Client Authentication
+## Client Attestation as an OAuth Client Authentication {#client-attestation-as-client-auth}
 
-A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in {{Section 2.3 of RFC6749}} towards an Authorization Server.  If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the client_id value in the `sub` claim of the Client Attestation.
+A Client Attestation may be used as an OAuth 2 Client Authentication mechanism as described in {{Section 2.3 of RFC6749}} towards an Authorization Server.  If the token request contains a `client_id` parameter as per {{RFC6749}} the Authorization Server MUST verify that the value of this parameter is the same as the `client_id` value in the `sub` claim of the Client Attestation, unless specified otherwise by a profile as described in [](#profiling).
 
 The following example demonstrates usage of the client attestation mechanism in an access token request (with extra line breaks for display purposes only):
 
@@ -627,9 +627,9 @@ When using DPoP combined mode, the key used for client authentication and token 
 
 Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server or Resource Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.
 
-## Refresh token binding
+## Refresh token binding {#refresh-token-binding}
 
-Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued.
+Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued. A profile MAY define a different binding for refresh tokens as described in [](#profiling), in which case the requirements of this section do not apply.
 
 ## Binding of OAuth protocol artifacts
 
@@ -707,6 +707,16 @@ The approach using a challenge explicitly provided by the Authorization/Resource
 
 This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestation JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
 These use-cases typically represent deployments where the Client Attester and Authorization Server have a trust relationship and the possibility to securely exchange keys out of band or are the same entity and no other entity needs to verify the Client Attestations. We expect most deployments to use digital signatures for the protection of Client Attestations, and implementers SHOULD default to digital signatures if they are unsure.
+
+# Considerations for Profiling this specification {#profiling}
+
+Use cases, ecosystems or other specifications that utilize Attestation-Based Client Authentication may profile this specification. A profile MAY deviate on the following points:
+
+- The type of the Client Attestation JWT: a profile MAY redefine a `typ` header parameter value other than `oauth-client-attestation+jwt` (see [](#client-attestation-jwt)) in order to distinguish profile-specific Client Attestations. Client Attestations are still unambiguously transferred by the `OAuth-Client-Attestation` HTTP header.
+- The subject of the Client Attestation JWT: a profile MAY redefine the meaning of the `sub` claim (see [](#client-attestation-jwt)) and how a `client_id` maps to Client Instances. Such a profile MUST define how the checks that rely on `sub` matching the `client_id` are replaced, in particular those in [](#verification-client-attestation-jwt) and [](#client-attestation-as-client-auth).
+- The binding of refresh tokens: a profile MAY redefine the refresh token binding described in [](#refresh-token-binding) if its use case does not allow binding refresh tokens to the Client Instance Key. Such a profile MUST define what the refresh token is bound to instead and how that binding is proven when the refresh token is used.
+
+All other requirements of this specification continue to apply unchanged.
 
 # Relation to RATS
 
@@ -914,6 +924,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 * remove duplication challenge verification in Verifivation of Client Attestation PoP JWT
 * add Client Metadata section defining for use by Clients
 * register the new client metadata parameters in the IANA registry
+* add considerations for profiling this draft
 
 -10
 
