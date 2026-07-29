@@ -179,7 +179,7 @@ Table of Contents
       Instance that authenticates the Client Attestation
 
    This specification does not use the Assertion Framework for OAuth 2.0
-   Client Authentication , as the client attestation is transferred by
+   Client Authentication, as the client attestation is transferred by
    HTTP headers, which is incompatible with the mechanisms defined by
    [RFC7521].
 
