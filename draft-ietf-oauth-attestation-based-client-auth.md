@@ -97,7 +97,7 @@ This specification introduces the concept of client attestations to the OAuth 2 
 - a Client Attestation, a signed statement by the Client Attester that authenticates the Client Instance
 - a Proof of Possession (PoP), a signed statement by the Client Instance that authenticates the Client Attestation
 
-This specification does not use the Assertion Framework for OAuth 2.0 Client Authentication , as the client attestation is transferred by HTTP headers, which is incompatible with the mechanisms defined by {{RFC7521}}.
+This specification does not use the Assertion Framework for OAuth 2.0 Client Authentication, as the client attestation is transferred by HTTP headers, which is incompatible with the mechanisms defined by {{RFC7521}}.
 
 ## Data Flow
 
