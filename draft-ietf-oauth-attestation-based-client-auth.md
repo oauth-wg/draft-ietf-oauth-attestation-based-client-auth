@@ -70,6 +70,7 @@ normative:
 informative:
   RFC9334:
   RFC7523:
+  RFC7521:
   RFC9901:
   CIBA:
     title: OpenID Connect Client-Initiated Backchannel Authentication Flow - Core 1.0
