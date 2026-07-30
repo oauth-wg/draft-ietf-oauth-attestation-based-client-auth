@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-26T00:31:59.095484+00:00",
+  "timestamp": "2026-07-30T00:26:34.741113+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -4563,7 +4563,7 @@
       "id": "I_kwDOJaEkaM7aS-y9",
       "title": "Client metadata ?",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/170",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "babisRoutis",
       "authorAssociation": "NONE",
       "assignees": [
@@ -4575,8 +4575,8 @@
       ],
       "body": "If I am not mistaken, the specifications defines some [extensions](https://www.ietf.org/archive/id/draft-ietf-oauth-attestation-based-client-auth-07.html#name-authorization-server-metada) to Authorization Server Metadata, but related client metadata are not defined.\n\nCan you please consider extensions for the Client metadata as well?\n\n1. For the signing algorithm(s) supported for signing Client Attestation JWT\n2. For the signing algorithm(s) supported for signing Client Attestation PoP JWT\n3. Whether client requires `challenge_endpoint`\n\nThere is `token_endpoint_auth_signing_alg` but I think that this is for other authentication methods \n\n\n\n\n",
       "createdAt": "2025-11-25T10:20:49Z",
-      "updatedAt": "2026-07-20T04:08:38Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-28T06:13:58Z",
+      "closedAt": "2026-07-28T06:13:58Z",
       "comments": [
         {
           "author": "c2bo",
@@ -5093,11 +5093,15 @@
       "state": "OPEN",
       "author": "matthieusieben",
       "authorAssociation": "NONE",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "paulbastian"
+      ],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "The OAuth WG already has an \"Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants\" (rfc7521).\n\nThis draft feels like naturally should either be based on that, be optionally compatible with it, or at very least clearly and explicitly state why it is not based on it.\n\nMy understanding is that the use of the a header makes it mostly incompatible, but there are deployments out there (atproto) which 1) already use rfc7521 and 2) don't necessarily care about receiving client attestation on the resource endpoint (this is covered by very short lived access tokens).\n\nIn those deployment, it feels more natural to be able to use ABCA in the context of rfc7521 instead of using a rfc7521 + \"something that is not covered by rfc7521 but essentially fulfills the same purpose as what the framework was meant to provide\", which is, in my humble opinion, a bit misleading.\n\n\n> [!NOTE]\n>\n> This is great work by the way. This nit aside, I'm super happy this landed in a state that is compatible with DPoP.",
       "createdAt": "2026-06-12T10:47:34Z",
-      "updatedAt": "2026-07-02T16:45:28Z",
+      "updatedAt": "2026-07-28T06:17:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -5106,6 +5110,13 @@
           "body": "Given the current header-based syntax, the only way to comply with RFC7521 would be an empty or static payload which sounds rather dangerous from a security perspective and might break existing implementations.\n\nThe alternative seems be to re-introduce a single presentation format (e.g., the concatenated form we had in the draft before) and put that into the payload which we don't believe would be easy to use or a good idea.\n\nNot sure how to best proceed on this one? We'll bring it up at IETF 126.",
           "createdAt": "2026-07-02T16:45:28Z",
           "updatedAt": "2026-07-02T16:45:28Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- summary from IETF 126: no change, but leave a note, why RFC7521 is not used",
+          "createdAt": "2026-07-28T06:16:55Z",
+          "updatedAt": "2026-07-28T06:16:55Z"
         }
       ]
     },
@@ -5167,10 +5178,12 @@
       "author": "arndt-s",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) do not necessarily carry the client ID in their subject and a WIT may be used to represent multiple clients at multiple authorization servers.\n\nWorkload Identifiers (which go into the `sub` claim of the WIT) are defined as:\n> A URI-based identifier assigned to a workload. A Workload Identifier MAY refer to a logical workload consisting of multiple instances, or to a specific workload instance, depending on the policy of the trust domain. [..]\n\nsee https://datatracker.ietf.org/doc/draft-ietf-wimse-identifier/03/.\n\nI would like to open discussions if the following sentence \n> The sub (subject) claim MUST specify client_id value of the OAuth Client.\n\ncan be changed to something along the lines of \"The sub (subject) claim MUST specify client_id value of the OAuth Client or adequate mapping MUST exist at the Authorization Server\"",
       "createdAt": "2026-07-10T10:13:23Z",
-      "updatedAt": "2026-07-14T20:49:43Z",
+      "updatedAt": "2026-07-28T06:19:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -5193,6 +5206,13 @@
           "body": "@arndt-s thanks for the clarification so you are suggesting that the AS keeps a mapping of other ID's to underlying client_ids then? If thats the case im still struggling to understand how the AS couldn't just treat all the other ID's as distinct client_ids, for example in your example.\n\n```\nspiffe://example.com/cluster-a/my-workload\nspiffe://example.com/cluster-b/my-workload\n```\n\nWhy can't these ^ be distinct client_ids if need be?",
           "createdAt": "2026-07-14T20:49:43Z",
           "updatedAt": "2026-07-14T20:49:43Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- summary from IETF 126: leave definition about sub/client_id in place\n- create a new section for profiling/extension of this draft, that mentions explicitly this topic, extensions may refine/redefine what sub/client_id is",
+          "createdAt": "2026-07-28T06:19:28Z",
+          "updatedAt": "2026-07-28T06:19:36Z"
         }
       ]
     },
@@ -5205,10 +5225,12 @@
       "author": "arndt-s",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) are rotated frequently alongside their keys. Requiring refresh tokens to be bound to the same key that is used to authenticate the client limits those to the age of that key. This either makes the refresh tokens short-lived and introduces user experience downsides (re-auth at every key rotation) or requires additional work to rotate refresh tokens to new keys creating burst of rotation traffic at the authorization server at every key rotation.\n\nI would like to open discussions if the \"Refresh token binding\" section could be changed to\n- MUST bind to the client (already covered by general OAuth confidential client)\n- SHOULD be bound to the client instance (if multiple client instances share the same security boundary this may be intentional). E.g. ephemeral workload authenticates the user and retires. A new instance (& new key) comes up and wants to pick up the prior established session.\n- MAY be bound to the same key. + wording that this binds the refresh token lifetime to the lifetime of the key itself.\n\nA new section in the security considerations can highlight the impact of the various options and that stronger binding (to the instance or the key) mitigates token theft across instances.",
       "createdAt": "2026-07-10T10:30:13Z",
-      "updatedAt": "2026-07-14T19:09:10Z",
+      "updatedAt": "2026-07-28T06:21:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -5245,6 +5267,13 @@
           "body": "I see what you are saying. You have two identities in one token, the identity of the client-instance and the identity of the human user.\n\n> Interesting thought to separate the key for authentication and refresh tokens. It solves the problem but also requires additional fields to provide an additional public key (and I suppose proof of possession for that one too).\n\nTrying to think through this. You have two keys\n\n- JWT-key: the SPIFFE issues key-bound JWT + private key \n- Refresh-key: workload generates it's own key pair bound to the refresh token (protected by an HSM or lives in software on the workload)\n\nIf SPIFFE is malicious and rotates the JWT-key to an attacker controlled key, the attacker still need the refresh-key to perform this rotation and also to refresh the JWT-key. This means if the attacker loses access to the workload, then the JWT-key will expire and the attacker won't be able to refresh it, and the attacker will be pushed out.\n\nThe refresh-key can live in an HSM connected to the workload, but even if it doesn't, once a session is setup, SPIFFE can not rotate the key without the cooperation of the workload.",
           "createdAt": "2026-07-14T19:09:09Z",
           "updatedAt": "2026-07-14T19:09:09Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- summary from IETF 126: relax language slightly about refresh token, offer room for introducing client_instance_id in the future\n- create a new section for profiling/extension of this draft, that mentions explicitly this topic (allowing extensions to explicitly not bind to the key)",
+          "createdAt": "2026-07-28T06:21:34Z",
+          "updatedAt": "2026-07-28T06:21:34Z"
         }
       ]
     },
@@ -5257,12 +5286,22 @@
       "author": "arndt-s",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "<details><summary>Context</summary>\n<p>\nThe WIMSE working group & SPIFFE defines a [Workload Identity Token ](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) and [WIT-SVID](https://spiffe.io/docs/latest/spiffe-specs/wit-svid/). A key-bound JWT that workloads can use to authenticate themselves to third parties. It is frequently issued to the workload alongside a new key, for instance every hour.\n\nThe adopted [SPIFFE OAuth Client Authentication](https://datatracker.ietf.org/doc/draft-ietf-oauth-spiffe-client-auth/02/) document profiles attestation-based client auth to allow using the key-bound WIT as a mean of client authentication towards an Authorization Server.\n</p>\n</details> \n\n[Workload Identity Tokens](https://datatracker.ietf.org/doc/draft-ietf-wimse-workload-creds/02/) are strongly typed `wit+jwt`. However, this draft gates the attestation-based JWT client authentication behind the `typ: oauth-client-attestation+jwt` type. This reduces the applicability of it to issuers that are purpose-build for this use-case or those where instance can influence the typing.\n\nI would like to open discussions if the following could be added to the end of section 5.1: Client Attestation PoP JWT:\n\n> Other specifications or profiles may define alternative client attestation formats. Any such format MUST carry a public key in the cnf claim and SHOULD be strongly typed. It is in the discretion of the Authorization Server to accept these alternative formats.\n\n\n",
       "createdAt": "2026-07-10T10:38:07Z",
-      "updatedAt": "2026-07-10T10:38:07Z",
+      "updatedAt": "2026-07-28T06:23:16Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- summary from IETF 126: leave definition about type in place\n- crate a new section for profiling/extension of this draft, that mentions explicitly this topic (allowing other types)\n- mention that type matching is already implicit through the HTTP header field parameter, therefore JWT typ is less important",
+          "createdAt": "2026-07-28T06:22:06Z",
+          "updatedAt": "2026-07-28T06:23:16Z"
+        }
+      ]
     },
     {
       "number": 213,
@@ -5273,12 +5312,46 @@
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "ready-for-pr"
+      ],
       "body": "",
       "createdAt": "2026-07-15T06:19:52Z",
-      "updatedAt": "2026-07-15T06:19:52Z",
+      "updatedAt": "2026-07-28T06:23:47Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors Call:\n- challenge endpoint and more",
+          "createdAt": "2026-07-28T06:23:42Z",
+          "updatedAt": "2026-07-28T06:23:42Z"
+        }
+      ]
+    },
+    {
+      "number": 218,
+      "id": "I_kwDOJaEkaM8AAAABKgK0Eg",
+      "title": "clarification for challenge usage needed?",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/218",
+      "state": "OPEN",
+      "author": "mickrau",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "After reading the spec, there are some open questions about the `challenge` when using challenge endpoint.\n\nThe client does not know the usage policy for the challenges of the AS, i.e., max lifetime, single-usage, and the spec does not explicitly disallow using the same challenge twice. As a result, the client is left with a heuristic such as: \"get a challenge first, and use this challenge until AS complains..\".\n\n**Is it acceptable to use a challenge twice?\nShould the client call the challenge endpoint for each new OAuth2 flow, or for every DPoP proof?**\n\nIf the AS provides challenges in previous responses (6.1), this works, because the client receives a new challenge anytime the AS wants the client to use a new one with the `use_attestation_challenge`.\n\nWhen an AS **only** supports the challenge endpoint, there is currently no way to signal to the client that it should call the challenge endpoint to get a new one (because the provided challenge is no longer accepted).\n\n**How to signal that the client should call the challenge endpoint?**\n\nPossible solutions:\n1. Change the `use_attestation_challenge` error so that when no new challenge is given in the header, the client should call the challenge endpoint.\n2. Add a new error, `use_challenge_endpoint`, to indicate that the client needs a new challenge from the challenge endpoint.\n",
+      "createdAt": "2026-07-28T14:39:52Z",
+      "updatedAt": "2026-07-29T11:24:22Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My thoughts on this:\n- we should relax the language of `When used this error code MUST be accompanied by the OAuth-Client-Attestation-Challenge HTTP header field parameter` to MAY\n- should the challenge only be used for freshness and the `jti` for replay detection?\n  - likely no, because [Providing Challenges on Previous Responses](https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#name-providing-challenges-on-pre) allows us to have session-bound challenges, while that's not possible with challenge endpoint or `jti`\n- should the challenges be accompanied by an `expires_in`?\n  - I would say no, because my thinking is that challenge should always be fetched ad-hoc, because that's the main benefit over `jti`, but this language/idea/requirement is somewhat missing in the draft",
+          "createdAt": "2026-07-29T11:24:22Z",
+          "updatedAt": "2026-07-29T11:24:22Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -16281,24 +16354,26 @@
       "id": "PR_kwDOJaEkaM7yyErD",
       "title": "feat: add client metadata",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/214",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tplooker",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #170",
       "createdAt": "2026-07-17T02:15:42Z",
-      "updatedAt": "2026-07-22T06:02:24Z",
+      "updatedAt": "2026-07-28T06:14:01Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "tl/client-metadata",
-      "headRefOid": "9e6c5902ca1081b3a3b39daaa09b9208f16db7f7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "a245fc72fba905ed2cf36d7639e03694c493953b",
+      "closedAt": "2026-07-28T06:13:57Z",
+      "mergedAt": "2026-07-28T06:13:57Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "e5f85d73dc08881e3c4210806a477de6e3678204"
+      },
       "comments": [],
       "reviews": [
         {
@@ -16474,13 +16549,13 @@
       "labels": [],
       "body": "Clarifies combined mode implications, error handling, etc.\r\n\r\nThis didn't touch the dpop part yet @panva - will do that in another PR",
       "createdAt": "2026-07-23T15:30:34Z",
-      "updatedAt": "2026-07-23T16:24:31Z",
+      "updatedAt": "2026-07-28T06:48:07Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
+      "baseRefOid": "9e2f7749e14b7669ca760974f3dbfd12f221b258",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "c2bo/fixes-for-as",
-      "headRefOid": "18bad9a34f14859582d60e3a35958e1a4c3930d5",
+      "headRefOid": "d908a223ea16b8046bfef6e58104cb0c93d16a2d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -16493,26 +16568,229 @@
       "id": "PR_kwDOJaEkaM71eJX6",
       "title": "remove duplication challenge verification in Verifivation of Client A\u2026",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/216",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "\u2026ttestation PoP JWT",
       "createdAt": "2026-07-23T16:38:14Z",
-      "updatedAt": "2026-07-23T16:38:15Z",
+      "updatedAt": "2026-07-28T06:25:53Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "565a092deefe1e02afd00944c872839a11bab6bd",
+      "baseRefOid": "e5f85d73dc08881e3c4210806a477de6e3678204",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/duplicate_verification_step",
-      "headRefOid": "d6017c1ea5dd87b4c1566af5f85d484a1514cba3",
+      "headRefOid": "96fcd6a88f7bff2718ff3543bd2c919498528355",
+      "closedAt": "2026-07-28T06:25:53Z",
+      "mergedAt": "2026-07-28T06:25:53Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "9e2f7749e14b7669ca760974f3dbfd12f221b258"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHcSbjA",
+          "commit": {
+            "abbreviatedOid": "33f6e53"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-28T06:24:46Z",
+          "updatedAt": "2026-07-28T06:24:47Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n1. If the server provides challenges through the challenge endpoint or within previous responses as described in [](#challenges), the `challenge` claim of the Client Attestation PoP JWT MUST match a provided challenge.\n```",
+              "createdAt": "2026-07-28T06:24:47Z",
+              "updatedAt": "2026-07-28T06:24:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHcSiQw",
+          "commit": {
+            "abbreviatedOid": "33f6e53"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-28T06:24:59Z",
+          "updatedAt": "2026-07-28T06:24:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 217,
+      "id": "PR_kwDOJaEkaM73XdvX",
+      "title": "mention that RFC7521 is not used",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/217",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #200 ",
+      "createdAt": "2026-07-28T09:38:15Z",
+      "updatedAt": "2026-07-29T10:11:09Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "9e2f7749e14b7669ca760974f3dbfd12f221b258",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/rfc7521",
+      "headRefOid": "6469c884a842edf38690ecd9f9cb736fce033281",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHfa9Pg",
+          "commit": {
+            "abbreviatedOid": "39afa4b"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-28T13:22:58Z",
+          "updatedAt": "2026-07-28T13:22:58Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n  RFC7523:\n  RFC7521:\n```",
+              "createdAt": "2026-07-28T13:22:58Z",
+              "updatedAt": "2026-07-28T13:22:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHfbrsA",
+          "commit": {
+            "abbreviatedOid": "39afa4b"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-28T13:24:15Z",
+          "updatedAt": "2026-07-28T13:24:15Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\nThis specification does not use the Assertion Framework for OAuth 2.0 Client Authentication, as the client attestation is transferred by HTTP headers, which is incompatible with the mechanisms defined by {{RFC7521}}.\n```",
+              "createdAt": "2026-07-28T13:24:15Z",
+              "updatedAt": "2026-07-28T13:24:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHoHqXA",
+          "commit": {
+            "abbreviatedOid": "6469c88"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-29T10:11:09Z",
+          "updatedAt": "2026-07-29T10:11:09Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 219,
+      "id": "PR_kwDOJaEkaM735-36",
+      "title": "add considerations for profiling this draft",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/219",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #210 \r\nCloses #211 \r\nCloses #212\r\n",
+      "createdAt": "2026-07-29T09:44:23Z",
+      "updatedAt": "2026-07-29T15:28:30Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "9e2f7749e14b7669ca760974f3dbfd12f221b258",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/extensibility",
+      "headRefOid": "c262110e9c8005e40f938bb701207f7d647e7a60",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "@arndt-s @PieterKas ",
+          "createdAt": "2026-07-29T10:10:27Z",
+          "updatedAt": "2026-07-29T10:10:27Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "NONE",
+          "body": "Thanks @c2bo ",
+          "createdAt": "2026-07-29T14:05:39Z",
+          "updatedAt": "2026-07-29T14:05:39Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHqjq3A",
+          "commit": {
+            "abbreviatedOid": "c262110"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "Looks good, thanks!",
+          "createdAt": "2026-07-29T14:23:45Z",
+          "updatedAt": "2026-07-29T14:23:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHrMrrw",
+          "commit": {
+            "abbreviatedOid": "c262110"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "Trying to make it a bit easier to read - lgtm otherwise",
+          "createdAt": "2026-07-29T15:24:37Z",
+          "updatedAt": "2026-07-29T15:28:30Z",
+          "comments": [
+            {
+              "originalPosition": 44,
+              "body": "How about this to make it a bit easier to read?\n\n```suggestion\nAuthorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this specification MUST bind the refresh token to the Client Instance, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token.\n\nUnless a profile specifies otherwise as described in [](#profiling), the refresh token MUST be bound to the Client Instance Key, and the Client Instance MUST use the same key that was present in the `cnf` claim of the Client Attestation that was used when the refresh token was issued.\n```",
+              "createdAt": "2026-07-29T15:24:38Z",
+              "updatedAt": "2026-07-29T15:28:30Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\n* `sub`: REQUIRED. The `sub` (subject) claim MUST specify the `client_id` value of the OAuth Client, unless specified otherwise by a profile as described in [](#profiling).\n```",
+              "createdAt": "2026-07-29T15:25:37Z",
+              "updatedAt": "2026-07-29T15:28:30Z"
+            },
+            {
+              "originalPosition": 54,
+              "body": "I think we need to add something like this?\n```suggestion\nUse cases, ecosystems or other specifications that utilize Attestation-Based Client Authentication may profile this specification.\n\nA profile MUST define how an Authorization Server or Resource Server determines that the profile applies to a given request (which could also be an out-of-band mechanism).\n\nA profile MAY deviate on the following points:\n```",
+              "createdAt": "2026-07-29T15:27:26Z",
+              "updatedAt": "2026-07-29T15:29:03Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
