@@ -186,7 +186,7 @@ The following content applies to the JWT Header:
 
 The following content applies to the JWT Claims Set:
 
-* `sub`: REQUIRED. The `sub` (subject) claim MUST specify client_id value of the OAuth Client unless specified otherwise by a profile as described in [](#profiling).
+* `sub`: REQUIRED. The `sub` (subject) claim MUST specify the `client_id` value of the OAuth Client, unless specified otherwise by a profile as described in [](#profiling).
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The Authorization Server or Resource Server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an Authorization Server or Resource Server. The key MUST be expressed using the "jwk" representation.
 * `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
@@ -629,7 +629,9 @@ Implementers should be aware that the design of this authentication mechanism de
 
 ## Refresh token binding {#refresh-token-binding}
 
-Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this draft MUST bind the refresh token to the Client Instance and its associated public key, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token. The client MUST also use the same key that was present in the "cnf" claim of the client attestation that was used when the refresh token was issued. A profile MAY define a different binding for refresh tokens as described in [](#profiling), in which case the requirements of this section do not apply.
+Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this specification MUST bind the refresh token to the Client Instance, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token.
+
+Unless a profile specifies otherwise as described in [](#profiling), the refresh token MUST be bound to the Client Instance Key, and the Client Instance MUST use the same key that was present in the `cnf` claim of the Client Attestation that was used when the refresh token was issued.
 
 ## Binding of OAuth protocol artifacts
 
@@ -710,7 +712,11 @@ These use-cases typically represent deployments where the Client Attester and Au
 
 # Considerations for Profiling this specification {#profiling}
 
-Use cases, ecosystems or other specifications that utilize Attestation-Based Client Authentication may profile this specification. A profile MAY deviate on the following points:
+Use cases, ecosystems or other specifications that utilize Attestation-Based Client Authentication may profile this specification.
+
+A profile MUST define how an Authorization Server or Resource Server determines that the profile applies to a given request (which could also be an out-of-band mechanism).
+
+A profile MAY deviate on the following points:
 
 - The type of the Client Attestation JWT: a profile MAY redefine a `typ` header parameter value other than `oauth-client-attestation+jwt` (see [](#client-attestation-jwt)) in order to distinguish profile-specific Client Attestations. Client Attestations are still unambiguously transferred by the `OAuth-Client-Attestation` HTTP header.
 - The subject of the Client Attestation JWT: a profile MAY redefine the meaning of the `sub` claim (see [](#client-attestation-jwt)) and how a `client_id` maps to Client Instances. Such a profile MUST define how the checks that rely on `sub` matching the `client_id` are replaced, in particular those in [](#verification-client-attestation-jwt) and [](#client-attestation-as-client-auth).
