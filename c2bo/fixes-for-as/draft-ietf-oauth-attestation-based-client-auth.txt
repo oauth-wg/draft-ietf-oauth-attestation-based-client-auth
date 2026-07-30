@@ -863,10 +863,9 @@ Table of Contents
    *  invalid_client_attestation MAY be used in addition to the more
       general invalid_client error code as defined in [RFC6749] if the
       attestation or its proof of possession could not be successfully
-      verified, the proof of possession is not supported.  This error is
-      also used if the combined mode as defined in Section 5.2 is used
-      and the public keys of the Client Attestation JWT and DPoP don't
-      match (see Section 7.3).
+      verified, the public keys of the Client Attestation JWT and the
+      proof of possession don't match, or the proof of possession is not
+      supported.
 
    In the event of errors due to situations not described above,
    Authorization and Resource Servers MUST follow the guidance of
