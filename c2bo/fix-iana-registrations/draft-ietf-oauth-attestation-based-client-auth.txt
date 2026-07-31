@@ -1944,11 +1944,9 @@ Table of Contents
 
 Appendix A.  Document History
 
-   -12
+   -11
 
    *  fix IANA registry entries
-
-   -11
 
    *  remove duplication challenge verification in Verifivation of
       Client Attestation PoP JWT
