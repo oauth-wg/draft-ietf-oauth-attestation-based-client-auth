@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 31 January 2027                                 Bundesdruckerei
+Expires: 1 February 2027                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            30 July 2026
+                                                            31 July 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 January 2027.
+   This Internet-Draft will expire on 1 February 2027.
 
 Copyright Notice
 
@@ -677,7 +677,10 @@ Table of Contents
    }
 
    The DPoP-Nonce HTTP header field in this example is only present if
-   the server supports DPoP with server-provided nonces.
+   the server supports DPoP with server-provided nonces.  The
+   attestation_challenge parameter is only present if the server
+   supports Client Attestations and server-provided challenges (i.e.,
+   this endpoint can also be used to provide only DPoP nonces).
 
 6.2.  Providing Challenges on Previous Responses
 
