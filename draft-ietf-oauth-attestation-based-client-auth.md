@@ -421,6 +421,7 @@ DPoP-Nonce: eyJ7S_zG.eyJH0-Z.HX4w-7v
 ~~~
 
 The `DPoP-Nonce` HTTP header field in this example is only present if the server supports DPoP with server-provided nonces.
+The `attestation_challenge` parameter is only present if the server supports Client Attestations and server-provided challenges (i.e., this endpoint can also be used to provide only DPoP nonces).
 
 ## Providing Challenges on Previous Responses {#challenge-in-response}
 
