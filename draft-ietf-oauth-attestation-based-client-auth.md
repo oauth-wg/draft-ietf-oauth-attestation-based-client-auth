@@ -82,6 +82,7 @@ normative:
 informative:
   RFC9334:
   RFC7523:
+  RFC7521:
   RFC9901:
   CIBA:
     title: OpenID Connect Client-Initiated Backchannel Authentication Flow - Core 1.0
@@ -107,6 +108,10 @@ This specification introduces the concept of client attestations to the OAuth 2 
 
 - a Client Attestation, a signed statement by the Client Attester that authenticates the Client Instance
 - a Proof of Possession (PoP), a signed statement by the Client Instance that authenticates the Client Attestation
+
+This specification does not use the Assertion Framework for OAuth 2.0 Client Authentication, as the client attestation is transferred by HTTP headers, which is incompatible with the mechanisms defined by {{RFC7521}}.
+
+## Data Flow
 
 The following diagram depicts the overall architecture and protocol flow towards an Authorization Server.
 
@@ -990,8 +995,10 @@ This specification requests registration of the following value in the IANA "JSO
 
 * fix IANA registry entries
 * remove duplication challenge verification in Verifivation of Client Attestation PoP JWT
+* remove duplication challenge verification in Verification of Client Attestation PoP JWT
 * add Client Metadata section defining for use by Clients
 * register the new client metadata parameters in the IANA registry
+* mention that RFC7521 is not used
 
 -10
 
