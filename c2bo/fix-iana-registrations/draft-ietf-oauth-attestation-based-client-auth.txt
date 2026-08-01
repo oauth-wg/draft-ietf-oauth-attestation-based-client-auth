@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 1 February 2027                                 Bundesdruckerei
+Expires: 2 February 2027                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                            31 July 2026
+                                                           1 August 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 February 2027.
+   This Internet-Draft will expire on 2 February 2027.
 
 Copyright Notice
 
@@ -77,6 +77,7 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
+     1.1.  Data Flow
    2.  Conventions and Definitions
    3.  Terminology
    4.  Client Attestation JWT
@@ -177,6 +178,13 @@ Table of Contents
 
    *  a Proof of Possession (PoP), a signed statement by the Client
       Instance that authenticates the Client Attestation
+
+   This specification does not use the Assertion Framework for OAuth 2.0
+   Client Authentication, as the client attestation is transferred by
+   HTTP headers, which is incompatible with the mechanisms defined by
+   [RFC7521].
+
+1.1.  Data Flow
 
    The following diagram depicts the overall architecture and protocol
    flow towards an Authorization Server.
@@ -1927,6 +1935,11 @@ Table of Contents
               <https://openid.net/specs/openid-client-initiated-
               backchannel-authentication-core-1_0.html>.
 
+   [RFC7521]  Campbell, B., Mortimore, C., Jones, M., and Y. Goland,
+              "Assertion Framework for OAuth 2.0 Client Authentication
+              and Authorization Grants", RFC 7521, DOI 10.17487/RFC7521,
+              May 2015, <https://www.rfc-editor.org/rfc/rfc7521>.
+
    [RFC7523]  Jones, M., Campbell, B., and C. Mortimore, "JSON Web Token
               (JWT) Profile for OAuth 2.0 Client Authentication and
               Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
@@ -1951,9 +1964,14 @@ Appendix A.  Document History
    *  remove duplication challenge verification in Verifivation of
       Client Attestation PoP JWT
 
+   *  remove duplication challenge verification in Verification of
+      Client Attestation PoP JWT
+
    *  add Client Metadata section defining for use by Clients
 
    *  register the new client metadata parameters in the IANA registry
+
+   *  mention that RFC7521 is not used
 
    -10
 
