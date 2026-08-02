@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-30T00:26:34.741113+00:00",
+  "timestamp": "2026-08-02T00:29:55.053421+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5090,7 +5090,7 @@
       "id": "I_kwDOJaEkaM8AAAABFRONWg",
       "title": "Draft 9 - Relationship with rfc7521",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/200",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "matthieusieben",
       "authorAssociation": "NONE",
       "assignees": [
@@ -5101,8 +5101,8 @@
       ],
       "body": "The OAuth WG already has an \"Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants\" (rfc7521).\n\nThis draft feels like naturally should either be based on that, be optionally compatible with it, or at very least clearly and explicitly state why it is not based on it.\n\nMy understanding is that the use of the a header makes it mostly incompatible, but there are deployments out there (atproto) which 1) already use rfc7521 and 2) don't necessarily care about receiving client attestation on the resource endpoint (this is covered by very short lived access tokens).\n\nIn those deployment, it feels more natural to be able to use ABCA in the context of rfc7521 instead of using a rfc7521 + \"something that is not covered by rfc7521 but essentially fulfills the same purpose as what the framework was meant to provide\", which is, in my humble opinion, a bit misleading.\n\n\n> [!NOTE]\n>\n> This is great work by the way. This nit aside, I'm super happy this landed in a state that is compatible with DPoP.",
       "createdAt": "2026-06-12T10:47:34Z",
-      "updatedAt": "2026-07-28T06:17:04Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-31T17:23:20Z",
+      "closedAt": "2026-07-31T17:23:20Z",
       "comments": [
         {
           "author": "c2bo",
@@ -5311,13 +5311,15 @@
       "state": "OPEN",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
-      "assignees": [],
+      "assignees": [
+        "c2bo"
+      ],
       "labels": [
         "ready-for-pr"
       ],
       "body": "",
       "createdAt": "2026-07-15T06:19:52Z",
-      "updatedAt": "2026-07-28T06:23:47Z",
+      "updatedAt": "2026-07-30T09:03:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -16547,21 +16549,117 @@
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
-      "body": "Clarifies combined mode implications, error handling, etc.\r\n\r\nThis didn't touch the dpop part yet @panva - will do that in another PR",
+      "body": "Clarifies combined mode implications, error handling, etc.\r\n\r\nChanges the DPoP nonce handling to rely purely on the native DPoP mechanism (feedback received at IETF 126) @panva ",
       "createdAt": "2026-07-23T15:30:34Z",
-      "updatedAt": "2026-07-28T06:48:07Z",
+      "updatedAt": "2026-08-01T08:41:05Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "9e2f7749e14b7669ca760974f3dbfd12f221b258",
+      "baseRefOid": "0d02715c0d883cca3f2330e76508cd6bdec8f35c",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "c2bo/fixes-for-as",
-      "headRefOid": "d908a223ea16b8046bfef6e58104cb0c93d16a2d",
+      "headRefOid": "29b01af5aa3df2c444aa710d45098e5d0a979a3b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "@panva I added the dpop nonce related changes & the clarifications for error handling etc. Could you please check if that fits your understanding/proposal?",
+          "createdAt": "2026-07-30T08:57:30Z",
+          "updatedAt": "2026-07-30T08:57:30Z"
+        },
+        {
+          "author": "panva",
+          "authorAssociation": "MEMBER",
+          "body": "I'll review this weekend.",
+          "createdAt": "2026-08-01T08:41:04Z",
+          "updatedAt": "2026-08-01T08:41:04Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHyO9lg",
+          "commit": {
+            "abbreviatedOid": "ad5e585"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-30T09:35:26Z",
+          "updatedAt": "2026-07-30T09:35:26Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "If an AS only supports the combined mode, would the `attestation_challenge be absent?",
+              "createdAt": "2026-07-30T09:35:26Z",
+              "updatedAt": "2026-07-30T09:35:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHybpQA",
+          "commit": {
+            "abbreviatedOid": "ad5e585"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-30T10:01:05Z",
+          "updatedAt": "2026-07-30T10:01:06Z",
+          "comments": [
+            {
+              "originalPosition": 102,
+              "body": "We don't have a similar error for normal mode mentioned either yet? Should this be more general?\n\n```suggestion\n- `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the public keys of the Client Attestation JWT and the proof of possession don't match, or the proof of possession is not supported.\n```",
+              "createdAt": "2026-07-30T10:01:05Z",
+              "updatedAt": "2026-07-30T10:01:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHy1Vnw",
+          "commit": {
+            "abbreviatedOid": "d4bc96e"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-30T10:57:17Z",
+          "updatedAt": "2026-07-30T10:57:17Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "I wondered about that as well and I guess that would make sense?",
+              "createdAt": "2026-07-30T10:57:17Z",
+              "updatedAt": "2026-07-30T10:57:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABIAdtgg",
+          "commit": {
+            "abbreviatedOid": "feab9b3"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-31T21:27:39Z",
+          "updatedAt": "2026-07-31T21:27:39Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "Added the sentence below",
+              "createdAt": "2026-07-31T21:27:39Z",
+              "updatedAt": "2026-07-31T21:27:40Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 216,
@@ -16630,24 +16728,26 @@
       "id": "PR_kwDOJaEkaM73XdvX",
       "title": "mention that RFC7521 is not used",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/217",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #200 ",
       "createdAt": "2026-07-28T09:38:15Z",
-      "updatedAt": "2026-07-29T10:11:09Z",
+      "updatedAt": "2026-07-31T17:23:19Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "9e2f7749e14b7669ca760974f3dbfd12f221b258",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/rfc7521",
       "headRefOid": "6469c884a842edf38690ecd9f9cb736fce033281",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-07-31T17:23:19Z",
+      "mergedAt": "2026-07-31T17:23:19Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "0d02715c0d883cca3f2330e76508cd6bdec8f35c"
+      },
       "comments": [],
       "reviews": [
         {
@@ -16702,6 +16802,19 @@
           "createdAt": "2026-07-29T10:11:09Z",
           "updatedAt": "2026-07-29T10:11:09Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABH63M6Q",
+          "commit": {
+            "abbreviatedOid": "6469c88"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-31T07:42:12Z",
+          "updatedAt": "2026-07-31T07:42:12Z",
+          "comments": []
         }
       ]
     },
@@ -16717,13 +16830,13 @@
       "labels": [],
       "body": "Closes #210 \r\nCloses #211 \r\nCloses #212\r\n",
       "createdAt": "2026-07-29T09:44:23Z",
-      "updatedAt": "2026-07-29T15:28:30Z",
+      "updatedAt": "2026-07-31T21:24:16Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "9e2f7749e14b7669ca760974f3dbfd12f221b258",
+      "baseRefOid": "0d02715c0d883cca3f2330e76508cd6bdec8f35c",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/extensibility",
-      "headRefOid": "c262110e9c8005e40f938bb701207f7d647e7a60",
+      "headRefOid": "45c05b6f2fdd3f772459ebfac791097a05d6e35c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -16789,8 +16902,60 @@
               "updatedAt": "2026-07-29T15:29:03Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABHy1hTg",
+          "commit": {
+            "abbreviatedOid": "99381a2"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-30T10:57:43Z",
+          "updatedAt": "2026-07-30T10:57:43Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABH63gNQ",
+          "commit": {
+            "abbreviatedOid": "99381a2"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-31T07:42:57Z",
+          "updatedAt": "2026-07-31T07:42:57Z",
+          "comments": []
         }
       ]
+    },
+    {
+      "number": 220,
+      "id": "PR_kwDOJaEkaM75M1bW",
+      "title": "fix all IANA entries (hopefully)",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/220",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #213 ",
+      "createdAt": "2026-07-31T21:02:17Z",
+      "updatedAt": "2026-08-01T08:37:47Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "0d02715c0d883cca3f2330e76508cd6bdec8f35c",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "c2bo/fix-iana-registrations",
+      "headRefOid": "36daadf9a80834e233b3bf13f3a504a8c9fce834",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
