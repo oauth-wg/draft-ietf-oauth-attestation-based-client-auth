@@ -994,7 +994,6 @@ This specification requests registration of the following value in the IANA "JSO
 -11
 
 * fix IANA registry entries
-* remove duplication challenge verification in Verifivation of Client Attestation PoP JWT
 * remove duplication challenge verification in Verification of Client Attestation PoP JWT
 * add Client Metadata section defining for use by Clients
 * register the new client metadata parameters in the IANA registry
