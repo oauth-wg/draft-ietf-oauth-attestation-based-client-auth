@@ -329,7 +329,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 
 This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in {{RFC9449}} for sender-constrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).
 
-Note when authorization code binding as defined in {{Section 10 of RFC9449}} is used, this mode only works with the DPoP Proof header containing a proof of possession and not `dpop_jkt`. When using `dpop_jkt`, the normal mode has to be used.
+Note that combined mode requires an actual DPoP proof to be presented, since the DPoP proof also serves as the Client Attestation PoP; the `dpop_jkt` authorization request parameter defined in {{Section 10 of RFC9449}} cannot substitute for it. A Client that binds the authorization code using `dpop_jkt` without presenting a DPoP proof therefore uses the normal mode.
 
 Note that DPoP {{RFC9449}} can also be used alongside the Client Attestation PoP JWT without this combined mode. In this case, the DPoP proof is validated according to {{RFC9449}} independently of this specification and its public key is not required to match the key in the `cnf` claim of the Client Attestation JWT (see [](#verification)).
 
@@ -338,7 +338,7 @@ The following rules apply to the DPoP proof as defined in {{RFC9449}}:
 1. The DPoP proof MUST adhere to {{RFC9449}}
 2. The public key located in the DPoP proof MUST match the public key located in the `cnf` claim of the Client Attestation JWT.
 
-In combined mode, the Challenge mechanisms defined by this specification (the `challenge` claim and the `OAuth-Client-Attestation-Challenge` HTTP header field, see [](#challenges)) are not used for the DPoP proof. Instead, server-provided freshness and replay protection rely solely on the DPoP nonce mechanism defined in {{Section 8 of RFC9449}} and {{Section 9 of RFC9449}}: the server provides a nonce that the Client includes in the `nonce` claim of the DPoP proof. In addition to the means defined by {{RFC9449}}, the server MUST provide a fresh DPoP nonce in the response of the challenge endpoint as described in [](#challenge-endpoint) if a nonce is required, allowing the Client to obtain a nonce proactively.
+In combined mode, the Challenge mechanisms defined by this specification (the `challenge` claim and the `OAuth-Client-Attestation-Challenge` HTTP header field, see [](#challenges)) are not used for the DPoP proof. Instead, server-provided freshness and replay protection rely solely on the DPoP nonce mechanism defined in {{Section 8 of RFC9449}} and {{Section 9 of RFC9449}}: the server provides a nonce that the Client includes in the `nonce` claim of the DPoP proof. In addition to the means defined by {{RFC9449}}, a server that supports DPoP with server-provided nonces provides a fresh DPoP nonce in the response of the challenge endpoint as described in [](#challenge-endpoint), allowing the Client to obtain a nonce proactively.
 
 The following non-normative example shows a token request using combined mode (line breaks for display only):
 
@@ -451,7 +451,7 @@ This section defines the verification and processing rules for the proof of poss
 An Authorization Server MAY support both `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop` and distinguish them by the following rules:
 
 - If the request contains an `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-client-attestation-pop-jwt) and if present, a DPoP proof present in the request is validated according to {{RFC9449}} independently of this specification.
-- If no `OAuth-Client-Attestation-PoP` HTTP request header field is present, but a DPoP proof is, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
+- If an `OAuth-Client-Attestation` HTTP request header field and a DPoP proof are present, but no `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
 - If the request contains an `OAuth-Client-Attestation` header field and a DPoP proof, but no OAuth-Client-Attestation-PoP header field, and the Authorization Server does not support `attest_jwt_client_auth_dpop`, it MUST reject the request (see [](#errors)).
 
 ## Client Attestation JWT {#verification-client-attestation-jwt}
