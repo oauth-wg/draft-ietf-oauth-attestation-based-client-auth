@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 2 February 2027                                 Bundesdruckerei
+Expires: 4 February 2027                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           1 August 2026
+                                                           3 August 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 February 2027.
+   This Internet-Draft will expire on 4 February 2027.
 
 Copyright Notice
 
@@ -542,10 +542,12 @@ Table of Contents
    one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP
    proof and Client Attestation PoP JWT).
 
-   Note when authorization code binding as defined in Section 10 of
-   [RFC9449] is used, this mode only works with the DPoP Proof header
-   containing a proof of possession and not dpop_jkt.  When using
-   dpop_jkt, the normal mode has to be used.
+   Note that combined mode requires an actual DPoP proof to be
+   presented, since the DPoP proof also serves as the Client Attestation
+   PoP; the dpop_jkt authorization request parameter defined in
+   Section 10 of [RFC9449] cannot substitute for it.  A Client that
+   binds the authorization code using dpop_jkt without presenting a DPoP
+   proof therefore uses the normal mode.
 
    Note that DPoP [RFC9449] can also be used alongside the Client
    Attestation PoP JWT without this combined mode.  In this case, the
@@ -567,10 +569,10 @@ Table of Contents
    solely on the DPoP nonce mechanism defined in Section 8 of [RFC9449]
    and Section 9 of [RFC9449]: the server provides a nonce that the
    Client includes in the nonce claim of the DPoP proof.  In addition to
-   the means defined by [RFC9449], the server MUST provide a fresh DPoP
-   nonce in the response of the challenge endpoint as described in
-   Section 6.1 if a nonce is required, allowing the Client to obtain a
-   nonce proactively.
+   the means defined by [RFC9449], a server that supports DPoP with
+   server-provided nonces provides a fresh DPoP nonce in the response of
+   the challenge endpoint as described in Section 6.1, allowing the
+   Client to obtain a nonce proactively.
 
    The following non-normative example shows a token request using
    combined mode (line breaks for display only):
@@ -735,8 +737,9 @@ Table of Contents
       present in the request is validated according to [RFC9449]
       independently of this specification.
 
-   *  If no OAuth-Client-Attestation-PoP HTTP request header field is
-      present, but a DPoP proof is, the receiving server MUST apply the
+   *  If an OAuth-Client-Attestation HTTP request header field and a
+      DPoP proof are present, but no OAuth-Client-Attestation-PoP HTTP
+      request header field, the receiving server MUST apply the
       validation rules of Section 7.3.
 
    *  If the request contains an OAuth-Client-Attestation header field
