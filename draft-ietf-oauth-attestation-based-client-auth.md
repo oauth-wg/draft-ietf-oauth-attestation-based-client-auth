@@ -939,7 +939,7 @@ This section requests registration of the following scheme in the "Hypertext Tra
 
 This section requests registration of the following media types {{RFC2046}} in the "Media Types" registry {{IANA.MediaTypes}} in the manner described in {{RFC6838}}.
 
-To indicate that the content is a JWT-based Status List:
+To indicate that the content is a Client Attestation JWT as defined by this specification:
 
 * Type name: application
 * Subtype name: oauth-client-attestation+jwt
@@ -959,7 +959,7 @@ To indicate that the content is a JWT-based Status List:
 * Change controller: IETF
 * Provisional registration? No
 
-To indicate that the content is a CWT-based Status List:
+To indicate that the content is a Client Attestation PoP JWT as defined by this specification:
 
 * Type name: application
 * Subtype name: oauth-client-attestation-pop+jwt
