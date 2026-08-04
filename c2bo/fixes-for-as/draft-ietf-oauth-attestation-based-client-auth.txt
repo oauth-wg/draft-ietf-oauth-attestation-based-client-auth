@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 4 February 2027                                 Bundesdruckerei
+Expires: 5 February 2027                                 Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                           3 August 2026
+                                                           4 August 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 February 2027.
+   This Internet-Draft will expire on 5 February 2027.
 
 Copyright Notice
 
@@ -111,25 +111,27 @@ Table of Contents
    12. Security Considerations
      12.1.  Replay Attacks
      12.2.  Client Attestation Protection
-   13. Relation to RATS
-   14. IANA Considerations
-     14.1.  OAuth Extensions Error Registration
-     14.2.  OAuth Authorization Server Metadata Registration
-     14.3.  OAuth Protected Resource Metadata Registration
-     14.4.  OAuth Protected Resource Metadata Registration
-     14.5.  OAuth Dynamic Client Registration Metadata Registration
-     14.6.  OAuth Client Attestation Proof-of-Possession Methods
-            Registry
-       14.6.1.  Registration Template
-       14.6.2.  Initial Registry Content
-     14.7.  Registration of attest_jwt_client_auth Token Endpoint
-            Authentication Method
-     14.8.  Registration of attest_jwt_client_auth_dpop Token Endpoint
-            Authentication Method
-     14.9.  HTTP Field Name Registration
-   15. References
-     15.1.  Normative References
-     15.2.  Informative References
+   13. Considerations for Profiling this specification
+   14. Relation to RATS
+   15. IANA Considerations
+     15.1.  OAuth Extensions Error Registration
+     15.2.  OAuth Authorization Server Metadata Registration
+     15.3.  OAuth Protected Resource Metadata Registration
+     15.4.  OAuth Dynamic Client Registration Metadata Registration
+     15.5.  OAuth Client Attestation Proof-of-Possession Methods
+             Registry
+       15.5.1.  Registration Template
+       15.5.2.  Initial Registry Content
+     15.6.  Registration of attest_jwt_client_auth Token Endpoint
+             Authentication Method
+     15.7.  Registration of attest_jwt_client_auth_dpop Token Endpoint
+             Authentication Method
+     15.8.  HTTP Field Name Registration
+     15.9.  Media Type Registration
+     15.10. JSON Web Token Claims Registration
+   16. References
+     16.1.  Normative References
+     16.2.  Informative References
    Appendix A.  Document History
    Acknowledgments
    Authors' Addresses
@@ -322,15 +324,17 @@ Table of Contents
    The following content applies to the JWT Header:
 
    *  typ: REQUIRED.  The typ (JWT type) header MUST be oauth-client-
-      attestation+jwt.
+      attestation+jwt unless specified otherwise by a profile as
+      described in Section 13.
 
    *  alg: REQUIRED.  The alg (algorithm) header MUST specify the
       cryptographic algorithm used to sign the Client Attestation.
 
    The following content applies to the JWT Claims Set:
 
-   *  sub: REQUIRED.  The sub (subject) claim MUST specify client_id
-      value of the OAuth Client.
+   *  sub: REQUIRED.  The sub (subject) claim MUST specify the client_id
+      value of the OAuth Client, unless specified otherwise by a profile
+      as described in Section 13.
 
    *  exp: REQUIRED.  The exp (expiration time) claim MUST specify the
       time at which the Client Attestation is considered expired by its
@@ -775,7 +779,8 @@ Table of Contents
 
    7.  If a client_id is provided in the request containing the Client
        Attestation, then this client_id matches the sub claim of the
-       Client Attestation JWT.
+       Client Attestation JWT, unless specified otherwise by a profile
+       as described in Section 13.
 
 7.2.  Client Attestation PoP JWT
 
@@ -893,7 +898,8 @@ Table of Contents
    Authorization Server.  If the token request contains a client_id
    parameter as per [RFC6749] the Authorization Server MUST verify that
    the value of this parameter is the same as the client_id value in the
-   sub claim of the Client Attestation.
+   sub claim of the Client Attestation, unless specified otherwise by a
+   profile as described in Section 13.
 
    The following example demonstrates usage of the client attestation
    mechanism in an access token request (with extra line breaks for
@@ -940,7 +946,7 @@ Table of Contents
    sensitive strings, each identifying a Proof of Possession method that
    the server accepts, as registered in the "OAuth Client Attestation
    Proof-of-Possession Methods" registry established by this
-   specification (see Section 14.6).  A server MUST NOT include a method
+   specification (see Section 15.5).  A server MUST NOT include a method
    it does not accept, and the array MUST NOT be empty when the
    parameter is present.
 
@@ -1065,7 +1071,7 @@ Table of Contents
    parameter in its metadata as defined in [RFC9728].  The Proof of
    Possession method values are registered in the "OAuth Client
    Attestation Proof-of-Possession Methods" registry established by this
-   specification (see Section 14.6).
+   specification (see Section 15.5).
 
 9.  Client Metadata
 
@@ -1101,7 +1107,7 @@ Table of Contents
       case-sensitive strings, each identifying a Proof of Possession
       method supported by the Client, as registered in the "OAuth Client
       Attestation Proof-of-Possession Methods" registry established by
-      this specification (see Section 14.6).
+      this specification (see Section 15.5).
 
    These client metadata values are advertisements of Client capability.
    The Authorization Server or Resource Server enforces its own accepted
@@ -1145,13 +1151,16 @@ Table of Contents
 
    Authorization servers issuing a refresh token in response to a token
    request using the client attestation mechanism as defined by this
-   draft MUST bind the refresh token to the Client Instance and its
-   associated public key, and NOT just the client as specified in
-   Section 6 of [RFC6749].  To prove this binding, the Client Instance
-   MUST use the client attestation mechanism when refreshing an access
-   token.  The client MUST also use the same key that was present in the
-   "cnf" claim of the client attestation that was used when the refresh
-   token was issued.
+   specification MUST bind the refresh token to the Client Instance, and
+   NOT just the client as specified in Section 6 of [RFC6749].  To prove
+   this binding, the Client Instance MUST use the client attestation
+   mechanism when refreshing an access token.
+
+   Unless a profile specifies otherwise as described in Section 13, the
+   refresh token MUST be bound to the Client Instance Key, and the
+   Client Instance MUST use the same key that was present in the cnf
+   claim of the Client Attestation that was used when the refresh token
+   was issued.
 
 10.4.  Binding of OAuth protocol artifacts
 
@@ -1381,7 +1390,40 @@ Table of Contents
    Attestations, and implementers SHOULD default to digital signatures
    if they are unsure.
 
-13.  Relation to RATS
+13.  Considerations for Profiling this specification
+
+   Use cases, ecosystems or other specifications that utilize
+   Attestation-Based Client Authentication may profile this
+   specification.
+
+   A profile MUST define how an Authorization Server or Resource Server
+   determines that the profile applies to a given request (which could
+   also be an out-of-band mechanism).
+
+   A profile MAY deviate on the following points:
+
+   *  The type of the Client Attestation JWT: a profile MAY redefine a
+      typ header parameter value other than oauth-client-attestation+jwt
+      (see Section 4) in order to distinguish profile-specific Client
+      Attestations.  Client Attestations are still unambiguously
+      transferred by the OAuth-Client-Attestation HTTP header.
+
+   *  The subject of the Client Attestation JWT: a profile MAY redefine
+      the meaning of the sub claim (see Section 4) and how a client_id
+      maps to Client Instances.  Such a profile MUST define how the
+      checks that rely on sub matching the client_id are replaced, in
+      particular those in Section 7.1 and Section 7.5.
+
+   *  The binding of refresh tokens: a profile MAY redefine the refresh
+      token binding described in Section 10.3 if its use case does not
+      allow binding refresh tokens to the Client Instance Key. Such a
+      profile MUST define what the refresh token is bound to instead and
+      how that binding is proven when the refresh token is used.
+
+   All other requirements of this specification continue to apply
+   unchanged.
+
+14.  Relation to RATS
 
    The Remote Attestation Procedures (RATS) architecture defined by
    [RFC9334] has some commonalities to this document.  The flow
@@ -1407,55 +1449,55 @@ Table of Contents
       "Evidence" and "Policies and Reference Values" are out of scope
       for this specification
 
-14.  IANA Considerations
+15.  IANA Considerations
 
-14.1.  OAuth Extensions Error Registration
+15.1.  OAuth Extensions Error Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Extensions Error Registry" registry of
    [IANA.OAuth.Params] established by [RFC6749].
 
-   *  Name: use_attestation_challenge
+   *  Error Name: use_attestation_challenge
 
-   *  Usage Location: token error response, resource access error
+   *  Error Usage Location: token error response, resource access error
       response
 
-   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+   *  Related Protocol Extension: OAuth 2.0 Attestation-Based Client
       Authentication
 
    *  Change Controller: IETF
 
-   *  Reference: Section 7.4 of this specification
+   *  Specification Document(s): Section 7.4 of this specification
 
 
 
-   *  Name: use_fresh_attestation
+   *  Error Name: use_fresh_attestation
 
-   *  Usage Location: token error response, resource access error
+   *  Error Usage Location: token error response, resource access error
       response
 
-   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+   *  Related Protocol Extension: OAuth 2.0 Attestation-Based Client
       Authentication
 
    *  Change Controller: IETF
 
-   *  Reference: Section 7.4 of this specification
+   *  Specification Document(s): Section 7.4 of this specification
 
 
 
-   *  Name: invalid_client_attestation
+   *  Error Name: invalid_client_attestation
 
-   *  Usage Location: token error response, resource access error
+   *  Error Usage Location: token error response, resource access error
       response
 
-   *  Protocol Extension: OAuth 2.0 Attestation-Based Client
+   *  Related Protocol Extension: OAuth 2.0 Attestation-Based Client
       Authentication
 
    *  Change Controller: IETF
 
-   *  Reference: Section 7.4 of this specification
+   *  Specification Document(s): Section 7.4 of this specification
 
-14.2.  OAuth Authorization Server Metadata Registration
+15.2.  OAuth Authorization Server Metadata Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Authorization Server Metadata" registry of
@@ -1469,7 +1511,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 6.1 of this specification
+   *  Specification Document(s): Section 6.1 of this specification
 
 
 
@@ -1481,7 +1523,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 8 of this specification
+   *  Specification Document(s): Section 8 of this specification
 
 
 
@@ -1493,23 +1535,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 8 of this specification
-
-14.3.  OAuth Protected Resource Metadata Registration
-
-   This specification requests registration of the following values in
-   the IANA "OAuth Protected Resource Metadata" registry of
-   [IANA.OAuth.Params] established by [RFC9728].
-
-   *  Metadata Name: challenge_endpoint
-
-   *  Metadata Description: URL of the protected resource's challenge
-      endpoint which is used to obtain a fresh challenge for usage in
-      client authentication methods such as client attestation.
-
-   *  Change Controller: IETF
-
-   *  Reference: Section 6.1 of this specification
+   *  Specification Document(s): Section 8 of this specification
 
 
 
@@ -1523,13 +1549,49 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 7.6 of this specification
+   *  Specification Document(s): Section 7.6 of this specification
 
-14.4.  OAuth Protected Resource Metadata Registration
+15.3.  OAuth Protected Resource Metadata Registration
 
-   This specification requests registration of the following value in
+   This specification requests registration of the following values in
    the IANA "OAuth Protected Resource Metadata" registry of
    [IANA.OAuth.Params] established by [RFC9728].
+
+   *  Metadata Name: challenge_endpoint
+
+   *  Metadata Description: URL of the protected resource's challenge
+      endpoint which is used to obtain a fresh challenge for usage in
+      client authentication methods such as client attestation.
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): Section 6.1 of this specification
+
+
+
+   *  Metadata Name: client_attestation_signing_alg_values_supported
+
+   *  Metadata Description: JSON array containing a list of the JWS
+      signing algorithms supported by the protected resource for the
+      signature on the Client Attestation JWT.
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): Section 8 of this specification
+
+
+
+   *  Metadata Name: client_attestation_pop_signing_alg_values_supported
+
+   *  Metadata Description: JSON array containing a list of the JWS
+      signing algorithms supported by the protected resource for the
+      signature on the Client Attestation PoP JWT.
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): Section 8 of this specification
+
+
 
    *  Metadata Name: client_attestation_pop_methods_supported
 
@@ -1541,55 +1603,57 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 7.6 of this specification
+   *  Specification Document(s): Section 7.6 of this specification
 
-14.5.  OAuth Dynamic Client Registration Metadata Registration
+15.4.  OAuth Dynamic Client Registration Metadata Registration
 
    This specification requests registration of the following values in
    the IANA "OAuth Dynamic Client Registration Metadata" registry of
    [IANA.OAuth.Params] established by [RFC7591].
 
-   *  Metadata Name: client_attestation_signing_alg_values_supported
+   *  Client Metadata Name:
+      client_attestation_signing_alg_values_supported
 
-   *  Metadata Description: JSON array containing a list of the JWS
-      signing algorithms supported by the Client for signing the Client
-      Attestation JWT.
-
-   *  Change Controller: IETF
-
-   *  Reference: Section 9 of this specification
-
-
-
-   *  Metadata Name: client_attestation_pop_signing_alg_values_supported
-
-   *  Metadata Description: JSON array containing a list of the JWS
-      signing algorithms supported by the Client for signing the Client
-      Attestation PoP JWT.
+   *  Client Metadata Description: JSON array containing a list of the
+      JWS signing algorithms supported by the Client for signing the
+      Client Attestation JWT.
 
    *  Change Controller: IETF
 
-   *  Reference: Section 9 of this specification
+   *  Specification Document(s): Section 9 of this specification
 
 
 
-   *  Metadata Name: client_attestation_pop_methods_supported
+   *  Client Metadata Name:
+      client_attestation_pop_signing_alg_values_supported
 
-   *  Metadata Description: JSON array of strings, each identifying a
-      Proof of Possession method supported by the Client.
+   *  Client Metadata Description: JSON array containing a list of the
+      JWS signing algorithms supported by the Client for signing the
+      Client Attestation PoP JWT.
 
    *  Change Controller: IETF
 
-   *  Reference: Section 9 of this specification
+   *  Specification Document(s): Section 9 of this specification
 
-14.6.  OAuth Client Attestation Proof-of-Possession Methods Registry
+
+
+   *  Client Metadata Name: client_attestation_pop_methods_supported
+
+   *  Client Metadata Description: JSON array of strings, each
+      identifying a Proof of Possession method supported by the Client.
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): Section 9 of this specification
+
+15.5.  OAuth Client Attestation Proof-of-Possession Methods Registry
 
    This specification establishes the IANA "OAuth Client Attestation
    Proof-of-Possession Methods" registry.  This registry lists the Proof
    of Possession methods that a Client may use to demonstrate possession
    of the Client Instance Key, referenced by the
    client_attestation_pop_methods_supported metadata parameter defined
-   in Section 7.6.
+   in Section 7.6 and Section 9.
 
    Client Attestation Proof-of-Possession Methods are registered by
    Specification Required [RFC8126] after a two-week review period on
@@ -1643,7 +1707,7 @@ Table of Contents
    designated experts early, so any identified issues can be fixed
    before the final specification is published.
 
-14.6.1.  Registration Template
+15.5.1.  Registration Template
 
    *  Method Name: The name of the Proof of Possession method, a case-
       sensitive ASCII string.
@@ -1653,10 +1717,10 @@ Table of Contents
    *  Change Controller: For values registered by this specification,
       IETF.
 
-   *  Reference: A reference to the specification that defines the
-      mechanism.
+   *  Specification document(s): A reference to the specification that
+      defines the mechanism.
 
-14.6.2.  Initial Registry Content
+15.5.2.  Initial Registry Content
 
    *  Method Name: attestation_pop_jwt
 
@@ -1665,7 +1729,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 5.1 of this specification
+   *  Specification document(s): Section 5.1 of this specification
 
 
 
@@ -1677,7 +1741,7 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 5.2 of this specification
+   *  Specification document(s): Section 5.2 of this specification
 
 
 
@@ -1689,9 +1753,9 @@ Table of Contents
 
    *  Change Controller: IETF
 
-   *  Reference: Section 7.6 of this specification
+   *  Specification document(s): Section 7.6 of this specification
 
-14.7.  Registration of attest_jwt_client_auth Token Endpoint
+15.6.  Registration of attest_jwt_client_auth Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth" in the IANA
@@ -1703,9 +1767,9 @@ Table of Contents
 
    *  Change Controller: IESG
 
-   *  Specification Document(s): Section 8 of this specification
+   *  Specification Document(s): Section 7.5 of this specification
 
-14.8.  Registration of attest_jwt_client_auth_dpop Token Endpoint
+15.7.  Registration of attest_jwt_client_auth_dpop Token Endpoint
        Authentication Method
 
    This section registers the value "attest_jwt_client_auth_dpop" in the
@@ -1720,7 +1784,7 @@ Table of Contents
 
    *  Specification Document(s): Section 5.2 of this specification
 
-14.9.  HTTP Field Name Registration
+15.8.  HTTP Field Name Registration
 
    This section requests registration of the following scheme in the
    "Hypertext Transfer Protocol (HTTP) Field Name Registry"
@@ -1732,7 +1796,7 @@ Table of Contents
 
    *  Structured Type: Item
 
-   *  Reference: Section 4 of this specification
+   *  Specification document(s): Section 4 of this specification
 
 
 
@@ -1742,7 +1806,7 @@ Table of Contents
 
    *  Structured Type: Item
 
-   *  Reference: Section 5.1 of this specification
+   *  Specification document(s): Section 5.1 of this specification
 
 
 
@@ -1752,11 +1816,114 @@ Table of Contents
 
    *  Structured Type: Item
 
-   *  Reference: Section 6 of this specification
+   *  Specification document(s): Section 6.2 of this specification
 
-15.  References
+15.9.  Media Type Registration
 
-15.1.  Normative References
+   This section requests registration of the following media types
+   [RFC2046] in the "Media Types" registry [IANA.MediaTypes] in the
+   manner described in [RFC6838].
+
+   To indicate that the content is a Client Attestation JWT as defined
+   by this specification:
+
+   *  Type name: application
+
+   *  Subtype name: oauth-client-attestation+jwt
+
+   *  Required parameters: n/a
+
+   *  Optional parameters: n/a
+
+   *  Encoding considerations: 8bit; JWT values are encoded as a series
+      of base64url encoded values (some of which may be the empty
+      string) separated by period ('.') characters.
+
+   *  Security considerations: See Section 12 of this specification
+
+   *  Interoperability considerations: n/a
+
+   *  Published specification: this specification
+
+   *  Applications that use this media type: Applications using this
+      specification to convey a Client Attestation
+
+   *  Fragment identifier considerations: n/a
+
+   *  Additional information: n/a
+
+   *  Person & email address to contact for further information: OAuth
+      WG mailing list, oauth@ietf.org
+
+   *  Intended usage: COMMON
+
+   *  Restrictions on usage: none
+
+   *  Author: OAuth WG mailing list, oauth@ietf.org
+
+   *  Change controller: IETF
+
+   *  Provisional registration?  No
+
+   To indicate that the content is a Client Attestation PoP JWT as
+   defined by this specification:
+
+   *  Type name: application
+
+   *  Subtype name: oauth-client-attestation-pop+jwt
+
+   *  Required parameters: n/a
+
+   *  Optional parameters: n/a
+
+   *  Encoding considerations: 8bit; JWT values are encoded as a series
+      of base64url encoded values (some of which may be the empty
+      string) separated by period ('.') characters.
+
+   *  Security considerations: See Section 12 of this specification
+
+   *  Interoperability considerations: n/a
+
+   *  Published specification: this specification
+
+   *  Applications that use this media type: Applications using this
+      specification for updated status information of tokens
+
+   *  Fragment identifier considerations: n/a
+
+   *  Additional information: n/a
+
+   *  Person & email address to contact for further information: OAuth
+      WG mailing list, oauth@ietf.org
+
+   *  Intended usage: COMMON
+
+   *  Restrictions on usage: none
+
+   *  Author: OAuth WG mailing list, oauth@ietf.org
+
+   *  Change controller: IETF
+
+   *  Provisional registration?  No
+
+15.10.  JSON Web Token Claims Registration
+
+   This specification requests registration of the following value in
+   the IANA "JSON Web Token (JWT) Claims" registry [IANA.JWT.Claims]
+   established by [RFC7519].
+
+   *  Claim Name: challenge
+
+   *  Claim Description: Server-provided challenge for use in a proof of
+      possession
+
+   *  Change Controller: IETF
+
+   *  Specification Document(s): Section 5.1 of this specification
+
+16.  References
+
+16.1.  Normative References
 
    [IANA.HTTP.Fields]
               IANA, "Hypertext Transfer Protocol (HTTP) Field Name
@@ -1768,10 +1935,24 @@ Table of Contents
               n.d., <https://www.iana.org/assignments/jose/
               jose.xhtml#web-signature-encryption-algorithms>.
 
+   [IANA.JWT.Claims]
+              IANA, "JSON Web Token (JWT) Claims", n.d.,
+              <https://www.iana.org/assignments/jwt/jwt.xhtml#claims>.
+
+   [IANA.MediaTypes]
+              IANA, "Media Types", n.d.,
+              <https://www.iana.org/assignments/media-types/media-
+              types.xhtml>.
+
    [IANA.OAuth.Params]
               IANA, "OAuth Parameters", n.d.,
               <https://www.iana.org/assignments/oauth-parameters/oauth-
               parameters.xhtml>.
+
+   [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
+              Extensions (MIME) Part Two: Media Types", RFC 2046,
+              DOI 10.17487/RFC2046, November 1996,
+              <https://www.rfc-editor.org/rfc/rfc2046>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1786,6 +1967,11 @@ Table of Contents
               Framework: Bearer Token Usage", RFC 6750,
               DOI 10.17487/RFC6750, October 2012,
               <https://www.rfc-editor.org/rfc/rfc6750>.
+
+   [RFC6838]  Freed, N., Klensin, J., and T. Hansen, "Media Type
+              Specifications and Registration Procedures", BCP 13,
+              RFC 6838, DOI 10.17487/RFC6838, January 2013,
+              <https://www.rfc-editor.org/rfc/rfc6838>.
 
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
@@ -1848,7 +2034,7 @@ Table of Contents
               DOI 10.17487/RFC9728, April 2025,
               <https://www.rfc-editor.org/rfc/rfc9728>.
 
-15.2.  Informative References
+16.2.  Informative References
 
    [CIBA]     "OpenID Connect Client-Initiated Backchannel
               Authentication Flow - Core 1.0", n.d.,
@@ -1888,12 +2074,16 @@ Appendix A.  Document History
    *  remove duplication challenge verification in Verifivation of
       Client Attestation PoP JWT
 
+   *  fix IANA registry entries
+
    *  remove duplication challenge verification in Verification of
       Client Attestation PoP JWT
 
    *  add Client Metadata section defining for use by Clients
 
    *  register the new client metadata parameters in the IANA registry
+
+   *  add considerations for profiling this draft
 
    *  mention that RFC7521 is not used
 
