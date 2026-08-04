@@ -274,7 +274,7 @@ This specification defines two options for the proof of possession:
 - A Client Attestation PoP JWT, introduced by this specification
 - Utilizing DPoP as defined in {{RFC9449}}
 
-Other specifications or profiles may define additional proof of possession mechanisms for use with the Client Attestation. Any such mechanism MUST demonstrate possession of the private key corresponding to the key in the `cnf` claim of the Client Attestation JWT and MUST define how a Challenge (see [](#challenges)) is incorporated into the proof of possession. Such specifications are also expected to register their own token endpoint authentication method value, analogous to `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop` (see [](#as-metadata)).
+Other specifications or profiles may define additional proof of possession mechanisms for use with the Client Attestation. Any such mechanism MUST demonstrate possession of the private key corresponding to the key in the `cnf` claim of the Client Attestation JWT and MUST define how server-provided freshness is achieved, either by incorporating a Challenge (see [](#challenges)) into the proof of possession or by an equivalent mechanism native to that proof of possession mechanism. Such specifications are also expected to register their own token endpoint authentication method value, analogous to `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop` (see [](#as-metadata)).
 
 ## Client Attestation PoP JWT {#client-attestation-pop-jwt}
 
@@ -346,7 +346,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
 
 This section defines an optimization that allows a single Proof of Possession (PoP) JWT to satisfy the role of both (a) the Client Attestation PoP defined in this specification and (b) the DPoP proof defined in {{RFC9449}} for sender-constrained access tokens. In this "combined mode" the Client Instance Key and the DPoP Key are the same asymmetric key pair, and a request using the mechanism carries only one PoP, the DPoP proof, instead of two separate PoP JWTs (the DPoP proof and Client Attestation PoP JWT).
 
-Note when authorization code binding as defined in {{Section 10 of RFC9449}} is used, this mode only works with the DPoP Proof header containing a proof of possession and not `dpop_jkt`. When using `dpop_jkt`, the normal mode has to be used.
+Note that combined mode requires an actual DPoP proof to be presented, since the DPoP proof also serves as the Client Attestation PoP; the `dpop_jkt` authorization request parameter defined in {{Section 10 of RFC9449}} cannot substitute for it. A Client that binds the authorization code using `dpop_jkt` without presenting a DPoP proof therefore uses the normal mode.
 
 Note that DPoP {{RFC9449}} can also be used alongside the Client Attestation PoP JWT without this combined mode. In this case, the DPoP proof is validated according to {{RFC9449}} independently of this specification and its public key is not required to match the key in the `cnf` claim of the Client Attestation JWT (see [](#verification)).
 
@@ -354,6 +354,8 @@ The following rules apply to the DPoP proof as defined in {{RFC9449}}:
 
 1. The DPoP proof MUST adhere to {{RFC9449}}
 2. The public key located in the DPoP proof MUST match the public key located in the `cnf` claim of the Client Attestation JWT.
+
+In combined mode, the Challenge mechanisms defined by this specification (the `challenge` claim and the `OAuth-Client-Attestation-Challenge` HTTP header field, see [](#challenges)) are not used for the DPoP proof. Instead, server-provided freshness and replay protection rely solely on the DPoP nonce mechanism defined in {{Section 8 of RFC9449}} and {{Section 9 of RFC9449}}: the server provides a nonce that the Client includes in the `nonce` claim of the DPoP proof. In addition to the means defined by {{RFC9449}}, a server that supports DPoP with server-provided nonces provides a fresh DPoP nonce in the response of the challenge endpoint as described in [](#challenge-endpoint), allowing the Client to obtain a nonce proactively.
 
 The following non-normative example shows a token request using combined mode (line breaks for display only):
 
@@ -389,11 +391,12 @@ Payload:
   "htm": "POST",
   "htu": "https://as.example.com/token",
   "iat": 1700000000,
-  "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9"
+  "jti": "7c20c3e2-0f52-4f74-81a5-5c7b83a7a1f9",
+  "nonce": "eyJ7S_zG.eyJH0-Z.HX4w-7v"
 }
 ~~~
 
-Note that additional claims may be present in the DPoP proof depending on the context, as required by {{RFC9449}}.
+Note that additional claims may be present in the DPoP proof depending on the context, as required by {{RFC9449}}. The `nonce` claim is present when the server provides DPoP nonces, either through the means defined in {{RFC9449}} or through the challenge endpoint (see [](#challenge-endpoint)).
 
 # Challenges {#challenges}
 
@@ -401,7 +404,8 @@ This section defines optional mechanisms that allow a Client to receive a fresh 
 
 ## Providing Challenges through the Challenge Endpoint {#challenge-endpoint}
 
-The Authorization Server or Resource Server MAY offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the Client Attestation PoP JWT or DPoP Proof as defined in [](#pop).
+The Authorization Server or Resource Server MAY offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt).
+If the challenge endpoint response contains a `DPoP-Nonce` HTTP header field, a Client using DPoP MUST use its value as the `nonce` in subsequent DPoP proofs as defined in {{RFC9449}}.
 
 A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata. The following is a non-normative example of a request:
 
@@ -413,7 +417,9 @@ Accept: application/json
 
 The Authorization Server or Resource Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:
 
-* attestation_challenge: REQUIRED if the Authorization Server or Resource Server supports Client Attestations and server-provided challenges as described in this document. String containing a Challenge to be used in the Client Attestation PoP JWT or DPoP Proof as defined in [](#pop). The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.
+* attestation_challenge: REQUIRED if the Authorization Server or Resource Server supports Client Attestations and server-provided challenges as described in this document. String containing a Challenge to be used in the Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt). The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.
+
+If the server supports DPoP {{RFC9449}} with server-provided nonces, the response MUST additionally include a fresh DPoP nonce in the `DPoP-Nonce` HTTP header field as defined in {{RFC9449}}. This allows a Client to obtain a DPoP nonce proactively, without the additional round trip caused by a `use_dpop_nonce` error, both when using the DPoP combined mode (see [](#dpop-combined-mode)) and when using DPoP independently of this specification.
 
 The Authorization Server or Resource Server MUST make the response uncacheable by adding a `Cache-Control` header field including the value `no-store`. The Authorization Server or Resource Server MAY add additional challenges or data.
 
@@ -424,15 +430,21 @@ HTTP/1.1 200 OK
 Host: as.example.com
 Content-Type: application/json
 Cache-Control: no-store
+DPoP-Nonce: eyJ7S_zG.eyJH0-Z.HX4w-7v
 
 {
   "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
 }
 ~~~
 
+The `DPoP-Nonce` HTTP header field in this example is only present if the server supports DPoP with server-provided nonces.
+The `attestation_challenge` parameter is only present if the server supports Client Attestations and server-provided challenges (i.e., this endpoint can also be used to provide only DPoP nonces).
+
 ## Providing Challenges on Previous Responses {#challenge-in-response}
 
 The Authorization Server or Resource Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.
+
+This mechanism applies only to the Client Attestation PoP JWT. For DPoP proofs, including the DPoP combined mode (see [](#dpop-combined-mode)), servers provide fresh nonces on responses using the `DPoP-Nonce` HTTP header field as defined in {{RFC9449}}.
 
 The following is a non-normative example of an Authorization Response containing a fresh Challenge:
 
@@ -456,7 +468,8 @@ This section defines the verification and processing rules for the proof of poss
 An Authorization Server MAY support both `attest_jwt_client_auth` and `attest_jwt_client_auth_dpop` and distinguish them by the following rules:
 
 - If the request contains an `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-client-attestation-pop-jwt) and if present, a DPoP proof present in the request is validated according to {{RFC9449}} independently of this specification.
-- If no `OAuth-Client-Attestation-PoP` HTTP request header field is present, but a DPoP proof is, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
+- If an `OAuth-Client-Attestation` HTTP request header field and a DPoP proof are present, but no `OAuth-Client-Attestation-PoP` HTTP request header field, the receiving server MUST apply the validation rules of [](#verification-dpop-combined).
+- If the request contains an `OAuth-Client-Attestation` header field and a DPoP proof, but no OAuth-Client-Attestation-PoP header field, and the Authorization Server does not support `attest_jwt_client_auth_dpop`, it MUST reject the request (see [](#errors)).
 
 ## Client Attestation JWT {#verification-client-attestation-jwt}
 
@@ -493,17 +506,16 @@ To validate a request using DPoP combined mode, the receiving server MUST perfor
 
 1. There is no `OAuth-Client-Attestation-PoP` HTTP request header field present in the request.
 1. There is precisely one `DPoP` HTTP request header field present in the request.
-1. Validate the DPoP proof in accordance with {{RFC9449}}.
-1. The public key in the `jwk` header parameter of the DPoP proof MUST be identical to the public key in the `cnf` claim of the Client Attestation JWT.
-1. If the Client received a challenge through the Authorization Server's challenge endpoint or within previous responses as described in [](#challenges), it MUST match the nonce payload claim of the DPoP proof.
+1. Validate the DPoP proof in accordance with {{RFC9449}}. If the server provides DPoP nonces, this includes validating that the `nonce` claim of the DPoP proof contains a valid nonce provided by the server, whether it was provided via the `DPoP-Nonce` HTTP header field as defined in {{RFC9449}} or via the challenge endpoint as described in [](#challenge-endpoint).
+1. The public key in the `jwk` header parameter of the DPoP proof MUST be identical to the public key in the `cnf` claim of the Client Attestation JWT. Note that this doesn't mean the comparison of a canonical representation of the JWK, but a check via JWK thumbprint or by comparing the required members per key type (e.g., kty, curve, x, y).
 
 ## Errors {#errors}
 
 When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in {{Section 5.2 of RFC6749}}) or Resource Server error responses (as defined in {{Section 3 of RFC6750}}).
 
-- `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)).
+- `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used, this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)). If the combined mode as defined in [](#dpop-combined-mode) is used and the DPoP proof does not contain an expected server-provided nonce, the DPoP error `use_dpop_nonce` MUST be used instead and a fresh nonce provided in the `DPoP-Nonce` HTTP header field of the response, as defined in {{RFC9449}}.
 - `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
-- `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the proof of possession is not supported.
+- `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the public keys of the Client Attestation JWT and the proof of possession don't match, or the proof of possession is not supported.
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions of when to return suitable Error Responses.
 
@@ -676,6 +688,8 @@ Authorization Server or Resource Servers implementing measures to detect replay 
 - delete `challenge` or `jti` values after they have passed the sliding time window
 
 A trie (also called prefix tree), or a patricia trie (also called radix tree) are RECOMMENDED data structures to implement such a mechanism. Note that this seen-values mechanism is only needed when replay detection relies on a `jti` value or on a `challenge` obtained from the challenge endpoint. When the Authorization Server or Resource Server issues a challenge bound to a specific Client Instance session (see [](#security-consideration-replay)), it can instead validate the Client Attestation PoP against the single challenge value expected for that session, without maintaining a seen-values data structure.
+
+Note that for the combined mode, the `nonce` and `jti` claims of the DPoP proof are used instead of the `challenge` and `jti` claims of the Client Attestation PoP.
 
 ## Trust Management and Key Resolution
 
@@ -1009,6 +1023,10 @@ This specification requests registration of the following value in the IANA "JSO
 
 -11
 
+* combined mode now exclusively uses the DPoP nonce mechanism
+* allow the challenge endpoint response to convey a DPoP nonce
+* add clarifications on AS combined mode handling & errors
+* remove duplication challenge verification in Verifivation of Client Attestation PoP JWT
 * fix IANA registry entries
 * remove duplication challenge verification in Verification of Client Attestation PoP JWT
 * add Client Metadata section defining for use by Clients
