@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-04T00:29:00.270543+00:00",
+  "timestamp": "2026-08-06T00:24:37.330614+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5308,7 +5308,7 @@
       "id": "I_kwDOJaEkaM8AAAABI3WvFQ",
       "title": "RS metadata registration is incomplete",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/213",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [
@@ -5319,8 +5319,8 @@
       ],
       "body": "",
       "createdAt": "2026-07-15T06:19:52Z",
-      "updatedAt": "2026-07-30T09:03:10Z",
-      "closedAt": null,
+      "updatedAt": "2026-08-04T10:22:23Z",
+      "closedAt": "2026-08-04T10:22:23Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -16544,24 +16544,26 @@
       "id": "PR_kwDOJaEkaM71cWZ3",
       "title": "add clarifications for combined mode",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/215",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Clarifies combined mode implications, error handling, etc.\r\n\r\nChanges the DPoP nonce handling to rely purely on the native DPoP mechanism (feedback received at IETF 126) @panva ",
       "createdAt": "2026-07-23T15:30:34Z",
-      "updatedAt": "2026-08-03T20:17:50Z",
+      "updatedAt": "2026-08-04T11:18:44Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
-      "baseRefOid": "0d02715c0d883cca3f2330e76508cd6bdec8f35c",
+      "baseRefOid": "a6a9897ea33f44ce6c2fe077aa9473a837fe0b47",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "c2bo/fixes-for-as",
-      "headRefOid": "eb1c435a03a5083d2875e1dee80b1d0701180501",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "28512a398625bf2180a62c1f04d76cdc9e471c85",
+      "closedAt": "2026-08-04T11:18:44Z",
+      "mergedAt": "2026-08-04T11:18:44Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "98fd08a83c5cbb1951b70c53fa852bc6349449dc"
+      },
       "comments": [
         {
           "author": "c2bo",
@@ -16997,24 +16999,26 @@
       "id": "PR_kwDOJaEkaM75M1bW",
       "title": "fix all IANA entries (hopefully)",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/220",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "c2bo",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Closes #213 ",
       "createdAt": "2026-07-31T21:02:17Z",
-      "updatedAt": "2026-08-03T20:19:00Z",
+      "updatedAt": "2026-08-04T10:22:22Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "0c9d2718d58643d5b14d672ab1fa0c5f14aff0df",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "c2bo/fix-iana-registrations",
       "headRefOid": "bad0ee5d97384d02fc8fb4dddae5a836eb189471",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-08-04T10:22:22Z",
+      "mergedAt": "2026-08-04T10:22:22Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "a6a9897ea33f44ce6c2fe077aa9473a837fe0b47"
+      },
       "comments": [],
       "reviews": [
         {
