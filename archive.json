@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-06T00:24:37.330614+00:00",
+  "timestamp": "2026-08-09T00:13:33.668060+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5343,7 +5343,7 @@
       "labels": [],
       "body": "After reading the spec, there are some open questions about the `challenge` when using challenge endpoint.\n\nThe client does not know the usage policy for the challenges of the AS, i.e., max lifetime, single-usage, and the spec does not explicitly disallow using the same challenge twice. As a result, the client is left with a heuristic such as: \"get a challenge first, and use this challenge until AS complains..\".\n\n**Is it acceptable to use a challenge twice?\nShould the client call the challenge endpoint for each new OAuth2 flow, or for every DPoP proof?**\n\nIf the AS provides challenges in previous responses (6.1), this works, because the client receives a new challenge anytime the AS wants the client to use a new one with the `use_attestation_challenge`.\n\nWhen an AS **only** supports the challenge endpoint, there is currently no way to signal to the client that it should call the challenge endpoint to get a new one (because the provided challenge is no longer accepted).\n\n**How to signal that the client should call the challenge endpoint?**\n\nPossible solutions:\n1. Change the `use_attestation_challenge` error so that when no new challenge is given in the header, the client should call the challenge endpoint.\n2. Add a new error, `use_challenge_endpoint`, to indicate that the client needs a new challenge from the challenge endpoint.\n",
       "createdAt": "2026-07-28T14:39:52Z",
-      "updatedAt": "2026-07-29T11:24:22Z",
+      "updatedAt": "2026-08-07T13:59:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -5352,6 +5352,13 @@
           "body": "My thoughts on this:\n- we should relax the language of `When used this error code MUST be accompanied by the OAuth-Client-Attestation-Challenge HTTP header field parameter` to MAY\n- should the challenge only be used for freshness and the `jti` for replay detection?\n  - likely no, because [Providing Challenges on Previous Responses](https://drafts.oauth.net/draft-ietf-oauth-attestation-based-client-auth/draft-ietf-oauth-attestation-based-client-auth.html#name-providing-challenges-on-pre) allows us to have session-bound challenges, while that's not possible with challenge endpoint or `jti`\n- should the challenges be accompanied by an `expires_in`?\n  - I would say no, because my thinking is that challenge should always be fetched ad-hoc, because that's the main benefit over `jti`, but this language/idea/requirement is somewhat missing in the draft",
           "createdAt": "2026-07-29T11:24:22Z",
           "updatedAt": "2026-07-29T11:24:22Z"
+        },
+        {
+          "author": "mickrau",
+          "authorAssociation": "NONE",
+          "body": "> we should relax the language of When used this error code MUST be accompanied by the OAuth-Client-Attestation-Challenge HTTP header field parameter to MAY\n\nI would prefer a dedicated error code `use_attestation_challenge`, but it could also be done this way.\n\n> should the challenge only be used for freshness and the jti for replay detection?\n\nThis COULD be a valid implementation especially when the challenge endpoint is some kind of separated component in the AS. But it is not a Must.\n\n> should the challenges be accompanied by an expires_in?\n\nThis would give the client more information about when to request a new challenge, reducing the likelihood of extra error-handling rounds.\n\n**In addition to my initial post:**\nWhen reading the current spec, I was initially thinking that when I want to support challenges, I can either implement it as described in 6.1 (challenge endpoint) or 6.2 (challenge in error response), or both.\nHowever, it seems that 6.2 is mandatory, while 6.1 is optional. This should be made clear and could discourage AS implementers from implementing 6.1 anyway.",
+          "createdAt": "2026-08-07T13:58:22Z",
+          "updatedAt": "2026-08-07T13:59:24Z"
         }
       ]
     }
