@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-11T00:13:57.612414+00:00",
+  "timestamp": "2026-08-20T00:08:55.117388+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5343,7 +5343,7 @@
       "labels": [],
       "body": "After reading the spec, there are some open questions about the `challenge` when using challenge endpoint.\n\nThe client does not know the usage policy for the challenges of the AS, i.e., max lifetime, single-usage, and the spec does not explicitly disallow using the same challenge twice. As a result, the client is left with a heuristic such as: \"get a challenge first, and use this challenge until AS complains..\".\n\n**Is it acceptable to use a challenge twice?\nShould the client call the challenge endpoint for each new OAuth2 flow, or for every DPoP proof?**\n\nIf the AS provides challenges in previous responses (6.1), this works, because the client receives a new challenge anytime the AS wants the client to use a new one with the `use_attestation_challenge`.\n\nWhen an AS **only** supports the challenge endpoint, there is currently no way to signal to the client that it should call the challenge endpoint to get a new one (because the provided challenge is no longer accepted).\n\n**How to signal that the client should call the challenge endpoint?**\n\nPossible solutions:\n1. Change the `use_attestation_challenge` error so that when no new challenge is given in the header, the client should call the challenge endpoint.\n2. Add a new error, `use_challenge_endpoint`, to indicate that the client needs a new challenge from the challenge endpoint.\n",
       "createdAt": "2026-07-28T14:39:52Z",
-      "updatedAt": "2026-08-10T21:15:32Z",
+      "updatedAt": "2026-08-18T06:13:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -5373,6 +5373,13 @@
           "body": "I agree, that the current design works and that the alternatives all come with some drawbacks.\n\n> Always provide fresh challenge on error\nOptional challenge endpoint that is clearly signaled by metadata --> client knows what to expect\n\nThat\u2019s a good summary. Unfortunately, that wasn't my understanding after my first read-through of Chapter 6.\nPerhaps we could clarify this in the introduction of Chapter 6?\n\nInstead of saying \"This section defines optional mechanisms,\" we should clarify that while challenge support itself is optional, once an AS/RS supports challenges, the previous response mechanism is mandatory (and only the challenge endpoint is optional).\n\nSwitching Sections 6.1 and 6.2 might also help.\n",
           "createdAt": "2026-08-10T21:11:15Z",
           "updatedAt": "2026-08-10T21:15:32Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors call:\n- leave the challenge as a MUST in the use_attestation_challenge error\n- add consideration of reusing client attestation if used at PAR and Token endpoint\n- no expires_in for challenge endpoint",
+          "createdAt": "2026-08-18T06:13:45Z",
+          "updatedAt": "2026-08-18T06:13:45Z"
         }
       ]
     }
