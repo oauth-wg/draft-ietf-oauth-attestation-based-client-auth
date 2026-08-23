@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-20T00:08:55.117388+00:00",
+  "timestamp": "2026-08-23T00:09:05.058527+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -17134,6 +17134,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 221,
+      "id": "PR_kwDOJaEkaM8AAAABAa1ZWA",
+      "title": "Clarify Challenge endpoint",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/221",
+      "state": "OPEN",
+      "author": "paulbastian",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #218 ",
+      "createdAt": "2026-08-20T13:09:38Z",
+      "updatedAt": "2026-08-20T13:09:38Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "98fd08a83c5cbb1951b70c53fa852bc6349449dc",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "pb/challenges2",
+      "headRefOid": "59757fef655c22b9e3440914898bfe5fb980744f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
