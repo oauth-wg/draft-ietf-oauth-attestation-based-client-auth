@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-23T00:09:05.058527+00:00",
+  "timestamp": "2026-08-30T00:20:55.042438+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -17147,7 +17147,7 @@
       "labels": [],
       "body": "Closes #218 ",
       "createdAt": "2026-08-20T13:09:38Z",
-      "updatedAt": "2026-08-20T13:09:38Z",
+      "updatedAt": "2026-08-28T17:43:12Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "98fd08a83c5cbb1951b70c53fa852bc6349449dc",
@@ -17159,7 +17159,66 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABKZAlPA",
+          "commit": {
+            "abbreviatedOid": "59757fe"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-21T10:17:41Z",
+          "updatedAt": "2026-08-27T14:35:21Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\nThis mechanism applies only to the Client Attestation PoP JWT. In the DPoP combined mode (see [](#dpop-combined-mode)), the `use_dpop_nonce` error and the `DPoP-Nonce` HTTP header field defined in {{RFC9449}} are used instead, see [](#errors). The challenge endpoint MAY be utilized to provide `DPoP-Nonce` HTTP header field.\n```",
+              "createdAt": "2026-08-21T10:17:41Z",
+              "updatedAt": "2026-08-27T14:35:21Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\n- MAY provide a Challenge in any HTTP response as described in [](#challenge-in-response)\n- MAY provide a Challenge at the challenge endpoint as described in [](#challenge-endpoint)\n- MUST provide a Challenge when returning an `use_attestation_challenge` error defined in [](#errors)\n```",
+              "createdAt": "2026-08-27T14:31:00Z",
+              "updatedAt": "2026-08-27T14:35:21Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\nA Client MUST include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt), irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in [](#challenge-in-response).\nA Client that does not hold a Challenge SHOULD obtain a Challenge from the challenge endpoint rather than sending a request without a Challenge and relying on the resulting error response.\nA Client MAY use the same Challenge in more than one Client Attestation PoP JWT. If the Authorization Server or Resource Server accepts a Challenge only once, it rejects the second use with the `use_attestation_challenge` error as defined in [](#errors) and provides a fresh Challenge in that response.\nUpon receiving a `use_attestation_challenge` error, a Client SHOULD retry the request once, using a newly created Client Attestation PoP JWT containing the Challenge provided with that error response. A Client MUST NOT retry indefinitely.\n```",
+              "createdAt": "2026-08-27T14:34:24Z",
+              "updatedAt": "2026-08-27T15:16:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABLTKY7g",
+          "commit": {
+            "abbreviatedOid": "59757fe"
+          },
+          "author": "mickrau",
+          "authorAssociation": "NONE",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2026-08-28T16:59:37Z",
+          "updatedAt": "2026-08-28T17:43:12Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "I only changed the second sentence (line 412) of Christian's suggestion to make it clear that challenge endpoint support is a precondition.\n\n```suggestion\nA Client MUST include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt), irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in [](#challenge-in-response).\nIf the Authorization Server or Resource Server provides a challenge endpoint as defined in [](#challenge-endpoint), a Client that does not hold a Challenge SHOULD obtain a Challenge from that endpoint rather than sending a request without a Challenge and relying on the resulting error response.\nA Client MAY use the same Challenge in more than one Client Attestation PoP JWT. If the Authorization Server or Resource Server accepts a Challenge only once, it rejects the second use with the `use_attestation_challenge` error as defined in [](#errors) and provides a fresh Challenge in that response.\nUpon receiving a `use_attestation_challenge` error, a Client SHOULD retry the request once, using a newly created Client Attestation PoP JWT containing the Challenge provided with that error response. A Client MUST NOT retry indefinitely.\n```",
+              "createdAt": "2026-08-28T16:59:37Z",
+              "updatedAt": "2026-08-28T17:43:12Z"
+            },
+            {
+              "originalPosition": 61,
+              "body": "`provide` seems like the better choice to me.\n\n```suggestion\nThe Authorization Server or Resource Server MAY provide a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value.\n```",
+              "createdAt": "2026-08-28T17:37:55Z",
+              "updatedAt": "2026-08-28T17:43:12Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
