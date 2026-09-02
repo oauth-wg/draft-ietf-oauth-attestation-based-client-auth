@@ -22,7 +22,7 @@
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.3
+    platformdirs 4.11.5
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
@@ -1042,11 +1042,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">August 2026</td>
+<td class="right">September 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 21 February 2027</td>
+<td class="center">Expires 6 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1059,12 +1059,12 @@ svg {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-20" class="published">20 August 2026</time>
+<time datetime="2026-09-02" class="published">2 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-21">21 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-06">6 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1745,7 +1745,10 @@ grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
           <p id="section-6-3.3.1"><span class="bcp14">MAY</span> provide a Challenge at the <span class="bcp14">OPTIONAL</span> challenge endpoint described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a>.<a href="#section-6-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-6-4">A Client <span class="bcp14">MUST</span> include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a>, irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>. A Client that does not hold a Challenge <span class="bcp14">SHOULD</span> obtain a Challenge from the challenge endpoint rather than sending a request without a Challenge and relying on the resulting error response. A Challenge received in a response supersedes any Challenge the Client holds, irrespective of how either was obtained. A Client <span class="bcp14">MAY</span> use the same Challenge in more than one Client Attestation PoP JWT. If the Authorization Server or Resource Server accepts a Challenge only once, it rejects the second use with the <code>use_attestation_challenge</code> error as defined in <a href="#errors" class="auto internal xref">Section 7.4</a> and provides a fresh Challenge in that response. Upon receiving a <code>use_attestation_challenge</code> error, a Client <span class="bcp14">SHOULD</span> retry the request once, using a newly created Client Attestation PoP JWT containing the Challenge provided with that error response. A Client <span class="bcp14">MUST NOT</span> retry indefinitely.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-4">A Client <span class="bcp14">MUST</span> include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a>, irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>.
+If the Authorization Server or Resource Server provides a challenge endpoint as defined in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a>, a Client that does not hold a Challenge <span class="bcp14">SHOULD</span> obtain a Challenge from that endpoint rather than sending a request without a Challenge and relying on the resulting error response.
+A Client <span class="bcp14">MAY</span> use the same Challenge in more than one Client Attestation PoP JWT. If the Authorization Server or Resource Server accepts a Challenge only once, it rejects the second use with the <code>use_attestation_challenge</code> error as defined in <a href="#errors" class="auto internal xref">Section 7.4</a> and provides a fresh Challenge in that response.
+Upon receiving a <code>use_attestation_challenge</code> error, a Client <span class="bcp14">SHOULD</span> retry the request once, using a newly created Client Attestation PoP JWT containing the Challenge provided with that error response. A Client <span class="bcp14">MUST NOT</span> retry indefinitely.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5">This mechanism applies only to the Client Attestation PoP JWT. In the DPoP combined mode (see <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a>), the <code>use_dpop_nonce</code> error and the <code>DPoP-Nonce</code> HTTP header field defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> are used instead, see <a href="#errors" class="auto internal xref">Section 7.4</a>. The challenge endpoint <span class="bcp14">MAY</span> be utilized to provided <code>DPoP-Nonce</code> HTTP header field.<a href="#section-6-5" class="pilcrow">¶</a></p>
 <div id="challenge-in-error">
 <section id="section-6.1">

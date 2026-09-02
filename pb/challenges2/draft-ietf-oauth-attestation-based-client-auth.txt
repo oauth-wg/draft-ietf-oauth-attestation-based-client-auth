@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 21 February 2027                                Bundesdruckerei
+Expires: 6 March 2027                                    Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                          20 August 2026
+                                                        2 September 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 February 2027.
+   This Internet-Draft will expire on 6 March 2027.
 
 Copyright Notice
 
@@ -646,20 +646,20 @@ Table of Contents
    by the Authorization Server or Resource Server in the Client
    Attestation PoP JWT as defined in Section 5.1, irrespective of
    whether that Challenge was obtained from the challenge endpoint or
-   from a previous response as described in Section 6.2.  A Client that
-   does not hold a Challenge SHOULD obtain a Challenge from the
-   challenge endpoint rather than sending a request without a Challenge
-   and relying on the resulting error response.  A Challenge received in
-   a response supersedes any Challenge the Client holds, irrespective of
-   how either was obtained.  A Client MAY use the same Challenge in more
-   than one Client Attestation PoP JWT.  If the Authorization Server or
-   Resource Server accepts a Challenge only once, it rejects the second
-   use with the use_attestation_challenge error as defined in
-   Section 7.4 and provides a fresh Challenge in that response.  Upon
-   receiving a use_attestation_challenge error, a Client SHOULD retry
-   the request once, using a newly created Client Attestation PoP JWT
-   containing the Challenge provided with that error response.  A Client
-   MUST NOT retry indefinitely.
+   from a previous response as described in Section 6.2.  If the
+   Authorization Server or Resource Server provides a challenge endpoint
+   as defined in Section 6.3, a Client that does not hold a Challenge
+   SHOULD obtain a Challenge from that endpoint rather than sending a
+   request without a Challenge and relying on the resulting error
+   response.  A Client MAY use the same Challenge in more than one
+   Client Attestation PoP JWT.  If the Authorization Server or Resource
+   Server accepts a Challenge only once, it rejects the second use with
+   the use_attestation_challenge error as defined in Section 7.4 and
+   provides a fresh Challenge in that response.  Upon receiving a
+   use_attestation_challenge error, a Client SHOULD retry the request
+   once, using a newly created Client Attestation PoP JWT containing the
+   Challenge provided with that error response.  A Client MUST NOT retry
+   indefinitely.
 
    This mechanism applies only to the Client Attestation PoP JWT.  In
    the DPoP combined mode (see Section 5.2), the use_dpop_nonce error
