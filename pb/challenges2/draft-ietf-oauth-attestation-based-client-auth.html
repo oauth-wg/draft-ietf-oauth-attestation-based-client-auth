@@ -1736,13 +1736,13 @@ grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
 <p id="section-6-2">A server that uses Challenges:<a href="#section-6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6-3.1">
-          <p id="section-6-3.1.1"><span class="bcp14">MUST</span> provide a Challenge in the <code>use_attestation_challenge</code> error defined in <a href="#errors" class="auto internal xref">Section 7.4</a>,<a href="#section-6-3.1.1" class="pilcrow">¶</a></p>
+          <p id="section-6-3.1.1"><span class="bcp14">MAY</span> provide a Challenge in any HTTP response as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a><a href="#section-6-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-3.2">
-          <p id="section-6-3.2.1"><span class="bcp14">MAY</span> provide a Challenge in any HTTP response as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>, or<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
+          <p id="section-6-3.2.1"><span class="bcp14">MAY</span> provide a Challenge at the challenge endpoint as described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a><a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-3.3">
-          <p id="section-6-3.3.1"><span class="bcp14">MAY</span> provide a Challenge at the <span class="bcp14">OPTIONAL</span> challenge endpoint described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a>.<a href="#section-6-3.3.1" class="pilcrow">¶</a></p>
+          <p id="section-6-3.3.1"><span class="bcp14">MUST</span> provide a Challenge when returning an <code>use_attestation_challenge</code> error defined in <a href="#errors" class="auto internal xref">Section 7.4</a><a href="#section-6-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-6-4">A Client <span class="bcp14">MUST</span> include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a>, irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>.
