@@ -665,7 +665,7 @@ Table of Contents
    the DPoP combined mode (see Section 5.2), the use_dpop_nonce error
    and the DPoP-Nonce HTTP header field defined in [RFC9449] are used
    instead, see Section 7.4.  The challenge endpoint MAY be utilized to
-   provided DPoP-Nonce HTTP header field.
+   provide DPoP-Nonce HTTP header field.
 
 6.1.  Providing Challenges in Errors
 
@@ -722,7 +722,7 @@ Table of Contents
 
 6.3.  Providing Challenges through the Challenge Endpoint
 
-   The Authorization Server or Resource Server MAY offer a challenge
+   The Authorization Server or Resource Server MAY provide a challenge
    endpoint for Clients to fetch Challenges in the context of this
    specification.  If the Authorization Server supports metadata as
    defined in [RFC8414] or the Resource Server supports metadata as
