@@ -404,9 +404,9 @@ Challenges may be used by the Authorization Server or Resource Server to guarant
 
 A server that uses Challenges:
 
+- MUST provide a Challenge when returning an `use_attestation_challenge` error defined in [](#errors)
 - MAY provide a Challenge in any HTTP response as described in [](#challenge-in-response)
 - MAY provide a Challenge at the challenge endpoint as described in [](#challenge-endpoint)
-- MUST provide a Challenge when returning an `use_attestation_challenge` error defined in [](#errors)
 
 A Client MUST include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt), irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in [](#challenge-in-response).
 If the Authorization Server or Resource Server provides a challenge endpoint as defined in [](#challenge-endpoint), a Client that does not hold a Challenge SHOULD obtain a Challenge from that endpoint rather than sending a request without a Challenge and relying on the resulting error response.
