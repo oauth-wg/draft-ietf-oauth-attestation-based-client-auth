@@ -633,14 +633,14 @@ Table of Contents
 
    A server that uses Challenges:
 
+   *  MUST provide a Challenge when returning an
+      use_attestation_challenge error defined in Section 7.4
+
    *  MAY provide a Challenge in any HTTP response as described in
       Section 6.2
 
    *  MAY provide a Challenge at the challenge endpoint as described in
       Section 6.3
-
-   *  MUST provide a Challenge when returning an
-      use_attestation_challenge error defined in Section 7.4
 
    A Client MUST include the most recently received Challenge provided
    by the Authorization Server or Resource Server in the Client
