@@ -413,7 +413,7 @@ If the Authorization Server or Resource Server provides a challenge endpoint as 
 A Client MAY use the same Challenge in more than one Client Attestation PoP JWT. If the Authorization Server or Resource Server accepts a Challenge only once, it rejects the second use with the `use_attestation_challenge` error as defined in [](#errors) and provides a fresh Challenge in that response.
 Upon receiving a `use_attestation_challenge` error, a Client SHOULD retry the request once, using a newly created Client Attestation PoP JWT containing the Challenge provided with that error response. A Client MUST NOT retry indefinitely.
 
-This mechanism applies only to the Client Attestation PoP JWT. In the DPoP combined mode (see [](#dpop-combined-mode)), the `use_dpop_nonce` error and the `DPoP-Nonce` HTTP header field defined in {{RFC9449}} are used instead, see [](#errors). The challenge endpoint MAY be utilized to provided `DPoP-Nonce` HTTP header field.
+This mechanism applies only to the Client Attestation PoP JWT. In the DPoP combined mode (see [](#dpop-combined-mode)), the `use_dpop_nonce` error and the `DPoP-Nonce` HTTP header field defined in {{RFC9449}} are used instead, see [](#errors). The challenge endpoint MAY be utilized to provide `DPoP-Nonce` HTTP header field.
 
 ## Providing Challenges in Errors {#challenge-in-error}
 
@@ -458,7 +458,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 
 ## Providing Challenges through the Challenge Endpoint {#challenge-endpoint}
 
-The Authorization Server or Resource Server MAY offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value.
+The Authorization Server or Resource Server MAY provide a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value.
 
 If the challenge endpoint response contains a `DPoP-Nonce` HTTP header field, a Client using DPoP MUST use its value as the `nonce` in subsequent DPoP proofs as defined in {{RFC9449}}.
 
