@@ -400,11 +400,66 @@ Note that additional claims may be present in the DPoP proof depending on the co
 
 # Challenges {#challenges}
 
-This section defines optional mechanisms that allow a Client to receive a fresh Challenge from the Authorization Server or Resource Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see [](#terminology). The value of the challenge is opaque to the client.
+Challenges may be used by the Authorization Server or Resource Server to guarantee freshness and can be used to detect replay attacks. Support for Challenges is OPTIONAL for the Authorization Server or Resource Server. The lifetime of a Challenge, and whether a Challenge may be used in more than one Client Attestation PoP JWT, are determined solely by the local policy of the Authorization Server or Resource Server. If they are provided, the Client MUST include the Challenge in the proof of possession. The value of the challenge is opaque to the Client.
+
+A server that uses Challenges:
+
+- MUST provide a Challenge when returning an `use_attestation_challenge` error defined in [](#errors)
+- MAY provide a Challenge in any HTTP response as described in [](#challenge-in-response)
+- MAY provide a Challenge at the challenge endpoint as described in [](#challenge-endpoint)
+
+A Client MUST include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt), irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in [](#challenge-in-response).
+If the Authorization Server or Resource Server provides a challenge endpoint as defined in [](#challenge-endpoint), a Client that does not hold a Challenge SHOULD obtain a Challenge from that endpoint rather than sending a request without a Challenge and relying on the resulting error response.
+A Client MAY use the same Challenge in more than one Client Attestation PoP JWT. If the Authorization Server or Resource Server accepts a Challenge only once, it rejects the second use with the `use_attestation_challenge` error as defined in [](#errors) and provides a fresh Challenge in that response.
+Upon receiving a `use_attestation_challenge` error, a Client SHOULD retry the request once, using a newly created Client Attestation PoP JWT containing the Challenge provided with that error response. A Client MUST NOT retry indefinitely.
+
+This mechanism applies only to the Client Attestation PoP JWT. In the DPoP combined mode (see [](#dpop-combined-mode)), the `use_dpop_nonce` error and the `DPoP-Nonce` HTTP header field defined in {{RFC9449}} are used instead, see [](#errors). The challenge endpoint MAY be utilized to provide `DPoP-Nonce` HTTP header field.
+
+## Providing Challenges in Errors {#challenge-in-error}
+
+An Authorization Server that requires a Challenge that the Client did not provide, or that rejects the Challenge contained in the Client Attestation PoP JWT, MUST respond with an HTTP 400 (Bad Request) status code and the error code `use_attestation_challenge` (see [](#errors)). The response MUST include a fresh Challenge in the `OAuth-Client-Attestation-Challenge` HTTP header field.
+
+A Resource Server that requires a Challenge that the Client did not provide, or that rejects the Challenge contained in the Client Attestation PoP JWT, MUST respond with an HTTP 401 (Unauthorized) status code with the error code `use_attestation_challenge` in the `WWW-Authenticate` HTTP header field and a fresh Challenge in the `OAuth-Client-Attestation-Challenge` HTTP header field.
+
+The Client uses the Challenge provided with the error response to retry the request.
+
+The following is a non-normative example of such an error response of an Authorization Server:
+
+~~~ http
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+Cache-Control: no-store
+OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
+
+{
+  "error": "use_attestation_challenge",
+  "error_description": "Authorization Server requires a fresh challenge"
+}
+~~~
+
+## Providing Challenges in Previous Responses {#challenge-in-response}
+
+The Authorization Server or Resource Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field MUST be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge.
+
+The following is a non-normative example of an Authorization Response containing a fresh Challenge:
+
+~~~ http
+HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
+
+{
+  "access_token": "2YotnFZFEjr1zCsicMWpAA",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+~~~
 
 ## Providing Challenges through the Challenge Endpoint {#challenge-endpoint}
 
-The Authorization Server or Resource Server MAY offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client MUST retrieve a challenge and MUST use this challenge in the Client Attestation PoP JWT as defined in [](#client-attestation-pop-jwt).
+The Authorization Server or Resource Server MAY provide a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in {{RFC8414}} or the Resource Server supports metadata as defined in {{RFC9728}}, it MUST signal support for the challenge endpoint by including the metadata entry `challenge_endpoint` containing the URL of the endpoint as its value.
+
 If the challenge endpoint response contains a `DPoP-Nonce` HTTP header field, a Client using DPoP MUST use its value as the `nonce` in subsequent DPoP proofs as defined in {{RFC9449}}.
 
 A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata. The following is a non-normative example of a request:
@@ -439,27 +494,6 @@ DPoP-Nonce: eyJ7S_zG.eyJH0-Z.HX4w-7v
 
 The `DPoP-Nonce` HTTP header field in this example is only present if the server supports DPoP with server-provided nonces.
 The `attestation_challenge` parameter is only present if the server supports Client Attestations and server-provided challenges (i.e., this endpoint can also be used to provide only DPoP nonces).
-
-## Providing Challenges on Previous Responses {#challenge-in-response}
-
-The Authorization Server or Resource Server MAY provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter MUST be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client MUST use this new Challenge for the next OAuth-Client-Attestation-PoP.
-
-This mechanism applies only to the Client Attestation PoP JWT. For DPoP proofs, including the DPoP combined mode (see [](#dpop-combined-mode)), servers provide fresh nonces on responses using the `DPoP-Nonce` HTTP header field as defined in {{RFC9449}}.
-
-The following is a non-normative example of an Authorization Response containing a fresh Challenge:
-
-~~~ http
-HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
-OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
-
-{
-  "access_token": "2YotnFZFEjr1zCsicMWpAA",
-  "token_type": "Bearer",
-  "expires_in": 3600
-}
-~~~
 
 # Verification and Processing {#verification}
 
@@ -513,7 +547,7 @@ To validate a request using DPoP combined mode, the receiving server MUST perfor
 
 When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in {{Section 5.2 of RFC6749}}) or Resource Server error responses (as defined in {{Section 3 of RFC6750}}).
 
-- `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used, this error code MUST be accompanied by the `OAuth-Client-Attestation-Challenge` HTTP header field parameter (as described in [](#challenge-in-response)). If the combined mode as defined in [](#dpop-combined-mode) is used and the DPoP proof does not contain an expected server-provided nonce, the DPoP error `use_dpop_nonce` MUST be used instead and a fresh nonce provided in the `DPoP-Nonce` HTTP header field of the response, as defined in {{RFC9449}}.
+- `use_attestation_challenge` MUST be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used, this error code MUST be accompanied by a fresh Challenge in the `OAuth-Client-Attestation-Challenge` HTTP header field (as described in [](#challenge-in-response)). If the combined mode as defined in [](#dpop-combined-mode) is used and the DPoP proof does not contain an expected server-provided nonce, the DPoP error `use_dpop_nonce` MUST be used instead and a fresh nonce provided in the `DPoP-Nonce` HTTP header field of the response, as defined in {{RFC9449}}.
 - `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
 - `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the public keys of the Client Attestation JWT and the proof of possession don't match, or the proof of possession is not supported.
 
@@ -1023,6 +1057,7 @@ This specification requests registration of the following value in the IANA "JSO
 
 -11
 
+* clarify that challenge support is optional, but that a server using challenges always provides a fresh challenge in the `use_attestation_challenge` error
 * combined mode now exclusively uses the DPoP nonce mechanism
 * allow the challenge endpoint response to convey a DPoP nonce
 * add clarifications on AS combined mode handling & errors
