@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-30T00:20:55.042438+00:00",
+  "timestamp": "2026-09-03T00:19:37.170005+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -17147,13 +17147,13 @@
       "labels": [],
       "body": "Closes #218 ",
       "createdAt": "2026-08-20T13:09:38Z",
-      "updatedAt": "2026-08-28T17:43:12Z",
+      "updatedAt": "2026-09-02T22:33:01Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "98fd08a83c5cbb1951b70c53fa852bc6349449dc",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/challenges2",
-      "headRefOid": "59757fef655c22b9e3440914898bfe5fb980744f",
+      "headRefOid": "5db49d4cd3f04f4011ddd9430a4a380904a9c8c4",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -17217,6 +17217,92 @@
               "updatedAt": "2026-08-28T17:43:12Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABLzjyNw",
+          "commit": {
+            "abbreviatedOid": "59757fe"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-02T08:16:23Z",
+          "updatedAt": "2026-09-02T08:16:23Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "the order in the array is matching the order ob subsections afterwards, I would like to keep it that way",
+              "createdAt": "2026-09-02T08:16:23Z",
+              "updatedAt": "2026-09-02T08:16:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABLz4PCQ",
+          "commit": {
+            "abbreviatedOid": "b9cad86"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-02T08:52:40Z",
+          "updatedAt": "2026-09-02T08:52:40Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\n- MUST provide a Challenge when returning an `use_attestation_challenge` error defined in [](#errors)\n- MAY provide a Challenge in any HTTP response as described in [](#challenge-in-response)\n- MAY provide a Challenge at the challenge endpoint as described in [](#challenge-endpoint)\n```",
+              "createdAt": "2026-09-02T08:52:40Z",
+              "updatedAt": "2026-09-02T08:52:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABLz468Q",
+          "commit": {
+            "abbreviatedOid": "5db49d4"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-02T08:53:55Z",
+          "updatedAt": "2026-09-02T08:53:56Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "@c2bo I accepted the text changes but reversed the order to keep matching it to the order of subsections. Are you fine with this or should we do the re-order, but then also re-order the subsections below",
+              "createdAt": "2026-09-02T08:53:56Z",
+              "updatedAt": "2026-09-02T08:53:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABL6fBtA",
+          "commit": {
+            "abbreviatedOid": "5db49d4"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-02T20:00:41Z",
+          "updatedAt": "2026-09-02T20:00:41Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABL7yR0w",
+          "commit": {
+            "abbreviatedOid": "5db49d4"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-02T22:33:01Z",
+          "updatedAt": "2026-09-02T22:33:01Z",
+          "comments": []
         }
       ]
     }
