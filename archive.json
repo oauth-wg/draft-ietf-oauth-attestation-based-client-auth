@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-03T00:19:37.170005+00:00",
+  "timestamp": "2026-09-06T00:21:11.345872+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5336,15 +5336,15 @@
       "id": "I_kwDOJaEkaM8AAAABKgK0Eg",
       "title": "clarification for challenge usage needed?",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/218",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mickrau",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "After reading the spec, there are some open questions about the `challenge` when using challenge endpoint.\n\nThe client does not know the usage policy for the challenges of the AS, i.e., max lifetime, single-usage, and the spec does not explicitly disallow using the same challenge twice. As a result, the client is left with a heuristic such as: \"get a challenge first, and use this challenge until AS complains..\".\n\n**Is it acceptable to use a challenge twice?\nShould the client call the challenge endpoint for each new OAuth2 flow, or for every DPoP proof?**\n\nIf the AS provides challenges in previous responses (6.1), this works, because the client receives a new challenge anytime the AS wants the client to use a new one with the `use_attestation_challenge`.\n\nWhen an AS **only** supports the challenge endpoint, there is currently no way to signal to the client that it should call the challenge endpoint to get a new one (because the provided challenge is no longer accepted).\n\n**How to signal that the client should call the challenge endpoint?**\n\nPossible solutions:\n1. Change the `use_attestation_challenge` error so that when no new challenge is given in the header, the client should call the challenge endpoint.\n2. Add a new error, `use_challenge_endpoint`, to indicate that the client needs a new challenge from the challenge endpoint.\n",
       "createdAt": "2026-07-28T14:39:52Z",
-      "updatedAt": "2026-08-18T06:13:45Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-03T09:09:00Z",
+      "closedAt": "2026-09-03T09:09:00Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -5355,7 +5355,7 @@
         },
         {
           "author": "mickrau",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> we should relax the language of When used this error code MUST be accompanied by the OAuth-Client-Attestation-Challenge HTTP header field parameter to MAY\n\nI would prefer a dedicated error code `use_attestation_challenge`, but it could also be done this way.\n\n> should the challenge only be used for freshness and the jti for replay detection?\n\nThis COULD be a valid implementation especially when the challenge endpoint is some kind of separated component in the AS. But it is not a Must.\n\n> should the challenges be accompanied by an expires_in?\n\nThis would give the client more information about when to request a new challenge, reducing the likelihood of extra error-handling rounds.\n\n**In addition to my initial post:**\nWhen reading the current spec, I was initially thinking that when I want to support challenges, I can either implement it as described in 6.1 (challenge endpoint) or 6.2 (challenge in error response), or both.\nHowever, it seems that 6.2 is mandatory, while 6.1 is optional. This should be made clear and could discourage AS implementers from implementing 6.1 anyway.",
           "createdAt": "2026-08-07T13:58:22Z",
           "updatedAt": "2026-08-07T13:59:24Z"
@@ -5369,7 +5369,7 @@
         },
         {
           "author": "mickrau",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "I agree, that the current design works and that the alternatives all come with some drawbacks.\n\n> Always provide fresh challenge on error\nOptional challenge endpoint that is clearly signaled by metadata --> client knows what to expect\n\nThat\u2019s a good summary. Unfortunately, that wasn't my understanding after my first read-through of Chapter 6.\nPerhaps we could clarify this in the introduction of Chapter 6?\n\nInstead of saying \"This section defines optional mechanisms,\" we should clarify that while challenge support itself is optional, once an AS/RS supports challenges, the previous response mechanism is mandatory (and only the challenge endpoint is optional).\n\nSwitching Sections 6.1 and 6.2 might also help.\n",
           "createdAt": "2026-08-10T21:11:15Z",
           "updatedAt": "2026-08-10T21:15:32Z"
@@ -17140,24 +17140,26 @@
       "id": "PR_kwDOJaEkaM8AAAABAa1ZWA",
       "title": "Clarify Challenge endpoint",
       "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/221",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulbastian",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #218 ",
       "createdAt": "2026-08-20T13:09:38Z",
-      "updatedAt": "2026-09-02T22:33:01Z",
+      "updatedAt": "2026-09-03T09:08:59Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "98fd08a83c5cbb1951b70c53fa852bc6349449dc",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "pb/challenges2",
       "headRefOid": "5db49d4cd3f04f4011ddd9430a4a380904a9c8c4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-09-03T09:08:59Z",
+      "mergedAt": "2026-09-03T09:08:59Z",
+      "mergedBy": "paulbastian",
+      "mergeCommit": {
+        "oid": "78047a4351eb47706e49404941ccf15cf6613cbd"
+      },
       "comments": [],
       "reviews": [
         {
@@ -17198,7 +17200,7 @@
             "abbreviatedOid": "59757fe"
           },
           "author": "mickrau",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2026-08-28T16:59:37Z",
