@@ -11,22 +11,22 @@
 <meta content="
        This specification defines an extension to the OAuth 2.0 protocol (RFC 6749) that enables a client instance to include a key-bound attestation when interacting with an Authorization Server or Resource Server. This mechanism allows a client instance to prove its authenticity verified by a client attester without revealing its target audience to that attester. It may also serve as a mechanism for client authentication as per OAuth 2.0. 
     " name="description">
-<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="xml2rfc 3.34.1" name="generator">
 <meta content="draft-ietf-oauth-attestation-based-client-auth-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.0
-    Python 3.14.5
-    ConfigArgParse 1.7.5
+  xml2rfc 3.34.1
+    Python 3.14.7
+    ConfigArgParse 1.7.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.0
+    platformdirs 4.11.10
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.2
+    wcwidth 0.8.4
 -->
 <link href="draft-ietf-oauth-attestation-based-client-auth.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1042,11 +1042,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">OAuth 2.0 Attestation-Based Client Authe</td>
-<td class="right">August 2026</td>
+<td class="right">September 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Looker, et al.</td>
-<td class="center">Expires 5 February 2027</td>
+<td class="center">Expires 25 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1059,12 +1059,12 @@ svg {
 <dd class="internet-draft">draft-ietf-oauth-attestation-based-client-auth-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-04" class="published">4 August 2026</time>
+<time datetime="2026-09-21" class="published">21 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-05">5 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-25">25 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1183,10 +1183,13 @@ svg {
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-challenges" class="internal xref">Challenges</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-providing-challenges-throug" class="internal xref">Providing Challenges through the Challenge Endpoint</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-providing-challenges-in-err" class="internal xref">Providing Challenges in Errors</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-providing-challenges-on-pre" class="internal xref">Providing Challenges on Previous Responses</a></p>
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-providing-challenges-in-pre" class="internal xref">Providing Challenges in Previous Responses</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-providing-challenges-throug" class="internal xref">Providing Challenges through the Challenge Endpoint</a></p>
 </li>
             </ul>
 </li>
@@ -1264,6 +1267,9 @@ svg {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
                 <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-client-attestation-protecti" class="internal xref">Client Attestation Protection</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3">
+                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-trust-in-client-attestation" class="internal xref">Trust in Client Attestation Content</a></p>
 </li>
             </ul>
 </li>
@@ -1414,6 +1420,9 @@ svg {
           <li class="normal" id="section-1.1-14.3">
             <p id="section-1.1-14.3.1">optionally, properties of that key (e.g., that it was securely generated or resides in hardware-backed storage)<a href="#section-1.1-14.3.1" class="pilcrow">¶</a></p>
 </li>
+          <li class="normal" id="section-1.1-14.4">
+            <p id="section-1.1-14.4.1">optionally, further characteristics of the Client Instance (e.g., the criteria or policy against which the Client Instance was evaluated)<a href="#section-1.1-14.4.1" class="pilcrow">¶</a></p>
+</li>
         </ul>
 </section>
 </div>
@@ -1438,7 +1447,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <span class="break"></span><dl class="dlParallel" id="section-3-1">
         <dt id="section-3-1.1">Client Attestation JWT:</dt>
         <dd style="margin-left: 1.5em" id="section-3-1.2">
-          <p id="section-3-1.2.1">A JSON Web Token (JWT) generated by the Client Attester that attests to the authenticity of a Client Instance and is cryptographically bound to a key managed by that Client Instance. A Client Attestation JWT may additionally convey information about the integrity or state of the Client Instance.<a href="#section-3-1.2.1" class="pilcrow">¶</a></p>
+          <p id="section-3-1.2.1">A JSON Web Token (JWT) generated by the Client Attester that attests to the authenticity of a Client Instance and is cryptographically bound to a key managed by that Client Instance. A Client Attestation JWT may additionally convey information about the integrity, state, or other characteristics of the Client Instance.<a href="#section-3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-3-1.3">Client Attestation Proof of Possession (PoP) JWT:</dt>
@@ -1679,7 +1688,7 @@ token68                        = 1*( ALPHA / DIGIT / "-" / "." /
             <p id="section-5.2-5.2.1">The public key located in the DPoP proof <span class="bcp14">MUST</span> match the public key located in the <code>cnf</code> claim of the Client Attestation JWT.<a href="#section-5.2-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
-<p id="section-5.2-6">In combined mode, the Challenge mechanisms defined by this specification (the <code>challenge</code> claim and the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field, see <a href="#challenges" class="auto internal xref">Section 6</a>) are not used for the DPoP proof. Instead, server-provided freshness and replay protection rely solely on the DPoP nonce mechanism defined in <span><a href="https://rfc-editor.org/rfc/rfc9449#section-8" class="relref">Section 8</a> of [<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9449#section-9" class="relref">Section 9</a> of [<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>: the server provides a nonce that the Client includes in the <code>nonce</code> claim of the DPoP proof. In addition to the means defined by <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>, a server that supports DPoP with server-provided nonces provides a fresh DPoP nonce in the response of the challenge endpoint as described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a>, allowing the Client to obtain a nonce proactively.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-6">In combined mode, the Challenge mechanisms defined by this specification (the <code>challenge</code> claim and the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field, see <a href="#challenges" class="auto internal xref">Section 6</a>) are not used for the DPoP proof. Instead, server-provided freshness and replay protection rely solely on the DPoP nonce mechanism defined in <span><a href="https://rfc-editor.org/rfc/rfc9449#section-8" class="relref">Section 8</a> of [<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9449#section-9" class="relref">Section 9</a> of [<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>: the server provides a nonce that the Client includes in the <code>nonce</code> claim of the DPoP proof. In addition to the means defined by <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>, a server that supports DPoP with server-provided nonces provides a fresh DPoP nonce in the response of the challenge endpoint as described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a>, allowing the Client to obtain a nonce proactively.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
 <p id="section-5.2-7">The following non-normative example shows a token request using combined mode (line breaks for display only):<a href="#section-5.2-7" class="pilcrow">¶</a></p>
 <div class="lang-http sourcecode" id="section-5.2-8">
 <pre>
@@ -1719,7 +1728,7 @@ grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
 }
 </pre><a href="#section-5.2-12" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-13">Note that additional claims may be present in the DPoP proof depending on the context, as required by <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>. The <code>nonce</code> claim is present when the server provides DPoP nonces, either through the means defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> or through the challenge endpoint (see <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a>).<a href="#section-5.2-13" class="pilcrow">¶</a></p>
+<p id="section-5.2-13">Note that additional claims may be present in the DPoP proof depending on the context, as required by <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>. The <code>nonce</code> claim is present when the server provides DPoP nonces, either through the means defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> or through the challenge endpoint (see <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a>).<a href="#section-5.2-13" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1729,57 +1738,56 @@ grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA
       <h2 id="name-challenges">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-challenges" class="section-name selfRef">Challenges</a>
       </h2>
-<p id="section-6-1">This section defines optional mechanisms that allow a Client to receive a fresh Challenge from the Authorization Server or Resource Server and to include the Challenge in the proof of possession. This construct may be similar or equivalent to a nonce, see <a href="#terminology" class="auto internal xref">Section 3</a>. The value of the challenge is opaque to the client.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<div id="challenge-endpoint">
-<section id="section-6.1">
-        <h3 id="name-providing-challenges-throug">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-providing-challenges-throug" class="section-name selfRef">Providing Challenges through the Challenge Endpoint</a>
-        </h3>
-<p id="section-6.1-1">The Authorization Server or Resource Server <span class="bcp14">MAY</span> offer a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> or the Resource Server supports metadata as defined in <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span>, it <span class="bcp14">MUST</span> signal support for the challenge endpoint by including the metadata entry <code>challenge_endpoint</code> containing the URL of the endpoint as its value. If the Authorization Server offers a challenge endpoint, the Client <span class="bcp14">MUST</span> retrieve a challenge and <span class="bcp14">MUST</span> use this challenge in the Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a>.
-If the challenge endpoint response contains a <code>DPoP-Nonce</code> HTTP header field, a Client using DPoP <span class="bcp14">MUST</span> use its value as the <code>nonce</code> in subsequent DPoP proofs as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata. The following is a non-normative example of a request:<a href="#section-6.1-2" class="pilcrow">¶</a></p>
-<div class="lang-http sourcecode" id="section-6.1-3">
-<pre>
-POST /as/challenge HTTP/1.1
-Host: as.example.com
-Accept: application/json
-</pre><a href="#section-6.1-3" class="pilcrow">¶</a>
-</div>
-<p id="section-6.1-4">The Authorization Server or Resource Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6-1">Challenges may be used by the Authorization Server or Resource Server to guarantee freshness and can be used to detect replay attacks. Support for Challenges is <span class="bcp14">OPTIONAL</span> for the Authorization Server or Resource Server. The lifetime of a Challenge, and whether a Challenge may be used in more than one Client Attestation PoP JWT, are determined solely by the local policy of the Authorization Server or Resource Server. If they are provided, the Client <span class="bcp14">MUST</span> include the Challenge in the proof of possession. The value of the challenge is opaque to the Client.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">A server that uses Challenges:<a href="#section-6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.1-5.1">
-            <p id="section-6.1-5.1.1">attestation_challenge: <span class="bcp14">REQUIRED</span> if the Authorization Server or Resource Server supports Client Attestations and server-provided challenges as described in this document. String containing a Challenge to be used in the Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a>. The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.<a href="#section-6.1-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6-3.1">
+          <p id="section-6-3.1.1"><span class="bcp14">MUST</span> provide a Challenge when returning an <code>use_attestation_challenge</code> error defined in <a href="#errors" class="auto internal xref">Section 7.4</a><a href="#section-6-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        </ul>
-<p id="section-6.1-6">If the server supports DPoP <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> with server-provided nonces, the response <span class="bcp14">MUST</span> additionally include a fresh DPoP nonce in the <code>DPoP-Nonce</code> HTTP header field as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>. This allows a Client to obtain a DPoP nonce proactively, without the additional round trip caused by a <code>use_dpop_nonce</code> error, both when using the DPoP combined mode (see <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a>) and when using DPoP independently of this specification.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
-<p id="section-6.1-7">The Authorization Server or Resource Server <span class="bcp14">MUST</span> make the response uncacheable by adding a <code>Cache-Control</code> header field including the value <code>no-store</code>. The Authorization Server or Resource Server <span class="bcp14">MAY</span> add additional challenges or data.<a href="#section-6.1-7" class="pilcrow">¶</a></p>
-<p id="section-6.1-8">The following is a non-normative example of a response:<a href="#section-6.1-8" class="pilcrow">¶</a></p>
-<div class="lang-http sourcecode" id="section-6.1-9">
+        <li class="normal" id="section-6-3.2">
+          <p id="section-6-3.2.1"><span class="bcp14">MAY</span> provide a Challenge in any HTTP response as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a><a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-6-3.3">
+          <p id="section-6-3.3.1"><span class="bcp14">MAY</span> provide a Challenge at the challenge endpoint as described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a><a href="#section-6-3.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-6-4">A Client <span class="bcp14">MUST</span> include the most recently received Challenge provided by the Authorization Server or Resource Server in the Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a>, irrespective of whether that Challenge was obtained from the challenge endpoint or from a previous response as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>.
+If the Authorization Server or Resource Server provides a challenge endpoint as defined in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a>, a Client that does not hold a Challenge <span class="bcp14">SHOULD</span> obtain a Challenge from that endpoint rather than sending a request without a Challenge and relying on the resulting error response.
+A Client <span class="bcp14">MAY</span> use the same Challenge in more than one Client Attestation PoP JWT. If the Authorization Server or Resource Server accepts a Challenge only once, it rejects the second use with the <code>use_attestation_challenge</code> error as defined in <a href="#errors" class="auto internal xref">Section 7.4</a> and provides a fresh Challenge in that response.
+Upon receiving a <code>use_attestation_challenge</code> error, a Client <span class="bcp14">SHOULD</span> retry the request once, using a newly created Client Attestation PoP JWT containing the Challenge provided with that error response. A Client <span class="bcp14">MUST NOT</span> retry indefinitely.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-5">This mechanism applies only to the Client Attestation PoP JWT. In the DPoP combined mode (see <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a>), the <code>use_dpop_nonce</code> error and the <code>DPoP-Nonce</code> HTTP header field defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> are used instead, see <a href="#errors" class="auto internal xref">Section 7.4</a>. The challenge endpoint <span class="bcp14">MAY</span> be utilized to provide <code>DPoP-Nonce</code> HTTP header field.<a href="#section-6-5" class="pilcrow">¶</a></p>
+<div id="challenge-in-error">
+<section id="section-6.1">
+        <h3 id="name-providing-challenges-in-err">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-providing-challenges-in-err" class="section-name selfRef">Providing Challenges in Errors</a>
+        </h3>
+<p id="section-6.1-1">An Authorization Server that requires a Challenge that the Client did not provide, or that rejects the Challenge contained in the Client Attestation PoP JWT, <span class="bcp14">MUST</span> respond with an HTTP 400 (Bad Request) status code and the error code <code>use_attestation_challenge</code> (see <a href="#errors" class="auto internal xref">Section 7.4</a>). The response <span class="bcp14">MUST</span> include a fresh Challenge in the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">A Resource Server that requires a Challenge that the Client did not provide, or that rejects the Challenge contained in the Client Attestation PoP JWT, <span class="bcp14">MUST</span> respond with an HTTP 401 (Unauthorized) status code with the error code <code>use_attestation_challenge</code> in the <code>WWW-Authenticate</code> HTTP header field and a fresh Challenge in the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">The Client uses the Challenge provided with the error response to retry the request.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">The following is a non-normative example of such an error response of an Authorization Server:<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<div class="lang-http sourcecode" id="section-6.1-5">
 <pre>
-HTTP/1.1 200 OK
-Host: as.example.com
+HTTP/1.1 400 Bad Request
 Content-Type: application/json
 Cache-Control: no-store
-DPoP-Nonce: eyJ7S_zG.eyJH0-Z.HX4w-7v
+OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 
 {
-  "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
+  "error": "use_attestation_challenge",
+  "error_description": "Authorization Server requires a fresh challenge"
 }
-</pre><a href="#section-6.1-9" class="pilcrow">¶</a>
+</pre><a href="#section-6.1-5" class="pilcrow">¶</a>
 </div>
-<p id="section-6.1-10">The <code>DPoP-Nonce</code> HTTP header field in this example is only present if the server supports DPoP with server-provided nonces.
-The <code>attestation_challenge</code> parameter is only present if the server supports Client Attestations and server-provided challenges (i.e., this endpoint can also be used to provide only DPoP nonces).<a href="#section-6.1-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="challenge-in-response">
 <section id="section-6.2">
-        <h3 id="name-providing-challenges-on-pre">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-providing-challenges-on-pre" class="section-name selfRef">Providing Challenges on Previous Responses</a>
+        <h3 id="name-providing-challenges-in-pre">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-providing-challenges-in-pre" class="section-name selfRef">Providing Challenges in Previous Responses</a>
         </h3>
-<p id="section-6.2-1">The Authorization Server or Resource Server <span class="bcp14">MAY</span> provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field parameter <span class="bcp14">MUST</span> be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge. The Client <span class="bcp14">MUST</span> use this new Challenge for the next OAuth-Client-Attestation-PoP.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">This mechanism applies only to the Client Attestation PoP JWT. For DPoP proofs, including the DPoP combined mode (see <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a>), servers provide fresh nonces on responses using the <code>DPoP-Nonce</code> HTTP header field as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
-<p id="section-6.2-3">The following is a non-normative example of an Authorization Response containing a fresh Challenge:<a href="#section-6.2-3" class="pilcrow">¶</a></p>
-<div class="lang-http sourcecode" id="section-6.2-4">
+<p id="section-6.2-1">The Authorization Server or Resource Server <span class="bcp14">MAY</span> provide a fresh Challenge with any HTTP response using a HTTP header-based syntax. The HTTP header field <span class="bcp14">MUST</span> be named "OAuth-Client-Attestation-Challenge" and contain the value of the Challenge.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">The following is a non-normative example of an Authorization Response containing a fresh Challenge:<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<div class="lang-http sourcecode" id="section-6.2-3">
 <pre>
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -1791,8 +1799,49 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
   "token_type": "Bearer",
   "expires_in": 3600
 }
-</pre><a href="#section-6.2-4" class="pilcrow">¶</a>
+</pre><a href="#section-6.2-3" class="pilcrow">¶</a>
 </div>
+</section>
+</div>
+<div id="challenge-endpoint">
+<section id="section-6.3">
+        <h3 id="name-providing-challenges-throug">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-providing-challenges-throug" class="section-name selfRef">Providing Challenges through the Challenge Endpoint</a>
+        </h3>
+<p id="section-6.3-1">The Authorization Server or Resource Server <span class="bcp14">MAY</span> provide a challenge endpoint for Clients to fetch Challenges in the context of this specification. If the Authorization Server supports metadata as defined in <span>[<a href="#RFC8414" class="cite xref">RFC8414</a>]</span> or the Resource Server supports metadata as defined in <span>[<a href="#RFC9728" class="cite xref">RFC9728</a>]</span>, it <span class="bcp14">MUST</span> signal support for the challenge endpoint by including the metadata entry <code>challenge_endpoint</code> containing the URL of the endpoint as its value.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">If the challenge endpoint response contains a <code>DPoP-Nonce</code> HTTP header field, a Client using DPoP <span class="bcp14">MUST</span> use its value as the <code>nonce</code> in subsequent DPoP proofs as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">A request for a Challenge is made by sending an HTTP POST request to the URL provided in the challenge_endpoint parameter of the Authorization Server metadata. The following is a non-normative example of a request:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+<div class="lang-http sourcecode" id="section-6.3-4">
+<pre>
+POST /as/challenge HTTP/1.1
+Host: as.example.com
+Accept: application/json
+</pre><a href="#section-6.3-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.3-5">The Authorization Server or Resource Server provides a Challenge in the HTTP response with a 200 status code and the following parameters included in the message body of the HTTP response using the application/json media type:<a href="#section-6.3-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.3-6.1">
+            <p id="section-6.3-6.1.1">attestation_challenge: <span class="bcp14">REQUIRED</span> if the Authorization Server or Resource Server supports Client Attestations and server-provided challenges as described in this document. String containing a Challenge to be used in the Client Attestation PoP JWT as defined in <a href="#client-attestation-pop-jwt" class="auto internal xref">Section 5.1</a>. The intention of this element not being required in other circumstances is to preserve the ability for the challenge endpoint to be used in other applications unrelated to client attestations.<a href="#section-6.3-6.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-6.3-7">If the server supports DPoP <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> with server-provided nonces, the response <span class="bcp14">MUST</span> additionally include a fresh DPoP nonce in the <code>DPoP-Nonce</code> HTTP header field as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>. This allows a Client to obtain a DPoP nonce proactively, without the additional round trip caused by a <code>use_dpop_nonce</code> error, both when using the DPoP combined mode (see <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a>) and when using DPoP independently of this specification.<a href="#section-6.3-7" class="pilcrow">¶</a></p>
+<p id="section-6.3-8">The Authorization Server or Resource Server <span class="bcp14">MUST</span> make the response uncacheable by adding a <code>Cache-Control</code> header field including the value <code>no-store</code>. The Authorization Server or Resource Server <span class="bcp14">MAY</span> add additional challenges or data.<a href="#section-6.3-8" class="pilcrow">¶</a></p>
+<p id="section-6.3-9">The following is a non-normative example of a response:<a href="#section-6.3-9" class="pilcrow">¶</a></p>
+<div class="lang-http sourcecode" id="section-6.3-10">
+<pre>
+HTTP/1.1 200 OK
+Host: as.example.com
+Content-Type: application/json
+Cache-Control: no-store
+DPoP-Nonce: eyJ7S_zG.eyJH0-Z.HX4w-7v
+
+{
+  "attestation_challenge": "AYjcyMzY3ZDhiNmJkNTZ"
+}
+</pre><a href="#section-6.3-10" class="pilcrow">¶</a>
+</div>
+<p id="section-6.3-11">The <code>DPoP-Nonce</code> HTTP header field in this example is only present if the server supports DPoP with server-provided nonces.
+The <code>attestation_challenge</code> parameter is only present if the server supports Client Attestations and server-provided challenges (i.e., this endpoint can also be used to provide only DPoP nonces).<a href="#section-6.3-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1841,7 +1890,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-7.1-2.6.1">The Client Attestation JWT is fresh enough per local policy of the Authorization Server or Resource Server by checking the <code>iat</code> or <code>exp</code> claims.<a href="#section-7.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.1-2.7">
-            <p id="section-7.1-2.7.1">If a <code>client_id</code> is provided in the request containing the Client Attestation, then this <code>client_id</code> matches the <code>sub</code> claim of the Client Attestation JWT, unless specified otherwise by a profile as described in <a href="#profiling" class="auto internal xref">Section 13</a>.<a href="#section-7.1-2.7.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-2.7.1">If a <code>client_id</code> is provided in the request containing the Client Attestation, then this <code>client_id</code> matches the <code>sub</code> claim of the Client Attestation JWT, unless specified otherwise by a profile as described in <a href="#profiling" class="auto internal xref">Section 13</a>. See <a href="#client-attestation-as-client-auth" class="auto internal xref">Section 7.5</a> for how this parameter is used when the Client Attestation is used as an OAuth Client Authentication mechanism.<a href="#section-7.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -1896,7 +1945,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
             <p id="section-7.3-3.2.1">There is precisely one <code>DPoP</code> HTTP request header field present in the request.<a href="#section-7.3-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.3-3.3">
-            <p id="section-7.3-3.3.1">Validate the DPoP proof in accordance with <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>. If the server provides DPoP nonces, this includes validating that the <code>nonce</code> claim of the DPoP proof contains a valid nonce provided by the server, whether it was provided via the <code>DPoP-Nonce</code> HTTP header field as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> or via the challenge endpoint as described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a>.<a href="#section-7.3-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-3.3.1">Validate the DPoP proof in accordance with <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>. If the server provides DPoP nonces, this includes validating that the <code>nonce</code> claim of the DPoP proof contains a valid nonce provided by the server, whether it was provided via the <code>DPoP-Nonce</code> HTTP header field as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span> or via the challenge endpoint as described in <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a>.<a href="#section-7.3-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-7.3-3.4">
             <p id="section-7.3-3.4.1">The public key in the <code>jwk</code> header parameter of the DPoP proof <span class="bcp14">MUST</span> be identical to the public key in the <code>cnf</code> claim of the Client Attestation JWT. Note that this doesn't mean the comparison of a canonical representation of the JWK, but a check via JWK thumbprint or by comparing the required members per key type (e.g., kty, curve, x, y).<a href="#section-7.3-3.4.1" class="pilcrow">¶</a></p>
@@ -1912,7 +1961,7 @@ OAuth-Client-Attestation-Challenge: AYjcyMzY3ZDhiNmJkNTZ
 <p id="section-7.4-1">When validation errors specifically related to the use of client attestations are encountered the following additional error codes are defined for use in either Authorization Server authenticated endpoint error responses (as defined in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-5.2" class="relref">Section 5.2</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>) or Resource Server error responses (as defined in <span><a href="https://rfc-editor.org/rfc/rfc6750#section-3" class="relref">Section 3</a> of [<a href="#RFC6750" class="cite xref">RFC6750</a>]</span>).<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.4-2.1">
-            <p id="section-7.4-2.1.1"><code>use_attestation_challenge</code> <span class="bcp14">MUST</span> be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used, this error code <span class="bcp14">MUST</span> be accompanied by the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field parameter (as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>). If the combined mode as defined in <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a> is used and the DPoP proof does not contain an expected server-provided nonce, the DPoP error <code>use_dpop_nonce</code> <span class="bcp14">MUST</span> be used instead and a fresh nonce provided in the <code>DPoP-Nonce</code> HTTP header field of the response, as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-7.4-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.4-2.1.1"><code>use_attestation_challenge</code> <span class="bcp14">MUST</span> be used when the Client Attestation PoP JWT is not using an expected server-provided challenge. When used, this error code <span class="bcp14">MUST</span> be accompanied by a fresh Challenge in the <code>OAuth-Client-Attestation-Challenge</code> HTTP header field (as described in <a href="#challenge-in-response" class="auto internal xref">Section 6.2</a>). If the combined mode as defined in <a href="#dpop-combined-mode" class="auto internal xref">Section 5.2</a> is used and the DPoP proof does not contain an expected server-provided nonce, the DPoP error <code>use_dpop_nonce</code> <span class="bcp14">MUST</span> be used instead and a fresh nonce provided in the <code>DPoP-Nonce</code> HTTP header field of the response, as defined in <span>[<a href="#RFC9449" class="cite xref">RFC9449</a>]</span>.<a href="#section-7.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.4-2.2">
             <p id="section-7.4-2.2.1"><code>use_fresh_attestation</code> <span class="bcp14">MUST</span> be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.<a href="#section-7.4-2.2.1" class="pilcrow">¶</a></p>
@@ -2101,6 +2150,8 @@ dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-reuse-of-a-client-attestati" class="section-name selfRef">Reuse of a Client Attestation JWT</a>
         </h3>
 <p id="section-10.2-1">Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server or Resource Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.<a href="#section-10.2-1" class="pilcrow">¶</a></p>
+<p id="section-10.2-2">Note that this specification does not define a mechanism to revoke or suspend an issued Client Attestation JWT. The validity period expressed by the <code>exp</code> claim, together with the freshness policy of server (see <a href="#verification-client-attestation-jwt" class="auto internal xref">Section 7.1</a>), is therefore the primary means to limit the impact of a Client Attestation JWT.
+Profiles of this specification may define additional revocation or status mechanisms as described in <a href="#profiling" class="auto internal xref">Section 13</a>.<a href="#section-10.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="refresh-token-binding">
@@ -2166,7 +2217,7 @@ dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 <p id="section-10.7-4">Note that for the combined mode, the <code>nonce</code> and <code>jti</code> claims of the DPoP proof are used instead of the <code>challenge</code> and <code>jti</code> claims of the Client Attestation PoP.<a href="#section-10.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="trust-management-and-key-resolution">
+<div id="trust-management">
 <section id="section-10.8">
         <h3 id="name-trust-management-and-key-re">
 <a href="#section-10.8" class="section-number selfRef">10.8. </a><a href="#name-trust-management-and-key-re" class="section-name selfRef">Trust Management and Key Resolution</a>
@@ -2209,6 +2260,9 @@ dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-client-instance-tracking-ac" class="section-name selfRef">Client Instance Tracking Across Authorization Servers or Resource Servers</a>
         </h3>
 <p id="section-11.1-1">Implementers should be aware that using the same client attestation across multiple Authorization Servers or Resource Servers could result in correlation of the end user using the Client Instance through claim values (including the Client Instance Key in the <code>cnf</code> claim). Client deployments are therefore <span class="bcp14">RECOMMENDED</span> to use different Client Attestation JWTs with different Client Instance Keys across different Authorization Servers or Resource Servers.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<p id="section-11.1-2">Note that the <code>sub</code> claim carries the <code>client_id</code> of the client software and is therefore identical across all instances of that software. Unless a profile redefines it as described in <a href="#profiling" class="auto internal xref">Section 13</a>, it does not identify an individual Client Instance or End-User.<a href="#section-11.1-2" class="pilcrow">¶</a></p>
+<p id="section-11.1-3">However, the temporal claims <code>iat</code> and <code>exp</code> can act as correlation factors. When set with fine granularity, their exact values may be unique to a single Client Attestation JWT and thereby allow linking presentations of that attestation across Authorization Servers or Resource Servers even when different Client Instance Keys are used.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
+<p id="section-11.1-4">For use-cases that require a strong level of privacy guarantees, Client Attestations should not be re-used across different deployments (e.g., different Authorization Servers).<a href="#section-11.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2257,6 +2311,15 @@ dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
         </h3>
 <p id="section-12.2-1">This specification allows both, digital signatures using asymmetric cryptography, and Message Authentication Codes (MAC) to be used to protect Client Attestation JWTs. Implementers should only use MACs to secure the integrity of Client Attestation JWTs if they fully understand the risks of MACs when compared to digital signatures and especially the requirements of their use-case scenarios.
 These use-cases typically represent deployments where the Client Attester and Authorization Server have a trust relationship and the possibility to securely exchange keys out of band or are the same entity and no other entity needs to verify the Client Attestations. We expect most deployments to use digital signatures for the protection of Client Attestations, and implementers <span class="bcp14">SHOULD</span> default to digital signatures if they are unsure.<a href="#section-12.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="trust-in-client-attestation-content">
+<section id="section-12.3">
+        <h3 id="name-trust-in-client-attestation">
+<a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-trust-in-client-attestation" class="section-name selfRef">Trust in Client Attestation Content</a>
+        </h3>
+<p id="section-12.3-1">All claims conveyed in a Client Attestation JWT, including any additional claims about the integrity, state, or other characteristics of the Client Instance, are assertions made by the Client Attester.
+An Authorization Server or Resource Server should rely on such claims only to the extent that it trusts the issuing Client Attester to make those statements.<a href="#section-12.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2391,7 +2454,7 @@ These use-cases typically represent deployments where the Client Attester and Au
             <p id="section-15.2-2.3.1">Change Controller: IETF<a href="#section-15.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.2-2.4">
-            <p id="section-15.2-2.4.1">Specification Document(s): <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-15.2-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-15.2-2.4.1">Specification Document(s): <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a> of this specification<a href="#section-15.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-15.2-3"><br></p>
@@ -2458,7 +2521,7 @@ These use-cases typically represent deployments where the Client Attester and Au
             <p id="section-15.3-2.3.1">Change Controller: IETF<a href="#section-15.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-15.3-2.4">
-            <p id="section-15.3-2.4.1">Specification Document(s): <a href="#challenge-endpoint" class="auto internal xref">Section 6.1</a> of this specification<a href="#section-15.3-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-15.3-2.4.1">Specification Document(s): <a href="#challenge-endpoint" class="auto internal xref">Section 6.3</a> of this specification<a href="#section-15.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-15.3-3"><br></p>
@@ -3030,295 +3093,313 @@ These use-cases typically represent deployments where the Client Attester and Au
       <h2 id="name-document-history">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-A-1">-11<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">-12<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1">combined mode now exclusively uses the DPoP nonce mechanism<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1">add cross-reference to the client authentication section<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1">allow the challenge endpoint response to convey a DPoP nonce<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1">add privacy considerations on temporal claims as correlation factors<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1">add clarifications on AS combined mode handling &amp; errors<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1">clarify validity period and revocation mechanisms<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
-          <p id="appendix-A-2.4.1">remove duplication challenge verification in Verifivation of Client Attestation PoP JWT<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.5">
-          <p id="appendix-A-2.5.1">fix IANA registry entries<a href="#appendix-A-2.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.6">
-          <p id="appendix-A-2.6.1">remove duplication challenge verification in Verification of Client Attestation PoP JWT<a href="#appendix-A-2.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.7">
-          <p id="appendix-A-2.7.1">add Client Metadata section defining for use by Clients<a href="#appendix-A-2.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.8">
-          <p id="appendix-A-2.8.1">register the new client metadata parameters in the IANA registry<a href="#appendix-A-2.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.9">
-          <p id="appendix-A-2.9.1">add considerations for profiling this draft<a href="#appendix-A-2.9.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-2.10">
-          <p id="appendix-A-2.10.1">mention that RFC7521 is not used<a href="#appendix-A-2.10.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.4.1">add security consideration on trust in Client Attestation content<a href="#appendix-A-2.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-3">-10<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">-11<a href="#appendix-A-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-4.1">
-          <p id="appendix-A-4.1.1">add <code>client_attestation_pop_methods_supported</code> Authorization Server and Resource Server metadata<a href="#appendix-A-4.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.1.1">clarify that challenge support is optional, but that a server using challenges always provides a fresh challenge in the <code>use_attestation_challenge</code> error<a href="#appendix-A-4.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.2">
-          <p id="appendix-A-4.2.1">establish the "OAuth Client Attestation Proof-of-Possession Methods" registry<a href="#appendix-A-4.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.2.1">combined mode now exclusively uses the DPoP nonce mechanism<a href="#appendix-A-4.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.3">
-          <p id="appendix-A-4.3.1">allow proof of possession mechanisms defined by other/future specifications<a href="#appendix-A-4.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.3.1">allow the challenge endpoint response to convey a DPoP nonce<a href="#appendix-A-4.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.4">
-          <p id="appendix-A-4.4.1">clarify that DPoP can be used alongside <code>attest_jwt_client_auth</code> and which validation rules apply<a href="#appendix-A-4.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.4.1">add clarifications on AS combined mode handling &amp; errors<a href="#appendix-A-4.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.5">
-          <p id="appendix-A-4.5.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-4.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.5.1">remove duplication challenge verification in Verifivation of Client Attestation PoP JWT<a href="#appendix-A-4.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.6">
-          <p id="appendix-A-4.6.1">update Client Attestation PoP JWT examples to use <code>challenge</code> instead of <code>nonce</code> and include the required <code>iat</code> claim<a href="#appendix-A-4.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.6.1">fix IANA registry entries<a href="#appendix-A-4.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.7">
-          <p id="appendix-A-4.7.1">clean up references<a href="#appendix-A-4.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.7.1">remove duplication challenge verification in Verification of Client Attestation PoP JWT<a href="#appendix-A-4.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.8">
-          <p id="appendix-A-4.8.1">fix IANA registrations<a href="#appendix-A-4.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.8.1">add Client Metadata section defining for use by Clients<a href="#appendix-A-4.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.9">
-          <p id="appendix-A-4.9.1">editorial fixes<a href="#appendix-A-4.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.9.1">register the new client metadata parameters in the IANA registry<a href="#appendix-A-4.9.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.10">
-          <p id="appendix-A-4.10.1">add clarification on Client Attester<a href="#appendix-A-4.10.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.10.1">add considerations for profiling this draft<a href="#appendix-A-4.10.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-4.11">
-          <p id="appendix-A-4.11.1">remove replay attack consideration to reuse existing artifacts as challenge<a href="#appendix-A-4.11.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-4.12">
-          <p id="appendix-A-4.12.1">clarifications around implementation consideration for replay attack detection<a href="#appendix-A-4.12.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-4.11.1">mention that RFC7521 is not used<a href="#appendix-A-4.11.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-5">-09<a href="#appendix-A-5" class="pilcrow">¶</a></p>
+<p id="appendix-A-5">-10<a href="#appendix-A-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-6.1">
-          <p id="appendix-A-6.1.1">restructure draft<a href="#appendix-A-6.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.1.1">add <code>client_attestation_pop_methods_supported</code> Authorization Server and Resource Server metadata<a href="#appendix-A-6.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-6.2">
-          <p id="appendix-A-6.2.1">add section how to establish trust and resolve keys<a href="#appendix-A-6.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.2.1">establish the "OAuth Client Attestation Proof-of-Possession Methods" registry<a href="#appendix-A-6.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-6.3">
-          <p id="appendix-A-6.3.1">rephrasing of introduction text<a href="#appendix-A-6.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.3.1">allow proof of possession mechanisms defined by other/future specifications<a href="#appendix-A-6.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-6.4">
-          <p id="appendix-A-6.4.1">adding challenge request/response to graphic<a href="#appendix-A-6.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.4.1">clarify that DPoP can be used alongside <code>attest_jwt_client_auth</code> and which validation rules apply<a href="#appendix-A-6.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-6.5">
-          <p id="appendix-A-6.5.1">restructure and minor fixes to challenge section<a href="#appendix-A-6.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.5.1">add short note that dpop_jkt cannot be used with the combined mode<a href="#appendix-A-6.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-6.6">
-          <p id="appendix-A-6.6.1">add mentioning or Resource Server, where applicable<a href="#appendix-A-6.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.6.1">update Client Attestation PoP JWT examples to use <code>challenge</code> instead of <code>nonce</code> and include the required <code>iat</code> claim<a href="#appendix-A-6.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-6.7">
-          <p id="appendix-A-6.7.1">clarify that alg is required for Client Attestation JWT and Client Attestation PoP JWT<a href="#appendix-A-6.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-6.7.1">clean up references<a href="#appendix-A-6.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.8">
+          <p id="appendix-A-6.8.1">fix IANA registrations<a href="#appendix-A-6.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.9">
+          <p id="appendix-A-6.9.1">editorial fixes<a href="#appendix-A-6.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.10">
+          <p id="appendix-A-6.10.1">add clarification on Client Attester<a href="#appendix-A-6.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.11">
+          <p id="appendix-A-6.11.1">remove replay attack consideration to reuse existing artifacts as challenge<a href="#appendix-A-6.11.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-6.12">
+          <p id="appendix-A-6.12.1">clarifications around implementation consideration for replay attack detection<a href="#appendix-A-6.12.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-7">-08<a href="#appendix-A-7" class="pilcrow">¶</a></p>
+<p id="appendix-A-7">-09<a href="#appendix-A-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-8.1">
-          <p id="appendix-A-8.1.1">remove concatenated Serialization for Client Attestations<a href="#appendix-A-8.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.1.1">restructure draft<a href="#appendix-A-8.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-8.2">
-          <p id="appendix-A-8.2.1">update all examples (removal of iss and nbf)<a href="#appendix-A-8.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.2.1">add section how to establish trust and resolve keys<a href="#appendix-A-8.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-8.3">
-          <p id="appendix-A-8.3.1">remove <code>iss</code> from Client Attestation JWT and Client Attestation PoP JWT<a href="#appendix-A-8.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.3.1">rephrasing of introduction text<a href="#appendix-A-8.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-8.4">
-          <p id="appendix-A-8.4.1">add small security consideration sub-section for MAC-based deployments<a href="#appendix-A-8.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.4.1">adding challenge request/response to graphic<a href="#appendix-A-8.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-8.5">
-          <p id="appendix-A-8.5.1">remove public clients reference and clarify this draft targets confidential clients<a href="#appendix-A-8.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.5.1">restructure and minor fixes to challenge section<a href="#appendix-A-8.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-8.6">
-          <p id="appendix-A-8.6.1">clarify this may be a client authentication mechanism but also may be not<a href="#appendix-A-8.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.6.1">add mentioning or Resource Server, where applicable<a href="#appendix-A-8.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-8.7">
-          <p id="appendix-A-8.7.1">add examples for RS usage and non client authentication<a href="#appendix-A-8.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.8">
-          <p id="appendix-A-8.8.1">Add note on protocols providing a challenge on previous responses<a href="#appendix-A-8.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.9">
-          <p id="appendix-A-8.9.1">add structured-type to iana header field registration requests<a href="#appendix-A-8.9.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.10">
-          <p id="appendix-A-8.10.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-8.10.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-8.11">
-          <p id="appendix-A-8.11.1">editorial fixes<a href="#appendix-A-8.11.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-8.7.1">clarify that alg is required for Client Attestation JWT and Client Attestation PoP JWT<a href="#appendix-A-8.7.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-9">-07<a href="#appendix-A-9" class="pilcrow">¶</a></p>
+<p id="appendix-A-9">-08<a href="#appendix-A-9" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-10.1">
-          <p id="appendix-A-10.1.1">remove restrictions to not allow MAC-based algorithms<a href="#appendix-A-10.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.1.1">remove concatenated Serialization for Client Attestations<a href="#appendix-A-10.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.2">
-          <p id="appendix-A-10.2.1">require <code>iat</code> in Client Attestation PoP JWT<a href="#appendix-A-10.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.2.1">update all examples (removal of iss and nbf)<a href="#appendix-A-10.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.3">
-          <p id="appendix-A-10.3.1">clarify <code>use_attestation_challenge</code> and add <code>invalid_client_attestation</code><a href="#appendix-A-10.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.3.1">remove <code>iss</code> from Client Attestation JWT and Client Attestation PoP JWT<a href="#appendix-A-10.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.4">
-          <p id="appendix-A-10.4.1">add <code>client_attestation_signing_alg_values_supported</code> and <code>client_attestation_pop_signing_alg_values_supported</code> to IANA registration<a href="#appendix-A-10.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.4.1">add small security consideration sub-section for MAC-based deployments<a href="#appendix-A-10.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.5">
-          <p id="appendix-A-10.5.1">add implementation consideration for Authorization Server Metadata<a href="#appendix-A-10.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.5.1">remove public clients reference and clarify this draft targets confidential clients<a href="#appendix-A-10.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.6">
-          <p id="appendix-A-10.6.1">clarify refresh token binding<a href="#appendix-A-10.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.6.1">clarify this may be a client authentication mechanism but also may be not<a href="#appendix-A-10.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.7">
-          <p id="appendix-A-10.7.1">check client_id at PAR endpoint<a href="#appendix-A-10.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.7.1">add examples for RS usage and non client authentication<a href="#appendix-A-10.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.8">
-          <p id="appendix-A-10.8.1">added <code>use_fresh_attestation</code> as an error to signal that the attestation was not deemed fresh enough by the server<a href="#appendix-A-10.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.8.1">Add note on protocols providing a challenge on previous responses<a href="#appendix-A-10.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-10.9">
-          <p id="appendix-A-10.9.1">mandate the defined header fields if the attestation and pop are transferred via header fields<a href="#appendix-A-10.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-10.9.1">add structured-type to iana header field registration requests<a href="#appendix-A-10.9.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.10">
+          <p id="appendix-A-10.10.1">moving Authorization Server metadata into it's own top level section<a href="#appendix-A-10.10.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-10.11">
+          <p id="appendix-A-10.11.1">editorial fixes<a href="#appendix-A-10.11.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-11">-06<a href="#appendix-A-11" class="pilcrow">¶</a></p>
+<p id="appendix-A-11">-07<a href="#appendix-A-11" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-12.1">
-          <p id="appendix-A-12.1.1">clarify client_id processing in token request with client attestation<a href="#appendix-A-12.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.1.1">remove restrictions to not allow MAC-based algorithms<a href="#appendix-A-12.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.2">
-          <p id="appendix-A-12.2.1">clarify usage of client attestation outside of oauth2 applications<a href="#appendix-A-12.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.2.1">require <code>iat</code> in Client Attestation PoP JWT<a href="#appendix-A-12.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.3">
-          <p id="appendix-A-12.3.1">add oauth error response values <code>invalid_client_attestation</code> and <code>use_attestation_challenge</code><a href="#appendix-A-12.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.3.1">clarify <code>use_attestation_challenge</code> and add <code>invalid_client_attestation</code><a href="#appendix-A-12.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.4">
-          <p id="appendix-A-12.4.1">revert the HTTP OPTIONS mechanism to fetch nonces and add a dedicated challenge endpoint<a href="#appendix-A-12.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.4.1">add <code>client_attestation_signing_alg_values_supported</code> and <code>client_attestation_pop_signing_alg_values_supported</code> to IANA registration<a href="#appendix-A-12.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.5">
-          <p id="appendix-A-12.5.1">rename nonce to challenge<a href="#appendix-A-12.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.5.1">add implementation consideration for Authorization Server Metadata<a href="#appendix-A-12.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.6">
-          <p id="appendix-A-12.6.1">rewrite security consideration on replay attacks<a href="#appendix-A-12.6.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.6.1">clarify refresh token binding<a href="#appendix-A-12.6.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.7">
-          <p id="appendix-A-12.7.1">add implementation consideration on replay attacks<a href="#appendix-A-12.7.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.7.1">check client_id at PAR endpoint<a href="#appendix-A-12.7.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.8">
-          <p id="appendix-A-12.8.1">remove <code>exp</code> from Client Attestation PoP JWT<a href="#appendix-A-12.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.8.1">added <code>use_fresh_attestation</code> as an error to signal that the attestation was not deemed fresh enough by the server<a href="#appendix-A-12.8.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-12.9">
-          <p id="appendix-A-12.9.1">add verification and processing rules<a href="#appendix-A-12.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-12.9.1">mandate the defined header fields if the attestation and pop are transferred via header fields<a href="#appendix-A-12.9.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-13">-05<a href="#appendix-A-13" class="pilcrow">¶</a></p>
+<p id="appendix-A-13">-06<a href="#appendix-A-13" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-14.1">
-          <p id="appendix-A-14.1.1">add nonce endpoint<a href="#appendix-A-14.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-14.1.1">clarify client_id processing in token request with client attestation<a href="#appendix-A-14.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-14.2">
-          <p id="appendix-A-14.2.1">add metadata entry for nonce<a href="#appendix-A-14.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-14.2.1">clarify usage of client attestation outside of oauth2 applications<a href="#appendix-A-14.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-14.3">
-          <p id="appendix-A-14.3.1">improve introduction<a href="#appendix-A-14.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-14.3.1">add oauth error response values <code>invalid_client_attestation</code> and <code>use_attestation_challenge</code><a href="#appendix-A-14.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-14.4">
-          <p id="appendix-A-14.4.1">rename client backend to client attester<a href="#appendix-A-14.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-14.4.1">revert the HTTP OPTIONS mechanism to fetch nonces and add a dedicated challenge endpoint<a href="#appendix-A-14.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-14.5">
-          <p id="appendix-A-14.5.1">fix missing typ header in examples<a href="#appendix-A-14.5.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-14.5.1">rename nonce to challenge<a href="#appendix-A-14.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-14.6">
+          <p id="appendix-A-14.6.1">rewrite security consideration on replay attacks<a href="#appendix-A-14.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-14.7">
+          <p id="appendix-A-14.7.1">add implementation consideration on replay attacks<a href="#appendix-A-14.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-14.8">
+          <p id="appendix-A-14.8.1">remove <code>exp</code> from Client Attestation PoP JWT<a href="#appendix-A-14.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-14.9">
+          <p id="appendix-A-14.9.1">add verification and processing rules<a href="#appendix-A-14.9.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-15">-04<a href="#appendix-A-15" class="pilcrow">¶</a></p>
+<p id="appendix-A-15">-05<a href="#appendix-A-15" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-16.1">
-          <p id="appendix-A-16.1.1">remove key attestation example<a href="#appendix-A-16.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-16.1.1">add nonce endpoint<a href="#appendix-A-16.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-16.2">
-          <p id="appendix-A-16.2.1">restructured JWT Claims for better readability<a href="#appendix-A-16.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-16.2.1">add metadata entry for nonce<a href="#appendix-A-16.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-16.3">
-          <p id="appendix-A-16.3.1">added JOSE typ values for Client Attestation and Client Attestation PoP<a href="#appendix-A-16.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-16.3.1">improve introduction<a href="#appendix-A-16.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-16.4">
-          <p id="appendix-A-16.4.1">add RATS relation<a href="#appendix-A-16.4.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-16.4.1">rename client backend to client attester<a href="#appendix-A-16.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-16.5">
-          <p id="appendix-A-16.5.1">add concatenated representation without headers<a href="#appendix-A-16.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-16.6">
-          <p id="appendix-A-16.6.1">add PAR endpoint example<a href="#appendix-A-16.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-16.7">
-          <p id="appendix-A-16.7.1">fix PoP examples to include jti and nonce<a href="#appendix-A-16.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-16.8">
-          <p id="appendix-A-16.8.1">add iana http field name registration<a href="#appendix-A-16.8.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-16.5.1">fix missing typ header in examples<a href="#appendix-A-16.5.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-17">-03<a href="#appendix-A-17" class="pilcrow">¶</a></p>
+<p id="appendix-A-17">-04<a href="#appendix-A-17" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-18.1">
-          <p id="appendix-A-18.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-A-18.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-18.1.1">remove key attestation example<a href="#appendix-A-18.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-18.2">
-          <p id="appendix-A-18.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-A-18.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-18.2.1">restructured JWT Claims for better readability<a href="#appendix-A-18.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-18.3">
-          <p id="appendix-A-18.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-A-18.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-18.3.1">added JOSE typ values for Client Attestation and Client Attestation PoP<a href="#appendix-A-18.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-18.4">
+          <p id="appendix-A-18.4.1">add RATS relation<a href="#appendix-A-18.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-18.5">
+          <p id="appendix-A-18.5.1">add concatenated representation without headers<a href="#appendix-A-18.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-18.6">
+          <p id="appendix-A-18.6.1">add PAR endpoint example<a href="#appendix-A-18.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-18.7">
+          <p id="appendix-A-18.7.1">fix PoP examples to include jti and nonce<a href="#appendix-A-18.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-18.8">
+          <p id="appendix-A-18.8.1">add iana http field name registration<a href="#appendix-A-18.8.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-19">-02<a href="#appendix-A-19" class="pilcrow">¶</a></p>
+<p id="appendix-A-19">-03<a href="#appendix-A-19" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-20.1">
-          <p id="appendix-A-20.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-A-20.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-20.1.1">remove usage of RFC7521 and the usage of client_assertion<a href="#appendix-A-20.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-20.2">
+          <p id="appendix-A-20.2.1">add new header-based syntax introducing Oauth-Client-Attestation and OAuth-Client-Attestation-PoP<a href="#appendix-A-20.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-20.3">
+          <p id="appendix-A-20.3.1">add Client Instance to the terminology and improve text around this concept<a href="#appendix-A-20.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-21">-01<a href="#appendix-A-21" class="pilcrow">¶</a></p>
+<p id="appendix-A-21">-02<a href="#appendix-A-21" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-22.1">
-          <p id="appendix-A-22.1.1">Updated eIDAS example in appendix<a href="#appendix-A-22.1.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.2">
-          <p id="appendix-A-22.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-A-22.2.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.3">
-          <p id="appendix-A-22.3.1">Refined text around cnf claim in client attestation<a href="#appendix-A-22.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.4">
-          <p id="appendix-A-22.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-A-22.4.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.5">
-          <p id="appendix-A-22.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-A-22.5.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.6">
-          <p id="appendix-A-22.6.1">Updated acknowledgments<a href="#appendix-A-22.6.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.7">
-          <p id="appendix-A-22.7.1">Simplified the diagram in the introduction<a href="#appendix-A-22.7.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.8">
-          <p id="appendix-A-22.8.1">Updated references<a href="#appendix-A-22.8.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="appendix-A-22.9">
-          <p id="appendix-A-22.9.1">Added some guidance around replay attack detection<a href="#appendix-A-22.9.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-22.1.1">add text on the inability to rotate the Client Instance Key<a href="#appendix-A-22.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-23">-00<a href="#appendix-A-23" class="pilcrow">¶</a></p>
+<p id="appendix-A-23">-01<a href="#appendix-A-23" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-24.1">
-          <p id="appendix-A-24.1.1">Initial draft<a href="#appendix-A-24.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-24.1.1">Updated eIDAS example in appendix<a href="#appendix-A-24.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.2">
+          <p id="appendix-A-24.2.1">Removed text around jti claim in client attestation, refined text for its usage in the client attestation pop<a href="#appendix-A-24.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.3">
+          <p id="appendix-A-24.3.1">Refined text around cnf claim in client attestation<a href="#appendix-A-24.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.4">
+          <p id="appendix-A-24.4.1">Clarified how to bind refresh tokens to a Client Instance using this client authentication method<a href="#appendix-A-24.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.5">
+          <p id="appendix-A-24.5.1">Made it more explicit that the client authentication mechanism is general purpose making it compatible with extensions like PAR<a href="#appendix-A-24.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.6">
+          <p id="appendix-A-24.6.1">Updated acknowledgments<a href="#appendix-A-24.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.7">
+          <p id="appendix-A-24.7.1">Simplified the diagram in the introduction<a href="#appendix-A-24.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.8">
+          <p id="appendix-A-24.8.1">Updated references<a href="#appendix-A-24.8.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-24.9">
+          <p id="appendix-A-24.9.1">Added some guidance around replay attack detection<a href="#appendix-A-24.9.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-25">-00<a href="#appendix-A-25" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-26.1">
+          <p id="appendix-A-26.1.1">Initial draft<a href="#appendix-A-26.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
