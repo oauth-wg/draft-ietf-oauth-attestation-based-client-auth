@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-17T00:18:00.020169+00:00",
+  "timestamp": "2026-09-22T00:18:44.733457+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5429,6 +5429,22 @@
           "updatedAt": "2026-09-15T06:29:10Z"
         }
       ]
+    },
+    {
+      "number": 225,
+      "id": "I_kwDOJaEkaM8AAAABSbpRxQ",
+      "title": "Frederik's feedback from WGLC",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/issues/225",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "> I support publication of this document.\n> I have implemented the newest draft version (without the DPoP combined mode) and have plans to use it in production deployments.\n> \n> Some comments based on my implementation experience:\n> - As written, the spec does not normatively require replay protection for PoPs to actually be implemented by the verifier. Is this intentional?\n> - Even though trust management is explicitly out of scope, I think there should be a normative statement that an AS which trusts multiple attesters must somehow scope the accepted client_ids to each attester to prevent multiple attesters from asserting the same client_id.\n> - I think there might be a kind of mild \"downgrade\" attack allowing a mode switch from \"normal\" to \"combined\" by removing the PoP header. The severity of this is probably pretty limited, but it feels fragile to signal combined mode only by the absence of the OAuth-Client-Attestation-PoP header.\n> - I think iat should be REQUIRED. Otherwise, the AS cannot actually determine how fresh an attestation is, and has to exclusively rely on the exp from the attester which the AS does not control.\n> - I didn't implement combined mode, but I think that there should be a line explicitly saying that a server implementing combined mode SHOULD also provide DPoP nonces (which are optional in RFC 9449).\n> - The text is not currently clear on the fact that a client instance needs to remember which client instance key each instance-bound protocol artifact (i.e. refresh tokens) is actually bound to. If it doesn't do this, changing client instance keys will result in bad user experiences (potentially unbounded retries). Usually the client instance key rotation is not the choice of the client instance, but is something the platform does for your e.g. when biometrics are reset/updated, so this is something that will happen to most implementations. Guidance would be helpful.\n> - It would be helpful for interoperability to define the status codes that should be used for use_fresh_attestation and invalid_client_attestation errors.\n> - I disagree with Denis' comment #1 about revocation. A revocation status check would allow the attester to learn which AS the client is talking to which goes against the core design goal for the wallet use case. The expiration is enough and aligned with how DPoP and private_key_jwt works.\n> - Regarding Denis' comment #2, I think the current text is clear enough and that the proposed text introduces unnecessary redundancy.\n> - I disagree with Denis' comment #5 about sub correlation. The sub generally identifies the client software (via client_id), not the instance. It therefore does not let two servers determine that they saw the same instance, only that they saw instances of the same software. The point about revocation is also not correct, as the sub does not identify specific instances.\n> - I agree in principle with Denis' comment #7 about trust in additionally attested claims, though I think the framing about liability is inappropriate in an IETF document.\n> \n> Nits (line numbers in .txt version linked in Rifaat's message):\n> - Heading capitalization seems a bit random\n> - Inconsistent use of OAuth 2 and OAuth 2.0.\n> - Inconsistent use of \"use case\" and \"use-case\"\n> - The steps listed for validation in section 7.3 are not really written as steps. The sentence should probably be rewritten to match the \"conditions and rules\" framing in section 7.2.\n> - The \"applications using this media type\" field in the IANA registration for oauth-client-attestation-pop+jwt looks wrong. I would expect it to say something like \"applications that use this spec to convey a client attestation with PoP\" but the text currently mentions token status information.\n> - The document history for version 11 has a duplicate bullet about removing the duplication challenge verification.\n> - Section 10.5 mentions size limits \"as of 2024\" which should probably be updated to the current limits.\n> - The HTTP syntax uses token68 which I think is supposed to be deprecated (see section 16.4.2 of RFC 9110). I'm also not sure it is compatible with defining the HTTP field types as \"Item\".\n> - Line 753 says \"an use_attestation_challenge\" instead of \"a use_attestation_challenge\"\n> - Line 830 says \"a HTTP header-based\" instead of \"an HTTP header-based\"\n> - Line 1444 says that cryptographic operations need to be constructed, where I think you mean that they need to be performed\n> - Line 1522 says \"and or\" instead of \"and/or\"\n> - Line 1524: what is \"the HTTP\"? Just HTTP or is there a missing word here?\n> - Lines 1670 and 1692 say \"Details how ... is given in ...\" instead of \"Details how ... are given in ...\"\n> - Line 2559 says \"Verifivation\" instead of \"Verification\"\n> - Line 2567 does not really make sense as a sentence\n> - Line 2664 says \"it's own top\" instead of \"its own top\"\n> - Line 2766 calls the header Oauth-Client-Attestation instead of OAuth-Client-Attestation\n> - I think the document could generally benefit from a grammar pass.\n> \n> Cheers,\n> Frederik",
+      "createdAt": "2026-09-21T20:08:12Z",
+      "updatedAt": "2026-09-21T20:08:12Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -17354,6 +17370,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 224,
+      "id": "PR_kwDOJaEkaM8AAAABEafUug",
+      "title": "address denis' concerns",
+      "url": "https://github.com/oauth-wg/draft-ietf-oauth-attestation-based-client-auth/pull/224",
+      "state": "OPEN",
+      "author": "c2bo",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #223 \r\n\r\n* add cross-reference to the client authentication section\r\n* add privacy considerations on temporal claims as correlation factors\r\n* clarify validity period and revocation mechanisms\r\n* add security consideration on trust in Client Attestation content",
+      "createdAt": "2026-09-21T11:54:19Z",
+      "updatedAt": "2026-09-21T11:54:55Z",
+      "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "baseRefName": "main",
+      "baseRefOid": "78047a4351eb47706e49404941ccf15cf6613cbd",
+      "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
+      "headRefName": "223-denis-feedback-wglc",
+      "headRefOid": "5b786bd4848040ed8e8c991cb0db5dfbf6026584",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
