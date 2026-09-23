@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 25 March 2027                                   Bundesdruckerei
+Expires: 27 March 2027                                   Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                       21 September 2026
+                                                       23 September 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 March 2027.
+   This Internet-Draft will expire on 27 March 2027.
 
 Copyright Notice
 
@@ -1383,20 +1383,13 @@ Table of Contents
    different Client Attestation JWTs with different Client Instance Keys
    across different Authorization Servers or Resource Servers.
 
-   Note that the sub claim carries the client_id of the client software
-   and is therefore identical across all instances of that software.
-   Unless a profile redefines it as described in Section 13, it does not
-   identify an individual Client Instance or End-User.
-
-   However, the temporal claims iat and exp can act as correlation
-   factors.  When set with fine granularity, their exact values may be
-   unique to a single Client Attestation JWT and thereby allow linking
-   presentations of that attestation across Authorization Servers or
-   Resource Servers even when different Client Instance Keys are used.
-
-   For use-cases that require a strong level of privacy guarantees,
-   Client Attestations should not be re-used across different
-   deployments (e.g., different Authorization Servers).
+   Implementers should be aware that using multiple client attestations
+   to multiple Authorization Servers or Resource Servers could result in
+   correlation of the End-user using the Client Instance through shared
+   claim values, such as iat and exp claims.  When set with fine
+   granularity, their values would match for a batch of Client
+   Attestations issued at the same time.  The Client Attester SHOULD
+   randomize or round these values.
 
 12.  Security Considerations
 
