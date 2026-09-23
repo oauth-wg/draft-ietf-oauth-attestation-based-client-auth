@@ -752,12 +752,8 @@ Specifications, profiles, and ecosystems built on top of Attestation-Based Clien
 
 Implementers should be aware that using the same client attestation across multiple Authorization Servers or Resource Servers could result in correlation of the end user using the Client Instance through claim values (including the Client Instance Key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different Client Attestation JWTs with different Client Instance Keys across different Authorization Servers or Resource Servers.
 
-Note that the `sub` claim carries the `client_id` of the client software and is therefore identical across all instances of that software. Unless a profile redefines it as described in [](#profiling), it does not identify an individual Client Instance or End-User.
 
-However, the temporal claims `iat` and `exp` can act as correlation factors. When set with fine granularity, their exact values may be unique to a single Client Attestation JWT and thereby allow linking presentations of that attestation across Authorization Servers or Resource Servers even when different Client Instance Keys are used.
-
-For use-cases that require a strong level of privacy guarantees, Client Attestations should not be re-used across different deployments (e.g., different Authorization Servers).
-
+Implementers should be aware that using multiple client attestations to multiple Authorization Servers or Resource Servers could result in correlation of the End-user using the Client Instance through shared claim values, such as `iat` and `exp` claims. When set with fine granularity, their values would match for a batch of Client Attestations issued at the same time. The Client Attester SHOULD randomize or round these values.
 # Security Considerations {#security}
 
 The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
