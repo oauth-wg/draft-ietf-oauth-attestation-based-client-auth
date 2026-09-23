@@ -754,6 +754,7 @@ Implementers should be aware that using the same client attestation across multi
 
 
 Implementers should be aware that using multiple client attestations to multiple Authorization Servers or Resource Servers could result in correlation of the End-user using the Client Instance through shared claim values, such as `iat` and `exp` claims. When set with fine granularity, their values would match for a batch of Client Attestations issued at the same time. The Client Attester SHOULD randomize or round these values.
+
 # Security Considerations {#security}
 
 The guidance provided by {{RFC7519}} and {{RFC8725}} applies.
