@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-22T00:18:44.733457+00:00",
+  "timestamp": "2026-09-24T00:18:08.901451+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -5442,9 +5442,24 @@
       "labels": [],
       "body": "> I support publication of this document.\n> I have implemented the newest draft version (without the DPoP combined mode) and have plans to use it in production deployments.\n> \n> Some comments based on my implementation experience:\n> - As written, the spec does not normatively require replay protection for PoPs to actually be implemented by the verifier. Is this intentional?\n> - Even though trust management is explicitly out of scope, I think there should be a normative statement that an AS which trusts multiple attesters must somehow scope the accepted client_ids to each attester to prevent multiple attesters from asserting the same client_id.\n> - I think there might be a kind of mild \"downgrade\" attack allowing a mode switch from \"normal\" to \"combined\" by removing the PoP header. The severity of this is probably pretty limited, but it feels fragile to signal combined mode only by the absence of the OAuth-Client-Attestation-PoP header.\n> - I think iat should be REQUIRED. Otherwise, the AS cannot actually determine how fresh an attestation is, and has to exclusively rely on the exp from the attester which the AS does not control.\n> - I didn't implement combined mode, but I think that there should be a line explicitly saying that a server implementing combined mode SHOULD also provide DPoP nonces (which are optional in RFC 9449).\n> - The text is not currently clear on the fact that a client instance needs to remember which client instance key each instance-bound protocol artifact (i.e. refresh tokens) is actually bound to. If it doesn't do this, changing client instance keys will result in bad user experiences (potentially unbounded retries). Usually the client instance key rotation is not the choice of the client instance, but is something the platform does for your e.g. when biometrics are reset/updated, so this is something that will happen to most implementations. Guidance would be helpful.\n> - It would be helpful for interoperability to define the status codes that should be used for use_fresh_attestation and invalid_client_attestation errors.\n> - I disagree with Denis' comment #1 about revocation. A revocation status check would allow the attester to learn which AS the client is talking to which goes against the core design goal for the wallet use case. The expiration is enough and aligned with how DPoP and private_key_jwt works.\n> - Regarding Denis' comment #2, I think the current text is clear enough and that the proposed text introduces unnecessary redundancy.\n> - I disagree with Denis' comment #5 about sub correlation. The sub generally identifies the client software (via client_id), not the instance. It therefore does not let two servers determine that they saw the same instance, only that they saw instances of the same software. The point about revocation is also not correct, as the sub does not identify specific instances.\n> - I agree in principle with Denis' comment #7 about trust in additionally attested claims, though I think the framing about liability is inappropriate in an IETF document.\n> \n> Nits (line numbers in .txt version linked in Rifaat's message):\n> - Heading capitalization seems a bit random\n> - Inconsistent use of OAuth 2 and OAuth 2.0.\n> - Inconsistent use of \"use case\" and \"use-case\"\n> - The steps listed for validation in section 7.3 are not really written as steps. The sentence should probably be rewritten to match the \"conditions and rules\" framing in section 7.2.\n> - The \"applications using this media type\" field in the IANA registration for oauth-client-attestation-pop+jwt looks wrong. I would expect it to say something like \"applications that use this spec to convey a client attestation with PoP\" but the text currently mentions token status information.\n> - The document history for version 11 has a duplicate bullet about removing the duplication challenge verification.\n> - Section 10.5 mentions size limits \"as of 2024\" which should probably be updated to the current limits.\n> - The HTTP syntax uses token68 which I think is supposed to be deprecated (see section 16.4.2 of RFC 9110). I'm also not sure it is compatible with defining the HTTP field types as \"Item\".\n> - Line 753 says \"an use_attestation_challenge\" instead of \"a use_attestation_challenge\"\n> - Line 830 says \"a HTTP header-based\" instead of \"an HTTP header-based\"\n> - Line 1444 says that cryptographic operations need to be constructed, where I think you mean that they need to be performed\n> - Line 1522 says \"and or\" instead of \"and/or\"\n> - Line 1524: what is \"the HTTP\"? Just HTTP or is there a missing word here?\n> - Lines 1670 and 1692 say \"Details how ... is given in ...\" instead of \"Details how ... are given in ...\"\n> - Line 2559 says \"Verifivation\" instead of \"Verification\"\n> - Line 2567 does not really make sense as a sentence\n> - Line 2664 says \"it's own top\" instead of \"its own top\"\n> - Line 2766 calls the header Oauth-Client-Attestation instead of OAuth-Client-Attestation\n> - I think the document could generally benefit from a grammar pass.\n> \n> Cheers,\n> Frederik",
       "createdAt": "2026-09-21T20:08:12Z",
-      "updatedAt": "2026-09-21T20:08:12Z",
+      "updatedAt": "2026-09-22T09:16:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "body": "> As written, the spec does not normatively require replay protection for PoPs to actually be implemented by the verifier. Is this intentional?\n\nThat is intentional and mirrors DPoP's design by giving the server the freedom to choose to cache previously seen values (e.g., jti) or not. We are recommending Replay detection in this draft, but do not want to mandate it to give deployments the freedom.\n\n> Even though trust management is explicitly out of scope, I think there should be a normative statement that an AS which trusts multiple attesters must somehow scope the accepted client_ids to each attester to prevent multiple attesters from asserting the same client_id.\n\nThat sounds like a requirement with a rather specific deployment in mind. Given that a client attestation requires special integration with the client and the communication is out of scope of this document, we do believe it makes sense to keep the client attester relationship out of scope as well and as something that gets defined for specific use-cases.\n\n> I think there might be a kind of mild \"downgrade\" attack allowing a mode switch from \"normal\" to \"combined\" by removing the PoP header. The severity of this is probably pretty limited, but it feels fragile to signal combined mode only by the absence of the OAuth-Client-Attestation-PoP header.\n\nIt doesn't really change the security posture of the situation since it is only valid if DPoP is bound to the same public key. \n\n> I think iat should be REQUIRED. Otherwise, the AS cannot actually determine how fresh an attestation is, and has to exclusively rely on the exp from the attester which the AS does not control.\n\nDepends on specific deployment requirements, but might be worth it to switch from OPTIONAL to REQUIRED to always allow the consuming server to make their own policy decision. This would also match better with the`use_fresh_attestation` error. \n\n> I didn't implement combined mode, but I think that there should be a line explicitly saying that a server implementing combined mode SHOULD also provide DPoP nonces (which are optional in RFC 9449).\n\nWe currently do not have a recommendation that challenges should be used, leaving the server the decision to either use challenges or rely purely on `jti`. Given that we are not recommending challenges, we should not recommend nonces.\n\n> The text is not currently clear on the fact that a client instance needs to remember which client instance key each instance-bound protocol artifact (i.e. refresh tokens) is actually bound to. If it doesn't do this, changing client instance keys will result in bad user experiences (potentially unbounded retries). Usually the client instance key rotation is not the choice of the client instance, but is something the platform does for your e.g. when biometrics are reset/updated, so this is something that will happen to most implementations. Guidance would be helpful.\n\nProposal to add a note / implementation consideration that clients should manage what artefacts are bound to what keys.\n\n> It would be helpful for interoperability to define the status codes that should be used for use_fresh_attestation and invalid_client_attestation errors.\n\nError responses in OAuth default (mostly) to status code 400. It might be beneficial to make this explicit and define specific codes like 400 for use_fresh_attestation and 401 for invalid_client_attestation?",
+          "createdAt": "2026-09-22T06:37:59Z",
+          "updatedAt": "2026-09-22T06:37:59Z"
+        },
+        {
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Depends on specific deployment requirements, but might be worth it to switch from OPTIONAL to REQUIRED to always allow the consuming server to make their own policy decision. This would also match better with theuse_fresh_attestation error.\n\nPart of the reason to not mandate it is that it doesn't in all cases guarantee to AS or RS a measure of freshness for an attestation pop as the clients time can often be manipulated. Its does however prevent the mis-use of client attestation pop that was generated by a genuine client instance and is stolen by an attacker via a MITM attack and for that reason we could consider making it required.",
+          "createdAt": "2026-09-22T09:16:08Z",
+          "updatedAt": "2026-09-22T09:16:08Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -17383,19 +17398,266 @@
       "labels": [],
       "body": "Closes #223 \r\n\r\n* add cross-reference to the client authentication section\r\n* add privacy considerations on temporal claims as correlation factors\r\n* clarify validity period and revocation mechanisms\r\n* add security consideration on trust in Client Attestation content",
       "createdAt": "2026-09-21T11:54:19Z",
-      "updatedAt": "2026-09-21T11:54:55Z",
+      "updatedAt": "2026-09-23T17:13:40Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "78047a4351eb47706e49404941ccf15cf6613cbd",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "223-denis-feedback-wglc",
-      "headRefOid": "5b786bd4848040ed8e8c991cb0db5dfbf6026584",
+      "headRefOid": "d6591fb6434c883fdd55a83a8d4557be8b18b246",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnColw",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T07:56:04Z",
+          "updatedAt": "2026-09-22T07:56:05Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "not sure we need this one",
+              "createdAt": "2026-09-22T07:56:05Z",
+              "updatedAt": "2026-09-22T07:56:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnC21A",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T07:56:31Z",
+          "updatedAt": "2026-09-22T07:56:31Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "not sure we need this one",
+              "createdAt": "2026-09-22T07:56:31Z",
+              "updatedAt": "2026-09-22T07:56:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnFwBQ",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T08:02:16Z",
+          "updatedAt": "2026-09-22T08:02:16Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "not sure we need this one",
+              "createdAt": "2026-09-22T08:02:16Z",
+              "updatedAt": "2026-09-22T08:02:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnF5iQ",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T08:02:30Z",
+          "updatedAt": "2026-09-22T08:02:31Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-09-22T08:02:30Z",
+              "updatedAt": "2026-09-22T08:02:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnSscw",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T08:24:33Z",
+          "updatedAt": "2026-09-22T08:24:33Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "```suggestion\nImplementers should be aware that using multiple client attestations to multiple Authorization Servers or Resource Servers could result in correlation of the End-user using the Client Instance through shared claim values, such as `iat` and `exp` claims. When set with fine granularity, their values would match for a batch of Client Attestations issued at the same time. The Client Attester SHOULD randomize or round these values.\n```",
+              "createdAt": "2026-09-22T08:24:33Z",
+              "updatedAt": "2026-09-22T08:24:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnS14Q",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T08:24:51Z",
+          "updatedAt": "2026-09-22T08:24:51Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-09-22T08:24:51Z",
+              "updatedAt": "2026-09-22T08:24:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnZ6Rg",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T08:37:33Z",
+          "updatedAt": "2026-09-22T08:37:34Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "not sure we need this\n\n```suggestion\n```",
+              "createdAt": "2026-09-22T08:37:34Z",
+              "updatedAt": "2026-09-22T08:37:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnqXAg",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-22T09:06:53Z",
+          "updatedAt": "2026-09-22T09:06:53Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "I dont think it hurts to have this cross reference does it?",
+              "createdAt": "2026-09-22T09:06:53Z",
+              "updatedAt": "2026-09-22T09:06:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABOnrBIQ",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "tplooker",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Approved subject to the changes I've suggested following on from Pauls in my review comment",
+          "createdAt": "2026-09-22T09:08:06Z",
+          "updatedAt": "2026-09-22T09:09:59Z",
+          "comments": [
+            {
+              "originalPosition": 49,
+              "body": "Would agree with removing and if we keep would need to change to client deployment instead of \"that software\".",
+              "createdAt": "2026-09-22T09:08:06Z",
+              "updatedAt": "2026-09-22T09:09:59Z"
+            },
+            {
+              "originalPosition": 66,
+              "body": "Im 50/50 feels like stating the obvious but could be convinced either way.",
+              "createdAt": "2026-09-22T09:09:19Z",
+              "updatedAt": "2026-09-22T09:09:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABO48FpA",
+          "commit": {
+            "abbreviatedOid": "5b786bd"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-23T17:07:34Z",
+          "updatedAt": "2026-09-23T17:07:34Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Yeah.. It feels like stating something obvious, but I kinda thought it would be better to make this very explicit once.",
+              "createdAt": "2026-09-23T17:07:34Z",
+              "updatedAt": "2026-09-23T17:07:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABO49F-Q",
+          "commit": {
+            "abbreviatedOid": "373da83"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-23T17:08:56Z",
+          "updatedAt": "2026-09-23T17:08:57Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "```suggestion\nImplementers should be aware that using multiple client attestations to multiple Authorization Servers or Resource Servers could result in correlation of the End-user using the Client Instance through shared claim values, such as `iat` and `exp` claims. When set with fine granularity, their values would match for a batch of Client Attestations issued at the same time. The Client Attester SHOULD randomize or round these values.\n\n```",
+              "createdAt": "2026-09-23T17:08:56Z",
+              "updatedAt": "2026-09-23T17:08:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABO5BBnA",
+          "commit": {
+            "abbreviatedOid": "d6591fb"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-09-23T17:13:40Z",
+          "updatedAt": "2026-09-23T17:13:40Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "This one I'd keep - it's not super useful, but doesn't really hurt",
+              "createdAt": "2026-09-23T17:13:40Z",
+              "updatedAt": "2026-09-23T17:13:40Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
