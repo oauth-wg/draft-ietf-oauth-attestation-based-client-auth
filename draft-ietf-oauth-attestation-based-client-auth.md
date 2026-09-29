@@ -641,7 +641,7 @@ wiaWF0IjoxNzcyNDg3NTk1LCJjaGFsbGVuZ2UiOiI1YzFhOWUxMC0yOWZmLTRjMmItYWU
 3My01N2MwOTU3YzA5YzQifQ.Uh-vRynTGGARZNqijGyovBMm_EsX5qu0fg0VGPVRsp1rJ
 dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 
-filter=active&limit=10
+someparameter=value&otherparameter=foobar
 ~~~
 
 # Authorization Server and Resource Server Metadata {#as-metadata}
