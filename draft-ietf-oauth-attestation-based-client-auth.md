@@ -691,9 +691,6 @@ When using DPoP combined mode, the key used for client authentication and token 
 
 Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server or Resource Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.
 
-Note that this specification does not define a mechanism to revoke or suspend an issued Client Attestation JWT. The validity period expressed by the `exp` claim, together with the freshness policy of server (see [](#verification-client-attestation-jwt)), is therefore the primary means to limit the impact of a Client Attestation JWT.
-Profiles of this specification may define additional revocation or status mechanisms as described in [](#profiling).
-
 ## Refresh token binding {#refresh-token-binding}
 
 Authorization servers issuing a refresh token in response to a token request using the client attestation mechanism as defined by this specification MUST bind the refresh token to the Client Instance, and NOT just the client as specified in {{Section 6 of RFC6749}}. To prove this binding, the Client Instance MUST use the client attestation mechanism when refreshing an access token.
