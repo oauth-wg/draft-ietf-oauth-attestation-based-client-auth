@@ -1071,7 +1071,6 @@ This specification requests registration of the following value in the IANA "JSO
 
 * add cross-reference to the client authentication section
 * add privacy considerations on temporal claims as correlation factors
-* clarify validity period and revocation mechanisms
 * add security consideration on trust in Client Attestation content
 
 -11
