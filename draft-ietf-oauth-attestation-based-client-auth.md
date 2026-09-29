@@ -691,10 +691,10 @@ Unless a profile specifies otherwise as described in [](#profiling), the refresh
 
 Authorization Servers using Attestation-Based Client Authentication are RECOMMENDED to bind relevant protocol artifacts to the Client Instance and its associated public key where possible, and not just to the client as specified in {{RFC6749}}. Note that this only applies if Attestation-Based Client Authentication is used as a client authentication method. Examples of these artifacts include but are not limited to:
 
-- The authorization code as specified in {{Section 4.1 of RFC6749}}.
+- The `authorization_code` as specified in {{Section 4.1 of RFC6749}}.
 - The `auth_req_id` as specified in Section 7.3 of {{CIBA}}.
 
-How this binding is established and then proven is specific to the protocol artifact. For example, establishing binding to an authorization code involves the Client Instance using client attestation before the user is redirected to the authorization endpoint (e.g., by using PAR {{RFC9126}}), and proving binding of the authorization code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint when performing the authorization code grant.
+How this binding is established and then proven is specific to the protocol artifact. For example, establishing binding to an `authorization_code` involves the Client Instance using client attestation before the user is redirected to the authorization endpoint (e.g., by using PAR {{RFC9126}}), and proving binding of the `authorization_code` to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint when performing the authorization code grant.
 
 ## Web Server Default Maximum HTTP Header Sizes
 
