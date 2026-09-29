@@ -2150,8 +2150,6 @@ dF7rElbZcEv0CAtzm5kXhjSXHYGxEVb0I7HIeUFRg
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-reuse-of-a-client-attestati" class="section-name selfRef">Reuse of a Client Attestation JWT</a>
         </h3>
 <p id="section-10.2-1">Implementers should be aware that the design of this authentication mechanism deliberately allows for a Client Instance to re-use a single Client Attestation JWT in multiple interactions/requests with an Authorization Server or Resource Server, whilst producing a fresh Client Attestation PoP JWT. Client deployments should consider this when determining the validity period for issued Client Attestation JWTs as this ultimately controls how long a Client Instance can re-use a single Client Attestation JWT.<a href="#section-10.2-1" class="pilcrow">¶</a></p>
-<p id="section-10.2-2">Note that this specification does not define a mechanism to revoke or suspend an issued Client Attestation JWT. The validity period expressed by the <code>exp</code> claim, together with the freshness policy of server (see <a href="#verification-client-attestation-jwt" class="auto internal xref">Section 7.1</a>), is therefore the primary means to limit the impact of a Client Attestation JWT.
-Profiles of this specification may define additional revocation or status mechanisms as described in <a href="#profiling" class="auto internal xref">Section 13</a>.<a href="#section-10.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="refresh-token-binding">

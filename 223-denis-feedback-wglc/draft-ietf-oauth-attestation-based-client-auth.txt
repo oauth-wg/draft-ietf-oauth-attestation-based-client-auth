@@ -1219,14 +1219,6 @@ Table of Contents
    JWTs as this ultimately controls how long a Client Instance can re-
    use a single Client Attestation JWT.
 
-   Note that this specification does not define a mechanism to revoke or
-   suspend an issued Client Attestation JWT.  The validity period
-   expressed by the exp claim, together with the freshness policy of
-   server (see Section 7.1), is therefore the primary means to limit the
-   impact of a Client Attestation JWT.  Profiles of this specification
-   may define additional revocation or status mechanisms as described in
-   Section 13.
-
 10.3.  Refresh token binding
 
    Authorization servers issuing a refresh token in response to a token
