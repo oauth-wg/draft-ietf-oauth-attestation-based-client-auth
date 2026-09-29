@@ -2155,13 +2155,13 @@ someparameter=value&amp;otherparameter=foobar
 <p id="section-10.4-1">Authorization Servers using Attestation-Based Client Authentication are <span class="bcp14">RECOMMENDED</span> to bind relevant protocol artifacts to the Client Instance and its associated public key where possible, and not just to the client as specified in <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. Note that this only applies if Attestation-Based Client Authentication is used as a client authentication method. Examples of these artifacts include but are not limited to:<a href="#section-10.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-10.4-2.1">
-            <p id="section-10.4-2.1.1">The authorization code as specified in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-10.4-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-10.4-2.1.1">The <code>authorization_code</code> as specified in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-10.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-10.4-2.2">
             <p id="section-10.4-2.2.1">The <code>auth_req_id</code> as specified in Section 7.3 of <span>[<a href="#CIBA" class="cite xref">CIBA</a>]</span>.<a href="#section-10.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-10.4-3">How this binding is established and then proven is specific to the protocol artifact. For example, establishing binding to an authorization code involves the Client Instance using client attestation before the user is redirected to the authorization endpoint (e.g., by using PAR <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span>), and proving binding of the authorization code to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint when performing the authorization code grant.<a href="#section-10.4-3" class="pilcrow">¶</a></p>
+<p id="section-10.4-3">How this binding is established and then proven is specific to the protocol artifact. For example, establishing binding to an <code>authorization_code</code> involves the Client Instance using client attestation before the user is redirected to the authorization endpoint (e.g., by using PAR <span>[<a href="#RFC9126" class="cite xref">RFC9126</a>]</span>), and proving binding of the <code>authorization_code</code> to the Client Instance involves using the client attestation mechanism to authenticate at the token endpoint when performing the authorization code grant.<a href="#section-10.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="web-server-default-maximum-http-header-sizes">
