@@ -209,7 +209,7 @@ The following content applies to the JWT Claims Set:
 * `sub`: REQUIRED. The `sub` (subject) claim MUST specify the `client_id` value of the OAuth Client, unless specified otherwise by a profile as described in [](#profiling).
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The Authorization Server or Resource Server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an Authorization Server or Resource Server. The key MUST be expressed using the `jwk` representation.
-* `iat`: OPTIONAL. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
+* `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
 
 The following additional rules apply:
 
@@ -539,6 +539,9 @@ When validation errors specifically related to the use of client attestations ar
 - `use_fresh_attestation` MUST be used when the Client Attestation JWT is deemed to be not fresh enough to be acceptable by the server.
 - `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the public keys of the Client Attestation JWT and the proof of possession do not match, or the proof of possession is not supported.
 
+Authorization Servers SHOULD return these error codes with an HTTP 400 (Bad Request) status code and MAY return a status code 401 (Unauthorized) for `invalid_client_attestation`.
+Resource Servers MUST return them with an HTTP 401 (Unauthorized) status code in the `WWW-Authenticate` HTTP header field as described in {{Section 3 of RFC6750}}.
+
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions regarding when to return suitable error responses.
 
 ## Client Attestation as an OAuth Client Authentication Method {#client-attestation-as-client-auth}
@@ -703,6 +706,8 @@ Because the Client Attestation and Client Attestation PoP are communicated using
 ## Rotation of Client Instance Key
 
 This specification does not provide a mechanism to rotate the Client Instance Key in the Client Attestation JWT's `cnf` claim. If the Client Instance needs to use a new Client Instance Key for any reason, then it MUST request a new Client Attestation JWT from its Client Attester.
+
+A Client Instance SHOULD keep track of which Client Instance Key each bound protocol artifact (e.g., a refresh token, see [](#refresh-token-binding)) is bound to.
 
 ## Replay Attack Detection {#implementation-consideration-replay}
 
@@ -1057,6 +1062,9 @@ This specification requests registration of the following value in the IANA "JSO
 -12
 
 * editorial pass
+* make `iat` claim of  Client Attestation JWT REQUIRED
+* added text on HTTP status codes for the errors
+* add implementation consideration on key binding of artifacts
 * header field syntax now uses Structured Fields instead of token68
 * "Structured Type" is removed from the Challenge IANA registration
 * add cross-reference to the client authentication section
