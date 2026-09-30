@@ -958,10 +958,11 @@ Table of Contents
       not supported.
 
    Authorization Servers SHOULD return these error codes with an HTTP
-   400 (Bad Request) status code, or with 401 (Unauthorized) for
-   invalid_client_attestation.  Resource Servers MUST return them with
-   an HTTP 401 (Unauthorized) status code in the WWW-Authenticate HTTP
-   header field as described in Section 3 of [RFC6750].
+   400 (Bad Request) status code and MAY return a status code 401
+   (Unauthorized) for invalid_client_attestation.  Resource Servers MUST
+   return them with an HTTP 401 (Unauthorized) status code in the WWW-
+   Authenticate HTTP header field as described in Section 3 of
+   [RFC6750].
 
    In the event of errors due to situations not described above,
    Authorization and Resource Servers MUST follow the guidance of
