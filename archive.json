@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-01T00:23:44.989897+00:00",
+  "timestamp": "2026-10-08T00:19:55.551853+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -17989,13 +17989,13 @@
       "labels": [],
       "body": "Closes #225 ",
       "createdAt": "2026-09-30T13:30:11Z",
-      "updatedAt": "2026-09-30T14:55:34Z",
+      "updatedAt": "2026-10-06T05:45:45Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "08a2bfe6f3a6c834469d8ef3f09fbfc35ebfaa1d",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "225-frederik-wglc",
-      "headRefOid": "559d83b06580e3453346885447ae9522d9bfb1b2",
+      "headRefOid": "2627eea37ddbbf50181e5d35652e883adc58d8e2",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -18027,6 +18027,66 @@
               "body": "I think it would be helpful to add the reason here as well. I.e. because Client Instances are not usually in control of Client Instance Key rotation and this can make it impossible for the Client Instance to know which artifacts are still valid.",
               "createdAt": "2026-09-30T14:55:29Z",
               "updatedAt": "2026-09-30T14:55:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABQ09spA",
+          "commit": {
+            "abbreviatedOid": "2627eea"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-06T05:43:14Z",
+          "updatedAt": "2026-10-06T05:43:14Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Either we add it to `exp` as well or leave it out here. I would actually rather leave it out",
+              "createdAt": "2026-10-06T05:43:14Z",
+              "updatedAt": "2026-10-06T05:43:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABQ0-HIA",
+          "commit": {
+            "abbreviatedOid": "2627eea"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-06T05:44:19Z",
+          "updatedAt": "2026-10-06T05:44:19Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "Why is AS only SHOULD/MUST while RS is a MUST. I remember our discussion being the other way around",
+              "createdAt": "2026-10-06T05:44:19Z",
+              "updatedAt": "2026-10-06T05:44:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABQ0-s7Q",
+          "commit": {
+            "abbreviatedOid": "2627eea"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-06T05:45:44Z",
+          "updatedAt": "2026-10-06T05:45:45Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "```suggestion\nImplementers should be aware that using multiple client attestations to multiple Authorization Servers or Resource Servers could result in correlation of the End-user using the Client Instance through shared claim values, such as `iat` and `exp` claims. When set with fine granularity, their values would match for a batch of Client Attestations issued at the same time. The Client Attester SHOULD randomize or round these values (e.g., round down values of `iat` to 24:00 UTC).\n```",
+              "createdAt": "2026-10-06T05:45:44Z",
+              "updatedAt": "2026-10-06T05:45:45Z"
             }
           ]
         }
