@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 9 April 2027                                    Bundesdruckerei
+Expires: 12 April 2027                                   Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                          6 October 2026
+                                                          9 October 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 April 2027.
+   This Internet-Draft will expire on 12 April 2027.
 
 Copyright Notice
 
@@ -358,8 +358,7 @@ Table of Contents
       expressed using the jwk representation.
 
    *  iat: REQUIRED.  The iat (issued at) claim MUST specify the time at
-      which the Client Attestation was issued.  Note that the timestamp
-      can be coarsened (see Section 11.1).
+      which the Client Attestation was issued.
 
    The following additional rules apply:
 
@@ -960,10 +959,10 @@ Table of Contents
 
    Authorization Servers SHOULD return these error codes with an HTTP
    400 (Bad Request) status code and MAY return a status code 401
-   (Unauthorized) for invalid_client_attestation.  Resource Servers MUST
-   return them with an HTTP 401 (Unauthorized) status code and convey
-   the error code in the error parameter of the WWW-Authenticate HTTP
-   header field as described in Section 3 of [RFC6750].
+   (Unauthorized) for invalid_client_attestation.  Resource Servers
+   SHOULD return them with an HTTP 401 (Unauthorized) status code and
+   convey the error code in the error parameter of the WWW-Authenticate
+   HTTP header field as described in Section 3 of [RFC6750].
 
    In the event of errors due to situations not described above,
    Authorization and Resource Servers MUST follow the guidance of
@@ -1400,7 +1399,8 @@ Table of Contents
    claim values, such as iat and exp claims.  When set with fine
    granularity, their values would match for a batch of Client
    Attestations issued at the same time.  The Client Attester SHOULD
-   randomize or round these values (e.g., round down for iat).
+   randomize or round these values (e.g., round down values of iat to
+   24:00 UTC).
 
 12.  Security Considerations
 
