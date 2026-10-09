@@ -209,7 +209,7 @@ The following content applies to the JWT Claims Set:
 * `sub`: REQUIRED. The `sub` (subject) claim MUST specify the `client_id` value of the OAuth Client, unless specified otherwise by a profile as described in [](#profiling).
 * `exp`: REQUIRED. The `exp` (expiration time) claim MUST specify the time at which the Client Attestation is considered expired by its issuer. The Authorization Server or Resource Server MUST reject any JWT with an expiration time that has passed, subject to allowable clock skew between systems.
 * `cnf`: REQUIRED. The `cnf` (confirmation) claim MUST specify a key conforming to {{RFC7800}} that is used by the Client Instance to generate the Client Attestation PoP JWT for client authentication with an Authorization Server or Resource Server. The key MUST be expressed using the `jwk` representation.
-* `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued. Note that the timestamp can be coarsened (see [](#tracking-as-rs)).
+* `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.
 
 The following additional rules apply:
 
@@ -540,7 +540,7 @@ When validation errors specifically related to the use of client attestations ar
 - `invalid_client_attestation` MAY be used in addition to the more general `invalid_client` error code as defined in {{RFC6749}} if the attestation or its proof of possession could not be successfully verified, the public keys of the Client Attestation JWT and the proof of possession do not match, or the proof of possession is not supported.
 
 Authorization Servers SHOULD return these error codes with an HTTP 400 (Bad Request) status code and MAY return a status code 401 (Unauthorized) for `invalid_client_attestation`.
-Resource Servers MUST return them with an HTTP 401 (Unauthorized) status code and convey the error code in the error parameter of the `WWW-Authenticate` HTTP header field as described in {{Section 3 of RFC6750}}.
+Resource Servers SHOULD return them with an HTTP 401 (Unauthorized) status code and convey the error code in the error parameter of the `WWW-Authenticate` HTTP header field as described in {{Section 3 of RFC6750}}.
 
 In the event of errors due to situations not described above, Authorization and Resource Servers MUST follow the guidance of {{RFC6749}} and {{RFC6750}} or their respective extensions regarding when to return suitable error responses.
 
@@ -745,7 +745,7 @@ Specifications, profiles, and ecosystems built on top of Attestation-Based Clien
 Implementers should be aware that using the same client attestation across multiple Authorization Servers or Resource Servers could result in correlation of the end user using the Client Instance through claim values (including the Client Instance Key in the `cnf` claim). Client deployments are therefore RECOMMENDED to use different Client Attestation JWTs with different Client Instance Keys across different Authorization Servers or Resource Servers.
 
 
-Implementers should be aware that using multiple client attestations to multiple Authorization Servers or Resource Servers could result in correlation of the End-user using the Client Instance through shared claim values, such as `iat` and `exp` claims. When set with fine granularity, their values would match for a batch of Client Attestations issued at the same time. The Client Attester SHOULD randomize or round these values (e.g., round down for `iat`).
+Implementers should be aware that using multiple client attestations to multiple Authorization Servers or Resource Servers could result in correlation of the End-user using the Client Instance through shared claim values, such as `iat` and `exp` claims. When set with fine granularity, their values would match for a batch of Client Attestations issued at the same time. The Client Attester SHOULD randomize or round these values (e.g., round down values of `iat` to 24:00 UTC).
 
 # Security Considerations {#security}
 
