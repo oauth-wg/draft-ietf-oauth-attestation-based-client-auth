@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-08T00:19:55.551853+00:00",
+  "timestamp": "2026-10-11T00:23:16.086461+00:00",
   "repo": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
   "labels": [
     {
@@ -17989,13 +17989,13 @@
       "labels": [],
       "body": "Closes #225 ",
       "createdAt": "2026-09-30T13:30:11Z",
-      "updatedAt": "2026-10-06T05:45:45Z",
+      "updatedAt": "2026-10-09T17:51:03Z",
       "baseRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "baseRefName": "main",
       "baseRefOid": "08a2bfe6f3a6c834469d8ef3f09fbfc35ebfaa1d",
       "headRepository": "oauth-wg/draft-ietf-oauth-attestation-based-client-auth",
       "headRefName": "225-frederik-wglc",
-      "headRefOid": "2627eea37ddbbf50181e5d35652e883adc58d8e2",
+      "headRefOid": "ced7b0a9b82c2971538ddc2f7ccc837fcb7bc2d7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -18089,6 +18089,79 @@
               "updatedAt": "2026-10-06T05:45:45Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABRiNpVg",
+          "commit": {
+            "abbreviatedOid": "2627eea"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-09T14:53:35Z",
+          "updatedAt": "2026-10-09T14:53:36Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n* `iat`: REQUIRED. The `iat` (issued at) claim MUST specify the time at which the Client Attestation was issued.\n```",
+              "createdAt": "2026-10-09T14:53:35Z",
+              "updatedAt": "2026-10-09T14:53:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABRiPdxA",
+          "commit": {
+            "abbreviatedOid": "2627eea"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-09T14:56:11Z",
+          "updatedAt": "2026-10-09T14:56:11Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\nResource Servers SHOULD return them with an HTTP 401 (Unauthorized) status code and convey the error code in the error parameter of the `WWW-Authenticate` HTTP header field as described in {{Section 3 of RFC6750}}.\n```",
+              "createdAt": "2026-10-09T14:56:11Z",
+              "updatedAt": "2026-10-09T14:56:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABRi5FSw",
+          "commit": {
+            "abbreviatedOid": "ced7b0a"
+          },
+          "author": "c2bo",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-09T15:57:20Z",
+          "updatedAt": "2026-10-09T15:57:20Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "I've changed both to SHOULD - after checking other RFCs, I believe that is the best option right now",
+              "createdAt": "2026-10-09T15:57:20Z",
+              "updatedAt": "2026-10-09T15:57:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJaEkaM8AAAABRjW6kA",
+          "commit": {
+            "abbreviatedOid": "ced7b0a"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-09T16:46:36Z",
+          "updatedAt": "2026-10-09T16:46:36Z",
+          "comments": []
         }
       ]
     }
