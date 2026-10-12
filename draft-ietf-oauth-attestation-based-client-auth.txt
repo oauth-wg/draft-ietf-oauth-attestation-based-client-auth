@@ -5,10 +5,10 @@
 Web Authorization Protocol                                     T. Looker
 Internet-Draft                                                     MATTR
 Intended status: Standards Track                              P. Bastian
-Expires: 2 April 2027                                    Bundesdruckerei
+Expires: 15 April 2027                                   Bundesdruckerei
                                                               C. Bormann
                                                                   SPRIND
-                                                       29 September 2026
+                                                         12 October 2026
 
 
            OAuth 2.0 Attestation-Based Client Authentication
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 April 2027.
+   This Internet-Draft will expire on 15 April 2027.
 
 Copyright Notice
 
@@ -357,7 +357,7 @@ Table of Contents
       with an Authorization Server or Resource Server.  The key MUST be
       expressed using the jwk representation.
 
-   *  iat: OPTIONAL.  The iat (issued at) claim MUST specify the time at
+   *  iat: REQUIRED.  The iat (issued at) claim MUST specify the time at
       which the Client Attestation was issued.
 
    The following additional rules apply:
@@ -957,6 +957,13 @@ Table of Contents
       proof of possession do not match, or the proof of possession is
       not supported.
 
+   Authorization Servers SHOULD return these error codes with an HTTP
+   400 (Bad Request) status code and MAY return a status code 401
+   (Unauthorized) for invalid_client_attestation.  Resource Servers
+   SHOULD return them with an HTTP 401 (Unauthorized) status code and
+   convey the error code in the error parameter of the WWW-Authenticate
+   HTTP header field as described in Section 3 of [RFC6750].
+
    In the event of errors due to situations not described above,
    Authorization and Resource Servers MUST follow the guidance of
    [RFC6749] and [RFC6750] or their respective extensions regarding when
@@ -1280,6 +1287,13 @@ Table of Contents
    reason, then it MUST request a new Client Attestation JWT from its
    Client Attester.
 
+   A Client Instance SHOULD keep track of which Client Instance Key each
+   bound protocol artifact (e.g., a refresh token, see Section 10.3) is
+   bound to.  Rotation of Client Instance keys can be controlled by an
+   underlying platform and the Client SHOULD be able to detect that a
+   key got rotated and identify the artifacts that were bound to the old
+   key.
+
 10.7.  Replay Attack Detection
 
    Authorization Servers or Resource Servers implementing measures to
@@ -1385,7 +1399,8 @@ Table of Contents
    claim values, such as iat and exp claims.  When set with fine
    granularity, their values would match for a batch of Client
    Attestations issued at the same time.  The Client Attester SHOULD
-   randomize or round these values.
+   randomize or round these values (e.g., round down values of iat to
+   24:00 UTC).
 
 12.  Security Considerations
 
@@ -2170,6 +2185,12 @@ Appendix A.  Document History
    -12
 
    *  editorial pass
+
+   *  make iat claim of Client Attestation JWT REQUIRED
+
+   *  added text on HTTP status codes for the errors
+
+   *  add implementation consideration on key binding of artifacts
 
    *  header field syntax now uses Structured Fields instead of token68
 
